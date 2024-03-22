@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../styles/colors.dart';
+import '../styles/text_styles.dart';
 Widget textFiled(StateSetter setState,String _hintText,TextEditingController _controller){
   return Padding(
     padding: const EdgeInsets.only(left: 25,right: 25),
     child: TextField(
-      // style: textStyle,
+      style: textFieldTextStyle,
       controller: _controller,
-      // cursorColor: hintColor,
+      cursorColor: blackColor,
       onChanged: (_) => setState((){}),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(left: 15,top: 2,bottom: 2),
         fillColor: whiteColor,
         filled: true,
         hintText: _hintText,
-        // hintStyle: hintTextStyle,
+        hintStyle: hintTextStyle,
         // errorText: _controller.text == '' ? _errorText : '',
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(0),

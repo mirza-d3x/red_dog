@@ -43,3 +43,33 @@ TextStyle loginTermsTextStyle = const TextStyle(
   fontSize: 15,
 );
 
+TextStyle normalHeadTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: whiteColor,
+  fontSize: 25,
+);
+
+TextStyle hintTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: hintColor,
+  fontSize: 15,
+);
+
+TextStyle textFieldTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: blackColor,
+  fontSize: 16,
+);
+
+TextStyle buttonTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: whiteColor,
+  fontSize: 18,
+);
+
+TextStyle privacyTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: privacyTextColor,
+  fontSize: 16,
+);
+

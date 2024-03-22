@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 
+import '../styles/text_styles.dart';
+
 
 Widget textButton(BuildContext context, String buttonText) {
   return InkWell(
@@ -20,7 +22,7 @@ Widget textButton(BuildContext context, String buttonText) {
         child: Align(
           child: Text(
             buttonText,
-            // style: textButtonStyle,
+            style: buttonTextStyle,
             textAlign: TextAlign.center,
           ),
         ),
