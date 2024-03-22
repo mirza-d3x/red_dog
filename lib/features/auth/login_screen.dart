@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 
+import '../../styles/text_styles.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -30,9 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 40),
                 Text(
                   'Website Monitor',
-                  style: TextStyle(
-                  color: whiteColor
-                ),
+                  style: mediumTextStyle
                 ),
 
                 const SizedBox(height: 40),
@@ -40,14 +40,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(left: 25,right: 25),
                   child: Text(
                     'Essential tool for webmasters and business owners to understand website performance',
-                    style: TextStyle(
-                        color: whiteColor
-                    ),
+                    style: loginDescTextStyle,
                     textAlign: TextAlign.center,
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.only(left: 25,right: 25),
                   child: Container(
@@ -84,7 +82,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 6),
-                                child: Text('With Analytics',),
+                                child: Text(
+                                  'With Analytics',
+                                  style: _value == 'With Analytics' ?
+                                      loginButtonTextStyle : loginInactiveRadioTextStyle
+                                ),
                               ),
                             ],
                           ),
@@ -117,7 +119,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 6),
-                                child: Text('With Analytics',),
+                                child: Text(
+                                  'With Analytics',
+                                    style: _value == 'With Analytics' ?
+                                     loginInactiveRadioTextStyle : loginButtonTextStyle
+                                ),
                               ),
                             ],
                           ),
@@ -152,10 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       Text(
                         'Continue With Google',
-                        style: TextStyle(
-                          color: whiteColor
-                        ),
-                        // style: continueWithGoogleTextStyle,
+                        style: loginButtonTextStyle
                       )
                     ],
                   ),
@@ -164,9 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 40),
                 Text(
                   'Terms of Service & Privacy Policy',
-                  style: TextStyle(
-                      color: whiteColor
-                  ),
+                  style: loginTermsTextStyle
                 )
               ],
             ),
