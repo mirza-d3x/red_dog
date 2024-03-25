@@ -340,26 +340,46 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         colorFn: (_, __) => charts.ColorUtil.fromDartColor(barGraphColor),
         // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         labelAccessorFn: (BarChartData sales, _) => '${sales.value}',
-
         insideLabelStyleAccessorFn: (BarChartData sales, _){
-          return  charts.TextStyleSpec(
+          return  const charts.TextStyleSpec(
+            fontFamily: 'Barlow-Bold',
             color:  charts.MaterialPalette.white,
-            fontSize: 12,
+            fontSize: 16,
           );
         }
       ),
     ];
 
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: SizedBox(
         height: 300.0,
         child: charts.BarChart(
           series,
           animate: true,
           barGroupingType: charts.BarGroupingType.grouped,
+
+          // custom X- axis
+          domainAxis: charts.OrdinalAxisSpec(
+            // X-axis configuration
+            renderSpec: charts.SmallTickRendererSpec(
+              labelStyle: charts.TextStyleSpec(
+                  fontFamily: 'Barlow-Regular',
+                  color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
+                  fontSize: 12
+              ),
+            ),
+          ),
+
           // Customize Y-axis values
           primaryMeasureAxis: charts.NumericAxisSpec(
+            renderSpec: charts.GridlineRendererSpec(
+              labelStyle: charts.TextStyleSpec(
+                fontFamily: 'Barlow-Regular',
+                color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
+                fontSize: 12,
+              ),
+            ),
             tickProviderSpec: const charts.StaticNumericTickProviderSpec(
               // Custom ticks from 0 to 20 with an interval of 4
               <charts.TickSpec<num>>[
@@ -375,6 +395,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   (value) => '${value!.toInt()}',
             ),
           ),
+
+          //  display values on bars
+
+           barRendererDecorator: charts.BarLabelDecorator<String>(
+        labelPosition: charts.BarLabelPosition.inside, // Position of the label
+        labelAnchor: charts.BarLabelAnchor.middle, // Anchor point of the label
+        labelPadding: 4, // Padding around the label
+      ),
           // behaviors: [charts.SeriesLegend()],
         ),
       ),
