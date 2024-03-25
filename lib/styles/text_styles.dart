@@ -97,3 +97,16 @@ TextStyle graphHintTextStyle = const TextStyle(
   fontSize: 15,
 );
 
+TextStyle tableTitleTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: titleTextColor,
+  fontSize: 16,
+);
+
+TextStyle tableContentTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: titleTextColor,
+  fontSize: 16,
+);
+
+

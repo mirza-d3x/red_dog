@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
@@ -202,6 +203,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     elevation: 2,
                     shadowColor: whiteColor,
                     child: Container(
+                      height: 400,
                       padding: const EdgeInsets.all(10),
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -214,7 +216,95 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           Text(
                             'What language do they speak?',
                             style: normalTextStyle,
-                          )
+                          ),
+
+                          const SizedBox(height: 3),
+                          const Divider(
+                            color: dividerColor,
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const SizedBox(width: 10),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Language',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+
+                                Text(
+                                  'Users',
+                                  style: tableTitleTextStyle,
+                                ),
+
+                                Text(
+                                  '% Users',
+                                  style: tableTitleTextStyle,
+                                )
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 3),
+                          const Divider(
+                            color: dividerColor,
+                          ),
+
+                          const SizedBox(height: 3),
+
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 15,left: 10),
+                                child: ListView.builder(
+                                  itemCount: 20,
+                                    shrinkWrap: true,
+                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    itemBuilder: (context,index) => Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              '${index + 1}',
+                                              style: tableContentTextStyle,
+                                            ),
+
+                                            Text(
+                                              'English',
+                                              style: tableContentTextStyle,
+                                            ),
+
+                                            Text(
+                                              '118',
+                                              style: tableContentTextStyle,
+                                            ),
+
+                                            Text(
+                                              '83.10%',
+                                              style: tableContentTextStyle,
+                                            )
+                                          ],
+                                        ),
+
+                                        const SizedBox(height: 3),
+                                        const Divider(
+                                          color: dividerColor,
+                                        ),
+                                        const SizedBox(height: 3),
+                                      ],
+                                    ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
