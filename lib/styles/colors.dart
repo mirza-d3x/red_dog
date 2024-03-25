@@ -29,3 +29,5 @@ const returningVisitorIndicatorColor = Color.fromRGBO(0, 151, 167, 1);
 const maleIndicatorColor = Color.fromRGBO(92, 202, 232, 1);
 
 const femaleIndicatorColor = Color.fromRGBO(247, 130, 162, 1);
+
+const barGraphColor = Color.fromRGBO(220, 220, 148, 1);

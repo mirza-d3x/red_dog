@@ -3,6 +3,7 @@ import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
 import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class VisitorsScreen extends StatefulWidget {
   const VisitorsScreen({super.key});
@@ -31,6 +32,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     ];
     return genderChartData;
   }
+
+  final List<BarChartData> data = [
+    BarChartData('18-24', 16),
+    BarChartData('25-34', 17),
+    BarChartData('35-44', 9),
+  ];
 
   @override
   void initState(){
@@ -231,7 +238,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           Text(
                             'What is their age group?',
                             style: normalTextStyle,
-                          )
+                          ),
+                          buildBarChart()
                         ],
                       ),
                     ),
@@ -321,6 +329,66 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         )
     );
   }
+
+  Widget buildBarChart() {
+    List<charts.Series<BarChartData, String>> series = [
+      charts.Series(
+        id: '',
+        data: data,
+        domainFn: (BarChartData sales, _) => sales.category,
+        measureFn: (BarChartData sales, _) => sales.value,
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(barGraphColor),
+        // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        labelAccessorFn: (BarChartData sales, _) => '${sales.value}',
+
+        insideLabelStyleAccessorFn: (BarChartData sales, _){
+          return  charts.TextStyleSpec(
+            color:  charts.MaterialPalette.white,
+            fontSize: 12,
+          );
+        }
+      ),
+    ];
+
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: SizedBox(
+        height: 300.0,
+        child: charts.BarChart(
+          series,
+          animate: true,
+          barGroupingType: charts.BarGroupingType.grouped,
+          // Customize Y-axis values
+          primaryMeasureAxis: charts.NumericAxisSpec(
+            tickProviderSpec: const charts.StaticNumericTickProviderSpec(
+              // Custom ticks from 0 to 20 with an interval of 4
+              <charts.TickSpec<num>>[
+                charts.TickSpec<num>(0),
+                charts.TickSpec<num>(4),
+                charts.TickSpec<num>(8),
+                charts.TickSpec<num>(12),
+                charts.TickSpec<num>(16),
+                charts.TickSpec<num>(20),
+              ],
+            ),
+            tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
+                  (value) => '${value!.toInt()}',
+            ),
+          ),
+          // behaviors: [charts.SeriesLegend()],
+        ),
+      ),
+    );
+  }
+
+}
+
+
+class BarChartData {
+  final String category;
+  final int value;
+
+  BarChartData(this.category, this.value);
 }
 
 class VisitorData{
