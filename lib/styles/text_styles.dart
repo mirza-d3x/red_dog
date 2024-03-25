@@ -85,3 +85,9 @@ TextStyle tileNumberTextStyle = const TextStyle(
   fontSize: 28,
 );
 
+TextStyle normalTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: normalTextColor,
+  fontSize: 16,
+);
+
