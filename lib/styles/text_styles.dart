@@ -73,3 +73,15 @@ TextStyle privacyTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle tileTitleTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: normalTextColor,
+  fontSize: 16,
+);
+
+TextStyle tileNumberTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: normalTextColor,
+  fontSize: 28,
+);
+

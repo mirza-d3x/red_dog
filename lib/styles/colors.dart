@@ -17,3 +17,7 @@ const hintColor = Color.fromRGBO(108, 121, 133,1);
 const blackColor = Color.fromRGBO(26, 24, 24, 1);
 
 const privacyTextColor = Color.fromRGBO(108, 117, 125, 1);
+
+const bgColor = Color.fromRGBO(247, 247, 247, 1);
+
+const normalTextColor = Color.fromRGBO(75, 75, 95, 1);
