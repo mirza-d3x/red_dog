@@ -21,3 +21,11 @@ const privacyTextColor = Color.fromRGBO(108, 117, 125, 1);
 const bgColor = Color.fromRGBO(247, 247, 247, 1);
 
 const normalTextColor = Color.fromRGBO(75, 75, 95, 1);
+
+const newVisitorIndicatorColor = Color.fromRGBO(147, 234, 204,1);
+
+const returningVisitorIndicatorColor = Color.fromRGBO(0, 151, 167, 1);
+
+const maleIndicatorColor = Color.fromRGBO(92, 202, 232, 1);
+
+const femaleIndicatorColor = Color.fromRGBO(247, 130, 162, 1);

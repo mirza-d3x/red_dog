@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
-
 import '../../styles/text_styles.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class VisitorsScreen extends StatefulWidget {
   const VisitorsScreen({super.key});
@@ -12,6 +12,33 @@ class VisitorsScreen extends StatefulWidget {
 }
 
 class _VisitorsScreenState extends State<VisitorsScreen> {
+
+  late List<VisitorData> _chartData;
+  late List<GenderData> _genderChartData;
+
+  List<VisitorData> getChartData(){
+    final List<VisitorData> chartData = [
+      VisitorData('New Visitor', 1000),
+      VisitorData('Returning Visitor', 200),
+    ];
+    return chartData;
+  }
+
+  List<GenderData> getGenderChartData(){
+    final List<GenderData> genderChartData = [
+      GenderData('Male', 1000),
+      GenderData('Female', 700),
+    ];
+    return genderChartData;
+  }
+
+  @override
+  void initState(){
+    _chartData = getChartData();
+    _genderChartData = getGenderChartData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,7 +105,61 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           Text(
                             'How well you retained the visitors?',
                             style: normalTextStyle,
-                          )
+                          ),
+
+                          // const SizedBox(height: 8),
+                          Container(
+                            color: whiteColor,
+                            width: 300,
+                            height: 250,
+                            child: SfCircularChart(
+                              palette: const <Color>[
+                                newVisitorIndicatorColor,
+                                returningVisitorIndicatorColor,
+                              ],
+                              series: <CircularSeries>[
+                                DoughnutSeries<VisitorData,String>(
+                                  dataSource: _chartData,
+                                  xValueMapper: (VisitorData data,_) => data.type,
+                                  yValueMapper: (VisitorData data,_) => data.value,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 12,
+                                width: 12,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: newVisitorIndicatorColor
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                'New Visitor',
+                                style: graphHintTextStyle,
+                              ),
+
+                              const SizedBox(width: 10),
+                              Container(
+                                height: 12,
+                                width: 12,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: returningVisitorIndicatorColor
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                  'Returning Visitor',
+                                style: graphHintTextStyle,
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -174,7 +255,60 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           Text(
                             'What is their gender?',
                             style: normalTextStyle,
-                          )
+                          ),
+
+                          Container(
+                            color: whiteColor,
+                            width: 300,
+                            height: 250,
+                            child: SfCircularChart(
+                              palette: const <Color>[
+                                maleIndicatorColor,
+                                femaleIndicatorColor,
+                              ],
+                              series: <CircularSeries>[
+                                DoughnutSeries<GenderData,String>(
+                                  dataSource: _genderChartData,
+                                  xValueMapper: (GenderData data,_) => data.type,
+                                  yValueMapper: (GenderData data,_) => data.value,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 12,
+                                width: 12,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: maleIndicatorColor
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                'Male',
+                                style: graphHintTextStyle,
+                              ),
+
+                              const SizedBox(width: 10),
+                              Container(
+                                height: 12,
+                                width: 12,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: femaleIndicatorColor
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              Text(
+                                'Female',
+                                style: graphHintTextStyle,
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -188,3 +322,16 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 }
+
+class VisitorData{
+  final String type;
+  final int value;
+  VisitorData(this.type,this.value);
+}
+
+class GenderData{
+  final String type;
+  final int value;
+  GenderData(this.type,this.value);
+}
+

@@ -91,3 +91,9 @@ TextStyle normalTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle graphHintTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: normalTextColor,
+  fontSize: 15,
+);
+
