@@ -5,6 +5,7 @@ import 'package:reddog_mobile_app/widgets/tiles.dart';
 import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:percent_indicator/percent_indicator.dart';
 
 class VisitorsScreen extends StatefulWidget {
   const VisitorsScreen({super.key});
@@ -262,36 +263,53 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             child: Scrollbar(
                               thumbVisibility: true,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 15,left: 10),
+                                padding: const EdgeInsets.only(right: 5,left: 10),
                                 child: ListView.builder(
                                   itemCount: 20,
                                     shrinkWrap: true,
                                     physics: const AlwaysScrollableScrollPhysics(),
-                                    itemBuilder: (context,index) => Column(
+                                    itemBuilder: (context,index) {
+                                    return Column(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              '${index + 1}',
-                                              style: tableContentTextStyle,
-                                            ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '${index + 1}',
+                                                style: tableContentTextStyle,
+                                              ),
 
-                                            Text(
-                                              'English',
-                                              style: tableContentTextStyle,
-                                            ),
+                                              Text(
+                                                'English',
+                                                style: tableContentTextStyle,
+                                              ),
 
-                                            Text(
-                                              '118',
-                                              style: tableContentTextStyle,
-                                            ),
+                                              Text(
+                                                '118',
+                                                style: tableContentTextStyle,
+                                              ),
 
-                                            Text(
-                                              '83.10%',
-                                              style: tableContentTextStyle,
-                                            )
-                                          ],
+                                              LinearPercentIndicator(
+                                                width: 65.0,
+                                                lineHeight: 14.0,
+                                                percent: 0.8, //percent value must be between 0.0 and 1.0
+                                                backgroundColor: whiteColor,
+                                                progressColor: percentageIndicatorColor,
+                                                center: Text(
+                                                    '83.10%',
+                                                  style: percentTextStyle,
+                                                ),
+                                              ),
+
+
+                                              // Text(
+                                              //   '83.10%',
+                                              //   style: tableContentTextStyle,
+                                              // )
+                                            ],
+                                          ),
                                         ),
 
                                         const SizedBox(height: 3),
@@ -300,7 +318,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                         ),
                                         const SizedBox(height: 3),
                                       ],
-                                    ),
+                                    );
+                                    },
                                 ),
                               ),
                             ),

@@ -37,3 +37,5 @@ const barGraphLabelColor = Color.fromRGBO(178, 186, 193, 1);
 const dividerColor = Color.fromRGBO(247, 247, 247, 1);
 
 const titleTextColor = Color.fromRGBO(121, 125, 126, 1);
+
+const percentageIndicatorColor = Color.fromRGBO(254, 176, 25, 1);

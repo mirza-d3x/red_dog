@@ -109,4 +109,10 @@ TextStyle tableContentTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle percentTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 12,
+);
+
 
