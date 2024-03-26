@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
 import '../../styles/text_styles.dart';
@@ -43,11 +44,18 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     BarChartData('35-44', 9),
   ];
 
+ final tilesList = <VisitorTileModel>[];
+
   @override
   void initState(){
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
+    tilesList.add(VisitorTileModel('VISITORS', '140'));
+    tilesList.add(VisitorTileModel('NEW VISITORS', '132'));
+    tilesList.add(VisitorTileModel('BOUNCE RATE', '61.75%'));
+    tilesList.add(VisitorTileModel('SESSIONS', '183'));
+    tilesList.add(VisitorTileModel('AVG SESSION DURATION', '106.46 S'));
   }
 
   @override
@@ -60,19 +68,33 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  tiles('VISITORS', '140'),
 
-                  const SizedBox(height: 8),
-                  tiles('NEW VISITORS', '132'),
+                  GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 4.0,
+                        mainAxisSpacing: 4.0,
+                        mainAxisExtent: 132
+                      ),
+                      itemCount: tilesList.length,
+                      itemBuilder: (BuildContext context,index) => tiles(context,tilesList[index].title, tilesList[index].value)
+                  ),
 
-                  const SizedBox(height: 8),
-                  tiles('BOUNCE RATE', '61.75%'),
-
-                  const SizedBox(height: 8),
-                  tiles('SESSIONS', '183'),
-
-                  const SizedBox(height: 8),
-                  tiles('AVG SESSION DURATION', '106.46 S'),
+                  // tiles('VISITORS', '140'),
+                  //
+                  // const SizedBox(height: 8),
+                  // tiles('NEW VISITORS', '132'),
+                  //
+                  // const SizedBox(height: 8),
+                  // tiles('BOUNCE RATE', '61.75%'),
+                  //
+                  // const SizedBox(height: 8),
+                  // tiles('SESSIONS', '183'),
+                  //
+                  // const SizedBox(height: 8),
+                  // tiles('AVG SESSION DURATION', '106.46 S'),
 
                   const SizedBox(height: 15),
                   // How are your visitor trending over time?
