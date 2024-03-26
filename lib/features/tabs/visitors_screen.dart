@@ -86,7 +86,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       ),
                     ),
 
-                    Row(
+                    const Row(
                       children: [
                         CircleAvatar(
                           radius: 26,
@@ -96,7 +96,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                         ),
 
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
 
                         Icon(
                           Icons.notifications_none_outlined,
@@ -118,6 +118,50 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        child: Text(
+                          'RedDog'
+                        ),
+                      ),
+
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        child: const Icon(
+                          Icons.calendar_month,
+                          color: titleTextColor,
+                          size: 20,
+                        )
+                      ),
+
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        child: const Icon(
+                          Icons.download,
+                          color: titleTextColor,
+                          size: 20,
+                        )
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
 
                   GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
