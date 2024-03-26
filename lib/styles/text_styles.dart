@@ -115,4 +115,10 @@ TextStyle percentTextStyle = const TextStyle(
   fontSize: 12,
 );
 
+TextStyle graphLabelTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: titleTextColor,
+  fontSize: 12,
+);
+
 
