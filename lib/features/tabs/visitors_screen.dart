@@ -6,6 +6,8 @@ import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:countries_world_map/countries_world_map.dart';
+import 'package:countries_world_map/data/maps/world_map.dart';
 
 class VisitorsScreen extends StatefulWidget {
   const VisitorsScreen({super.key});
@@ -192,6 +194,23 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           Text(
                             'Where are your users from?',
                             style: normalTextStyle,
+                          ),
+
+                          const SizedBox(height: 25),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: SimpleMap(
+                              instructions: SMapWorld.instructions,
+                              defaultColor: Colors.grey,
+                              colors: const SMapWorldColors(
+                                uS: Colors.blue,   // This makes USA green
+                                cN: Colors.red,   // This makes China green
+                                iN: Colors.green,   // This makes Russia green
+                              ).toMap(),
+                              callback: (id, name, tapDetails) {
+                                print(id);
+                              },
+                            ),
                           )
                         ],
                       ),
