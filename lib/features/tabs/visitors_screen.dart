@@ -67,6 +67,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             padding: const EdgeInsets.all(15.0),
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
                   GridView.builder(
@@ -98,6 +99,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   const SizedBox(height: 15),
                   // How are your visitor trending over time?
+                  Text(
+                    'How are your visitor trending over time?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -111,17 +117,20 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'How are your visitor trending over time?',
-                            style: normalTextStyle,
-                          )
+
                         ],
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 15),
                   // How well you retained the visitors?
+                  Text(
+                    'How well you retained the visitors?',
+                    style: normalTextStyle,
+                  ),
+
+                  const SizedBox(height: 10),
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -135,12 +144,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'How well you retained the visitors?',
-                            style: normalTextStyle,
-                          ),
-
-                          // const SizedBox(height: 8),
                           Container(
                             color: whiteColor,
                             width: 300,
@@ -198,8 +201,15 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 15),
                   // Where are your users from?
+
+                  Text(
+                    'Where are your users from?',
+                    style: normalTextStyle,
+                  ),
+
+                  const SizedBox(height: 10),
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -210,37 +220,26 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         borderRadius: BorderRadius.circular(3),
                         color: whiteColor,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Where are your users from?',
-                            style: normalTextStyle,
-                          ),
-
-                          const SizedBox(height: 25),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: SimpleMap(
-                              instructions: SMapWorld.instructions,
-                              defaultColor: Colors.grey,
-                              colors: const SMapWorldColors(
-                                uS: Colors.blue,   // This makes USA green
-                                cN: Colors.red,   // This makes China green
-                                iN: Colors.green,   // This makes Russia green
-                              ).toMap(),
-                              callback: (id, name, tapDetails) {
-                                print(id);
-                              },
-                            ),
-                          )
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 15,top: 15),
+                        child: SimpleMap(
+                          instructions: SMapWorld.instructions,
+                          defaultColor: Colors.grey,
+                          colors: const SMapWorldColors(
+                            uS: Colors.blue,   // This makes USA green
+                            cN: Colors.red,   // This makes China green
+                            iN: Colors.green,   // This makes Russia green
+                          ).toMap(),
+                          callback: (id, name, tapDetails) {
+                            print(id);
+                          },
+                        ),
                       ),
                     ),
                   ),
 
                   const SizedBox(height: 8),
-                  // What language do they speak?
+                  // country list
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -255,11 +254,135 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'What language do they speak?',
-                            style: normalTextStyle,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const SizedBox(width: 10),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Country',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+
+                                Text(
+                                  'Users',
+                                  style: tableTitleTextStyle,
+                                ),
+
+                                Text(
+                                  '% Users',
+                                  style: tableTitleTextStyle,
+                                )
+                              ],
+                            ),
                           ),
 
+                          const SizedBox(height: 3),
+                          const Divider(
+                            color: dividerColor,
+                          ),
+
+                          const SizedBox(height: 3),
+
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5,left: 10),
+                                child: ListView.builder(
+                                  itemCount: 20,
+                                  shrinkWrap: true,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder: (context,index) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '${index + 1}',
+                                                style: tableContentTextStyle,
+                                              ),
+
+                                              Text(
+                                                'India',
+                                                style: tableContentTextStyle,
+                                              ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 15),
+                                                child: Text(
+                                                  '1051',
+                                                  style: tableContentTextStyle,
+                                                ),
+                                              ),
+
+                                              LinearPercentIndicator(
+                                                width: 65.0,
+                                                lineHeight: 14.0,
+                                                percent: 0.8, //percent value must be between 0.0 and 1.0
+                                                backgroundColor: whiteColor,
+                                                progressColor: percentageIndicatorColor,
+                                                center: Text(
+                                                  '83.10%',
+                                                  style: percentTextStyle,
+                                                ),
+                                              ),
+
+
+                                              // Text(
+                                              //   '83.10%',
+                                              //   style: tableContentTextStyle,
+                                              // )
+                                            ],
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 3),
+                                        const Divider(
+                                          color: dividerColor,
+                                        ),
+                                        const SizedBox(height: 3),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+                  // What language do they speak?
+                  Text(
+                    'What language do they speak?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
+                  Card(
+                    elevation: 2,
+                    shadowColor: whiteColor,
+                    child: Container(
+                      height: 400,
+                      padding: const EdgeInsets.all(10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: whiteColor,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           const SizedBox(height: 3),
                           const Divider(
                             color: dividerColor,
@@ -370,8 +493,13 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 15),
                   // What is their age group?
+                  Text(
+                    'What is their age group?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -382,21 +510,17 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         borderRadius: BorderRadius.circular(3),
                         color: whiteColor,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'What is their age group?',
-                            style: normalTextStyle,
-                          ),
-                          buildBarChart()
-                        ],
-                      ),
+                      child: buildBarChart(),
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 15),
                   // What is their gender?
+                  Text(
+                    'What is their gender?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -410,10 +534,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'What is their gender?',
-                            style: normalTextStyle,
-                          ),
 
                           Container(
                             color: whiteColor,
