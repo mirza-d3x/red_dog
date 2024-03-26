@@ -71,6 +71,46 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(90.0),
+            child: AppBar(
+              flexibleSpace: Container(
+                padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                          'assets/images/redDog_logo.png',
+                        height: 30,
+                      ),
+                    ),
+
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 26,
+                          backgroundImage: AssetImage(
+                            'assets/images/profile_pic_sample.jpeg'
+                          )
+
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        Icon(
+                          Icons.notifications_none_outlined,
+                          size: 27,
+                          color: titleTextColor,
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              backgroundColor: whiteColor,
+            ),
+          ),
           backgroundColor: bgColor,
           body: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -812,6 +852,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         LineChartBarData(
           spots: const [
             FlSpot(0, 3),
+            FlSpot(1, 5),
             FlSpot(2.6, 2),
             FlSpot(4.9, 10),
             FlSpot(6.8, 4),
