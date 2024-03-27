@@ -496,7 +496,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     elevation: 2,
                     shadowColor: whiteColor,
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      // padding: const EdgeInsets.all(10),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(3),
@@ -505,10 +505,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Container(
                         color: whiteColor,
                         width: 300,
-                        height: 150,
+                        height: 200,
                         child: SfCircularChart(
-                          centerY: '60',
-                          centerX: '50',
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
                           palette: const <Color>[
                             graphGreyColor,
                             graphBlackColor,
@@ -525,7 +526,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               xValueMapper: (VisitorData data,_) => data.type,
                               yValueMapper: (VisitorData data,_) => data.value,
                               innerRadius: '90%',
-                              radius: '70%',
+                              radius: '60%',
                             ),
                           ],
                         ),
@@ -1128,63 +1129,34 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         borderRadius: BorderRadius.circular(3),
                         color: whiteColor,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          Container(
-                            color: whiteColor,
-                            width: 300,
-                            height: 250,
-                            child: SfCircularChart(
-                              palette: const <Color>[
-                                maleIndicatorColor,
-                                femaleIndicatorColor,
-                              ],
-                              series: <CircularSeries>[
-                                DoughnutSeries<GenderData,String>(
-                                  dataSource: _genderChartData,
-                                  xValueMapper: (GenderData data,_) => data.type,
-                                  yValueMapper: (GenderData data,_) => data.value,
-                                ),
-                              ],
+                      child: Container(
+                        color: whiteColor,
+                        width: 300,
+                        height: 200,
+                        child: SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            graphGreyColor,
+                            graphBlackColor,
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<GenderData,String>(
+                              dataSource: _genderChartData,
+                              xValueMapper: (GenderData data,_) => data.type,
+                              yValueMapper: (GenderData data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
                             ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 12,
-                                width: 12,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: maleIndicatorColor
-                                ),
-                              ),
-                              const SizedBox(width: 3),
-                              Text(
-                                'Male',
-                                style: graphHintTextStyle,
-                              ),
-
-                              const SizedBox(width: 10),
-                              Container(
-                                height: 12,
-                                width: 12,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: femaleIndicatorColor
-                                ),
-                              ),
-                              const SizedBox(width: 3),
-                              Text(
-                                'Female',
-                                style: graphHintTextStyle,
-                              )
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
