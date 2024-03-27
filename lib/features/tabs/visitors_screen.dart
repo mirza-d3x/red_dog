@@ -75,6 +75,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   dynamic retainedVisitorDropDown;
   bool isSelectedRetainedVisitor = false;
 
+  dynamic visitorsFromDropDown;
+  bool isSelectedVisitorFrom = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -553,9 +556,74 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   const SizedBox(height: 15),
                   // Where are your users from?
 
-                  Text(
-                    'Where are your users from?',
-                    style: normalTextStyle,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Your Visitors from?',
+                        style: normalTextStyle,
+                      ),
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 30,
+                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: visitorsFromDropDown == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Weekly',
+                                      style: durationDropDownTextStyle
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      visitorsFromDropDown,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 5),
+                                ],
+                              ),
+                              value: visitorsFromDropDown,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedVisitorFrom = true;
+                                  visitorsFromDropDown = newValue;
+                                });
+                              },
+                              items: [
+                                'Weekly',
+                                'Monthly',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
 
                   const SizedBox(height: 10),
@@ -603,32 +671,32 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const SizedBox(width: 10),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    'Country',
-                                    style: tableTitleTextStyle,
-                                  ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  'Country',
+                                  style: tableTitleTextStyle,
                                 ),
+                              ),
 
-                                Text(
+                              Padding(
+                                padding: const EdgeInsets.only(right: 20),
+                                child: Text(
                                   'Users',
                                   style: tableTitleTextStyle,
                                 ),
-
-                                Text(
-                                  '% Users',
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 35),
+                                child: Text(
+                                  '%',
                                   style: tableTitleTextStyle,
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
 
                           const SizedBox(height: 3),
@@ -642,7 +710,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             child: Scrollbar(
                               thumbVisibility: true,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 10),
+                                padding: const EdgeInsets.only(right: 5,left: 5),
                                 child: ListView.builder(
                                   itemCount: 20,
                                   shrinkWrap: true,
@@ -655,10 +723,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                '${index + 1}',
-                                                style: tableContentTextStyle,
-                                              ),
+                                              // Text(
+                                              //   '${index + 1}',
+                                              //   style: tableContentTextStyle,
+                                              // ),
 
                                               Text(
                                                 'India',
@@ -666,7 +734,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                               ),
 
                                               Padding(
-                                                padding: const EdgeInsets.only(left: 15),
+                                                padding: const EdgeInsets.only(left: 30),
                                                 child: Text(
                                                   '1051',
                                                   style: tableContentTextStyle,
