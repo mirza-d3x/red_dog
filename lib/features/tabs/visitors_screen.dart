@@ -72,6 +72,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   dynamic visitorTimeDropDown;
   bool isSelectedVisitor = false;
 
+  dynamic retainedVisitorDropDown;
+  bool isSelectedRetainedVisitor = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -405,9 +408,75 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   const SizedBox(height: 15),
                   // How well you retained the visitors?
-                  Text(
-                    'How well you retained the visitors?',
-                    style: normalTextStyle,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Retained visitors',
+                        style: normalTextStyle,
+                      ),
+
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 30,
+                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: retainedVisitorDropDown == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Weekly',
+                                      style: durationDropDownTextStyle
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      retainedVisitorDropDown,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 5),
+                                ],
+                              ),
+                              value: retainedVisitorDropDown,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedRetainedVisitor = true;
+                                  retainedVisitorDropDown = newValue;
+                                });
+                              },
+                              items: [
+                                'Weekly',
+                                'Monthly',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
 
                   const SizedBox(height: 10),
