@@ -1503,7 +1503,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         data: data,
         domainFn: (BarChartData sales, _) => sales.category,
         measureFn: (BarChartData sales, _) => sales.value,
-        colorFn: (_, __) => charts.ColorUtil.fromDartColor(barGraphColor),
+        colorFn: (_, __) => charts.ColorUtil.fromDartColor(graphBlackColor),
         // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         labelAccessorFn: (BarChartData sales, _) => '${sales.value}',
         insideLabelStyleAccessorFn: (BarChartData sales, _){

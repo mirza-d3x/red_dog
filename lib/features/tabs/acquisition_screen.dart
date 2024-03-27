@@ -185,7 +185,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 ? Row(
                               children: [
                                 Text(
-                                    'Weekly',
+                                    'Monthly',
                                     style: durationDropDownTextStyle
                                 ),
 
