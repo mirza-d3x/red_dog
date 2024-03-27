@@ -78,6 +78,15 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   dynamic visitorsFromDropDown;
   bool isSelectedVisitorFrom = false;
 
+  dynamic languagePeriodDropDown;
+  bool isSelectedLanguage = false;
+
+  dynamic agePeriodDropDown;
+  bool isSelectedAge = false;
+
+  dynamic genderPeriodDropDown;
+  bool isSelectedGender = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -781,9 +790,74 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   const SizedBox(height: 15),
                   // What language do they speak?
-                  Text(
-                    'What language do they speak?',
-                    style: normalTextStyle,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'What language do they speak?',
+                        style: normalTextStyle,
+                      ),
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 30,
+                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: languagePeriodDropDown == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Weekly',
+                                      style: durationDropDownTextStyle
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      languagePeriodDropDown,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 5),
+                                ],
+                              ),
+                              value: languagePeriodDropDown,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedLanguage = true;
+                                  languagePeriodDropDown = newValue;
+                                });
+                              },
+                              items: [
+                                'Weekly',
+                                'Monthly',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Card(
@@ -917,9 +991,74 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   const SizedBox(height: 15),
                   // What is their age group?
-                  Text(
-                    'What is their age group?',
-                    style: normalTextStyle,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'What is their age group?',
+                        style: normalTextStyle,
+                      ),
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 30,
+                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: agePeriodDropDown == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Weekly',
+                                      style: durationDropDownTextStyle
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      agePeriodDropDown,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 5),
+                                ],
+                              ),
+                              value: agePeriodDropDown,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedAge = true;
+                                  agePeriodDropDown = newValue;
+                                });
+                              },
+                              items: [
+                                'Weekly',
+                                'Monthly',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Card(
@@ -938,9 +1077,74 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   const SizedBox(height: 15),
                   // What is their gender?
-                  Text(
-                    'What is their gender?',
-                    style: normalTextStyle,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'What is their gender?',
+                        style: normalTextStyle,
+                      ),
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 30,
+                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: genderPeriodDropDown == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Weekly',
+                                      style: durationDropDownTextStyle
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      genderPeriodDropDown,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 5),
+                                ],
+                              ),
+                              value: genderPeriodDropDown,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedGender = true;
+                                  genderPeriodDropDown = newValue;
+                                });
+                              },
+                              items: [
+                                'Weekly',
+                                'Monthly',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Card(
