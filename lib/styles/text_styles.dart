@@ -121,4 +121,10 @@ TextStyle graphLabelTextStyle = const TextStyle(
   fontSize: 12,
 );
 
+TextStyle dropDownTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: blackColor,
+  fontSize: 16,
+);
+
 
