@@ -76,6 +76,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(90.0),
             child: AppBar(
+              scrolledUnderElevation: 0,
+              backgroundColor: whiteColor,
               flexibleSpace: Container(
                 padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
                 child: Row(
@@ -110,7 +112,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   ],
                 ),
               ),
-              backgroundColor: whiteColor,
             ),
           ),
           backgroundColor: bgColor,
