@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(right: 6),
                                 child: Text(
-                                  'With Analytics',
+                                  'Without Analytics',
                                     style: _value == 'With Analytics' ?
                                      loginInactiveRadioTextStyle : loginButtonTextStyle
                                 ),
