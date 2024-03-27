@@ -45,3 +45,9 @@ const graphBlackColor = Color.fromRGBO(55, 65, 81, 1);
 const graphRedColor = Color.fromRGBO(254, 0, 0, 1);
 
 const graphGreyColor = Color.fromRGBO(209, 213, 219, 1);
+
+const organicBarColor = Color.fromRGBO(156, 163, 175, 1);
+
+const unknownBarColor = Color.fromRGBO(75, 85, 99, 1);
+
+const referralBarColor = Color.fromRGBO(68, 68, 68, 1);

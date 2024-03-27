@@ -33,6 +33,15 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     return chartData;
   }
 
+  final List<ChartData> chartData = [
+    ChartData('01 Mar', 12, 35, 40),
+    ChartData('02 Mar', 14, 11, 18),
+    ChartData('03 Mar', 16, 50, 50),
+    ChartData('04 Mar', 18, 16, 18),
+    ChartData('06 Mar', 18, 16, 18),
+    ChartData('07 Mar', 18, 16, 18)
+  ];
+
   @override
   void initState(){
     _chartData = getChartData();
@@ -256,6 +265,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           ),
                           series: <CircularSeries>[
                             DoughnutSeries<WebsiteVisitData,String>(
+                              // animationDelay: 0,
+                              // animationDuration: 0,
                               dataSource: _chartData,
                               xValueMapper: (WebsiteVisitData data,_) => data.type,
                               yValueMapper: (WebsiteVisitData data,_) => data.value,
@@ -279,6 +290,120 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ),
 
+                const SizedBox(height: 10),
+                Card(
+                  elevation: 2,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: whiteColor,
+                    ),
+                    child: Column(
+                      children: [
+                        SfCartesianChart(
+                            plotAreaBorderWidth: 0,
+                            primaryXAxis: CategoryAxis(
+                                majorGridLines: const MajorGridLines(width: 0),
+                                labelStyle: graphIndexTextStyle
+                            ),
+                            primaryYAxis: NumericAxis(
+                              labelStyle: graphIndexTextStyle,
+                              majorGridLines: const MajorGridLines(width: 0),
+                              visibleMinimum: 0, // Set the minimum visible value
+                              visibleMaximum: 149, // Set the maximum visible value
+                              interval: 30, // Set the interval here
+                            ),
+                            series: <CartesianSeries>[
+                              StackedColumnSeries<ChartData, String>(
+                                  dataSource: chartData,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y1,
+                                  width: 0.4,
+                                  color: referralBarColor
+                              ),
+                              StackedColumnSeries<ChartData, String>(
+                                  dataSource: chartData,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y2,
+                                  width: 0.4,
+                                  color: unknownBarColor
+                              ),
+                              StackedColumnSeries<ChartData,String>(
+                                  dataSource: chartData,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y3,
+                                  width: 0.4,
+                                  color: organicBarColor
+                              ),
+                            ]
+                        ),
+
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: organicBarColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Organic',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(width: 20),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: unknownBarColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Unknown',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(width: 20),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: referralBarColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Referral',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -291,5 +416,13 @@ class WebsiteVisitData{
   final String type;
   final int value;
   WebsiteVisitData(this.type,this.value);
+}
+
+class ChartData{
+  ChartData(this.x, this.y1, this.y2, this.y3);
+  final String x;
+  final double y1;
+  final double y2;
+  final double y3;
 }
 
