@@ -9,7 +9,7 @@ Widget tiles(BuildContext context,String title,String number){
     elevation: 2,
     shadowColor: whiteColor,
     child: Container(
-      width: MediaQuery.of(context).size.width / 2,
+      width: MediaQuery.of(context).size.width / 2.3,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),

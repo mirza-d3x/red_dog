@@ -221,18 +221,40 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   const SizedBox(height: 10),
 
-                  GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 4.0,
-                        mainAxisSpacing: 4.0,
-                        mainAxisExtent: 132
-                      ),
-                      itemCount: tilesList.length,
-                      itemBuilder: (BuildContext context,index) => tiles(context,tilesList[index].title, tilesList[index].value)
+                  // GridView.builder(
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  //       crossAxisCount: 2,
+                  //       crossAxisSpacing: 4.0,
+                  //       mainAxisSpacing: 4.0,
+                  //       mainAxisExtent: 132
+                  //     ),
+                  //     itemCount: tilesList.length,
+                  //     itemBuilder: (BuildContext context,index) => tiles(context,tilesList[index].title, tilesList[index].value)
+                  // ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      tiles(context,'VISITORS', '140'),
+                      tiles(context,'NEW VISITORS', '132'),
+                    ],
                   ),
+
+                  const SizedBox(height: 8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      tiles(context,'BOUNCE RATE', '61.75%'),
+                      tiles(context,'SESSIONS', '183'),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+                  tiles(context, 'AVG SESSION DURATION', '106.46 S'),
+
 
                   // tiles('VISITORS', '140'),
                   //
