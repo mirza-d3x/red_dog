@@ -37,9 +37,9 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   }
 
   final List<ChartData> chartData = [
-    ChartData('01 Mar', 12, 35, 40),
+    ChartData('01 Mar', 22, 35, 10),
     ChartData('02 Mar', 14, 11, 18),
-    ChartData('03 Mar', 16, 50, 50),
+    ChartData('03 Mar', 16, 30, 50),
     ChartData('04 Mar', 18, 16, 18),
     ChartData('06 Mar', 18, 16, 18),
     ChartData('07 Mar', 18, 16, 18)
@@ -479,6 +479,120 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ],
                 ),
                 const SizedBox(height: 10),
+
+                const SizedBox(height: 10),
+                Card(
+                  elevation: 2,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: whiteColor,
+                    ),
+                    child: Column(
+                      children: [
+                        SfCartesianChart(
+                            plotAreaBorderWidth: 0,
+                            primaryXAxis: CategoryAxis(
+                                majorGridLines: const MajorGridLines(width: 0),
+                                labelStyle: graphIndexTextStyle
+                            ),
+                            primaryYAxis: NumericAxis(
+                              labelStyle: graphIndexTextStyle,
+                              majorGridLines: const MajorGridLines(width: 0),
+                              visibleMinimum: 0, // Set the minimum visible value
+                              visibleMaximum: 149, // Set the maximum visible value
+                              interval: 30, // Set the interval here
+                            ),
+                            series: <CartesianSeries>[
+                              StackedColumnSeries<ChartData, String>(
+                                  dataSource: chartData,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y1,
+                                  width: 0.4,
+                                  color: directBarColor
+                              ),
+                              StackedColumnSeries<ChartData, String>(
+                                  dataSource: chartData,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y2,
+                                  width: 0.4,
+                                  color: timeJobBarColor
+                              ),
+                              StackedColumnSeries<ChartData,String>(
+                                  dataSource: chartData,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y3,
+                                  width: 0.4,
+                                  color: googleBarColor
+                              ),
+                            ]
+                        ),
+
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: directBarColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Direct',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(width: 20),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: timeJobBarColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'TimeJobs',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(width: 20),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: googleBarColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Google',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
 
               ],
             ),

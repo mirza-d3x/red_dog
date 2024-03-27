@@ -51,3 +51,9 @@ const organicBarColor = Color.fromRGBO(156, 163, 175, 1);
 const unknownBarColor = Color.fromRGBO(75, 85, 99, 1);
 
 const referralBarColor = Color.fromRGBO(68, 68, 68, 1);
+
+const directBarColor = Color.fromRGBO(254, 0, 0, 1);
+
+const timeJobBarColor = Color.fromRGBO(255, 58, 58, 1);
+
+const googleBarColor = Color.fromRGBO(255, 109, 109, 1);
