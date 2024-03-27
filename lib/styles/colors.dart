@@ -39,3 +39,9 @@ const dividerColor = Color.fromRGBO(247, 247, 247, 1);
 const titleTextColor = Color.fromRGBO(121, 125, 126, 1);
 
 const percentageIndicatorColor = Color.fromRGBO(254, 176, 25, 1);
+
+const graphBlackColor = Color.fromRGBO(55, 65, 81, 1);
+
+const graphRedColor = Color.fromRGBO(254, 0, 0, 1);
+
+const graphGreyColor = Color.fromRGBO(209, 213, 219, 1);

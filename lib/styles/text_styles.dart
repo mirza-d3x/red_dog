@@ -93,8 +93,8 @@ TextStyle normalTextStyle = const TextStyle(
 
 TextStyle graphHintTextStyle = const TextStyle(
   fontFamily: _regularFont,
-  color: normalTextColor,
-  fontSize: 15,
+  color: blackColor,
+  fontSize: 13,
 );
 
 TextStyle tableTitleTextStyle = const TextStyle(
