@@ -22,6 +22,9 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   dynamic peopleTimeDropDown;
   bool isSelectedPeopleFound = false;
 
+  dynamic trafficTimeDropDown;
+  bool isSelectedTrafficTime = false;
+
   late List<WebsiteVisitData> _chartData;
 
   List<WebsiteVisitData> getChartData(){
@@ -403,6 +406,79 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     ),
                   ),
                 ),
+
+                const SizedBox(height: 10),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'What are the traffic sources?',
+                      style: normalTextStyle,
+                    ),
+                    Card(
+                      elevation: 2,
+                      child: Container(
+                        height: 30,
+                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        padding: const EdgeInsets.only(left: 10,right: 10),
+                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: blackColor,
+                            ),
+                            // iconSize: 0,
+                            hint: trafficTimeDropDown == null
+                                ? Row(
+                              children: [
+                                Text(
+                                    'Monthly',
+                                    style: durationDropDownTextStyle
+                                ),
+
+                                const SizedBox(width: 5),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                Text(
+                                    trafficTimeDropDown,
+                                    style: durationDropDownTextStyle
+                                ),
+                                const SizedBox(width: 5),
+                              ],
+                            ),
+                            value: trafficTimeDropDown,
+                            onChanged: (newValue) {
+                              setState(() {
+                                isSelectedTrafficTime = true;
+                                trafficTimeDropDown = newValue;
+                              });
+                            },
+                            items: [
+                              'Weekly',
+                              'Monthly',
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: durationDropDownTextStyle
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
 
               ],
             ),
