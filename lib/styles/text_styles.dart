@@ -139,4 +139,10 @@ TextStyle durationDropDownTextStyle = const TextStyle(
   fontSize: 14,
 );
 
+TextStyle graphValueTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: blackColor,
+  fontSize: 14,
+);
+
 

@@ -237,31 +237,43 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       borderRadius: BorderRadius.circular(3),
                       color: whiteColor,
                     ),
-                    child:
-                    SfCircularChart(
-                      centerY: '100',
-                      centerX: '90',
-                      margin: EdgeInsets.zero,
-                      palette: const <Color>[
-                        graphGreyColor,
-                        graphBlackColor,
-                        graphRedColor
-                      ],
-                      legend: Legend(
-                          position: LegendPosition.right,
-                          isVisible: true,
-                          isResponsive:true,
-                          overflowMode: LegendItemOverflowMode.wrap,
-                      ),
-                      series: <CircularSeries>[
-                        DoughnutSeries<WebsiteVisitData,String>(
-                          dataSource: _chartData,
-                          xValueMapper: (WebsiteVisitData data,_) => data.type,
-                          yValueMapper: (WebsiteVisitData data,_) => data.value,
-                          innerRadius: '90%',
-                          radius: '60%',
+                    child: Stack(
+                      children: [
+                        SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            graphGreyColor,
+                            graphBlackColor,
+                            graphRedColor
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<WebsiteVisitData,String>(
+                              dataSource: _chartData,
+                              xValueMapper: (WebsiteVisitData data,_) => data.type,
+                              yValueMapper: (WebsiteVisitData data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
 
+                            ),
+                          ],
                         ),
+
+                        Positioned(
+                          left: 62,
+                          top: 93,
+                          child: Text(
+                              'Mar 2024',
+                            style: graphValueTextStyle,
+                          ),
+                        )
                       ],
                     ),
                   ),
