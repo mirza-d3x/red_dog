@@ -810,7 +810,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const SizedBox(width: 10),
 
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
@@ -820,14 +819,20 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                   ),
                                 ),
 
-                                Text(
-                                  'Users',
-                                  style: tableTitleTextStyle,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: Text(
+                                    'Users',
+                                    style: tableTitleTextStyle,
+                                  ),
                                 ),
 
-                                Text(
-                                  '% Users',
-                                  style: tableTitleTextStyle,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 35),
+                                  child: Text(
+                                    '%',
+                                    style: tableTitleTextStyle,
+                                  ),
                                 )
                               ],
                             ),
@@ -844,7 +849,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             child: Scrollbar(
                               thumbVisibility: true,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 10),
+                                padding: const EdgeInsets.only(right: 5,left: 5),
                                 child: ListView.builder(
                                   itemCount: 20,
                                     shrinkWrap: true,
@@ -857,10 +862,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(
-                                                '${index + 1}',
-                                                style: tableContentTextStyle,
-                                              ),
+                                              // Text(
+                                              //   '${index + 1}',
+                                              //   style: tableContentTextStyle,
+                                              // ),
 
                                               Text(
                                                 'English',
