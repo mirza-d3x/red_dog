@@ -419,7 +419,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   ),
 
                   const SizedBox(height: 15),
-                  // How well you retained the visitors?
+                  // Retained visitors
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -506,28 +506,41 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         color: whiteColor,
                         width: 300,
                         height: 200,
-                        child: SfCircularChart(
-                          centerY: '100',
-                          centerX: '90',
-                          margin: EdgeInsets.zero,
-                          palette: const <Color>[
-                            graphGreyColor,
-                            graphBlackColor,
-                          ],
-                          legend: Legend(
-                            position: LegendPosition.right,
-                            isVisible: true,
-                            isResponsive:true,
-                            overflowMode: LegendItemOverflowMode.wrap,
-                          ),
-                          series: <CircularSeries>[
-                            DoughnutSeries<VisitorData,String>(
-                              dataSource: _chartData,
-                              xValueMapper: (VisitorData data,_) => data.type,
-                              yValueMapper: (VisitorData data,_) => data.value,
-                              innerRadius: '90%',
-                              radius: '60%',
+                        child: Stack(
+                          children: [
+                            SfCircularChart(
+                              centerY: '100',
+                              centerX: '90',
+                              margin: EdgeInsets.zero,
+                              palette: const <Color>[
+                                graphGreyColor,
+                                graphBlackColor,
+                              ],
+                              legend: Legend(
+                                position: LegendPosition.right,
+                                isVisible: true,
+                                isResponsive:true,
+                                overflowMode: LegendItemOverflowMode.wrap,
+                              ),
+                              series: <CircularSeries>[
+                                DoughnutSeries<VisitorData,String>(
+                                  dataSource: _chartData,
+                                  xValueMapper: (VisitorData data,_) => data.type,
+                                  yValueMapper: (VisitorData data,_) => data.value,
+                                  innerRadius: '90%',
+                                  radius: '60%',
+                                ),
+                              ],
                             ),
+
+                            Positioned(
+                              left: 73,
+                              top: 93,
+                              child: Text(
+                                '25.7%',
+                                style: visitorGraphValueTextStyle,
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -1133,28 +1146,42 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         color: whiteColor,
                         width: 300,
                         height: 200,
-                        child: SfCircularChart(
-                          centerY: '100',
-                          centerX: '90',
-                          margin: EdgeInsets.zero,
-                          palette: const <Color>[
-                            graphGreyColor,
-                            graphBlackColor,
-                          ],
-                          legend: Legend(
-                            position: LegendPosition.right,
-                            isVisible: true,
-                            isResponsive:true,
-                            overflowMode: LegendItemOverflowMode.wrap,
-                          ),
-                          series: <CircularSeries>[
-                            DoughnutSeries<GenderData,String>(
-                              dataSource: _genderChartData,
-                              xValueMapper: (GenderData data,_) => data.type,
-                              yValueMapper: (GenderData data,_) => data.value,
-                              innerRadius: '90%',
-                              radius: '60%',
+                        child: Stack(
+                          children: [
+                            SfCircularChart(
+                              centerY: '100',
+                              centerX: '90',
+                              margin: EdgeInsets.zero,
+                              palette: const <Color>[
+                                graphGreyColor,
+                                graphBlackColor,
+                              ],
+                              legend: Legend(
+                                position: LegendPosition.right,
+                                isVisible: true,
+                                isResponsive:true,
+                                overflowMode: LegendItemOverflowMode.wrap,
+                              ),
+                              series: <CircularSeries>[
+                                DoughnutSeries<GenderData,String>(
+                                  dataSource: _genderChartData,
+                                  xValueMapper: (GenderData data,_) => data.type,
+                                  yValueMapper: (GenderData data,_) => data.value,
+                                  innerRadius: '90%',
+                                  radius: '60%',
+                                ),
+                              ],
                             ),
+
+                            Positioned(
+                              left: 62,
+                              top: 93,
+                              child: Text(
+                                '',
+                                // 'Mar 2024',
+                                style: graphValueTextStyle,
+                              ),
+                            )
                           ],
                         ),
                       ),

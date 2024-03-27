@@ -145,4 +145,10 @@ TextStyle graphValueTextStyle = const TextStyle(
   fontSize: 14,
 );
 
+TextStyle visitorGraphValueTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: blackColor,
+  fontSize: 16,
+);
+
 
