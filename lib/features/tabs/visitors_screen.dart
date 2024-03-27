@@ -502,62 +502,33 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         borderRadius: BorderRadius.circular(3),
                         color: whiteColor,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            color: whiteColor,
-                            width: 300,
-                            height: 250,
-                            child: SfCircularChart(
-                              palette: const <Color>[
-                                newVisitorIndicatorColor,
-                                returningVisitorIndicatorColor,
-                              ],
-                              series: <CircularSeries>[
-                                DoughnutSeries<VisitorData,String>(
-                                  dataSource: _chartData,
-                                  xValueMapper: (VisitorData data,_) => data.type,
-                                  yValueMapper: (VisitorData data,_) => data.value,
-                                ),
-                              ],
+                      child: Container(
+                        color: whiteColor,
+                        width: 300,
+                        height: 150,
+                        child: SfCircularChart(
+                          centerY: '60',
+                          centerX: '50',
+                          palette: const <Color>[
+                            graphGreyColor,
+                            graphBlackColor,
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<VisitorData,String>(
+                              dataSource: _chartData,
+                              xValueMapper: (VisitorData data,_) => data.type,
+                              yValueMapper: (VisitorData data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '70%',
                             ),
-                          ),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 12,
-                                width: 12,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: newVisitorIndicatorColor
-                                ),
-                              ),
-                              const SizedBox(width: 3),
-                              Text(
-                                'New Visitor',
-                                style: graphHintTextStyle,
-                              ),
-
-                              const SizedBox(width: 10),
-                              Container(
-                                height: 12,
-                                width: 12,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: returningVisitorIndicatorColor
-                                ),
-                              ),
-                              const SizedBox(width: 3),
-                              Text(
-                                  'Returning Visitor',
-                                style: graphHintTextStyle,
-                              )
-                            ],
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
