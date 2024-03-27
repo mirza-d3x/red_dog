@@ -133,4 +133,10 @@ TextStyle appBarTitleTextStyle = const TextStyle(
   fontSize: 20,
 );
 
+TextStyle durationDropDownTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 14,
+);
+
 

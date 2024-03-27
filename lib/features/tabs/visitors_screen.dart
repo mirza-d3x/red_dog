@@ -69,6 +69,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   dynamic selectedWebsite;
   bool isSelectedFromDropDwn = false;
 
+  dynamic visitorTimeDropDown;
+  bool isSelectedVisitor = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -279,10 +282,75 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   // tiles('AVG SESSION DURATION', '106.46 S'),
 
                   const SizedBox(height: 15),
-                  // How are your visitor trending over time?
-                  Text(
-                    'How are your visitor trending over time?',
-                    style: normalTextStyle,
+                  // Visitors trending time?
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Visitors trending time?',
+                        style: normalTextStyle,
+                      ),
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 30,
+                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                          padding: const EdgeInsets.only(left: 10,right: 10),
+                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: visitorTimeDropDown == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Weekly',
+                                      style: durationDropDownTextStyle
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      visitorTimeDropDown,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 5),
+                                ],
+                              ),
+                              value: visitorTimeDropDown,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedVisitor = true;
+                                  visitorTimeDropDown = newValue;
+                                });
+                              },
+                              items: [
+                                'Weekly',
+                                'Monthly',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: durationDropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   Card(
