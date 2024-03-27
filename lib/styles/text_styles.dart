@@ -127,4 +127,10 @@ TextStyle dropDownTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle appBarTitleTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: blackColor,
+  fontSize: 20,
+);
+
 
