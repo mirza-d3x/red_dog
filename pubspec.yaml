@@ -69,6 +69,7 @@ flutter:
     - assets/images/onboarding_bg-image.jpg
     - assets/images/redDog_logo.png
     - assets/images/profile_pic_sample.jpeg
+    - assets/images/server_uptime.PNG
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
