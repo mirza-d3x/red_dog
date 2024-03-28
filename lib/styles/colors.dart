@@ -65,3 +65,7 @@ const mTimeJobsIndicatorColor = Color.fromRGBO(108, 117, 125, 1);
 const clutchIndicatorColor = Color.fromRGBO(255, 109, 109, 1);
 
 const othersIndicatorColor = Color.fromRGBO(0, 0, 0, 1);
+
+const lightRedColor = Color.fromRGBO(255, 221, 221, 1);
+
+const darkRedColor = Color.fromRGBO(254, 81, 81, 1);
