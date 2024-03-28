@@ -62,10 +62,26 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   dynamic mostVisitedOptionDropDown;
   bool isSelectedMostVisited = false;
 
+  dynamic deviceTypeOptionDropDown;
+  bool isSelectedDeviceType = false;
+
+
+  late List<UsedDeviceData> _deviceChartData;
+
+  List<UsedDeviceData> getDeviceChartData(){
+    final List<UsedDeviceData> deviceChartData = [
+      UsedDeviceData('Desktop', 1000),
+      UsedDeviceData('Mobile', 200),
+      UsedDeviceData('Tablet', 100),
+    ];
+    return deviceChartData;
+  }
+
   @override
   void initState(){
     _chartData = getChartData();
     _trafficChartData = getTrafficChartData();
+    _deviceChartData = getDeviceChartData();
     super.initState();
   }
 
@@ -929,6 +945,134 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ),
 
+                const SizedBox(height: 10),
+                // What are the devices used heading + drop down
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'What are the devices used',
+                      style: normalTextStyle,
+                    ),
+                    Card(
+                      elevation: 2,
+                      child: Container(
+                        height: 30,
+                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        padding: const EdgeInsets.only(left: 10,right: 10),
+                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: blackColor,
+                            ),
+                            // iconSize: 0,
+                            hint: deviceTypeOptionDropDown == null
+                                ? Row(
+                              children: [
+                                Text(
+                                    'Monthly',
+                                    style: durationDropDownTextStyle
+                                ),
+
+                                const SizedBox(width: 5),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                Text(
+                                    deviceTypeOptionDropDown,
+                                    style: durationDropDownTextStyle
+                                ),
+                                const SizedBox(width: 5),
+                              ],
+                            ),
+                            value: deviceTypeOptionDropDown,
+                            onChanged: (newValue) {
+                              setState(() {
+                                isSelectedDeviceType = true;
+                                deviceTypeOptionDropDown = newValue;
+                              });
+                            },
+                            items: [
+                              'Weekly',
+                              'Monthly',
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: durationDropDownTextStyle
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+                // Circular chart
+                Card(
+                  elevation: 2,
+                  child: Container(
+                    height: 200,
+                    padding:  EdgeInsets.zero,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: whiteColor,
+                    ),
+                    child: Stack(
+                      children: [
+                        SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            graphGreyColor,
+                            graphBlackColor,
+                            graphRedColor
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<UsedDeviceData,String>(
+                              // animationDelay: 0,
+                              // animationDuration: 0,
+                              dataSource: _deviceChartData,
+                              xValueMapper: (UsedDeviceData data,_) => data.type,
+                              yValueMapper: (UsedDeviceData data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
+
+                            ),
+                          ],
+                        ),
+
+                        Positioned(
+                          left: 62,
+                          top: 93,
+                          child: Text(
+                            'Mar 2024',
+                            style: graphValueTextStyle,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -955,5 +1099,11 @@ class TrafficSourcePieChartData{
   final String type;
   final int value;
   TrafficSourcePieChartData(this.type,this.value);
+}
+
+class UsedDeviceData{
+  final String type;
+  final int value;
+  UsedDeviceData(this.type,this.value);
 }
 
