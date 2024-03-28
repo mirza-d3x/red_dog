@@ -59,6 +59,9 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     ChartData('07 Mar', 18, 16, 18)
   ];
 
+  dynamic mostVisitedOptionDropDown;
+  bool isSelectedMostVisited = false;
+
   @override
   void initState(){
     _chartData = getChartData();
@@ -783,6 +786,143 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               ),
                             ],
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+
+                const SizedBox(height: 10),
+
+                // what are the most visited pages heading + drop down menu
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'What are the most visited pages?',
+                      style: normalTextStyle,
+                    ),
+                    Card(
+                      elevation: 2,
+                      child: Container(
+                        height: 30,
+                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        padding: const EdgeInsets.only(left: 10,right: 10),
+                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: blackColor,
+                            ),
+                            // iconSize: 0,
+                            hint: mostVisitedOptionDropDown == null
+                                ? Row(
+                              children: [
+                                Text(
+                                    'Monthly',
+                                    style: durationDropDownTextStyle
+                                ),
+
+                                const SizedBox(width: 5),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                Text(
+                                    mostVisitedOptionDropDown,
+                                    style: durationDropDownTextStyle
+                                ),
+                                const SizedBox(width: 5),
+                              ],
+                            ),
+                            value: mostVisitedOptionDropDown,
+                            onChanged: (newValue) {
+                              setState(() {
+                                isSelectedMostVisited = true;
+                                mostVisitedOptionDropDown = newValue;
+                              });
+                            },
+                            items: [
+                              'Weekly',
+                              'Monthly',
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: durationDropDownTextStyle
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+              // website list
+                Card(
+                  elevation: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      color: whiteColor
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Page',
+                              style: tableTitleTextStyle,
+                            ),
+
+                            Text(
+                                'Users',
+                              style: tableTitleTextStyle,
+                            )
+                          ],
+                        ),
+
+                        const SizedBox(height: 15),
+
+                        ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: 8,
+                            itemBuilder: (context,index) => Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Codelattice Leadership',
+                                      style: tableContentTextStyle,
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10),
+                                      child: Text(
+                                        '18',
+                                        style: tableContentTextStyle,
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                const SizedBox(height: 15),
+                              ],
+                            ),
                         ),
                       ],
                     ),
