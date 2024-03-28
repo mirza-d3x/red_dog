@@ -57,3 +57,11 @@ const directBarColor = Color.fromRGBO(254, 0, 0, 1);
 const timeJobBarColor = Color.fromRGBO(255, 58, 58, 1);
 
 const googleBarColor = Color.fromRGBO(255, 109, 109, 1);
+
+const googleIndicatorColor = Color.fromRGBO(55, 65, 81, 1);
+
+const mTimeJobsIndicatorColor = Color.fromRGBO(108, 117, 125, 1);
+
+const clutchIndicatorColor = Color.fromRGBO(255, 109, 109, 1);
+
+const othersIndicatorColor = Color.fromRGBO(0, 0, 0, 1);

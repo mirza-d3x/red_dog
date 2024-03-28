@@ -36,6 +36,20 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     return chartData;
   }
 
+  late List<TrafficSourcePieChartData> _trafficChartData;
+
+  List<TrafficSourcePieChartData> getTrafficChartData(){
+    final List<TrafficSourcePieChartData> trafficChartData = [
+      TrafficSourcePieChartData('Direct', 1000),
+      TrafficSourcePieChartData('Google', 200),
+      TrafficSourcePieChartData('Timejobs', 100),
+      TrafficSourcePieChartData('m.timejobs', 70),
+      TrafficSourcePieChartData('Clutch', 50),
+      TrafficSourcePieChartData('Others', 30),
+    ];
+    return trafficChartData;
+  }
+
   final List<ChartData> chartData = [
     ChartData('01 Mar', 22, 35, 10),
     ChartData('02 Mar', 14, 11, 18),
@@ -48,6 +62,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   @override
   void initState(){
     _chartData = getChartData();
+    _trafficChartData = getTrafficChartData();
     super.initState();
   }
 
@@ -62,6 +77,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // drop dwn menu,calander,download button
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -168,6 +184,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
                 const SizedBox(height: 10),
 
+                // How people found your website heading + drop down
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -239,6 +256,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
                 const SizedBox(height: 10),
 
+                // Circular chart
                 Card(
                   elevation: 2,
                   child: Container(
@@ -294,6 +312,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
 
                 const SizedBox(height: 10),
+                // Stacked column graph
                 Card(
                   elevation: 2,
                   child: Container(
@@ -409,6 +428,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
                 const SizedBox(height: 10),
 
+                // what are the traffic sources heading + drop down menu
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -481,6 +501,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 const SizedBox(height: 10),
 
                 const SizedBox(height: 10),
+                // stacked Column graph
                 Card(
                   elevation: 2,
                   child: Container(
@@ -594,6 +615,180 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ),
 
+                const SizedBox(height: 10),
+                // Circular chart
+                Card(
+                  elevation: 2,
+                  child: Container(
+                    // height: 340,
+                    padding:  EdgeInsets.zero,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: whiteColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Stack(
+                          children: [
+                            SfCircularChart(
+                              margin: EdgeInsets.zero,
+                              palette: const <Color>[
+                                graphGreyColor,
+                                googleIndicatorColor,
+                                graphRedColor,
+                                mTimeJobsIndicatorColor,
+                                clutchIndicatorColor,
+                                othersIndicatorColor
+                              ],
+                              series: <CircularSeries>[
+                                DoughnutSeries<TrafficSourcePieChartData,String>(
+                                  // animationDelay: 0,
+                                  // animationDuration: 0,
+                                  dataSource: _trafficChartData,
+                                  xValueMapper: (TrafficSourcePieChartData data,_) => data.type,
+                                  yValueMapper: (TrafficSourcePieChartData data,_) => data.value,
+                                  innerRadius: '90%',
+                                  radius: '60%',
+
+                                ),
+                              ],
+                            ),
+
+                            Positioned(
+                              left: 148,
+                              top: 140,
+                              child: Text(
+                                'Mar 2024',
+                                style: graphValueTextStyle,
+                              ),
+                            )
+                          ],
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.only(left: 35,right: 35),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: graphGreyColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Direct',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: graphRedColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'TimeJobs',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: mTimeJobsIndicatorColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'm.timeJobs',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 12),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 35,right: 35,bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color: googleIndicatorColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    'Google',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(right: 25),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      color: clutchIndicatorColor,
+                                    ),
+
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      'Clutch',
+                                      style: graphHintTextStyle,
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      color: othersIndicatorColor,
+                                    ),
+
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      'Others',
+                                      style: graphHintTextStyle,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ),
@@ -614,5 +809,11 @@ class ChartData{
   final double y1;
   final double y2;
   final double y3;
+}
+
+class TrafficSourcePieChartData{
+  final String type;
+  final int value;
+  TrafficSourcePieChartData(this.type,this.value);
 }
 
