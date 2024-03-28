@@ -10,6 +10,8 @@ class EnquiryScreen extends StatefulWidget {
 class _EnquiryScreenState extends State<EnquiryScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SafeArea(
+        child: Scaffold()
+    );
   }
 }

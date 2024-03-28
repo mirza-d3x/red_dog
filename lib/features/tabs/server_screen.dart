@@ -28,7 +28,7 @@ class _ServerScreenState extends State<ServerScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: commonAppBar(context, 'Acquisition'),
+          appBar: commonAppBar(context, 'Server'),
           backgroundColor: bgColor,
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(15.0),
