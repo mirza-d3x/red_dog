@@ -157,4 +157,17 @@ TextStyle graphIndexTextStyle = const TextStyle(
   fontSize: 12,
 );
 
+TextStyle nameTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 17,
+);
+
+TextStyle subTextTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: titleTextColor,
+  fontSize: 14,
+);
+
+
 

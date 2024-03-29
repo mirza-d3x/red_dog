@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/widgets/infotiles.dart';
 
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/tiles.dart';
 
 class EnquiryScreen extends StatefulWidget {
   const EnquiryScreen({super.key});
@@ -20,7 +23,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: commonAppBar(context, 'Server'),
+          appBar: commonAppBar(context, 'Enquiries'),
           backgroundColor: bgColor,
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(15.0),
@@ -133,6 +136,180 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                 ),
 
                 const SizedBox(height: 10),
+
+                // Tiles
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Infoiles(context, 'Total', '356'),
+                  Infoiles(context, 'Contact Us', '56'),
+                  Infoiles(context, 'Ask Us', '32')
+                ],
+              ),
+
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    tiles(context,'Carriers', '137'),
+                    tiles(context,'Register', '131'),
+                  ],
+                ),
+
+                const SizedBox(height: 15),
+
+              // List
+                Text(
+                  'Lead Details',
+                  style: normalTextStyle,
+                ),
+
+                const SizedBox(height: 10),
+
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 6,
+                    itemBuilder: (context, index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Card(
+                          elevation: 2,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                            child: IntrinsicHeight(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          'Viswarag C M',
+                                        style: nameTextStyle,
+                                      ),
+
+                                      const SizedBox(height: 8),
+
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.email_outlined,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+
+                                          Text(
+                                              'cmviswarag@gmail.com',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.phone_enabled,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+
+                                          Text(
+                                              '9785507650',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.calendar_month,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            '29-03-2024',
+                                            style: subTextTextStyle,
+                                          ),
+
+                                          const SizedBox(width: 15),
+
+                                          const Icon(
+                                            CupertinoIcons.arrow_down_left,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+                                          const SizedBox(width: 3),
+                                          Text(
+                                              'Contact Us',
+                                            style: subTextTextStyle,
+                                          ),
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.message_outlined,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            'Message',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      VerticalDivider(
+                                        color: Colors.grey.shade300,
+                                        thickness: 1,
+                                      ),
+
+                                      const Icon(
+                                          Icons.download_outlined,
+                                        color: titleTextColor,
+                                      ),
+                                      const SizedBox(width: 8),
+
+                                      const Icon(
+                                          Icons.delete_outline_outlined,
+                                        color: titleTextColor,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ),
+                        ),
+
+                        const SizedBox(height: 7),
+                      ],
+                    ),
+                ),
+
               ],
             ),
           ),
