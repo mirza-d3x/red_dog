@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
@@ -109,15 +111,56 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       ),
                     ),
 
-                    const Row(
+                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 26,
-                          backgroundImage: AssetImage(
-                            'assets/images/profile_pic_sample.jpeg'
-                          )
+                        PopupMenuButton(
+                            constraints: const BoxConstraints.expand(width: 140,height: 70),
+                            // padding: EdgeInsets.zero,
+                            position: PopupMenuPosition.under,
+                          child: const CircleAvatar(
+                              radius: 26,
+                              backgroundImage: AssetImage(
+                                  'assets/images/profile_pic_sample.jpeg'
+                              )
 
+                          ),
+                            itemBuilder: (BuildContext context){
+                              return <PopupMenuItem <String>>[
+                                PopupMenuItem<String> (
+                                  child: Center(
+                                    child: TextButton(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(
+                                            Icons.logout,
+                                            color: blackColor,
+                                            size: 20,
+                                          ),
+
+                                          const SizedBox(width: 12),
+                                          Text('Logout',
+                                              style: nameTextStyle
+                                          ),
+                                        ],
+                                      ),onPressed: (){
+                                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                                      });
+                                      // UpdateAddress(data.list[index]);
+                                    },
+                                    ),
+                                  ),height: 31,),
+                              ];
+                            }
                         ),
+                        // CircleAvatar(
+                        //   radius: 26,
+                        //   backgroundImage: AssetImage(
+                        //     'assets/images/profile_pic_sample.jpeg'
+                        //   )
+                        //
+                        // ),
 
                         SizedBox(width: 8),
 
