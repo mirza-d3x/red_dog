@@ -25,295 +25,296 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
         child: Scaffold(
           appBar: commonAppBar(context, 'Enquiries'),
           backgroundColor: bgColor,
-          body: noEnquiryWidget(),
-          // SingleChildScrollView(
-          //   padding: const EdgeInsets.all(15.0),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       // drop dwn menu,calander,download button
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           Card(
-          //             elevation: 2,
-          //             child: Container(
-          //               padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-          //               decoration: BoxDecoration(
-          //                 color: whiteColor,
-          //                 borderRadius: BorderRadius.circular(5),
-          //               ),
-          //               child: DropdownButtonHideUnderline(
-          //                 child: DropdownButton(
-          //                   icon: const Icon(
-          //                     Icons.keyboard_arrow_down_outlined,
-          //                     color: blackColor,
-          //                   ),
-          //                   // iconSize: 0,
-          //                   hint: selectedWebsite == null
-          //                       ? Row(
-          //                     children: [
-          //                       Text(
-          //                           'Aladdinpro - GA4',
-          //                           style: dropDownTextStyle
-          //                       ),
-          //
-          //                       const SizedBox(width: 10),
-          //                     ],
-          //                   )
-          //                       : Row(
-          //                     children: [
-          //                       Text(
-          //                           selectedWebsite,
-          //                           style: dropDownTextStyle
-          //                       ),
-          //                       const SizedBox(width: 10),
-          //                     ],
-          //                   ),
-          //                   value: selectedWebsite,
-          //                   onChanged: (newValue) {
-          //                     setState(() {
-          //                       isSelectedFromDropDwn = true;
-          //                       selectedWebsite = newValue;
-          //                     });
-          //                   },
-          //                   items: [
-          //                     'Codelattice',
-          //                     'Alddinpro - GA4',
-          //                   ].map((String value) {
-          //                     return DropdownMenuItem<String>(
-          //                       value: value,
-          //                       child: Text(value,
-          //                           style: dropDownTextStyle
-          //                       ),
-          //                     );
-          //                   }).toList(),
-          //                 ),
-          //               ),
-          //             ),
-          //           ),
-          //
-          //           const SizedBox(width: 0),
-          //
-          //           Card(
-          //             elevation: 2,
-          //             child: Container(
-          //                 height: 43,
-          //                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-          //                 decoration: BoxDecoration(
-          //                   color: whiteColor,
-          //                   borderRadius: BorderRadius.circular(5),
-          //                 ),
-          //                 child: const Icon(
-          //                   Icons.calendar_month,
-          //                   color: blackColor,
-          //                   size: 20,
-          //                 )
-          //             ),
-          //           ),
-          //
-          //           const SizedBox(width: 0),
-          //
-          //           Padding(
-          //             padding: const EdgeInsets.only(right: 10),
-          //             child: Card(
-          //               elevation: 2,
-          //               child: Container(
-          //                   height: 43,
-          //                   padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-          //                   decoration: BoxDecoration(
-          //                     color: whiteColor,
-          //                     borderRadius: BorderRadius.circular(5),
-          //                   ),
-          //                   child: const Icon(
-          //                     Icons.download,
-          //                     color: blackColor,
-          //                     size: 20,
-          //                   )
-          //               ),
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //
-          //       const SizedBox(height: 10),
-          //
-          //       // Tiles
-          //     Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Infoiles(context, 'Total', '356'),
-          //         Infoiles(context, 'Contact Us', '56'),
-          //         Infoiles(context, 'Ask Us', '32')
-          //       ],
-          //     ),
-          //
-          //       const SizedBox(height: 8),
-          //       Row(
-          //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //         children: [
-          //           tiles(context,'Carriers', '137'),
-          //           tiles(context,'Register', '131'),
-          //         ],
-          //       ),
-          //
-          //       const SizedBox(height: 15),
-          //
-          //     // List
-          //       Text(
-          //         'Lead Details',
-          //         style: normalTextStyle,
-          //       ),
-          //
-          //       const SizedBox(height: 10),
-          //
-          //       ListView.builder(
-          //         physics: const NeverScrollableScrollPhysics(),
-          //           shrinkWrap: true,
-          //           itemCount: 6,
-          //           itemBuilder: (context, index) => Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               Card(
-          //                 elevation: 2,
-          //                 child: Container(
-          //                   width: double.infinity,
-          //                   decoration: BoxDecoration(
-          //                     color: whiteColor,
-          //                     borderRadius: BorderRadius.circular(2),
-          //                   ),
-          //                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-          //                   child: IntrinsicHeight(
-          //                     child: Row(
-          //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                       children: [
-          //                         Column(
-          //                           crossAxisAlignment: CrossAxisAlignment.start,
-          //                           children: [
-          //                             Text(
-          //                                 'Viswarag C M',
-          //                               style: nameTextStyle,
-          //                             ),
-          //
-          //                             const SizedBox(height: 8),
-          //
-          //                             Row(
-          //                               children: [
-          //                                 const Icon(
-          //                                   Icons.email_outlined,
-          //                                   size: 15,
-          //                                   color: titleTextColor,
-          //                                 ),
-          //
-          //                                 const SizedBox(width: 5),
-          //
-          //                                 Text(
-          //                                     'cmviswarag@gmail.com',
-          //                                   style: subTextTextStyle,
-          //                                 )
-          //                               ],
-          //                             ),
-          //
-          //                             const SizedBox(height: 5),
-          //                             Row(
-          //                               children: [
-          //                                 const Icon(
-          //                                   Icons.phone_enabled,
-          //                                   size: 15,
-          //                                   color: titleTextColor,
-          //                                 ),
-          //
-          //                                 const SizedBox(width: 5),
-          //
-          //                                 Text(
-          //                                     '9785507650',
-          //                                   style: subTextTextStyle,
-          //                                 )
-          //                               ],
-          //                             ),
-          //
-          //                             const SizedBox(height: 5),
-          //                             Row(
-          //                               children: [
-          //                                 const Icon(
-          //                                   Icons.calendar_month,
-          //                                   size: 15,
-          //                                   color: titleTextColor,
-          //                                 ),
-          //
-          //                                 const SizedBox(width: 5),
-          //                                 Text(
-          //                                   '29-03-2024',
-          //                                   style: subTextTextStyle,
-          //                                 ),
-          //
-          //                                 const SizedBox(width: 15),
-          //
-          //                                 const Icon(
-          //                                   CupertinoIcons.arrow_down_left,
-          //                                   size: 15,
-          //                                   color: titleTextColor,
-          //                                 ),
-          //                                 const SizedBox(width: 3),
-          //                                 Text(
-          //                                     'Contact Us',
-          //                                   style: subTextTextStyle,
-          //                                 ),
-          //                               ],
-          //                             ),
-          //
-          //                             const SizedBox(height: 5),
-          //                             Row(
-          //                               children: [
-          //                                 const Icon(
-          //                                   Icons.message_outlined,
-          //                                   size: 15,
-          //                                   color: titleTextColor,
-          //                                 ),
-          //
-          //                                 const SizedBox(width: 5),
-          //                                 Text(
-          //                                   'Message',
-          //                                   style: subTextTextStyle,
-          //                                 )
-          //                               ],
-          //                             ),
-          //                           ],
-          //                         ),
-          //                         Row(
-          //                           mainAxisAlignment: MainAxisAlignment.end,
-          //                           children: [
-          //                             VerticalDivider(
-          //                               color: Colors.grey.shade300,
-          //                               thickness: 1,
-          //                             ),
-          //
-          //                             const Icon(
-          //                                 Icons.download_outlined,
-          //                               color: titleTextColor,
-          //                             ),
-          //                             const SizedBox(width: 8),
-          //
-          //                             const Icon(
-          //                                 Icons.delete_outline_outlined,
-          //                               color: titleTextColor,
-          //                             ),
-          //                           ],
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   )
-          //                 ),
-          //               ),
-          //
-          //               const SizedBox(height: 7),
-          //             ],
-          //           ),
-          //       ),
-          //
-          //     ],
-          //   ),
-          // ),
+          body:
+          // noEnquiryWidget(),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // drop dwn menu,calander,download button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Card(
+                      elevation: 2,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: blackColor,
+                            ),
+                            // iconSize: 0,
+                            hint: selectedWebsite == null
+                                ? Row(
+                              children: [
+                                Text(
+                                    'Aladdinpro - GA4',
+                                    style: dropDownTextStyle
+                                ),
+
+                                const SizedBox(width: 10),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                Text(
+                                    selectedWebsite,
+                                    style: dropDownTextStyle
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                            ),
+                            value: selectedWebsite,
+                            onChanged: (newValue) {
+                              setState(() {
+                                isSelectedFromDropDwn = true;
+                                selectedWebsite = newValue;
+                              });
+                            },
+                            items: [
+                              'Codelattice',
+                              'Alddinpro - GA4',
+                            ].map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value,
+                                    style: dropDownTextStyle
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(width: 0),
+
+                    Card(
+                      elevation: 2,
+                      child: Container(
+                          height: 43,
+                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Icon(
+                            Icons.calendar_month,
+                            color: blackColor,
+                            size: 20,
+                          )
+                      ),
+                    ),
+
+                    const SizedBox(width: 0),
+
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Card(
+                        elevation: 2,
+                        child: Container(
+                            height: 43,
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: const Icon(
+                              Icons.download,
+                              color: blackColor,
+                              size: 20,
+                            )
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+
+                // Tiles
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Infoiles(context, 'Total', '356'),
+                  Infoiles(context, 'Contact Us', '56'),
+                  Infoiles(context, 'Ask Us', '32')
+                ],
+              ),
+
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    tiles(context,'Carriers', '137'),
+                    tiles(context,'Register', '131'),
+                  ],
+                ),
+
+                const SizedBox(height: 15),
+
+              // List
+                Text(
+                  'Lead Details',
+                  style: normalTextStyle,
+                ),
+
+                const SizedBox(height: 10),
+
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 6,
+                    itemBuilder: (context, index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Card(
+                          elevation: 2,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                            padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                            child: IntrinsicHeight(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          'Viswarag C M',
+                                        style: nameTextStyle,
+                                      ),
+
+                                      const SizedBox(height: 8),
+
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.email_outlined,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+
+                                          Text(
+                                              'cmviswarag@gmail.com',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.phone_enabled,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+
+                                          Text(
+                                              '9785507650',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.calendar_month,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            '29-03-2024',
+                                            style: subTextTextStyle,
+                                          ),
+
+                                          const SizedBox(width: 15),
+
+                                          const Icon(
+                                            CupertinoIcons.arrow_down_left,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+                                          const SizedBox(width: 3),
+                                          Text(
+                                              'Contact Us',
+                                            style: subTextTextStyle,
+                                          ),
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.message_outlined,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            'Message',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      VerticalDivider(
+                                        color: Colors.grey.shade300,
+                                        thickness: 1,
+                                      ),
+
+                                      const Icon(
+                                          Icons.download_outlined,
+                                        color: titleTextColor,
+                                      ),
+                                      const SizedBox(width: 8),
+
+                                      const Icon(
+                                          Icons.delete_outline_outlined,
+                                        color: titleTextColor,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ),
+                        ),
+
+                        const SizedBox(height: 7),
+                      ],
+                    ),
+                ),
+
+              ],
+            ),
+          ),
         )
     );
   }
