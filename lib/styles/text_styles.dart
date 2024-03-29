@@ -171,7 +171,7 @@ TextStyle subTextTextStyle = const TextStyle(
 
 TextStyle messageTextStyle = const TextStyle(
   fontFamily: _mediumFont,
-  color: titleTextColor,
+  color: loginBgColor,
   fontSize: 17,
 );
 
