@@ -1079,6 +1079,20 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         )
     );
   }
+
+  Widget withoutAnalyticsWidget(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 20,right: 20),
+      child: Center(
+        child: Text(
+          'Kindly integrate your website with Google Analytics and sign up with '
+              'RedDog to access the content of this page',
+          textAlign: TextAlign.center,
+          style: messageTextStyle,
+        ),
+      ),
+    );
+  }
 }
 
 class WebsiteVisitData{
