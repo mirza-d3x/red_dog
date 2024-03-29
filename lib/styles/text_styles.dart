@@ -169,5 +169,10 @@ TextStyle subTextTextStyle = const TextStyle(
   fontSize: 14,
 );
 
+TextStyle messageTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: titleTextColor,
+  fontSize: 17,
+);
 
 
