@@ -18,6 +18,36 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
   TextEditingController websiteNameController = TextEditingController();
   TextEditingController urlNameController = TextEditingController();
 
+  String websiteErrorMessage = "";
+  bool validateWebsiteName(String value) {
+    if (!(value.isNotEmpty)) {
+      setState(() {
+        websiteErrorMessage = "Enter your Website Name";
+      });
+      return false;
+    } else {
+      setState(() {
+        websiteErrorMessage = "";
+      });
+      return true;
+    }
+  }
+
+  String urlErrorMessage = "";
+  bool validateUrl(String value) {
+    if (!(value.isNotEmpty)) {
+      setState(() {
+        urlErrorMessage = "Enter the URL";
+      });
+      return false;
+    } else {
+      setState(() {
+        urlErrorMessage = "";
+      });
+      return true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,9 +71,9 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
                 ),
                 
                 const SizedBox(height: 30),
-                textFiled(setState,'Website Name', websiteNameController),
-                const SizedBox(height: 15),
-                textFiled(setState,'URL', urlNameController),
+                textFiled(setState,'Website Name', websiteNameController,websiteErrorMessage),
+                // const SizedBox(height: 5),
+                textFiled(setState,'URL', urlNameController,urlErrorMessage),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -68,6 +98,10 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
   }
 
   onSubmit(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(false)));
+    final isValidWebsiteName = validateWebsiteName(websiteNameController.text);
+    final isValidUrl = validateUrl(urlNameController.text);
+    if(isValidWebsiteName && isValidUrl){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(false)));
+    }
   }
 }

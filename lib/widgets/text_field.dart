@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../styles/colors.dart';
 import '../styles/text_styles.dart';
-Widget textFiled(StateSetter setState,String _hintText,TextEditingController _controller){
+Widget textFiled(StateSetter setState,String _hintText,TextEditingController _controller,String _errorText){
   return Padding(
     padding: const EdgeInsets.only(left: 25,right: 25),
     child: TextField(
@@ -16,7 +16,8 @@ Widget textFiled(StateSetter setState,String _hintText,TextEditingController _co
         filled: true,
         hintText: _hintText,
         hintStyle: hintTextStyle,
-        // errorText: _controller.text == '' ? _errorText : '',
+        errorText: _controller.text == '' ? _errorText : '',
+        errorStyle: errorTextStyle,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(0),
           borderSide: const BorderSide(color: whiteColor),

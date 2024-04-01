@@ -187,4 +187,10 @@ TextStyle notificationTextStyle = const TextStyle(
   fontSize: 15,
 );
 
+TextStyle errorTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: redColor,
+  fontSize: 16,
+);
+
 
