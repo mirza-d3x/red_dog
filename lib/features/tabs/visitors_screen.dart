@@ -117,9 +117,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     }
   }
 
-  // Get the current date
-  DateTime _todayDate = DateTime.now();
-
   // Format the current date in "yyyy-MM-dd" format
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
