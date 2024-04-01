@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:reddog_mobile_app/widgets/infotiles.dart';
 
 import '../../styles/colors.dart';
@@ -19,6 +21,30 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
   dynamic selectedWebsite;
   bool isSelectedFromDropDwn = false;
 
+  dynamic _selectedFromDate;
+  dynamic _selectedToDate;
+
+  void _selectDateRange(BuildContext context) async {
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2023),
+      lastDate: DateTime.now(),
+      initialDateRange: _selectedFromDate != null && _selectedToDate != null
+          ? DateTimeRange(start: _selectedFromDate, end: _selectedToDate)
+          : null,
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedFromDate = picked.start;
+        _selectedToDate = picked.end;
+      });
+    }
+  }
+
+  // Format the current date in "yyyy-MM-dd" format
+  String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -33,108 +59,123 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // drop dwn menu,calander,download button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: blackColor,
-                            ),
-                            // iconSize: 0,
-                            hint: selectedWebsite == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    'Aladdinpro - GA4',
-                                    style: dropDownTextStyle
-                                ),
-
-                                const SizedBox(width: 10),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    selectedWebsite,
-                                    style: dropDownTextStyle
-                                ),
-                                const SizedBox(width: 10),
-                              ],
-                            ),
-                            value: selectedWebsite,
-                            onChanged: (newValue) {
-                              setState(() {
-                                isSelectedFromDropDwn = true;
-                                selectedWebsite = newValue;
-                              });
-                            },
-                            items: [
-                              'Codelattice',
-                              'Alddinpro - GA4',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: dropDownTextStyle
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 0),
-
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                          height: 43,
-                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Card(
+                        elevation: 2,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Icon(
-                            Icons.calendar_month,
-                            color: blackColor,
-                            size: 20,
-                          )
-                      ),
-                    ),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton(
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down_outlined,
+                                color: blackColor,
+                              ),
+                              // iconSize: 0,
+                              hint: selectedWebsite == null
+                                  ? Row(
+                                children: [
+                                  Text(
+                                      'Aladdinpro - GA4',
+                                      style: dropDownTextStyle
+                                  ),
 
-                    const SizedBox(width: 0),
-
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Card(
-                        elevation: 2,
-                        child: Container(
-                            height: 43,
-                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(5),
+                                  const SizedBox(width: 10),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Text(
+                                      selectedWebsite,
+                                      style: dropDownTextStyle
+                                  ),
+                                  const SizedBox(width: 10),
+                                ],
+                              ),
+                              value: selectedWebsite,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  isSelectedFromDropDwn = true;
+                                  selectedWebsite = newValue;
+                                });
+                              },
+                              items: [
+                                'Codelattice',
+                                'Alddinpro - GA4',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value,
+                                      style: dropDownTextStyle
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                            child: const Icon(
-                              Icons.download,
-                              color: blackColor,
-                              size: 20,
-                            )
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      const SizedBox(width: 0),
+
+                      InkWell(
+                        onTap: () =>  _selectDateRange(context),
+                        child: Card(
+                          elevation: 2,
+                          child: Container(
+                              height: 43,
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  _selectedFromDate != null && _selectedToDate != null ?
+                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                  // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
+                                      : '2024-03-03 to ${formattedDate}',
+                                  style: dropDownTextStyle,
+                                ),
+                              ),
+                              // const Icon(
+                              //   Icons.calendar_month,
+                              //   color: blackColor,
+                              //   size: 20,
+                              // )
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 0),
+
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Card(
+                          elevation: 2,
+                          child: Container(
+                              height: 43,
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Icon(
+                                Icons.download,
+                                color: blackColor,
+                                size: 20,
+                              )
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: 10),
