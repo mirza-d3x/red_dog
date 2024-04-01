@@ -6,9 +6,9 @@ import 'package:reddog_mobile_app/styles/colors.dart';
 import '../styles/text_styles.dart';
 
 
-Widget textButton(BuildContext context, String buttonText) {
+Widget textButton(BuildContext context, String buttonText,Function callbackAction) {
   return InkWell(
-    // onTap: doSomething,
+    onTap: () => callbackAction(),
     child: SizedBox(
       height: 40,
       // width: 45,

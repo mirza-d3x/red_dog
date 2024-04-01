@@ -4,6 +4,7 @@ import 'package:reddog_mobile_app/widgets/common_button.dart';
 import 'package:reddog_mobile_app/widgets/text_field.dart';
 
 import '../../styles/text_styles.dart';
+import '../../tabView_page.dart';
 
 class CreateAnalyticsScreen extends StatefulWidget {
   const CreateAnalyticsScreen({super.key});
@@ -49,7 +50,7 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: 25),
-                      child: textButton(context, 'Submit'),
+                      child: textButton(context, 'Submit',onSubmit),
                     )
                   ],
                 ),
@@ -64,5 +65,9 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
           ),
         )
     );
+  }
+
+  onSubmit(){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const TabViewScreen()));
   }
 }

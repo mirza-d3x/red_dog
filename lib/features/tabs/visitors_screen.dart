@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
+import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
@@ -162,12 +163,17 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         //
                         // ),
 
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
 
-                        Icon(
-                          Icons.notifications_none_outlined,
-                          size: 27,
-                          color: titleTextColor,
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationListScreen()));
+                          },
+                          child: const Icon(
+                            Icons.notifications_none_outlined,
+                            size: 27,
+                            color: titleTextColor,
+                          ),
                         )
                       ],
                     ),

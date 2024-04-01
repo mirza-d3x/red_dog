@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
+import 'package:reddog_mobile_app/tabView_page.dart';
 
 import '../../styles/text_styles.dart';
 
@@ -136,31 +138,38 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 25),
                 //  Continue with Google
-                Container(
-                  decoration: BoxDecoration(
-                      // color: whiteColor,
-                      border: Border.all(
-                          color: whiteColor
-                      ),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  padding: const EdgeInsets.only(top: 13,bottom: 13),
-                  margin: const EdgeInsets.symmetric(horizontal: 45),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                          'assets/images/google.png',
-                        height: 20,
-                      ),
+                InkWell(
+                  onTap: (){
+                    _value == 'With Analytics' ?
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const TabViewScreen()))
+                        : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        // color: whiteColor,
+                        border: Border.all(
+                            color: whiteColor
+                        ),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    padding: const EdgeInsets.only(top: 13,bottom: 13),
+                    margin: const EdgeInsets.symmetric(horizontal: 45),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                            'assets/images/google.png',
+                          height: 20,
+                        ),
 
-                      const SizedBox(width: 10),
+                        const SizedBox(width: 10),
 
-                      Text(
-                        'Continue With Google',
-                        style: loginButtonTextStyle
-                      )
-                    ],
+                        Text(
+                          'Continue With Google',
+                          style: loginButtonTextStyle
+                        )
+                      ],
+                    ),
                   ),
                 ),
 

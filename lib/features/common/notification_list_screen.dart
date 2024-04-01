@@ -19,9 +19,14 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
           appBar: AppBar(
             elevation: 1,
             backgroundColor: whiteColor,
-            leading: const Icon(
-              Icons.arrow_back,
-              color: blackColor,
+            leading: InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                color: blackColor,
+              ),
             ),
             titleSpacing: 0,
             title: Text(
