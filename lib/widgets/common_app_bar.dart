@@ -9,7 +9,8 @@ AppBar commonAppBar(
   return AppBar(
     elevation: 1,
     backgroundColor: whiteColor,
-    automaticallyImplyLeading: true,
+    centerTitle: false,
+    automaticallyImplyLeading: false,
     titleSpacing: 20,
     title: Text(
       text,
