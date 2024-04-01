@@ -175,4 +175,16 @@ TextStyle messageTextStyle = const TextStyle(
   fontSize: 17,
 );
 
+TextStyle notificationTitleTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 17,
+);
+
+TextStyle notificationTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: titleTextColor,
+  fontSize: 15,
+);
+
 

@@ -46,7 +46,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                           color: whiteColor
                         ),
                         child: ListTile(
-                          leading: CircleAvatar(
+                          leading: const CircleAvatar(
                             backgroundColor: lightRedColor,
                             child: Icon(
                               Icons.notifications_none_outlined,
@@ -55,15 +55,18 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                           ),
 
                           title: Text(
-                            'Notification Title'
+                            'Notification Title',
+                            style: notificationTitleTextStyle,
                           ),
 
                           subtitle: Text(
-                            'Notification content'
+                            'Notification content',
+                            style: notificationTextStyle,
                           ),
 
                           trailing: Text(
-                            '1 Hr Ago'
+                            '1 Hr Ago',
+                            style: notificationTextStyle,
                           ),
                         ),
                       ),
