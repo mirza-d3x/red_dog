@@ -8,7 +8,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../styles/text_styles.dart';
 
 class AcquisitionScreen extends StatefulWidget {
-  const AcquisitionScreen({super.key});
+  bool withAnalytics;
+   AcquisitionScreen(this.withAnalytics,{super.key});
 
   @override
   State<AcquisitionScreen> createState() => _AcquisitionScreenState();
@@ -91,7 +92,10 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         child: Scaffold(
           appBar: commonAppBar(context, 'Acquisition'),
           backgroundColor: bgColor,
-          body: SingleChildScrollView(
+          body:
+              widget.withAnalytics == false ?
+                  withoutAnalyticsWidget():
+          SingleChildScrollView(
             padding: const EdgeInsets.all(15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

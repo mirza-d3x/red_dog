@@ -30,9 +30,9 @@ class _TabViewScreenState extends State<TabViewScreen> {
           physics: const NeverScrollableScrollPhysics(),
           children: [
              VisitorsScreen(widget.withAnalytics),
-             AcquisitionScreen(),
-             ServerScreen(),
-             EnquiryScreen(),
+             AcquisitionScreen(widget.withAnalytics),
+             const ServerScreen(),
+             const EnquiryScreen(),
           ],
         ),
         bottomNavigationBar: TabBar(
