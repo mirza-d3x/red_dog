@@ -40,6 +40,8 @@ dependencies:
   percent_indicator: ^4.2.3
   countries_world_map: ^1.1.0
   fl_chart: ^0.66.2
+  table_calendar: ^3.0.8
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

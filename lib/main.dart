@@ -4,6 +4,7 @@ import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
 import 'package:reddog_mobile_app/features/common/splash_screen.dart';
 import 'package:reddog_mobile_app/features/example.dart';
+import 'package:reddog_mobile_app/features/examples.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home: const SplashScreen(),
+      home:  TabViewScreen(true),
     );
   }
 }

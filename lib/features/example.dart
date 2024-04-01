@@ -1,81 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:reddog_mobile_app/styles/colors.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../styles/text_styles.dart';
-
-class ChartScreen extends StatefulWidget {
-  const ChartScreen({super.key});
+class ExampleDate extends StatefulWidget {
+  const ExampleDate({super.key});
 
   @override
-  State<ChartScreen> createState() => _ChartScreenState();
+  State<ExampleDate> createState() => _ExampleDateState();
 }
 
-class _ChartScreenState extends State<ChartScreen> {
+class _ExampleDateState extends State<ExampleDate> {
 
-  final List<ChartData> chartData = [
-    ChartData('01 Mar', 12, 35, 40),
-    ChartData('02 Mar', 14, 11, 18),
-    ChartData('03 Mar', 16, 50, 50),
-    ChartData('04 Mar', 18, 16, 18),
-    ChartData('06 Mar', 18, 16, 18),
-    ChartData('07 Mar', 18, 16, 18)
-  ];
+  dynamic _fromDate;
+  dynamic _toDate;
+
+  // // Function to show date picker for 'From' date
+  // Future<void> _selectFromDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: _fromDate ?? DateTime.now(),
+  //     firstDate: DateTime(2015, 8),
+  //     lastDate: DateTime(2101),
+  //   );
+  //   if (picked != null && picked != _fromDate) {
+  //     setState(() {
+  //       _fromDate = picked;
+  //     });
+  //   }
+  // }
+  //
+  // // Function to show date picker for 'To' date
+  // Future<void> _selectToDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: _toDate ?? DateTime.now(),
+  //     firstDate: DateTime(2015, 8),
+  //     lastDate: DateTime(2101),
+  //   );
+  //   if (picked != null && picked != _toDate) {
+  //     setState(() {
+  //       _toDate = picked;
+  //     });
+  //   }
+  // }
+
+  dynamic _selectedFromDate;
+  dynamic _selectedToDate;
+
+  void _selectDateRange(BuildContext context) async {
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2025),
+      initialDateRange: _selectedFromDate != null && _selectedToDate != null
+          ? DateTimeRange(start: _selectedFromDate, end: _selectedToDate)
+          : null,
+    );
+
+    if (picked != null) {
+      setState(() {
+        _selectedFromDate = picked.start;
+        _selectedToDate = picked.end;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          body: Center(
-              child: Container(
-                height: 200,
-                  child: SfCartesianChart(
-                      plotAreaBorderWidth: 0,
-                      primaryXAxis: CategoryAxis(
-                          majorGridLines: const MajorGridLines(width: 0),
-                        labelStyle: graphIndexTextStyle
-                      ),
-                       primaryYAxis: NumericAxis(
-                         labelStyle: graphIndexTextStyle,
-                         majorGridLines: const MajorGridLines(width: 0),
-                      visibleMinimum: 0, // Set the minimum visible value
-                      visibleMaximum: 149, // Set the maximum visible value
-                      interval: 30, // Set the interval here
-                  ),
-                      series: <CartesianSeries>[
-                        StackedColumnSeries<ChartData, String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y1,
-                          width: 0.4,
-                          color: referralBarColor
-                        ),
-                        StackedColumnSeries<ChartData, String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y2,
-                            width: 0.4,
-                          color: unknownBarColor
-                        ),
-                        StackedColumnSeries<ChartData,String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y3,
-                            width: 0.4,
-                          color: organicBarColor
-                        ),
-                      ]
-                  )
-              )
-          )
-      ),
+    return  Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: () => _selectDateRange(context),
+          child: Text('Select Date Range'),
+        ),
+        SizedBox(height: 20),
+        Text(
+          _selectedFromDate != null && _selectedToDate != null
+              ? 'From: ${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
+              : 'Date range not selected',
+        ),
+      ],
     );
+    //   Column(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: <Widget>[
+    //     TextButton(
+    //       onPressed: () => _selectFromDate(context),
+    //       child: Text(_fromDate == null ? 'Select From Date' : 'From: ${_fromDate!.toString().substring(0, 10)}'),
+    //     ),
+    //     SizedBox(height: 20),
+    //     TextButton(
+    //       onPressed: () => _selectToDate(context),
+    //       child: Text(_toDate == null ? 'Select To Date' : 'To: ${_toDate!.toString().substring(0, 10)}'),
+    //     ),
+    //     SizedBox(height: 20),
+    //     Text(
+    //       _fromDate != null && _toDate != null
+    //           ? 'Selected date range: ${_fromDate!.toString().substring(0, 10)} - ${_toDate!.toString().substring(0, 10)}'
+    //           : '',
+    //       style: TextStyle(fontSize: 18),
+    //     ),
+    //   ],
+    // );
   }
-}
-class ChartData{
-  ChartData(this.x, this.y1, this.y2, this.y3);
-  final String x;
-  final double y1;
-  final double y2;
-  final double y3;
 }
