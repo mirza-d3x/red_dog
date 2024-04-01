@@ -68,6 +68,6 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
   }
 
   onSubmit(){
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const TabViewScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(false)));
   }
 }

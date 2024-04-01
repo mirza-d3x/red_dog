@@ -141,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 InkWell(
                   onTap: (){
                     _value == 'With Analytics' ?
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const TabViewScreen()))
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)))
                         : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
                   },
                   child: Container(

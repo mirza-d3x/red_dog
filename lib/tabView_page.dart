@@ -7,7 +7,10 @@ import 'package:reddog_mobile_app/features/tabs/visitors_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 
 class TabViewScreen extends StatefulWidget {
-  const TabViewScreen({super.key});
+  bool withAnalytics;
+   TabViewScreen(
+      this.withAnalytics,
+      {super.key});
 
   @override
   State<TabViewScreen> createState() => _TabViewScreenState();
@@ -23,10 +26,10 @@ class _TabViewScreenState extends State<TabViewScreen> {
       length: 4,
       initialIndex: tabIndex,
       child: Scaffold(
-        body: const TabBarView(
-          physics: NeverScrollableScrollPhysics(),
+        body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
-             VisitorsScreen(),
+             VisitorsScreen(widget.withAnalytics),
              AcquisitionScreen(),
              ServerScreen(),
              EnquiryScreen(),

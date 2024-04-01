@@ -16,7 +16,10 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
 class VisitorsScreen extends StatefulWidget {
-  const VisitorsScreen({super.key});
+  bool withAnalytics;
+   VisitorsScreen(
+      this.withAnalytics,
+      {super.key});
 
   @override
   State<VisitorsScreen> createState() => _VisitorsScreenState();
@@ -184,7 +187,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
           backgroundColor: bgColor,
           body:
-          // withoutAnalyticsWidget()
+              widget.withAnalytics == false ?
+          withoutAnalyticsWidget() :
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SingleChildScrollView(
