@@ -406,66 +406,67 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         'Visitors trending time?',
                         style: normalTextStyle,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 30,
-                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: visitorTimeDropDown == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Weekly',
-                                      style: durationDropDownTextStyle
-                                  ),
 
-                                  const SizedBox(width: 5),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      visitorTimeDropDown,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 5),
-                                ],
-                              ),
-                              value: visitorTimeDropDown,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedVisitor = true;
-                                  visitorTimeDropDown = newValue;
-                                });
-                              },
-                              items: [
-                                'Weekly',
-                                'Monthly',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Card(
+                      //   elevation: 2,
+                      //   child: Container(
+                      //     height: 30,
+                      //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      //     padding: const EdgeInsets.only(left: 10,right: 10),
+                      //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                      //     decoration: BoxDecoration(
+                      //       color: whiteColor,
+                      //       borderRadius: BorderRadius.circular(5),
+                      //     ),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         icon: const Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: blackColor,
+                      //         ),
+                      //         // iconSize: 0,
+                      //         hint: visitorTimeDropDown == null
+                      //             ? Row(
+                      //           children: [
+                      //             Text(
+                      //                 'Weekly',
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         )
+                      //             : Row(
+                      //           children: [
+                      //             Text(
+                      //                 visitorTimeDropDown,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         ),
+                      //         value: visitorTimeDropDown,
+                      //         onChanged: (newValue) {
+                      //           setState(() {
+                      //             isSelectedVisitor = true;
+                      //             visitorTimeDropDown = newValue;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           'Weekly',
+                      //           'Monthly',
+                      //         ].map((String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value,
+                      //             child: Text(value,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //           );
+                      //         }).toList(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -529,66 +530,66 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         style: normalTextStyle,
                       ),
 
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 30,
-                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: retainedVisitorDropDown == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Weekly',
-                                      style: durationDropDownTextStyle
-                                  ),
-
-                                  const SizedBox(width: 5),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      retainedVisitorDropDown,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 5),
-                                ],
-                              ),
-                              value: retainedVisitorDropDown,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedRetainedVisitor = true;
-                                  retainedVisitorDropDown = newValue;
-                                });
-                              },
-                              items: [
-                                'Weekly',
-                                'Monthly',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      )
+                      // Card(
+                      //   elevation: 2,
+                      //   child: Container(
+                      //     height: 30,
+                      //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      //     padding: const EdgeInsets.only(left: 10,right: 10),
+                      //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                      //     decoration: BoxDecoration(
+                      //       color: whiteColor,
+                      //       borderRadius: BorderRadius.circular(5),
+                      //     ),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         icon: const Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: blackColor,
+                      //         ),
+                      //         // iconSize: 0,
+                      //         hint: retainedVisitorDropDown == null
+                      //             ? Row(
+                      //           children: [
+                      //             Text(
+                      //                 'Weekly',
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         )
+                      //             : Row(
+                      //           children: [
+                      //             Text(
+                      //                 retainedVisitorDropDown,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         ),
+                      //         value: retainedVisitorDropDown,
+                      //         onChanged: (newValue) {
+                      //           setState(() {
+                      //             isSelectedRetainedVisitor = true;
+                      //             retainedVisitorDropDown = newValue;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           'Weekly',
+                      //           'Monthly',
+                      //         ].map((String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value,
+                      //             child: Text(value,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //           );
+                      //         }).toList(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
 
@@ -658,66 +659,66 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         'Your Visitors from?',
                         style: normalTextStyle,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 30,
-                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: visitorsFromDropDown == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Weekly',
-                                      style: durationDropDownTextStyle
-                                  ),
-
-                                  const SizedBox(width: 5),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      visitorsFromDropDown,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 5),
-                                ],
-                              ),
-                              value: visitorsFromDropDown,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedVisitorFrom = true;
-                                  visitorsFromDropDown = newValue;
-                                });
-                              },
-                              items: [
-                                'Weekly',
-                                'Monthly',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      )
+                      // Card(
+                      //   elevation: 2,
+                      //   child: Container(
+                      //     height: 30,
+                      //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      //     padding: const EdgeInsets.only(left: 10,right: 10),
+                      //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                      //     decoration: BoxDecoration(
+                      //       color: whiteColor,
+                      //       borderRadius: BorderRadius.circular(5),
+                      //     ),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         icon: const Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: blackColor,
+                      //         ),
+                      //         // iconSize: 0,
+                      //         hint: visitorsFromDropDown == null
+                      //             ? Row(
+                      //           children: [
+                      //             Text(
+                      //                 'Weekly',
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         )
+                      //             : Row(
+                      //           children: [
+                      //             Text(
+                      //                 visitorsFromDropDown,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         ),
+                      //         value: visitorsFromDropDown,
+                      //         onChanged: (newValue) {
+                      //           setState(() {
+                      //             isSelectedVisitorFrom = true;
+                      //             visitorsFromDropDown = newValue;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           'Weekly',
+                      //           'Monthly',
+                      //         ].map((String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value,
+                      //             child: Text(value,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //           );
+                      //         }).toList(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
 
@@ -883,66 +884,66 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         'What language do they speak?',
                         style: normalTextStyle,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 30,
-                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: languagePeriodDropDown == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Weekly',
-                                      style: durationDropDownTextStyle
-                                  ),
-
-                                  const SizedBox(width: 5),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      languagePeriodDropDown,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 5),
-                                ],
-                              ),
-                              value: languagePeriodDropDown,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedLanguage = true;
-                                  languagePeriodDropDown = newValue;
-                                });
-                              },
-                              items: [
-                                'Weekly',
-                                'Monthly',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      )
+                      // Card(
+                      //   elevation: 2,
+                      //   child: Container(
+                      //     height: 30,
+                      //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      //     padding: const EdgeInsets.only(left: 10,right: 10),
+                      //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                      //     decoration: BoxDecoration(
+                      //       color: whiteColor,
+                      //       borderRadius: BorderRadius.circular(5),
+                      //     ),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         icon: const Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: blackColor,
+                      //         ),
+                      //         // iconSize: 0,
+                      //         hint: languagePeriodDropDown == null
+                      //             ? Row(
+                      //           children: [
+                      //             Text(
+                      //                 'Weekly',
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         )
+                      //             : Row(
+                      //           children: [
+                      //             Text(
+                      //                 languagePeriodDropDown,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         ),
+                      //         value: languagePeriodDropDown,
+                      //         onChanged: (newValue) {
+                      //           setState(() {
+                      //             isSelectedLanguage = true;
+                      //             languagePeriodDropDown = newValue;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           'Weekly',
+                      //           'Monthly',
+                      //         ].map((String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value,
+                      //             child: Text(value,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //           );
+                      //         }).toList(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -1084,66 +1085,66 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         'What is their age group?',
                         style: normalTextStyle,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 30,
-                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: agePeriodDropDown == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Weekly',
-                                      style: durationDropDownTextStyle
-                                  ),
-
-                                  const SizedBox(width: 5),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      agePeriodDropDown,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 5),
-                                ],
-                              ),
-                              value: agePeriodDropDown,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedAge = true;
-                                  agePeriodDropDown = newValue;
-                                });
-                              },
-                              items: [
-                                'Weekly',
-                                'Monthly',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      )
+                      // Card(
+                      //   elevation: 2,
+                      //   child: Container(
+                      //     height: 30,
+                      //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      //     padding: const EdgeInsets.only(left: 10,right: 10),
+                      //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                      //     decoration: BoxDecoration(
+                      //       color: whiteColor,
+                      //       borderRadius: BorderRadius.circular(5),
+                      //     ),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         icon: const Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: blackColor,
+                      //         ),
+                      //         // iconSize: 0,
+                      //         hint: agePeriodDropDown == null
+                      //             ? Row(
+                      //           children: [
+                      //             Text(
+                      //                 'Weekly',
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         )
+                      //             : Row(
+                      //           children: [
+                      //             Text(
+                      //                 agePeriodDropDown,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         ),
+                      //         value: agePeriodDropDown,
+                      //         onChanged: (newValue) {
+                      //           setState(() {
+                      //             isSelectedAge = true;
+                      //             agePeriodDropDown = newValue;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           'Weekly',
+                      //           'Monthly',
+                      //         ].map((String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value,
+                      //             child: Text(value,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //           );
+                      //         }).toList(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -1170,66 +1171,66 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         'What is their gender?',
                         style: normalTextStyle,
                       ),
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 30,
-                          // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          padding: const EdgeInsets.only(left: 10,right: 10),
-                          // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: genderPeriodDropDown == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Weekly',
-                                      style: durationDropDownTextStyle
-                                  ),
-
-                                  const SizedBox(width: 5),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      genderPeriodDropDown,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 5),
-                                ],
-                              ),
-                              value: genderPeriodDropDown,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedGender = true;
-                                  genderPeriodDropDown = newValue;
-                                });
-                              },
-                              items: [
-                                'Weekly',
-                                'Monthly',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: durationDropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      )
+                      // Card(
+                      //   elevation: 2,
+                      //   child: Container(
+                      //     height: 30,
+                      //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      //     padding: const EdgeInsets.only(left: 10,right: 10),
+                      //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                      //     decoration: BoxDecoration(
+                      //       color: whiteColor,
+                      //       borderRadius: BorderRadius.circular(5),
+                      //     ),
+                      //     child: DropdownButtonHideUnderline(
+                      //       child: DropdownButton(
+                      //         icon: const Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: blackColor,
+                      //         ),
+                      //         // iconSize: 0,
+                      //         hint: genderPeriodDropDown == null
+                      //             ? Row(
+                      //           children: [
+                      //             Text(
+                      //                 'Weekly',
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         )
+                      //             : Row(
+                      //           children: [
+                      //             Text(
+                      //                 genderPeriodDropDown,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //             const SizedBox(width: 5),
+                      //           ],
+                      //         ),
+                      //         value: genderPeriodDropDown,
+                      //         onChanged: (newValue) {
+                      //           setState(() {
+                      //             isSelectedGender = true;
+                      //             genderPeriodDropDown = newValue;
+                      //           });
+                      //         },
+                      //         items: [
+                      //           'Weekly',
+                      //           'Monthly',
+                      //         ].map((String value) {
+                      //           return DropdownMenuItem<String>(
+                      //             value: value,
+                      //             child: Text(value,
+                      //                 style: durationDropDownTextStyle
+                      //             ),
+                      //           );
+                      //         }).toList(),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                   const SizedBox(height: 10),

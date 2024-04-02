@@ -257,66 +257,66 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       'Visitors trending time?',
                       style: normalTextStyle,
                     ),
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                        height: 30,
-                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        padding: const EdgeInsets.only(left: 10,right: 10),
-                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: blackColor,
-                            ),
-                            // iconSize: 0,
-                            hint: peopleTimeDropDown == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    'Monthly',
-                                    style: durationDropDownTextStyle
-                                ),
-
-                                const SizedBox(width: 5),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    peopleTimeDropDown,
-                                    style: durationDropDownTextStyle
-                                ),
-                                const SizedBox(width: 5),
-                              ],
-                            ),
-                            value: peopleTimeDropDown,
-                            onChanged: (newValue) {
-                              setState(() {
-                                isSelectedPeopleFound = true;
-                                peopleTimeDropDown = newValue;
-                              });
-                            },
-                            items: [
-                              'Weekly',
-                              'Monthly',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: durationDropDownTextStyle
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Card(
+                    //   elevation: 2,
+                    //   child: Container(
+                    //     height: 30,
+                    //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                    //     padding: const EdgeInsets.only(left: 10,right: 10),
+                    //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                    //     decoration: BoxDecoration(
+                    //       color: whiteColor,
+                    //       borderRadius: BorderRadius.circular(5),
+                    //     ),
+                    //     child: DropdownButtonHideUnderline(
+                    //       child: DropdownButton(
+                    //         icon: const Icon(
+                    //           Icons.keyboard_arrow_down_outlined,
+                    //           color: blackColor,
+                    //         ),
+                    //         // iconSize: 0,
+                    //         hint: peopleTimeDropDown == null
+                    //             ? Row(
+                    //           children: [
+                    //             Text(
+                    //                 'Monthly',
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         )
+                    //             : Row(
+                    //           children: [
+                    //             Text(
+                    //                 peopleTimeDropDown,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         ),
+                    //         value: peopleTimeDropDown,
+                    //         onChanged: (newValue) {
+                    //           setState(() {
+                    //             isSelectedPeopleFound = true;
+                    //             peopleTimeDropDown = newValue;
+                    //           });
+                    //         },
+                    //         items: [
+                    //           'Weekly',
+                    //           'Monthly',
+                    //         ].map((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Text(value,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //           );
+                    //         }).toList(),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -501,66 +501,66 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       'What are the traffic sources?',
                       style: normalTextStyle,
                     ),
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                        height: 30,
-                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        padding: const EdgeInsets.only(left: 10,right: 10),
-                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: blackColor,
-                            ),
-                            // iconSize: 0,
-                            hint: trafficTimeDropDown == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    'Monthly',
-                                    style: durationDropDownTextStyle
-                                ),
-
-                                const SizedBox(width: 5),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    trafficTimeDropDown,
-                                    style: durationDropDownTextStyle
-                                ),
-                                const SizedBox(width: 5),
-                              ],
-                            ),
-                            value: trafficTimeDropDown,
-                            onChanged: (newValue) {
-                              setState(() {
-                                isSelectedTrafficTime = true;
-                                trafficTimeDropDown = newValue;
-                              });
-                            },
-                            items: [
-                              'Weekly',
-                              'Monthly',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: durationDropDownTextStyle
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Card(
+                    //   elevation: 2,
+                    //   child: Container(
+                    //     height: 30,
+                    //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                    //     padding: const EdgeInsets.only(left: 10,right: 10),
+                    //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                    //     decoration: BoxDecoration(
+                    //       color: whiteColor,
+                    //       borderRadius: BorderRadius.circular(5),
+                    //     ),
+                    //     child: DropdownButtonHideUnderline(
+                    //       child: DropdownButton(
+                    //         icon: const Icon(
+                    //           Icons.keyboard_arrow_down_outlined,
+                    //           color: blackColor,
+                    //         ),
+                    //         // iconSize: 0,
+                    //         hint: trafficTimeDropDown == null
+                    //             ? Row(
+                    //           children: [
+                    //             Text(
+                    //                 'Monthly',
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         )
+                    //             : Row(
+                    //           children: [
+                    //             Text(
+                    //                 trafficTimeDropDown,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         ),
+                    //         value: trafficTimeDropDown,
+                    //         onChanged: (newValue) {
+                    //           setState(() {
+                    //             isSelectedTrafficTime = true;
+                    //             trafficTimeDropDown = newValue;
+                    //           });
+                    //         },
+                    //         items: [
+                    //           'Weekly',
+                    //           'Monthly',
+                    //         ].map((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Text(value,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //           );
+                    //         }).toList(),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -865,66 +865,66 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       'What are the most visited pages?',
                       style: normalTextStyle,
                     ),
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                        height: 30,
-                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        padding: const EdgeInsets.only(left: 10,right: 10),
-                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: blackColor,
-                            ),
-                            // iconSize: 0,
-                            hint: mostVisitedOptionDropDown == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    'Monthly',
-                                    style: durationDropDownTextStyle
-                                ),
-
-                                const SizedBox(width: 5),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    mostVisitedOptionDropDown,
-                                    style: durationDropDownTextStyle
-                                ),
-                                const SizedBox(width: 5),
-                              ],
-                            ),
-                            value: mostVisitedOptionDropDown,
-                            onChanged: (newValue) {
-                              setState(() {
-                                isSelectedMostVisited = true;
-                                mostVisitedOptionDropDown = newValue;
-                              });
-                            },
-                            items: [
-                              'Weekly',
-                              'Monthly',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: durationDropDownTextStyle
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Card(
+                    //   elevation: 2,
+                    //   child: Container(
+                    //     height: 30,
+                    //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                    //     padding: const EdgeInsets.only(left: 10,right: 10),
+                    //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                    //     decoration: BoxDecoration(
+                    //       color: whiteColor,
+                    //       borderRadius: BorderRadius.circular(5),
+                    //     ),
+                    //     child: DropdownButtonHideUnderline(
+                    //       child: DropdownButton(
+                    //         icon: const Icon(
+                    //           Icons.keyboard_arrow_down_outlined,
+                    //           color: blackColor,
+                    //         ),
+                    //         // iconSize: 0,
+                    //         hint: mostVisitedOptionDropDown == null
+                    //             ? Row(
+                    //           children: [
+                    //             Text(
+                    //                 'Monthly',
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         )
+                    //             : Row(
+                    //           children: [
+                    //             Text(
+                    //                 mostVisitedOptionDropDown,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         ),
+                    //         value: mostVisitedOptionDropDown,
+                    //         onChanged: (newValue) {
+                    //           setState(() {
+                    //             isSelectedMostVisited = true;
+                    //             mostVisitedOptionDropDown = newValue;
+                    //           });
+                    //         },
+                    //         items: [
+                    //           'Weekly',
+                    //           'Monthly',
+                    //         ].map((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Text(value,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //           );
+                    //         }).toList(),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -1000,66 +1000,66 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       'What are the devices used',
                       style: normalTextStyle,
                     ),
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                        height: 30,
-                        // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        padding: const EdgeInsets.only(left: 10,right: 10),
-                        // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: blackColor,
-                            ),
-                            // iconSize: 0,
-                            hint: deviceTypeOptionDropDown == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    'Monthly',
-                                    style: durationDropDownTextStyle
-                                ),
-
-                                const SizedBox(width: 5),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    deviceTypeOptionDropDown,
-                                    style: durationDropDownTextStyle
-                                ),
-                                const SizedBox(width: 5),
-                              ],
-                            ),
-                            value: deviceTypeOptionDropDown,
-                            onChanged: (newValue) {
-                              setState(() {
-                                isSelectedDeviceType = true;
-                                deviceTypeOptionDropDown = newValue;
-                              });
-                            },
-                            items: [
-                              'Weekly',
-                              'Monthly',
-                            ].map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value,
-                                    style: durationDropDownTextStyle
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Card(
+                    //   elevation: 2,
+                    //   child: Container(
+                    //     height: 30,
+                    //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                    //     padding: const EdgeInsets.only(left: 10,right: 10),
+                    //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                    //     decoration: BoxDecoration(
+                    //       color: whiteColor,
+                    //       borderRadius: BorderRadius.circular(5),
+                    //     ),
+                    //     child: DropdownButtonHideUnderline(
+                    //       child: DropdownButton(
+                    //         icon: const Icon(
+                    //           Icons.keyboard_arrow_down_outlined,
+                    //           color: blackColor,
+                    //         ),
+                    //         // iconSize: 0,
+                    //         hint: deviceTypeOptionDropDown == null
+                    //             ? Row(
+                    //           children: [
+                    //             Text(
+                    //                 'Monthly',
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         )
+                    //             : Row(
+                    //           children: [
+                    //             Text(
+                    //                 deviceTypeOptionDropDown,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //             const SizedBox(width: 5),
+                    //           ],
+                    //         ),
+                    //         value: deviceTypeOptionDropDown,
+                    //         onChanged: (newValue) {
+                    //           setState(() {
+                    //             isSelectedDeviceType = true;
+                    //             deviceTypeOptionDropDown = newValue;
+                    //           });
+                    //         },
+                    //         items: [
+                    //           'Weekly',
+                    //           'Monthly',
+                    //         ].map((String value) {
+                    //           return DropdownMenuItem<String>(
+                    //             value: value,
+                    //             child: Text(value,
+                    //                 style: durationDropDownTextStyle
+                    //             ),
+                    //           );
+                    //         }).toList(),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(height: 10),
