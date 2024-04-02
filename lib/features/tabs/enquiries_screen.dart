@@ -31,7 +31,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
       lastDate: DateTime.now(),
       initialDateRange: _selectedFromDate != null && _selectedToDate != null
           ? DateTimeRange(start: _selectedFromDate, end: _selectedToDate)
-          : null,
+          : DateTimeRange(start: DateTime(2024, 3, 3), end: DateTime.now()),
     );
 
     if (picked != null) {
@@ -135,7 +135,8 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                 color: whiteColor,
                                 borderRadius: BorderRadius.circular(5),
                               ),
-                              child: Center(
+                              child:
+                              Center(
                                 child: Text(
                                   _selectedFromDate != null && _selectedToDate != null ?
                                   '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
