@@ -193,4 +193,10 @@ TextStyle errorTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle tableOptionTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 17,
+);
+
 

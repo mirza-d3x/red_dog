@@ -8,6 +8,7 @@ import 'package:reddog_mobile_app/features/examples.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
+import 'package:reddog_mobile_app/widgets/tiles_full_width.dart';
 import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -120,6 +121,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   // Format the current date in "yyyy-MM-dd" format
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
+  String selectedOption = 'Country';
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +382,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   ),
 
                   const SizedBox(height: 8),
-                  tiles(context, 'AVG SESSION DURATION', '106.46 S'),
+                  tilesFullWidth(context, 'AVG SESSION DURATION', '106.46 S'),
 
 
                   // tiles('VISITORS', '140'),
@@ -767,6 +769,50 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5,top: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      selectedOption = 'Country';
+                                    });
+                                  },
+                                  child: Text(
+                                    'Country',
+                                    style: TextStyle(
+                                      fontFamily: 'Barlow-Medium',
+                                      color: selectedOption == 'Country' ? redColor : blackColor,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+
+                                const SizedBox(width: 20),
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      selectedOption = 'City';
+                                    });
+                                  },
+                                  child: Text(
+                                    'City',
+                                    style: TextStyle(
+                                      fontFamily: 'Barlow-Medium',
+                                      color: selectedOption == 'City' ? redColor : blackColor,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+                          selectedOption == 'Country' ?
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -793,6 +839,33 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 ),
                               )
                             ],
+                          ):
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Text(
+                                  'City',
+                                  style: tableTitleTextStyle,
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  'Users',
+                                  style: tableTitleTextStyle,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 35),
+                                child: Text(
+                                  '%',
+                                  style: tableTitleTextStyle,
+                                ),
+                              )
+                            ],
                           ),
 
                           const SizedBox(height: 3),
@@ -802,6 +875,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                           const SizedBox(height: 3),
 
+                          selectedOption == 'Country' ?
                           Expanded(
                             child: Scrollbar(
                               thumbVisibility: true,
@@ -869,7 +943,75 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 ),
                               ),
                             ),
-                          ),
+                          ):
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5,left: 5),
+                                child: ListView.builder(
+                                  itemCount: 20,
+                                  shrinkWrap: true,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder: (context,index) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Text(
+                                              //   '${index + 1}',
+                                              //   style: tableContentTextStyle,
+                                              // ),
+
+                                              Text(
+                                                'Kochi',
+                                                style: tableContentTextStyle,
+                                              ),
+
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 30),
+                                                child: Text(
+                                                  '1051',
+                                                  style: tableContentTextStyle,
+                                                ),
+                                              ),
+
+                                              LinearPercentIndicator(
+                                                width: 65.0,
+                                                lineHeight: 14.0,
+                                                percent: 0.8, //percent value must be between 0.0 and 1.0
+                                                backgroundColor: whiteColor,
+                                                progressColor: percentageIndicatorColor,
+                                                center: Text(
+                                                  '83.10%',
+                                                  style: percentTextStyle,
+                                                ),
+                                              ),
+
+
+                                              // Text(
+                                              //   '83.10%',
+                                              //   style: tableContentTextStyle,
+                                              // )
+                                            ],
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 3),
+                                        const Divider(
+                                          color: dividerColor,
+                                        ),
+                                        const SizedBox(height: 3),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
