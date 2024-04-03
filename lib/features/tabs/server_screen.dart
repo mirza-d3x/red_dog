@@ -62,12 +62,11 @@ class _ServerScreenState extends State<ServerScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // drop dwn menu,calander,download button
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Card(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Card(
                         elevation: 2,
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -124,42 +123,53 @@ class _ServerScreenState extends State<ServerScreen> {
                           ),
                         ),
                       ),
+                    ),
+                  ],
+                ),
 
-                      const SizedBox(width: 0),
+                const SizedBox(height: 5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: InkWell(
 
-                      InkWell(
                         onTap: () =>  _selectDateRange(context),
                         child: Card(
                           elevation: 2,
                           child: Container(
-                              height: 43,
-                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(5),
+                            height: 43,
+                            // padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child:
+                            Center(
+                              child: Text(
+                                _selectedFromDate != null && _selectedToDate != null ?
+                                '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
+                                    : '2024-03-03 to ${formattedDate}',
+                                style: dropDownTextStyle,
                               ),
-                              child:
-                              Center(
-                                child: Text(
-                                  _selectedFromDate != null && _selectedToDate != null ?
-                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                  // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
-                                      : '2024-03-03 to ${formattedDate}',
-                                  style: dropDownTextStyle,
-                                ),
-                              ),
-                              // const Icon(
-                              //   Icons.calendar_month,
-                              //   color: blackColor,
-                              //   size: 20,
-                              // )
+                            ),
+                            // const Icon(
+                            //   Icons.calendar_month,
+                            //   color: blackColor,
+                            //   size: 20,
+                            // )
                           ),
                         ),
                       ),
+                    ),
 
-                      const SizedBox(width: 0),
+                    const SizedBox(width: 5),
 
-                      Padding(
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Card(
                           elevation: 2,
@@ -178,8 +188,8 @@ class _ServerScreenState extends State<ServerScreen> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 10),
