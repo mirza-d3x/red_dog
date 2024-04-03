@@ -496,9 +496,71 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                'Previous notes',
-                                                style: noteTextStyle,
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: const BorderRadius.only(
+                                                        topRight: Radius.circular(8),
+                                                        topLeft: Radius.circular(8),
+                                                        bottomLeft: Radius.circular(8),
+                                                      ),
+                                                      color: unselectedRadioColor
+                                                    ),
+                                                    child: Text(
+                                                      'Previous notes',
+                                                      style: noteTextStyle,
+                                                    ),
+                                                  ),
+
+                                                  const SizedBox(width: 25),
+
+                                                  PopupMenuButton(
+                                                    child: Icon(
+                                                      Icons.more_vert_outlined,
+                                                      size: 20,
+                                                    ),
+                                                    itemBuilder: (BuildContext context) {
+                                                      return <PopupMenuItem<String>>[
+                                                        PopupMenuItem<String>(
+                                                          child: TextButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                  'Edit',
+                                                                  style: popupMenuTextStyle,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+
+                                                            },
+                                                          ),
+                                                          height: 31,
+                                                        ),
+                                                        PopupMenuItem<String>(
+                                                          child: TextButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              children: [
+                                                                Text('Remove',
+                                                                    style: popupMenuTextStyle
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+                                                            },
+                                                          ),
+                                                          height: 31,
+                                                        ),
+                                                      ];
+                                                    },
+                                                  )
+                                                ],
                                               ),
 
                                               const SizedBox(height: 8),
@@ -835,9 +897,71 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                                     Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Text(
-                                                          'Previous notes',
-                                                          style: noteTextStyle,
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              padding: EdgeInsets.all(10),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius: const BorderRadius.only(
+                                                                    topRight: Radius.circular(8),
+                                                                    topLeft: Radius.circular(8),
+                                                                    bottomLeft: Radius.circular(8),
+                                                                  ),
+                                                                  color: unselectedRadioColor
+                                                              ),
+                                                              child: Text(
+                                                                'Previous notes',
+                                                                style: noteTextStyle,
+                                                              ),
+                                                            ),
+
+                                                            const SizedBox(width: 25),
+
+                                                            PopupMenuButton(
+                                                              child: Icon(
+                                                                Icons.more_vert_outlined,
+                                                                size: 20,
+                                                              ),
+                                                              itemBuilder: (BuildContext context) {
+                                                                return <PopupMenuItem<String>>[
+                                                                  PopupMenuItem<String>(
+                                                                    child: TextButton(
+                                                                      child: Row(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Text(
+                                                                            'Edit',
+                                                                            style: popupMenuTextStyle,
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      onPressed: () {
+
+                                                                      },
+                                                                    ),
+                                                                    height: 31,
+                                                                  ),
+                                                                  PopupMenuItem<String>(
+                                                                    child: TextButton(
+                                                                      child: Row(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Text('Remove',
+                                                                              style: popupMenuTextStyle
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      onPressed: () {
+                                                                      },
+                                                                    ),
+                                                                    height: 31,
+                                                                  ),
+                                                                ];
+                                                              },
+                                                            )
+                                                          ],
                                                         ),
 
                                                         const SizedBox(height: 8),

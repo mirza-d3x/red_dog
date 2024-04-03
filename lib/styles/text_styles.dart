@@ -217,4 +217,10 @@ TextStyle noteTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle popupMenuTextStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 13,
+);
+
 
