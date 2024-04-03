@@ -203,9 +203,54 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                 const SizedBox(height: 15),
 
               // List
-                Text(
-                  'Lead Details',
-                  style: normalTextStyle,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Lead Details',
+                      style: normalTextStyle,
+                    ),
+
+                    Row(
+                      children: [
+                        Card(
+                          elevation: 2,
+                          child: Container(
+                              height: 43,
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Icon(
+                                Icons.search_outlined,
+                                color: blackColor,
+                                size: 22,
+                              )
+                          ),
+                        ),
+
+                        const SizedBox(width: 5),
+
+                        Card(
+                          elevation: 2,
+                          child: Container(
+                              height: 43,
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Icon(
+                                Icons.filter_alt_outlined,
+                                color: blackColor,
+                                size: 22,
+                              )
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 10),
