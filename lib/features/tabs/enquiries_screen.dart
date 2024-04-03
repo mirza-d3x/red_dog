@@ -42,8 +42,14 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
     }
   }
 
+  TextEditingController searchKeywordController = TextEditingController();
+
   // Format the current date in "yyyy-MM-dd" format
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  dynamic selectedValue;
+  bool isSortSelected = false;
+  dynamic sortOrder;
 
   @override
   Widget build(BuildContext context) {
@@ -215,39 +221,99 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                       children: [
                         Card(
                           elevation: 2,
-                          child: Container(
-                              height: 43,
-                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Icon(
-                                Icons.search_outlined,
-                                color: blackColor,
-                                size: 22,
-                              )
+                          child: InkWell(
+                            onTap: (){
+                              searchModal(context);
+                            },
+                            child: Container(
+                                height: 43,
+                                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: const Icon(
+                                  Icons.search_outlined,
+                                  color: blackColor,
+                                  size: 22,
+                                )
+                            ),
                           ),
                         ),
 
                         const SizedBox(width: 5),
 
                         Card(
-                          elevation: 2,
                           child: Container(
-                              height: 43,
-                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Icon(
-                                Icons.filter_alt_outlined,
-                                color: blackColor,
-                                size: 22,
-                              )
+                            height: 43,
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Stack(
+                              children: [
+                                DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    hint: selectedValue == null
+                                        ? Text(
+                                      'Filter',
+                                      style: filterTextStyle,
+                                    )
+                                        : Text(
+                                      selectedValue,
+                                      style: filterTextStyle,
+                                    ),
+                                    value: selectedValue,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        isSortSelected = true;
+                                        selectedValue = newValue;
+                                        selectedValue == 'A to Z' ? sortOrder = 'AtoZ' : sortOrder = 'ZtoA';
+                                      });
+                                    },
+                                    items: [
+                                      'A to Z',
+                                      'Z to A'
+                                    ].map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value,
+                                          style: filterTextStyle,
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                                const Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  bottom: 0,
+                                  child: Icon(
+                                    Icons.filter_alt_outlined,
+                                    color: blackColor,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                        )
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //       height: 43,
+                        //       padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                        //       decoration: BoxDecoration(
+                        //         color: whiteColor,
+                        //         borderRadius: BorderRadius.circular(5),
+                        //       ),
+                        //       child: const Icon(
+                        //         Icons.filter_alt_outlined,
+                        //         color: blackColor,
+                        //         size: 22,
+                        //       )
+                        //   ),
+                        // ),
                       ],
                     ),
                   ],
@@ -506,6 +572,90 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
           style: messageTextStyle,
         ),
       ),
+    );
+  }
+
+  void searchModal(BuildContext context){
+    showModalBottomSheet(
+      enableDrag: true,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
+      ),
+        context: context,
+        builder: (context){
+        return FractionallySizedBox(
+          heightFactor: 0.9,
+          child: Wrap(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: TextField(
+                  cursorColor: blackColor,
+                  cursorHeight: 21,
+                  controller: searchKeywordController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 4,left: 10),
+                    hintText: 'Search for your data',
+                    // hintStyle: searchTextStyle,
+                    filled: true,
+                    fillColor: whiteColor,
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search, color: Colors.black),
+                      onPressed: () {
+                        if (searchKeywordController.text.isEmpty) {
+                          Dialog(
+                            child: Container(
+                              height: 305,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                          );
+                          final snackBar = SnackBar(
+                            backgroundColor: loginBgColor,
+                            content: Container(
+                              height: 30,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Please enter a keyword to search',
+                                    style:
+                                    TextStyle(color: blackColor),
+                                  )),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBar);
+                        } else {
+                          // Navigator.pushReplacement(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             SearchProductList(searchKeywordController.text)
+                          //     ));
+                        }
+                      },
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: buildTextFormColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: boxColor,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+        },
     );
   }
 }

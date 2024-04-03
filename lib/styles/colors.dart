@@ -71,3 +71,7 @@ const lightRedColor = Color.fromRGBO(255, 221, 221, 1);
 const darkRedColor = Color.fromRGBO(254, 81, 81, 1);
 
 const highlightingColor = Color.fromRGBO(221, 221, 255, 1);
+
+const boxColor = Color.fromRGBO(225, 229, 235, 1);
+
+const buildTextFormColor = Color.fromRGBO(226, 226, 226, 1);

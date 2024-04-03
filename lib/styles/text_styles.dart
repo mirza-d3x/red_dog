@@ -199,4 +199,10 @@ TextStyle tableOptionTextStyle = const TextStyle(
   fontSize: 17,
 );
 
+TextStyle filterTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: blackColor,
+  fontSize: 14,
+);
+
 
