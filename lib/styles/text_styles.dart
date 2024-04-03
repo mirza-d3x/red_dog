@@ -205,4 +205,16 @@ TextStyle filterTextStyle = const TextStyle(
   fontSize: 14,
 );
 
+TextStyle noteHeadingTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: blackColor,
+  fontSize: 20,
+);
+
+TextStyle noteTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: blackColor,
+  fontSize: 16,
+);
+
 
