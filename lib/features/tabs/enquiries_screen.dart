@@ -272,79 +272,79 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                         const SizedBox(width: 5),
 
-                        Card(
-                          child: Container(
-                            height: 43,
-                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Stack(
-                              children: [
-                                DropdownButtonHideUnderline(
-                                  child: DropdownButton(
-                                    hint: selectedValue == null
-                                        ? Text(
-                                      'All',
-                                      style: filterTextStyle,
-                                    )
-                                        : Text(
-                                      selectedValue,
-                                      style: filterTextStyle,
-                                    ),
-                                    value: selectedValue,
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        isSortSelected = true;
-                                        selectedValue = newValue;
-                                        // selectedValue == 'Carrers' ? sortOrder = 'AtoZ' : sortOrder = 'ZtoA';
-                                      });
-                                    },
-                                    items: [
-                                      'All',
-                                      'Carrers',
-                                      'Contact Us',
-                                      'Ask Us'
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value,
-                                          style: filterTextStyle,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                const Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  bottom: 0,
-                                  child: Icon(
-                                    Icons.filter_alt_outlined,
-                                    color: blackColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
                         // Card(
-                        //   elevation: 2,
                         //   child: Container(
-                        //       height: 43,
-                        //       padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                        //       decoration: BoxDecoration(
-                        //         color: whiteColor,
-                        //         borderRadius: BorderRadius.circular(5),
-                        //       ),
-                        //       child: const Icon(
-                        //         Icons.filter_alt_outlined,
-                        //         color: blackColor,
-                        //         size: 22,
-                        //       )
+                        //     height: 43,
+                        //     padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: Stack(
+                        //       children: [
+                        //         DropdownButtonHideUnderline(
+                        //           child: DropdownButton(
+                        //             hint: selectedValue == null
+                        //                 ? Text(
+                        //               'All',
+                        //               style: filterTextStyle,
+                        //             )
+                        //                 : Text(
+                        //               selectedValue,
+                        //               style: filterTextStyle,
+                        //             ),
+                        //             value: selectedValue,
+                        //             onChanged: (newValue) {
+                        //               setState(() {
+                        //                 isSortSelected = true;
+                        //                 selectedValue = newValue;
+                        //                 // selectedValue == 'Carrers' ? sortOrder = 'AtoZ' : sortOrder = 'ZtoA';
+                        //               });
+                        //             },
+                        //             items: [
+                        //               'All',
+                        //               'Carrers',
+                        //               'Contact Us',
+                        //               'Ask Us'
+                        //             ].map((String value) {
+                        //               return DropdownMenuItem<String>(
+                        //                 value: value,
+                        //                 child: Text(value,
+                        //                   style: filterTextStyle,
+                        //                 ),
+                        //               );
+                        //             }).toList(),
+                        //           ),
+                        //         ),
+                        //         const Positioned(
+                        //           right: 0,
+                        //           top: 0,
+                        //           bottom: 0,
+                        //           child: Icon(
+                        //             Icons.filter_alt_outlined,
+                        //             color: blackColor,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
                         //   ),
-                        // ),
+                        // )
+                        Card(
+                          elevation: 2,
+                          child: Container(
+                              height: 43,
+                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Icon(
+                                Icons.filter_alt_outlined,
+                                color: blackColor,
+                                size: 22,
+                              )
+                          ),
+                        ),
                       ],
                     ),
                   ],
