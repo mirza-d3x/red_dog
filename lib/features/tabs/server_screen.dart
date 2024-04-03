@@ -288,44 +288,44 @@ class _ServerScreenState extends State<ServerScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 15),
-                Text(
-                  'What is the average time to connect with your server (per day)?',
-                  style: normalTextStyle,
-                ),
-
-                const SizedBox(height: 10),
-                Card(
-                  elevation: 2,
-                  shadowColor: whiteColor,
-                  child: Container(
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: whiteColor,
-                      ),
-                      child: Stack(
-                        children: <Widget>[
-                          AspectRatio(
-                            aspectRatio: 1.70,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                right: 18,
-                                left: 12,
-                                top: 10,
-                                bottom: 12,
-                              ),
-                              child: LineChart(
-                                mainData(),
-                                // showAvg ? avgData() : mainData(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                  ),
-                ),
+                // const SizedBox(height: 15),
+                // Text(
+                //   'What is the average time to connect with your server (per day)?',
+                //   style: normalTextStyle,
+                // ),
+                //
+                // const SizedBox(height: 10),
+                // Card(
+                //   elevation: 2,
+                //   shadowColor: whiteColor,
+                //   child: Container(
+                //       padding: const EdgeInsets.all(10),
+                //       width: double.infinity,
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(3),
+                //         color: whiteColor,
+                //       ),
+                //       child: Stack(
+                //         children: <Widget>[
+                //           AspectRatio(
+                //             aspectRatio: 1.70,
+                //             child: Padding(
+                //               padding: const EdgeInsets.only(
+                //                 right: 18,
+                //                 left: 12,
+                //                 top: 10,
+                //                 bottom: 12,
+                //               ),
+                //               child: LineChart(
+                //                 mainData(),
+                //                 // showAvg ? avgData() : mainData(),
+                //               ),
+                //             ),
+                //           ),
+                //         ],
+                //       )
+                //   ),
+                // ),
               ],
             ),
           ),
