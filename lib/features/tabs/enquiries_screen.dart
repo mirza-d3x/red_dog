@@ -286,7 +286,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                   child: DropdownButton(
                                     hint: selectedValue == null
                                         ? Text(
-                                      'Filter',
+                                      'All',
                                       style: filterTextStyle,
                                     )
                                         : Text(
@@ -298,12 +298,14 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                       setState(() {
                                         isSortSelected = true;
                                         selectedValue = newValue;
-                                        selectedValue == 'A to Z' ? sortOrder = 'AtoZ' : sortOrder = 'ZtoA';
+                                        // selectedValue == 'Carrers' ? sortOrder = 'AtoZ' : sortOrder = 'ZtoA';
                                       });
                                     },
                                     items: [
-                                      'A to Z',
-                                      'Z to A'
+                                      'All',
+                                      'Carrers',
+                                      'Contact Us',
+                                      'Ask Us'
                                     ].map((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
