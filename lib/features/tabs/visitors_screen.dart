@@ -1398,8 +1398,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               centerX: '90',
                               margin: EdgeInsets.zero,
                               palette: const <Color>[
-                                graphGreyColor,
-                                graphBlackColor,
+                                maleIndicatorColor,
+                                femaleIndicatorColor,
                               ],
                               legend: Legend(
                                 position: LegendPosition.right,
