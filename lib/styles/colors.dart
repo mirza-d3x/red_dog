@@ -69,3 +69,5 @@ const othersIndicatorColor = Color.fromRGBO(0, 0, 0, 1);
 const lightRedColor = Color.fromRGBO(255, 221, 221, 1);
 
 const darkRedColor = Color.fromRGBO(254, 81, 81, 1);
+
+const highlightingColor = Color.fromRGBO(221, 221, 255, 1);

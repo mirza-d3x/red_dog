@@ -210,6 +210,120 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                 const SizedBox(height: 10),
 
+                Card(
+                  elevation: 2,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: highlightingColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: highlightingColor.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 90,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Akshay M',
+                          style: nameTextStyle,
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.email_outlined,
+                              size: 15,
+                              color: titleTextColor,
+                            ),
+
+                            const SizedBox(width: 5),
+
+                            Text(
+                              'akshay@gmail.com',
+                              style: subTextTextStyle,
+                            )
+                          ],
+                        ),
+
+                        // const SizedBox(height: 5),
+                        // Row(
+                        //   children: [
+                        //     const Icon(
+                        //       Icons.phone_enabled,
+                        //       size: 15,
+                        //       color: titleTextColor,
+                        //     ),
+                        //
+                        //     const SizedBox(width: 5),
+                        //
+                        //     Text(
+                        //         '9785507650',
+                        //       style: subTextTextStyle,
+                        //     )
+                        //   ],
+                        // ),
+                        //
+                        // const SizedBox(height: 5),
+                        // Row(
+                        //   children: [
+                        //     const Icon(
+                        //       Icons.calendar_month,
+                        //       size: 15,
+                        //       color: titleTextColor,
+                        //     ),
+                        //
+                        //     const SizedBox(width: 5),
+                        //     Text(
+                        //       '29-03-2024',
+                        //       style: subTextTextStyle,
+                        //     ),
+                        //
+                        //     const SizedBox(width: 15),
+                        //
+                        //     const Icon(
+                        //       CupertinoIcons.arrow_down_left,
+                        //       size: 15,
+                        //       color: titleTextColor,
+                        //     ),
+                        //     const SizedBox(width: 3),
+                        //     Text(
+                        //         'Contact Us',
+                        //       style: subTextTextStyle,
+                        //     ),
+                        //   ],
+                        // ),
+                        //
+                        // const SizedBox(height: 5),
+                        // Row(
+                        //   children: [
+                        //     const Icon(
+                        //       Icons.message_outlined,
+                        //       size: 15,
+                        //       color: titleTextColor,
+                        //     ),
+                        //
+                        //     const SizedBox(width: 5),
+                        //     Text(
+                        //       'Message',
+                        //       style: subTextTextStyle,
+                        //     )
+                        //   ],
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -227,122 +341,97 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                             ),
                             padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                             child: IntrinsicHeight(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          'Viswarag C M',
-                                        style: nameTextStyle,
-                                      ),
-
-                                      const SizedBox(height: 8),
-
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.email_outlined,
-                                            size: 15,
-                                            color: titleTextColor,
-                                          ),
-
-                                          const SizedBox(width: 5),
-
-                                          Text(
-                                              'cmviswarag@gmail.com',
-                                            style: subTextTextStyle,
-                                          )
-                                        ],
-                                      ),
-
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.phone_enabled,
-                                            size: 15,
-                                            color: titleTextColor,
-                                          ),
-
-                                          const SizedBox(width: 5),
-
-                                          Text(
-                                              '9785507650',
-                                            style: subTextTextStyle,
-                                          )
-                                        ],
-                                      ),
-
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.calendar_month,
-                                            size: 15,
-                                            color: titleTextColor,
-                                          ),
-
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            '29-03-2024',
-                                            style: subTextTextStyle,
-                                          ),
-
-                                          const SizedBox(width: 15),
-
-                                          const Icon(
-                                            CupertinoIcons.arrow_down_left,
-                                            size: 15,
-                                            color: titleTextColor,
-                                          ),
-                                          const SizedBox(width: 3),
-                                          Text(
-                                              'Contact Us',
-                                            style: subTextTextStyle,
-                                          ),
-                                        ],
-                                      ),
-
-                                      const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.message_outlined,
-                                            size: 15,
-                                            color: titleTextColor,
-                                          ),
-
-                                          const SizedBox(width: 5),
-                                          Text(
-                                            'Message',
-                                            style: subTextTextStyle,
-                                          )
-                                        ],
-                                      ),
-                                    ],
+                                  Text(
+                                      'Viswarag C M',
+                                    style: nameTextStyle,
                                   ),
+
+                                  const SizedBox(height: 8),
+
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      VerticalDivider(
-                                        color: Colors.grey.shade300,
-                                        thickness: 1,
-                                      ),
-
                                       const Icon(
-                                          Icons.download_outlined,
+                                        Icons.email_outlined,
+                                        size: 15,
                                         color: titleTextColor,
                                       ),
-                                      const SizedBox(width: 8),
 
-                                      const Icon(
-                                          Icons.delete_outline_outlined,
-                                        color: titleTextColor,
-                                      ),
+                                      const SizedBox(width: 5),
+
+                                      Text(
+                                          'cmviswarag@gmail.com',
+                                        style: subTextTextStyle,
+                                      )
                                     ],
                                   ),
+
+                                  // const SizedBox(height: 5),
+                                  // Row(
+                                  //   children: [
+                                  //     const Icon(
+                                  //       Icons.phone_enabled,
+                                  //       size: 15,
+                                  //       color: titleTextColor,
+                                  //     ),
+                                  //
+                                  //     const SizedBox(width: 5),
+                                  //
+                                  //     Text(
+                                  //         '9785507650',
+                                  //       style: subTextTextStyle,
+                                  //     )
+                                  //   ],
+                                  // ),
+                                  //
+                                  // const SizedBox(height: 5),
+                                  // Row(
+                                  //   children: [
+                                  //     const Icon(
+                                  //       Icons.calendar_month,
+                                  //       size: 15,
+                                  //       color: titleTextColor,
+                                  //     ),
+                                  //
+                                  //     const SizedBox(width: 5),
+                                  //     Text(
+                                  //       '29-03-2024',
+                                  //       style: subTextTextStyle,
+                                  //     ),
+                                  //
+                                  //     const SizedBox(width: 15),
+                                  //
+                                  //     const Icon(
+                                  //       CupertinoIcons.arrow_down_left,
+                                  //       size: 15,
+                                  //       color: titleTextColor,
+                                  //     ),
+                                  //     const SizedBox(width: 3),
+                                  //     Text(
+                                  //         'Contact Us',
+                                  //       style: subTextTextStyle,
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  //
+                                  // const SizedBox(height: 5),
+                                  // Row(
+                                  //   children: [
+                                  //     const Icon(
+                                  //       Icons.message_outlined,
+                                  //       size: 15,
+                                  //       color: titleTextColor,
+                                  //     ),
+                                  //
+                                  //     const SizedBox(width: 5),
+                                  //     Text(
+                                  //       'Message',
+                                  //       style: subTextTextStyle,
+                                  //     )
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             )
