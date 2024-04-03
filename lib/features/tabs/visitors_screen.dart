@@ -230,59 +230,61 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Card(
-                        elevation: 2,
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                  Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: selectedWebsite == null
-                                  ? Row(
-                                    children: [
-                                      Text(
-                                      'Aladdinpro - GA4',
-                                      style: dropDownTextStyle
-                                      ),
+                      Expanded(
+                        child: Card(
+                          elevation: 2,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: DropdownButton(
+                                icon: const Icon(
+                                    Icons.keyboard_arrow_down_outlined,
+                                  color: blackColor,
+                                ),
+                                // iconSize: 0,
+                                hint: selectedWebsite == null
+                                    ? Row(
+                                      children: [
+                                        Text(
+                                        'Aladdinpro - GA4',
+                                        style: dropDownTextStyle
+                                        ),
 
-                                      const SizedBox(width: 10),
-                                    ],
-                                  )
-                                  : Row(
-                                    children: [
-                                      Text(
-                                          selectedWebsite,
-                                      style: dropDownTextStyle
-                                      ),
-                                      const SizedBox(width: 10),
-                                    ],
-                                  ),
-                              value: selectedWebsite,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedFromDropDwn = true;
-                                  selectedWebsite = newValue;
-                                });
-                              },
-                              items: [
-                                'Codelattice',
-                                'Alddinpro - GA4',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: dropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
+                                        const SizedBox(width: 10),
+                                      ],
+                                    )
+                                    : Row(
+                                      children: [
+                                        Text(
+                                            selectedWebsite,
+                                        style: dropDownTextStyle
+                                        ),
+                                        const SizedBox(width: 10),
+                                      ],
+                                    ),
+                                value: selectedWebsite,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    isSelectedFromDropDwn = true;
+                                    selectedWebsite = newValue;
+                                  });
+                                },
+                                items: [
+                                  'Codelattice',
+                                  'Alddinpro - GA4',
+                                ].map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: dropDownTextStyle
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ),
                         ),
