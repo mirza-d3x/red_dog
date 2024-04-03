@@ -465,7 +465,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                                     const SizedBox(height: 15),
                                     Text(
-                                      'Notes',
+                                      'Comments',
                                       style: noteHeadingTextStyle,
                                     ),
 
@@ -799,7 +799,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                                             const SizedBox(height: 15),
                                             Text(
-                                              'Notes',
+                                              'Comments',
                                               style: noteHeadingTextStyle,
                                             ),
 

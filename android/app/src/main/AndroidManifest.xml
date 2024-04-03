@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="reddog_mobile_app"
+        android:label="RedDog"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
