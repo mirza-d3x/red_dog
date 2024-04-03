@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
 import 'package:reddog_mobile_app/features/notes/add_notes_screen.dart';
 import 'package:reddog_mobile_app/widgets/infotiles.dart';
@@ -409,21 +410,26 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                     const SizedBox(height: 7),
 
                                     // contact number
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.phone_enabled,
-                                          size: 15,
-                                          color: titleTextColor,
-                                        ),
+                                    InkWell(
+                                      onTap: (){
+                                        FlutterPhoneDirectCaller.callNumber('+919946451194');
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.phone_enabled,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
 
-                                        const SizedBox(width: 5),
+                                          const SizedBox(width: 5),
 
-                                        Text(
-                                          '9785507650',
-                                          style: subTextTextStyle,
-                                        )
-                                      ],
+                                          Text(
+                                            '+91 9946451194',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
                                     ),
 
                                     //  Calendar
@@ -743,21 +749,26 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                             const SizedBox(height: 7),
 
                                             // contact number
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.phone_enabled,
-                                                  size: 15,
-                                                  color: titleTextColor,
-                                                ),
+                                            InkWell(
+                                              onTap: (){
+                                                FlutterPhoneDirectCaller.callNumber('+919946451194');
+                                              },
+                                              child: Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.phone_enabled,
+                                                    size: 15,
+                                                    color: titleTextColor,
+                                                  ),
 
-                                                const SizedBox(width: 5),
+                                                  const SizedBox(width: 5),
 
-                                                Text(
-                                                  '9785507650',
-                                                  style: subTextTextStyle,
-                                                )
-                                              ],
+                                                  Text(
+                                                    '+91 9946451194',
+                                                    style: subTextTextStyle,
+                                                  )
+                                                ],
+                                              ),
                                             ),
 
                                             //  Calendar
