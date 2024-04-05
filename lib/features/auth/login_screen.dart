@@ -1,9 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
-
 import '../../styles/text_styles.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+const List<String> scopes = <String>[
+  'email',
+];
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: scopes,
+);
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +23,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  Future<void> _handleSignIn() async{
+    try{
+      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        // Navigate to the desired screen when the user is signed in
+        print('#########################################################################33');
+        print(googleSignInAccount.email);
+        print(googleSignInAccount.displayName);
+      }
+    } catch (error) {
+      print('Error signing in with Google: $error');
+    }
+    }
 
   dynamic _value = 'With Analytics';
 
@@ -140,9 +164,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 //  Continue with Google
                 InkWell(
                   onTap: (){
-                    _value == 'With Analytics' ?
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)))
-                        : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
+                    _handleSignIn();
+                    // _value == 'With Analytics' ?
+                    //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)))
+                    //     : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
                   },
                   child: Container(
                     decoration: BoxDecoration(
