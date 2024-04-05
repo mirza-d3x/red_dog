@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
 import 'package:reddog_mobile_app/features/notes/add_notes_screen.dart';
@@ -9,7 +8,6 @@ import 'package:reddog_mobile_app/widgets/infotiles.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 import '../../widgets/common_app_bar.dart';
-import '../../widgets/common_button.dart';
 import '../../widgets/tiles.dart';
 
 class EnquiryScreen extends StatefulWidget {

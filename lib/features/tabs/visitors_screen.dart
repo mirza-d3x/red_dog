@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
-import 'package:reddog_mobile_app/features/examples.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
@@ -17,7 +14,6 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:countries_world_map/data/maps/world_map.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
-import 'package:table_calendar/table_calendar.dart';
 
 class VisitorsScreen extends StatefulWidget {
   bool withAnalytics;

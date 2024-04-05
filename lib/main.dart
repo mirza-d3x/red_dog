@@ -1,13 +1,28 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
-import 'package:reddog_mobile_app/features/auth/login_screen.dart';
-import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
-import 'package:reddog_mobile_app/features/common/splash_screen.dart';
-import 'package:reddog_mobile_app/features/example.dart';
-import 'package:reddog_mobile_app/features/examples.dart';
-import 'package:reddog_mobile_app/tabView_page.dart';
+import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
+
+import 'app.dart';
 
 void main() {
+  // bool isTokenAvailable = await initApp();
+  // FirebaseMessaging messaging = FirebaseMessaging.instance;
+  // NotificationSettings settings = await messaging.requestPermission(
+  //   alert: true,
+  //   announcement: false,
+  //   badge: true,
+  //   carPlay: false,
+  //   criticalAlert: false,
+  //   provisional: false,
+  //   sound: true,
+  // );
+  //
+  // messaging.getToken().then((value) {
+  //   setValue('fireBaseToken', value);
+  //   print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55');
+  //   print("fireBaseToken   "+value.toString());
+  // });
   runApp(const MyApp());
 }
 
@@ -23,8 +38,11 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home: SplashScreen(),
+      home: RedDogApp(),
     );
   }
 }
+
+
+
 
