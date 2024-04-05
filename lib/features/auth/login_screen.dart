@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: (){
                     _handleSignIn();
                     // _value == 'With Analytics' ?
-                    //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)))
+                    //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)));
                     //     : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
                   },
                   child: Container(
