@@ -43,8 +43,8 @@ dependencies:
   table_calendar: ^3.0.8
   intl: ^0.17.0
   flutter_phone_direct_caller: ^2.1.1
-  firebase_messaging: ^14.6.7
-  firebase_core: ^2.15.1
+  firebase_messaging: ^14.8.0
+  firebase_core: ^2.28.0
   shared_preferences: ^2.0.13
   firebase_auth: ^4.8.0
   google_sign_in: ^6.2.1
