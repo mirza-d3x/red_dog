@@ -5,6 +5,7 @@ import 'package:reddog_mobile_app/models/registred_website_model.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import '../core/live_data.dart';
 import '../core/ui_state.dart';
+import '../utilities/shared_prefernces.dart';
 
 class RegisteredWebsiteProvider extends ChangeNotifier {
   CommonRepository commonRepository;
@@ -26,7 +27,8 @@ class RegisteredWebsiteProvider extends ChangeNotifier {
   getRegisteredWebsiteList() async {
     try {
       websiteListData.setValue(IsLoading());
-      websiteListModel = await commonRepository.getRegisteredWebsite();
+      var googleId = await getValue("googleId");
+      websiteListModel = await commonRepository.getRegisteredWebsite(googleId);
       if (websiteListModel.code == "200") {
         websiteListData.setValue(Success(websiteListModel));
       } else {

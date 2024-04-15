@@ -1532,9 +1532,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         ),
                         value: selectedWebsite,
                         onChanged: (newValue) {
+                          deleteValue('websiteId');
                           setState(() {
                             isSelectedFromDropDwn = true;
                             selectedWebsite = newValue;
+                            setValue('websiteId', selectedWebsite[0]);
                           });
                         },
                         items: data.websiteListModel.data!.map((e) {
@@ -1546,17 +1548,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           );
                         },
                         ).toList(),
-                        // [
-                        //   'Codelattice',
-                        //   'Alddinpro - GA4',
-                        // ].map((String value) {
-                        //   return DropdownMenuItem<String>(
-                        //     value: value,
-                        //     child: Text(value,
-                        //         style: dropDownTextStyle
-                        //     ),
-                        //   );
-                        // }).toList(),
                       ),
                     ),
                   ),

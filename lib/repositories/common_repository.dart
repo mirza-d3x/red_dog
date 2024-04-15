@@ -11,6 +11,6 @@ class CommonRepository {
     this.webService = Webservice();
   }
 
-  Future getRegisteredWebsite() => webService?.get(getRegisteredWebsiteApi());
+  Future getRegisteredWebsite(dynamic googleId) => webService?.get(getRegisteredWebsiteApi(googleId));
 
 }
