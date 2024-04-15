@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:reddog_mobile_app/models/registred_website_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 
 import '../utilities/api_helpers.dart';
@@ -14,3 +15,4 @@ Resource<VisitorsTileDataModel> getVisitorsTileDataApi() {
         return visitorsTileResult;
       });
 }
+

@@ -10,7 +10,9 @@ class Webservice {
       String token = await getToken();
       if (token.isNotEmpty) {
         response =
-        await http.get(getUrl(resource.url!), headers: getHeaders(token));
+        await http.get(getUrl(resource.url!),
+            headers: getHeaders(token)
+        );
       } else {
         response = await http.get(getUrl(resource.url!));
       }

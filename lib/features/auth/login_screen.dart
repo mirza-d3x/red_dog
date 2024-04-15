@@ -73,6 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
             // _value == 'With Analytics' ? "true" : "false"
         );
         if(loginProvider.loginModel.status == 'success'){
+          print('ffffffffffffffffffffffffffffffff');
+          print(googleAuth.accessToken);
           // await userDetailProvider.fetchUserDetails();
           Future.delayed(Duration.zero, () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen(

@@ -1,11 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
+import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
 import 'package:reddog_mobile_app/widgets/tiles_full_width.dart';
+import '../../core/ui_state.dart';
 import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -56,9 +61,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
  final tilesList = <VisitorTileModel>[];
 
+ RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
+
   @override
   void initState(){
     getStoredProfilePic();
+    registeredWebsiteProvider.getRegisteredWebsiteList();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -128,6 +136,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     storedProfilePic = await getValue('profilePic');
   }
 
+  dynamic websiteName ;
 
   @override
   Widget build(BuildContext context) {
@@ -241,70 +250,71 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Card(
-                          elevation: 2,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                icon: const Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                  color: blackColor,
-                                ),
-                                // iconSize: 0,
-                                hint: selectedWebsite == null
-                                    ? Row(
-                                      children: [
-                                        Text(
-                                        'Aladdinpro - GA4',
-                                        style: dropDownTextStyle
-                                        ),
-
-                                        const SizedBox(width: 10),
-                                      ],
-                                    )
-                                    : Row(
-                                      children: [
-                                        Text(
-                                            selectedWebsite,
-                                        style: dropDownTextStyle
-                                        ),
-                                        const SizedBox(width: 10),
-                                      ],
-                                    ),
-                                value: selectedWebsite,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    isSelectedFromDropDwn = true;
-                                    selectedWebsite = newValue;
-                                  });
-                                },
-                                items: [
-                                  'Codelattice',
-                                  'Alddinpro - GA4',
-                                ].map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value,
-                                        style: dropDownTextStyle
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  websiteDropdownMenu(),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Expanded(
+                  //       child: Card(
+                  //         elevation: 2,
+                  //         child: Container(
+                  //           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                  //           decoration: BoxDecoration(
+                  //             color: whiteColor,
+                  //             borderRadius: BorderRadius.circular(5),
+                  //           ),
+                  //           child: DropdownButtonHideUnderline(
+                  //             child: DropdownButton(
+                  //               icon: const Icon(
+                  //                   Icons.keyboard_arrow_down_outlined,
+                  //                 color: blackColor,
+                  //               ),
+                  //               // iconSize: 0,
+                  //               hint: selectedWebsite == null
+                  //                   ? Row(
+                  //                     children: [
+                  //                       Text(
+                  //                       'Aladdinpro - GA4',
+                  //                       style: dropDownTextStyle
+                  //                       ),
+                  //
+                  //                       const SizedBox(width: 10),
+                  //                     ],
+                  //                   )
+                  //                   : Row(
+                  //                     children: [
+                  //                       Text(
+                  //                           selectedWebsite,
+                  //                       style: dropDownTextStyle
+                  //                       ),
+                  //                       const SizedBox(width: 10),
+                  //                     ],
+                  //                   ),
+                  //               value: selectedWebsite,
+                  //               onChanged: (newValue) {
+                  //                 setState(() {
+                  //                   isSelectedFromDropDwn = true;
+                  //                   selectedWebsite = newValue;
+                  //                 });
+                  //               },
+                  //               items: [
+                  //                 'Codelattice',
+                  //                 'Alddinpro - GA4',
+                  //               ].map((String value) {
+                  //                 return DropdownMenuItem<String>(
+                  //                   value: value,
+                  //                   child: Text(value,
+                  //                       style: dropDownTextStyle
+                  //                   ),
+                  //                 );
+                  //               }).toList(),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
 
                   const SizedBox(height: 5),
                   Row(
@@ -1460,6 +1470,116 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             ),
           ),
         )
+    );
+  }
+
+  Widget websiteDropdownMenu(){
+    return ChangeNotifierProvider<RegisteredWebsiteProvider>(
+        create: (ctx){
+          return registeredWebsiteProvider;
+        },
+      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _){
+        var state = data.websiteListLiveData().getValue();
+        print(state);
+        if (state is IsLoading) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height / 1.3,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: loginBgColor,
+              ),
+            ),
+          );
+        } else if (state is Success) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Card(
+                  elevation: 2,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: blackColor,
+                        ),
+                        // iconSize: 0,
+                        hint: selectedWebsite == null
+                            ? Row(
+                          children: [
+                            Text(
+                                data.websiteListModel.data![0].name,
+                                style: dropDownTextStyle
+                            ),
+
+                            const SizedBox(width: 10),
+                          ],
+                        )
+                            : Row(
+                          children: [
+                            Text(
+                                selectedWebsite,
+                                style: dropDownTextStyle
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                        value: selectedWebsite,
+                        onChanged: (newValue) {
+                          setState(() {
+                            isSelectedFromDropDwn = true;
+                            selectedWebsite = newValue;
+                          });
+                        },
+                        items: data.websiteListModel.data!.map((e) {
+                          websiteName = e.name;
+                          return DropdownMenuItem(
+                            // value: valueItem,
+                            child: Text(e.name),
+                            value: e.name,
+                          );
+                        },
+                        ).toList(),
+                        // [
+                        //   'Codelattice',
+                        //   'Alddinpro - GA4',
+                        // ].map((String value) {
+                        //   return DropdownMenuItem<String>(
+                        //     value: value,
+                        //     child: Text(value,
+                        //         style: dropDownTextStyle
+                        //     ),
+                        //   );
+                        // }).toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }else if (state is Failure) {
+          return SizedBox(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 1.3,
+            child: Center(
+              child: Text(
+                '',
+              ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      }),
     );
   }
 
