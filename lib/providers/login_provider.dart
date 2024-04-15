@@ -34,6 +34,7 @@ class LoginProvider extends ChangeNotifier {
       loginModel = await authRepository.postLogin(email,firebaseToken,googleToken, analytics);
       if (loginModel.status == 'success') {
         setValue('token', loginModel.userData!.jToken);
+        setValue('profilePic', loginModel.userData!.picture);
         loginData.setValue(Success(loginModel));
       } else {
         loginData.setValue(Failure(loginModel.toString()));

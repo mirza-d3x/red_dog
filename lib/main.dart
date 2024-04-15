@@ -59,7 +59,8 @@ Future<bool> initApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   bool isTokenAvailable = false;
-  var token = 'esdtyh23iknbcfxgfnklkmJaq123cT';
+  var token = await getValue('token');
+  print('@@@@@@@@@@@@@@@@@@@@@JWT Token @@@@@@@@@@@@@@@@@@@@@@@@22');
   print('Access Token ' + token);
   isTokenAvailable = token == '' ? false : true;
   return isTokenAvailable;

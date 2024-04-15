@@ -30,20 +30,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  // Future<void> _handleSignIn() async{
-  //   try{
-  //     GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-  //     if (googleSignInAccount != null) {
-  //       // Navigate to the desired screen when the user is signed in
-  //       print('#########################################################################33');
-  //       print(googleSignInAccount.email);
-  //       print(googleSignInAccount.displayName);
-  //     }
-  //   } catch (error) {
-  //     print('Error signing in with Google: $error');
-  //   }
-  //   }
-
   LoginProvider loginProvider = LoginProvider(authRepository: AuthRepository());
 
   bool isLoading = false;
@@ -83,9 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
             googleSignInAccount.email,
             token.toString(),
             googleAuth.accessToken,
-            _value == 'With Analytics' ? "true" : "false"
+            "false"
+            // _value == 'With Analytics' ? "true" : "false"
         );
-        if(loginProvider.loginModel.code == 200){
+        if(loginProvider.loginModel.status == 'success'){
           // await userDetailProvider.fetchUserDetails();
           Future.delayed(Duration.zero, () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));

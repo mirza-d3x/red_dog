@@ -15,6 +15,8 @@ import 'package:countries_world_map/data/maps/world_map.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
+import '../../utilities/shared_prefernces.dart';
+
 class VisitorsScreen extends StatefulWidget {
    VisitorsScreen(
       {super.key});
@@ -54,6 +56,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   @override
   void initState(){
+    getStoredProfilePic();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -117,6 +120,13 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   String selectedOption = 'Country';
 
+  String storedProfilePic = '';
+
+  void getStoredProfilePic() async{
+    storedProfilePic = await getValue('profilePic');
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -158,11 +168,13 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             constraints: const BoxConstraints.expand(width: 140,height: 70),
                             // padding: EdgeInsets.zero,
                             position: PopupMenuPosition.under,
-                          child: const CircleAvatar(
+                          child:  CircleAvatar(
                               radius: 24,
-                              backgroundImage: AssetImage(
-                                  'assets/images/profile_pic_sample.jpeg'
-                              )
+                              backgroundColor: whiteColor,
+                              backgroundImage: NetworkImage(storedProfilePic),
+                              // AssetImage(
+                              //     'assets/images/profile_pic_sample.jpeg'
+                              // )
 
                           ),
                             itemBuilder: (BuildContext context){
@@ -185,6 +197,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                           ),
                                         ],
                                       ),onPressed: (){
+                                      deleteValue('token');
                                       WidgetsBinding.instance.addPostFrameCallback((_) {
                                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
                                       });

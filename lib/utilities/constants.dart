@@ -3,4 +3,5 @@ class Constants{
   static const fireBaseToken = 'fireBaseToken';
   static const googleToken = 'googleToken';
   static const email = 'email';
+  static const profilePic = 'profilePic';
 }
