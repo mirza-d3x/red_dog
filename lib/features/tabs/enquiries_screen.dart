@@ -2,11 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/notes/add_notes_screen.dart';
 import 'package:reddog_mobile_app/widgets/infotiles.dart';
 
+import '../../core/ui_state.dart';
+import '../../providers/registered_website_provider.dart';
+import '../../repositories/common_repository.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
+import '../../utilities/shared_prefernces.dart';
 import '../../widgets/common_app_bar.dart';
 import '../../widgets/tiles.dart';
 
@@ -79,6 +84,14 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
   bool isOpenedNewMessage = false;
   bool isLoading = false;
 
+  RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
+  dynamic websiteName ;
+  @override
+  void initState(){
+    registeredWebsiteProvider.getRegisteredWebsiteList();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -93,70 +106,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // drop dwn menu,calander,download button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Card(
-                        elevation: 2,
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton(
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: blackColor,
-                              ),
-                              // iconSize: 0,
-                              hint: selectedWebsite == null
-                                  ? Row(
-                                children: [
-                                  Text(
-                                      'Aladdinpro - GA4',
-                                      style: dropDownTextStyle
-                                  ),
-
-                                  const SizedBox(width: 10),
-                                ],
-                              )
-                                  : Row(
-                                children: [
-                                  Text(
-                                      selectedWebsite,
-                                      style: dropDownTextStyle
-                                  ),
-                                  const SizedBox(width: 10),
-                                ],
-                              ),
-                              value: selectedWebsite,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  isSelectedFromDropDwn = true;
-                                  selectedWebsite = newValue;
-                                });
-                              },
-                              items: [
-                                'Codelattice',
-                                'Alddinpro - GA4',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: dropDownTextStyle
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                websiteDropdownMenu(),
 
                 const SizedBox(height: 5),
                 Row(
@@ -1151,6 +1101,107 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
             ),
           ),
         )
+    );
+  }
+
+  Widget websiteDropdownMenu(){
+    return ChangeNotifierProvider<RegisteredWebsiteProvider>(
+      create: (ctx){
+        return registeredWebsiteProvider;
+      },
+      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _){
+        var state = data.websiteListLiveData().getValue();
+        print(state);
+        if (state is IsLoading) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height / 1.3,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: loginBgColor,
+              ),
+            ),
+          );
+        } else if (state is Success) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Card(
+                  elevation: 2,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        icon: const Icon(
+                          Icons.keyboard_arrow_down_outlined,
+                          color: blackColor,
+                        ),
+                        // iconSize: 0,
+                        hint: selectedWebsite == null
+                            ? Row(
+                          children: [
+                            Text(
+                                data.websiteListModel.data![0].name,
+                                style: dropDownTextStyle
+                            ),
+
+                            const SizedBox(width: 10),
+                          ],
+                        )
+                            : Row(
+                          children: [
+                            Text(
+                                selectedWebsite,
+                                style: dropDownTextStyle
+                            ),
+                            const SizedBox(width: 10),
+                          ],
+                        ),
+                        value: selectedWebsite,
+                        onChanged: (newValue) {
+                          deleteValue('websiteId');
+                          setState(() {
+                            isSelectedFromDropDwn = true;
+                            selectedWebsite = newValue;
+                            setValue('websiteId', selectedWebsite[0]);
+                          });
+                        },
+                        items: data.websiteListModel.data!.map((e) {
+                          websiteName = e.name;
+                          return DropdownMenuItem(
+                            // value: valueItem,
+                            child: Text(e.name),
+                            value: e.name,
+                          );
+                        },
+                        ).toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
+        }else if (state is Failure) {
+          return SizedBox(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 1.3,
+            child: Center(
+              child: Text(
+                '',
+              ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      }),
     );
   }
 
