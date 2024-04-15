@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
             googleAuth.accessToken,
             _value == 'With Analytics' ? "true" : "false"
         );
-        if(loginProvider.loginModel.status == "success"){
+        if(loginProvider.loginModel.code == 200){
           // await userDetailProvider.fetchUserDetails();
           Future.delayed(Duration.zero, () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
@@ -94,9 +94,14 @@ class _LoginScreenState extends State<LoginScreen> {
         else{
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              backgroundColor: whiteColor,
               behavior: SnackBarBehavior.floating,
               width: 340,
-              content: Text('${loginProvider.loginModel.message}'),
+              content: Text(
+                'Please select the registered Email',
+                  // '${loginProvider.loginModel.message}',
+                style: errorTextStyle
+              ),
             ),
           );
           setState(() {
@@ -249,6 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     //     : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
                   },
                   child: Container(
+                    // height: 50,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                         // color: whiteColor,
                         border: Border.all(
@@ -258,7 +265,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     padding: const EdgeInsets.only(top: 13,bottom: 13),
                     margin: const EdgeInsets.symmetric(horizontal: 45),
-                    child: Row(
+                    child:
+                    isLoading == false ?
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
@@ -273,6 +282,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: loginButtonTextStyle
                         )
                       ],
+                    )
+                        :
+                    Center(
+                      child: CircularProgressIndicator(
+                        color: whiteColor,
+                      ),
                     ),
                   ),
                 ),
