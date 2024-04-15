@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     const LoginScreen()));
       }else{
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)));
+            context, MaterialPageRoute(builder: (_) =>  TabViewScreen()));
       }
     });
   }

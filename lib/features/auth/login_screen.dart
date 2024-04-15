@@ -1,12 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
+import '../../providers/login_provider.dart';
+import '../../repositories/auth_repository.dart';
 import '../../styles/text_styles.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../utilities/api_helpers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../utilities/shared_prefernces.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 const List<String> scopes = <String>[
   'email',
 ];
@@ -24,21 +30,94 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  Future<void> _handleSignIn() async{
-    try{
+  // Future<void> _handleSignIn() async{
+  //   try{
+  //     GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+  //     if (googleSignInAccount != null) {
+  //       // Navigate to the desired screen when the user is signed in
+  //       print('#########################################################################33');
+  //       print(googleSignInAccount.email);
+  //       print(googleSignInAccount.displayName);
+  //     }
+  //   } catch (error) {
+  //     print('Error signing in with Google: $error');
+  //   }
+  //   }
+
+  LoginProvider loginProvider = LoginProvider(authRepository: AuthRepository());
+
+  bool isLoading = false;
+
+  Future<void> _handleSignIn() async {
+    String token = await getFireBaseToken();
+    try {
       GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+
+      // print(googleSignInAccount!.authentication);
       if (googleSignInAccount != null) {
+        setState(() {
+          isLoading = true;
+        });
         // Navigate to the desired screen when the user is signed in
-        print('#########################################################################33');
         print(googleSignInAccount.email);
         print(googleSignInAccount.displayName);
+        print(googleSignInAccount);
+        dynamic FaccessToken = await googleSignInAccount.authentication.then((auth) => auth.accessToken);
+        dynamic refreshToken = await googleSignInAccount.authentication.then((auth) => auth.idToken);
+        print(FaccessToken);
+        print(refreshToken);
+
+        GoogleSignInAuthentication googleAuth = await googleSignInAccount.authentication;
+        AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        print(googleAuth.accessToken);
+        print(googleAuth.idToken);
+
+        UserCredential authResult = await _auth.signInWithCredential(credential);
+        User? user = authResult.user;
+        setValue('googleToken', googleAuth.accessToken);
+        await loginProvider.checkLogin(
+            googleSignInAccount.email,
+            token.toString(),
+            googleAuth.accessToken,
+            _value == 'With Analytics' ? "true" : "false"
+        );
+        if(loginProvider.loginModel.status == "success"){
+          // await userDetailProvider.fetchUserDetails();
+          Future.delayed(Duration.zero, () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+          });
+        }
+        else{
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              behavior: SnackBarBehavior.floating,
+              width: 340,
+              content: Text('${loginProvider.loginModel.message}'),
+            ),
+          );
+          setState(() {
+            isLoading = false;
+          });
+          _googleSignIn.signOut();
+        }
+        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewPage()));
       }
     } catch (error) {
       print('Error signing in with Google: $error');
     }
-    }
+  }
 
   dynamic _value = 'With Analytics';
+
+  @override
+  void initState(){
+    super.initState();
+    _googleSignIn.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {

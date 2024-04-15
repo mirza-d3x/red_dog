@@ -1,12 +1,13 @@
 import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/providers/login_provider.dart';
+import 'package:reddog_mobile_app/repositories/auth_repository.dart';
 import 'package:reddog_mobile_app/utilities/http_ssl_certificate.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
-
 import 'app.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   HttpOverrides.global = MyHttpOverrides();
@@ -26,7 +27,15 @@ void main() async{
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55');
     print("fireBaseToken   "+value.toString());
   });
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => LoginProvider(authRepository: AuthRepository())),
+      ],
+      child: const MyApp()
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

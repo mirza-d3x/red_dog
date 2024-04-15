@@ -7,9 +7,7 @@ import 'package:reddog_mobile_app/features/tabs/visitors_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 
 class TabViewScreen extends StatefulWidget {
-  bool withAnalytics;
    TabViewScreen(
-      this.withAnalytics,
       {super.key});
 
   @override
@@ -29,8 +27,8 @@ class _TabViewScreenState extends State<TabViewScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-             VisitorsScreen(widget.withAnalytics),
-             AcquisitionScreen(widget.withAnalytics),
+              VisitorsScreen(),
+              AcquisitionScreen(),
              const ServerScreen(),
              const EnquiryScreen(),
           ],
