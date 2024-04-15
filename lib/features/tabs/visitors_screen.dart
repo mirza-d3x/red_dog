@@ -18,7 +18,9 @@ import 'dart:math' as math;
 import '../../utilities/shared_prefernces.dart';
 
 class VisitorsScreen extends StatefulWidget {
+  dynamic imgUrl;
    VisitorsScreen(
+       this.imgUrl,
       {super.key});
 
   @override
@@ -129,6 +131,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getStoredProfilePic();
     return SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
@@ -136,6 +139,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             child: AppBar(
               elevation: 1,
               // scrolledUnderElevation: 0,
+              automaticallyImplyLeading: false,
               backgroundColor: whiteColor,
               flexibleSpace: Container(
                 padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
@@ -168,10 +172,13 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             constraints: const BoxConstraints.expand(width: 140,height: 70),
                             // padding: EdgeInsets.zero,
                             position: PopupMenuPosition.under,
-                          child:  CircleAvatar(
+                          child:
+                          CircleAvatar(
                               radius: 24,
-                              backgroundColor: whiteColor,
-                              backgroundImage: NetworkImage(storedProfilePic),
+                              backgroundColor: dividerColor,
+                              backgroundImage: storedProfilePic.isEmpty ?
+                                  NetworkImage(widget.imgUrl) :
+                              NetworkImage(storedProfilePic),
                               // AssetImage(
                               //     'assets/images/profile_pic_sample.jpeg'
                               // )

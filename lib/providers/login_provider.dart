@@ -35,6 +35,7 @@ class LoginProvider extends ChangeNotifier {
       if (loginModel.status == 'success') {
         setValue('token', loginModel.userData!.jToken);
         setValue('profilePic', loginModel.userData!.picture);
+        setValue('googleToken', loginModel.token);
         loginData.setValue(Success(loginModel));
       } else {
         loginData.setValue(Failure(loginModel.toString()));

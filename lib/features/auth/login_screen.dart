@@ -75,7 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if(loginProvider.loginModel.status == 'success'){
           // await userDetailProvider.fetchUserDetails();
           Future.delayed(Duration.zero, () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen(
+              '${loginProvider.loginModel.userData!.picture}'
+            )));
           });
         }
         else{

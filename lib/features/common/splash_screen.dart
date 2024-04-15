@@ -22,6 +22,11 @@ class _SplashScreenState extends State<SplashScreen> {
     storedToken = await getValue('token');
   }
 
+  String storedProfilePic = '';
+
+  void getStoredProfilePic() async{
+    storedProfilePic = await getValue('profilePic');
+  }
 
   @override
   void initState() {
@@ -36,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     const LoginScreen()));
       }else{
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) =>  TabViewScreen()));
+            context, MaterialPageRoute(builder: (_) =>  TabViewScreen(storedProfilePic)));
       }
     });
   }

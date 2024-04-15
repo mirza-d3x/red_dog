@@ -101,7 +101,7 @@ class _CreateAnalyticsScreenState extends State<CreateAnalyticsScreen> {
     final isValidWebsiteName = validateWebsiteName(websiteNameController.text);
     final isValidUrl = validateUrl(urlNameController.text);
     if(isValidWebsiteName && isValidUrl){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen()));
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen()));
     }
   }
 }
