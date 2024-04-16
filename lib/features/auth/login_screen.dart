@@ -10,7 +10,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../utilities/api_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../utilities/shared_prefernces.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 const List<String> scopes = <String>[

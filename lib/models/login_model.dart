@@ -11,6 +11,7 @@ String loginModelToJson(LoginModel data) => json.encode(data.toJson());
 class LoginModel {
   String ? code;
   String ? token;
+  String ? isAnalytic;
   String ? message;
   String ? status;
   List<String> ? name;
@@ -22,6 +23,7 @@ class LoginModel {
   LoginModel({
      this.code,
      this.token,
+     this.isAnalytic,
      this.message,
      this.status,
      this.name,
@@ -34,6 +36,7 @@ class LoginModel {
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
     code: json["code"],
     token: json["token"],
+    isAnalytic: json["isAnalytic"],
     message: json["message"],
     status: json["status"],
     name: List<String>.from(json["name"].map((x) => x)),
@@ -46,6 +49,7 @@ class LoginModel {
   Map<String, dynamic> toJson() => {
     "code": code,
     "token": token,
+    "isAnalytic": isAnalytic,
     "message": message,
     "status": status,
     "name": List<dynamic>.from(name!.map((x) => x)),

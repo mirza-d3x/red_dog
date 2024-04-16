@@ -6,4 +6,5 @@ class Constants{
   static const websiteName = 'websiteName';
   static const websiteId = 'websiteId';
   static const googleId = 'googleId';
+  static const analytics = 'analytics';
 }

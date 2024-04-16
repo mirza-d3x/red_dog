@@ -142,11 +142,15 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     storedProfilePic = await getValue('websiteId');
   }
 
+
   dynamic websiteName ;
 
   @override
   Widget build(BuildContext context) {
     getStoredProfilePic();
+    var a = getValue('analytics');
+    print('vjdngkidgjdndmf');
+    print(a);
     return SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
@@ -249,6 +253,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           body:
           //     widget.withAnalytics == false ?
           // withoutAnalyticsWidget() :
+          // storedAnalyticsValue == "false" ? withoutAnalyticsWidget() :
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: SingleChildScrollView(
