@@ -275,7 +275,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             ),
           ),
           backgroundColor: bgColor,
-          body: uiWidget(),
+          body: SingleChildScrollView(child: uiWidget()),
           // storedAnalytics == "true" ?
           // withoutAnalyticsWidget() :
           // Padding(
@@ -1504,7 +1504,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             var state = data.profileLiveData().getValue();
             print(state);
             if (state is IsLoading) {
-              return SizedBox();
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.4,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
             } else if (state is Success) {
               return data.profileModel.userDetails!.isAnalytics == false ?
                    SizedBox(
@@ -1512,533 +1519,828 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                        child: withoutAnalyticsWidget()
                    ) :
               Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
-                      websiteDropdownMenu(),
+                    websiteDropdownMenu(),
 
-                      const SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: InkWell(
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: InkWell(
 
-                              onTap: () =>  _selectDateRange(context),
-                              child: Card(
-                                elevation: 2,
-                                child: Container(
+                            onTap: () =>  _selectDateRange(context),
+                            child: Card(
+                              elevation: 2,
+                              child: Container(
+                                height: 43,
+                                // padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child:
+                                Center(
+                                  child: Text(
+                                    _selectedFromDate != null && _selectedToDate != null ?
+                                    '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                    // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
+                                        : '${formattedInitialdDate} to ${formattedDate}',
+                                    style: dropDownTextStyle,
+                                  ),
+                                ),
+                                // const Icon(
+                                //   Icons.calendar_month,
+                                //   color: blackColor,
+                                //   size: 20,
+                                // )
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 5),
+
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Card(
+                              elevation: 2,
+                              child: Container(
                                   height: 43,
-                                  // padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                                   decoration: BoxDecoration(
                                     color: whiteColor,
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  child:
-                                  Center(
-                                    child: Text(
-                                      _selectedFromDate != null && _selectedToDate != null ?
-                                      '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                      // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
-                                          : '${formattedInitialdDate} to ${formattedDate}',
-                                      style: dropDownTextStyle,
-                                    ),
-                                  ),
-                                  // const Icon(
-                                  //   Icons.calendar_month,
-                                  //   color: blackColor,
-                                  //   size: 20,
-                                  // )
-                                ),
+                                  child: const Icon(
+                                    Icons.download,
+                                    color: blackColor,
+                                    size: 20,
+                                  )
                               ),
                             ),
                           ),
+                        ),
+                      ],
+                    ),
 
-                          const SizedBox(width: 5),
+                    const SizedBox(height: 10),
 
-                          Expanded(
-                            flex: 1,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Card(
-                                elevation: 2,
-                                child: Container(
-                                    height: 43,
-                                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                    decoration: BoxDecoration(
-                                      color: whiteColor,
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: const Icon(
-                                      Icons.download,
-                                      color: blackColor,
-                                      size: 20,
-                                    )
+                    // GridView.builder(
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //     shrinkWrap: true,
+                    //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    //       crossAxisCount: 2,
+                    //       crossAxisSpacing: 4.0,
+                    //       mainAxisSpacing: 4.0,
+                    //       mainAxisExtent: 132
+                    //     ),
+                    //     itemCount: tilesList.length,
+                    //     itemBuilder: (BuildContext context,index) => tiles(context,tilesList[index].title, tilesList[index].value)
+                    // ),
+
+                    visitorWidget(),
+
+                    // tiles('VISITORS', '140'),
+                    //
+                    // const SizedBox(height: 8),
+                    // tiles('NEW VISITORS', '132'),
+                    //
+                    // const SizedBox(height: 8),
+                    // tiles('BOUNCE RATE', '61.75%'),
+                    //
+                    // const SizedBox(height: 8),
+                    // tiles('SESSIONS', '183'),
+                    //
+                    // const SizedBox(height: 8),
+                    // tiles('AVG SESSION DURATION', '106.46 S'),
+
+                    const SizedBox(height: 15),
+                    // Visitors trending time?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Visitors trending time?',
+                          style: normalTextStyle,
+                        ),
+
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //     height: 30,
+                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        //     padding: const EdgeInsets.only(left: 10,right: 10),
+                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         icon: const Icon(
+                        //           Icons.keyboard_arrow_down_outlined,
+                        //           color: blackColor,
+                        //         ),
+                        //         // iconSize: 0,
+                        //         hint: visitorTimeDropDown == null
+                        //             ? Row(
+                        //           children: [
+                        //             Text(
+                        //                 'Weekly',
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         )
+                        //             : Row(
+                        //           children: [
+                        //             Text(
+                        //                 visitorTimeDropDown,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //         value: visitorTimeDropDown,
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             isSelectedVisitor = true;
+                        //             visitorTimeDropDown = newValue;
+                        //           });
+                        //         },
+                        //         items: [
+                        //           'Weekly',
+                        //           'Monthly',
+                        //         ].map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
+                        child: Stack(
+                          children: <Widget>[
+                            AspectRatio(
+                              aspectRatio: 1.70,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  right: 18,
+                                  left: 12,
+                                  top: 10,
+                                  bottom: 12,
+                                ),
+                                child: LineChart(
+                                  mainData(),
+                                  // showAvg ? avgData() : mainData(),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            // SizedBox(
+                            //   width: 60,
+                            //   height: 34,
+                            //   child: TextButton(
+                            //     onPressed: () {
+                            //       setState(() {
+                            //         showAvg = !showAvg;
+                            //       });
+                            //     },
+                            //     child: Text(
+                            //       'avg',
+                            //       style: TextStyle(
+                            //         fontSize: 12,
+                            //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                          ],
+                        )
                       ),
+                    ),
 
-                      const SizedBox(height: 10),
+                    const SizedBox(height: 15),
+                    // Retained visitors
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Retained visitors',
+                          style: normalTextStyle,
+                        ),
 
-                      // GridView.builder(
-                      //   physics: const NeverScrollableScrollPhysics(),
-                      //     shrinkWrap: true,
-                      //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      //       crossAxisCount: 2,
-                      //       crossAxisSpacing: 4.0,
-                      //       mainAxisSpacing: 4.0,
-                      //       mainAxisExtent: 132
-                      //     ),
-                      //     itemCount: tilesList.length,
-                      //     itemBuilder: (BuildContext context,index) => tiles(context,tilesList[index].title, tilesList[index].value)
-                      // ),
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //     height: 30,
+                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        //     padding: const EdgeInsets.only(left: 10,right: 10),
+                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         icon: const Icon(
+                        //           Icons.keyboard_arrow_down_outlined,
+                        //           color: blackColor,
+                        //         ),
+                        //         // iconSize: 0,
+                        //         hint: retainedVisitorDropDown == null
+                        //             ? Row(
+                        //           children: [
+                        //             Text(
+                        //                 'Weekly',
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         )
+                        //             : Row(
+                        //           children: [
+                        //             Text(
+                        //                 retainedVisitorDropDown,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //         value: retainedVisitorDropDown,
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             isSelectedRetainedVisitor = true;
+                        //             retainedVisitorDropDown = newValue;
+                        //           });
+                        //         },
+                        //         items: [
+                        //           'Weekly',
+                        //           'Monthly',
+                        //         ].map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
+                      ],
+                    ),
 
-                      visitorWidget(),
-
-                      // tiles('VISITORS', '140'),
-                      //
-                      // const SizedBox(height: 8),
-                      // tiles('NEW VISITORS', '132'),
-                      //
-                      // const SizedBox(height: 8),
-                      // tiles('BOUNCE RATE', '61.75%'),
-                      //
-                      // const SizedBox(height: 8),
-                      // tiles('SESSIONS', '183'),
-                      //
-                      // const SizedBox(height: 8),
-                      // tiles('AVG SESSION DURATION', '106.46 S'),
-
-                      const SizedBox(height: 15),
-                      // Visitors trending time?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Visitors trending time?',
-                            style: normalTextStyle,
-                          ),
-
-                          // Card(
-                          //   elevation: 2,
-                          //   child: Container(
-                          //     height: 30,
-                          //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          //     padding: const EdgeInsets.only(left: 10,right: 10),
-                          //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          //     decoration: BoxDecoration(
-                          //       color: whiteColor,
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     child: DropdownButtonHideUnderline(
-                          //       child: DropdownButton(
-                          //         icon: const Icon(
-                          //           Icons.keyboard_arrow_down_outlined,
-                          //           color: blackColor,
-                          //         ),
-                          //         // iconSize: 0,
-                          //         hint: visitorTimeDropDown == null
-                          //             ? Row(
-                          //           children: [
-                          //             Text(
-                          //                 'Weekly',
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         )
-                          //             : Row(
-                          //           children: [
-                          //             Text(
-                          //                 visitorTimeDropDown,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         ),
-                          //         value: visitorTimeDropDown,
-                          //         onChanged: (newValue) {
-                          //           setState(() {
-                          //             isSelectedVisitor = true;
-                          //             visitorTimeDropDown = newValue;
-                          //           });
-                          //         },
-                          //         items: [
-                          //           'Weekly',
-                          //           'Monthly',
-                          //         ].map((String value) {
-                          //           return DropdownMenuItem<String>(
-                          //             value: value,
-                          //             child: Text(value,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //           );
-                          //         }).toList(),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        // padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
                         child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
+                          color: whiteColor,
+                          width: 300,
+                          height: 200,
                           child: Stack(
-                            children: <Widget>[
-                              AspectRatio(
-                                aspectRatio: 1.70,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    right: 18,
-                                    left: 12,
-                                    top: 10,
-                                    bottom: 12,
-                                  ),
-                                  child: LineChart(
-                                    mainData(),
-                                    // showAvg ? avgData() : mainData(),
-                                  ),
+                            children: [
+                              SfCircularChart(
+                                centerY: '100',
+                                centerX: '90',
+                                margin: EdgeInsets.zero,
+                                palette: const <Color>[
+                                  graphGreyColor,
+                                  graphBlackColor,
+                                ],
+                                legend: Legend(
+                                  position: LegendPosition.right,
+                                  isVisible: true,
+                                  isResponsive:true,
+                                  overflowMode: LegendItemOverflowMode.wrap,
                                 ),
+                                series: <CircularSeries>[
+                                  DoughnutSeries<VisitorData,String>(
+                                    dataSource: _chartData,
+                                    xValueMapper: (VisitorData data,_) => data.type,
+                                    yValueMapper: (VisitorData data,_) => data.value,
+                                    innerRadius: '90%',
+                                    radius: '60%',
+                                  ),
+                                ],
                               ),
-                              // SizedBox(
-                              //   width: 60,
-                              //   height: 34,
-                              //   child: TextButton(
-                              //     onPressed: () {
-                              //       setState(() {
-                              //         showAvg = !showAvg;
-                              //       });
-                              //     },
-                              //     child: Text(
-                              //       'avg',
-                              //       style: TextStyle(
-                              //         fontSize: 12,
-                              //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
+
+                              Positioned(
+                                left: 73,
+                                top: 93,
+                                child: Text(
+                                  '25.7%',
+                                  style: visitorGraphValueTextStyle,
+                                ),
+                              )
                             ],
-                          )
+                          ),
                         ),
                       ),
+                    ),
 
-                      const SizedBox(height: 15),
-                      // Retained visitors
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Retained visitors',
-                            style: normalTextStyle,
+                    const SizedBox(height: 15),
+                    // Where are your users from?
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Your Visitors from?',
+                          style: normalTextStyle,
+                        ),
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //     height: 30,
+                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        //     padding: const EdgeInsets.only(left: 10,right: 10),
+                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         icon: const Icon(
+                        //           Icons.keyboard_arrow_down_outlined,
+                        //           color: blackColor,
+                        //         ),
+                        //         // iconSize: 0,
+                        //         hint: visitorsFromDropDown == null
+                        //             ? Row(
+                        //           children: [
+                        //             Text(
+                        //                 'Weekly',
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         )
+                        //             : Row(
+                        //           children: [
+                        //             Text(
+                        //                 visitorsFromDropDown,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //         value: visitorsFromDropDown,
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             isSelectedVisitorFrom = true;
+                        //             visitorsFromDropDown = newValue;
+                        //           });
+                        //         },
+                        //         items: [
+                        //           'Weekly',
+                        //           'Monthly',
+                        //         ].map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
+                      ],
+                    ),
+
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 15,top: 15),
+                          child: SimpleMap(
+                            instructions: SMapWorld.instructions,
+                            defaultColor: Colors.grey,
+                            colors: const SMapWorldColors(
+                              uS: Colors.blue,   // This makes USA green
+                              cN: Colors.red,   // This makes China green
+                              iN: Colors.green,   // This makes Russia green
+                            ).toMap(),
+                            callback: (id, name, tapDetails) {
+                              print(id);
+                            },
                           ),
-
-                          // Card(
-                          //   elevation: 2,
-                          //   child: Container(
-                          //     height: 30,
-                          //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          //     padding: const EdgeInsets.only(left: 10,right: 10),
-                          //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          //     decoration: BoxDecoration(
-                          //       color: whiteColor,
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     child: DropdownButtonHideUnderline(
-                          //       child: DropdownButton(
-                          //         icon: const Icon(
-                          //           Icons.keyboard_arrow_down_outlined,
-                          //           color: blackColor,
-                          //         ),
-                          //         // iconSize: 0,
-                          //         hint: retainedVisitorDropDown == null
-                          //             ? Row(
-                          //           children: [
-                          //             Text(
-                          //                 'Weekly',
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         )
-                          //             : Row(
-                          //           children: [
-                          //             Text(
-                          //                 retainedVisitorDropDown,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         ),
-                          //         value: retainedVisitorDropDown,
-                          //         onChanged: (newValue) {
-                          //           setState(() {
-                          //             isSelectedRetainedVisitor = true;
-                          //             retainedVisitorDropDown = newValue;
-                          //           });
-                          //         },
-                          //         items: [
-                          //           'Weekly',
-                          //           'Monthly',
-                          //         ].map((String value) {
-                          //           return DropdownMenuItem<String>(
-                          //             value: value,
-                          //             child: Text(value,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //           );
-                          //         }).toList(),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
-                        ],
+                        ),
                       ),
+                    ),
 
-                      const SizedBox(height: 10),
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
-                        child: Container(
-                          // padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
-                          child: Container(
-                            color: whiteColor,
-                            width: 300,
-                            height: 200,
-                            child: Stack(
-                              children: [
-                                SfCircularChart(
-                                  centerY: '100',
-                                  centerX: '90',
-                                  margin: EdgeInsets.zero,
-                                  palette: const <Color>[
-                                    graphGreyColor,
-                                    graphBlackColor,
-                                  ],
-                                  legend: Legend(
-                                    position: LegendPosition.right,
-                                    isVisible: true,
-                                    isResponsive:true,
-                                    overflowMode: LegendItemOverflowMode.wrap,
-                                  ),
-                                  series: <CircularSeries>[
-                                    DoughnutSeries<VisitorData,String>(
-                                      dataSource: _chartData,
-                                      xValueMapper: (VisitorData data,_) => data.type,
-                                      yValueMapper: (VisitorData data,_) => data.value,
-                                      innerRadius: '90%',
-                                      radius: '60%',
+                    const SizedBox(height: 8),
+                    // country list
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        height: 400,
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 5,top: 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(
+                                    onTap: (){
+                                      setState(() {
+                                        selectedOption = 'Country';
+                                      });
+                                    },
+                                    child: Text(
+                                      'Country',
+                                      style: TextStyle(
+                                        fontFamily: 'Barlow-Medium',
+                                        color: selectedOption == 'Country' ? redColor : blackColor,
+                                        fontSize: 16,
+                                      ),
                                     ),
-                                  ],
+                                  ),
+
+                                  const SizedBox(width: 20),
+                                  InkWell(
+                                    onTap: (){
+                                      setState(() {
+                                        selectedOption = 'City';
+                                      });
+                                    },
+                                    child: Text(
+                                      'City',
+                                      style: TextStyle(
+                                        fontFamily: 'Barlow-Medium',
+                                        color: selectedOption == 'City' ? redColor : blackColor,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(height: 20),
+                            selectedOption == 'Country' ?
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Country',
+                                    style: tableTitleTextStyle,
+                                  ),
                                 ),
 
-                                Positioned(
-                                  left: 73,
-                                  top: 93,
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 20),
                                   child: Text(
-                                    '25.7%',
-                                    style: visitorGraphValueTextStyle,
+                                    'Users',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 35),
+                                  child: Text(
+                                    '%',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                )
+                              ],
+                            ):
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    'City',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    'Users',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 35),
+                                  child: Text(
+                                    '%',
+                                    style: tableTitleTextStyle,
                                   ),
                                 )
                               ],
                             ),
-                          ),
-                        ),
-                      ),
 
-                      const SizedBox(height: 15),
-                      // Where are your users from?
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Your Visitors from?',
-                            style: normalTextStyle,
-                          ),
-                          // Card(
-                          //   elevation: 2,
-                          //   child: Container(
-                          //     height: 30,
-                          //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          //     padding: const EdgeInsets.only(left: 10,right: 10),
-                          //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          //     decoration: BoxDecoration(
-                          //       color: whiteColor,
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     child: DropdownButtonHideUnderline(
-                          //       child: DropdownButton(
-                          //         icon: const Icon(
-                          //           Icons.keyboard_arrow_down_outlined,
-                          //           color: blackColor,
-                          //         ),
-                          //         // iconSize: 0,
-                          //         hint: visitorsFromDropDown == null
-                          //             ? Row(
-                          //           children: [
-                          //             Text(
-                          //                 'Weekly',
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         )
-                          //             : Row(
-                          //           children: [
-                          //             Text(
-                          //                 visitorsFromDropDown,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         ),
-                          //         value: visitorsFromDropDown,
-                          //         onChanged: (newValue) {
-                          //           setState(() {
-                          //             isSelectedVisitorFrom = true;
-                          //             visitorsFromDropDown = newValue;
-                          //           });
-                          //         },
-                          //         items: [
-                          //           'Weekly',
-                          //           'Monthly',
-                          //         ].map((String value) {
-                          //           return DropdownMenuItem<String>(
-                          //             value: value,
-                          //             child: Text(value,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //           );
-                          //         }).toList(),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      ),
-
-                      const SizedBox(height: 10),
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 15,top: 15),
-                            child: SimpleMap(
-                              instructions: SMapWorld.instructions,
-                              defaultColor: Colors.grey,
-                              colors: const SMapWorldColors(
-                                uS: Colors.blue,   // This makes USA green
-                                cN: Colors.red,   // This makes China green
-                                iN: Colors.green,   // This makes Russia green
-                              ).toMap(),
-                              callback: (id, name, tapDetails) {
-                                print(id);
-                              },
+                            const SizedBox(height: 3),
+                            const Divider(
+                              color: dividerColor,
                             ),
-                          ),
-                        ),
-                      ),
 
-                      const SizedBox(height: 8),
-                      // country list
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
-                        child: Container(
-                          height: 400,
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                            const SizedBox(height: 3),
 
-                              Padding(
-                                padding: const EdgeInsets.only(right: 5,top: 5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          selectedOption = 'Country';
-                                        });
-                                      },
-                                      child: Text(
-                                        'Country',
-                                        style: TextStyle(
-                                          fontFamily: 'Barlow-Medium',
-                                          color: selectedOption == 'Country' ? redColor : blackColor,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
+                            selectedOption == 'Country' ?
+                            Expanded(
+                              child: Scrollbar(
+                                thumbVisibility: true,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5,left: 5),
+                                  child: ListView.builder(
+                                    itemCount: 20,
+                                    shrinkWrap: true,
+                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    itemBuilder: (context,index) {
+                                      return Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                // Text(
+                                                //   '${index + 1}',
+                                                //   style: tableContentTextStyle,
+                                                // ),
 
-                                    const SizedBox(width: 20),
-                                    InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          selectedOption = 'City';
-                                        });
-                                      },
-                                      child: Text(
-                                        'City',
-                                        style: TextStyle(
-                                          fontFamily: 'Barlow-Medium',
-                                          color: selectedOption == 'City' ? redColor : blackColor,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                                Text(
+                                                  'India',
+                                                  style: tableContentTextStyle,
+                                                ),
+
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 30),
+                                                  child: Text(
+                                                    '1051',
+                                                    style: tableContentTextStyle,
+                                                  ),
+                                                ),
+
+                                                LinearPercentIndicator(
+                                                  width: 65.0,
+                                                  lineHeight: 14.0,
+                                                  percent: 0.8, //percent value must be between 0.0 and 1.0
+                                                  backgroundColor: whiteColor,
+                                                  progressColor: percentageIndicatorColor,
+                                                  center: Text(
+                                                    '83.10%',
+                                                    style: percentTextStyle,
+                                                  ),
+                                                ),
+
+
+                                                // Text(
+                                                //   '83.10%',
+                                                //   style: tableContentTextStyle,
+                                                // )
+                                              ],
+                                            ),
+                                          ),
+
+                                          const SizedBox(height: 3),
+                                          const Divider(
+                                            color: dividerColor,
+                                          ),
+                                          const SizedBox(height: 3),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
+                            ):
+                            Expanded(
+                              child: Scrollbar(
+                                thumbVisibility: true,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5,left: 5),
+                                  child: ListView.builder(
+                                    itemCount: 20,
+                                    shrinkWrap: true,
+                                    physics: const AlwaysScrollableScrollPhysics(),
+                                    itemBuilder: (context,index) {
+                                      return Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                // Text(
+                                                //   '${index + 1}',
+                                                //   style: tableContentTextStyle,
+                                                // ),
 
-                              const SizedBox(height: 20),
-                              selectedOption == 'Country' ?
-                              Row(
+                                                Text(
+                                                  'Kochi',
+                                                  style: tableContentTextStyle,
+                                                ),
+
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left: 30),
+                                                  child: Text(
+                                                    '1051',
+                                                    style: tableContentTextStyle,
+                                                  ),
+                                                ),
+
+                                                LinearPercentIndicator(
+                                                  width: 65.0,
+                                                  lineHeight: 14.0,
+                                                  percent: 0.8, //percent value must be between 0.0 and 1.0
+                                                  backgroundColor: whiteColor,
+                                                  progressColor: percentageIndicatorColor,
+                                                  center: Text(
+                                                    '83.10%',
+                                                    style: percentTextStyle,
+                                                  ),
+                                                ),
+
+
+                                                // Text(
+                                                //   '83.10%',
+                                                //   style: tableContentTextStyle,
+                                                // )
+                                              ],
+                                            ),
+                                          ),
+
+                                          const SizedBox(height: 3),
+                                          const Divider(
+                                            color: dividerColor,
+                                          ),
+                                          const SizedBox(height: 3),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+                    // What language do they speak?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'What language do they speak?',
+                          style: normalTextStyle,
+                        ),
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //     height: 30,
+                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        //     padding: const EdgeInsets.only(left: 10,right: 10),
+                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         icon: const Icon(
+                        //           Icons.keyboard_arrow_down_outlined,
+                        //           color: blackColor,
+                        //         ),
+                        //         // iconSize: 0,
+                        //         hint: languagePeriodDropDown == null
+                        //             ? Row(
+                        //           children: [
+                        //             Text(
+                        //                 'Weekly',
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         )
+                        //             : Row(
+                        //           children: [
+                        //             Text(
+                        //                 languagePeriodDropDown,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //         value: languagePeriodDropDown,
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             isSelectedLanguage = true;
+                        //             languagePeriodDropDown = newValue;
+                        //           });
+                        //         },
+                        //         items: [
+                        //           'Weekly',
+                        //           'Monthly',
+                        //         ].map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        height: 400,
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 3),
+                            const Divider(
+                              color: dividerColor,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+
                                   Padding(
                                     padding: const EdgeInsets.only(left: 10),
                                     child: Text(
-                                      'Country',
+                                      'Language',
                                       style: tableTitleTextStyle,
                                     ),
                                   ),
@@ -2050,33 +2352,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                       style: tableTitleTextStyle,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 35),
-                                    child: Text(
-                                      '%',
-                                      style: tableTitleTextStyle,
-                                    ),
-                                  )
-                                ],
-                              ):
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      'City',
-                                      style: tableTitleTextStyle,
-                                    ),
-                                  ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      'Users',
-                                      style: tableTitleTextStyle,
-                                    ),
-                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(right: 35),
                                     child: Text(
@@ -2086,573 +2362,299 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                   )
                                 ],
                               ),
+                            ),
 
-                              const SizedBox(height: 3),
-                              const Divider(
-                                color: dividerColor,
-                              ),
+                            const SizedBox(height: 3),
+                            const Divider(
+                              color: dividerColor,
+                            ),
 
-                              const SizedBox(height: 3),
+                            const SizedBox(height: 3),
 
-                              selectedOption == 'Country' ?
-                              Expanded(
-                                child: Scrollbar(
-                                  thumbVisibility: true,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 5,left: 5),
-                                    child: ListView.builder(
-                                      itemCount: 20,
+                            Expanded(
+                              child: Scrollbar(
+                                thumbVisibility: true,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5,left: 5),
+                                  child: ListView.builder(
+                                    itemCount: 20,
                                       shrinkWrap: true,
                                       physics: const AlwaysScrollableScrollPhysics(),
                                       itemBuilder: (context,index) {
-                                        return Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  // Text(
-                                                  //   '${index + 1}',
-                                                  //   style: tableContentTextStyle,
-                                                  // ),
+                                      return Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                // Text(
+                                                //   '${index + 1}',
+                                                //   style: tableContentTextStyle,
+                                                // ),
 
-                                                  Text(
-                                                    'India',
-                                                    style: tableContentTextStyle,
-                                                  ),
+                                                Text(
+                                                  'English',
+                                                  style: tableContentTextStyle,
+                                                ),
 
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 30),
-                                                    child: Text(
-                                                      '1051',
-                                                      style: tableContentTextStyle,
-                                                    ),
-                                                  ),
+                                                Text(
+                                                  '118',
+                                                  style: tableContentTextStyle,
+                                                ),
 
-                                                  LinearPercentIndicator(
-                                                    width: 65.0,
-                                                    lineHeight: 14.0,
-                                                    percent: 0.8, //percent value must be between 0.0 and 1.0
-                                                    backgroundColor: whiteColor,
-                                                    progressColor: percentageIndicatorColor,
-                                                    center: Text(
+                                                LinearPercentIndicator(
+                                                  width: 65.0,
+                                                  lineHeight: 14.0,
+                                                  percent: 0.8, //percent value must be between 0.0 and 1.0
+                                                  backgroundColor: whiteColor,
+                                                  progressColor: percentageIndicatorColor,
+                                                  center: Text(
                                                       '83.10%',
-                                                      style: percentTextStyle,
-                                                    ),
+                                                    style: percentTextStyle,
                                                   ),
+                                                ),
 
 
-                                                  // Text(
-                                                  //   '83.10%',
-                                                  //   style: tableContentTextStyle,
-                                                  // )
-                                                ],
-                                              ),
+                                                // Text(
+                                                //   '83.10%',
+                                                //   style: tableContentTextStyle,
+                                                // )
+                                              ],
                                             ),
+                                          ),
 
-                                            const SizedBox(height: 3),
-                                            const Divider(
-                                              color: dividerColor,
-                                            ),
-                                            const SizedBox(height: 3),
-                                          ],
-                                        );
+                                          const SizedBox(height: 3),
+                                          const Divider(
+                                            color: dividerColor,
+                                          ),
+                                          const SizedBox(height: 3),
+                                        ],
+                                      );
                                       },
-                                    ),
                                   ),
                                 ),
-                              ):
-                              Expanded(
-                                child: Scrollbar(
-                                  thumbVisibility: true,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 5,left: 5),
-                                    child: ListView.builder(
-                                      itemCount: 20,
-                                      shrinkWrap: true,
-                                      physics: const AlwaysScrollableScrollPhysics(),
-                                      itemBuilder: (context,index) {
-                                        return Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  // Text(
-                                                  //   '${index + 1}',
-                                                  //   style: tableContentTextStyle,
-                                                  // ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
 
-                                                  Text(
-                                                    'Kochi',
-                                                    style: tableContentTextStyle,
-                                                  ),
+                    const SizedBox(height: 15),
+                    // What is their age group?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'What is their age group?',
+                          style: normalTextStyle,
+                        ),
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //     height: 30,
+                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        //     padding: const EdgeInsets.only(left: 10,right: 10),
+                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         icon: const Icon(
+                        //           Icons.keyboard_arrow_down_outlined,
+                        //           color: blackColor,
+                        //         ),
+                        //         // iconSize: 0,
+                        //         hint: agePeriodDropDown == null
+                        //             ? Row(
+                        //           children: [
+                        //             Text(
+                        //                 'Weekly',
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         )
+                        //             : Row(
+                        //           children: [
+                        //             Text(
+                        //                 agePeriodDropDown,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //         value: agePeriodDropDown,
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             isSelectedAge = true;
+                        //             agePeriodDropDown = newValue;
+                        //           });
+                        //         },
+                        //         items: [
+                        //           'Weekly',
+                        //           'Monthly',
+                        //         ].map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
+                        child: buildBarChart(),
+                      ),
+                    ),
 
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 30),
-                                                    child: Text(
-                                                      '1051',
-                                                      style: tableContentTextStyle,
-                                                    ),
-                                                  ),
-
-                                                  LinearPercentIndicator(
-                                                    width: 65.0,
-                                                    lineHeight: 14.0,
-                                                    percent: 0.8, //percent value must be between 0.0 and 1.0
-                                                    backgroundColor: whiteColor,
-                                                    progressColor: percentageIndicatorColor,
-                                                    center: Text(
-                                                      '83.10%',
-                                                      style: percentTextStyle,
-                                                    ),
-                                                  ),
-
-
-                                                  // Text(
-                                                  //   '83.10%',
-                                                  //   style: tableContentTextStyle,
-                                                  // )
-                                                ],
-                                              ),
-                                            ),
-
-                                            const SizedBox(height: 3),
-                                            const Divider(
-                                              color: dividerColor,
-                                            ),
-                                            const SizedBox(height: 3),
-                                          ],
-                                        );
-                                      },
-                                    ),
+                    const SizedBox(height: 15),
+                    // What is their gender?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'What is their gender?',
+                          style: normalTextStyle,
+                        ),
+                        // Card(
+                        //   elevation: 2,
+                        //   child: Container(
+                        //     height: 30,
+                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                        //     padding: const EdgeInsets.only(left: 10,right: 10),
+                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+                        //     decoration: BoxDecoration(
+                        //       color: whiteColor,
+                        //       borderRadius: BorderRadius.circular(5),
+                        //     ),
+                        //     child: DropdownButtonHideUnderline(
+                        //       child: DropdownButton(
+                        //         icon: const Icon(
+                        //           Icons.keyboard_arrow_down_outlined,
+                        //           color: blackColor,
+                        //         ),
+                        //         // iconSize: 0,
+                        //         hint: genderPeriodDropDown == null
+                        //             ? Row(
+                        //           children: [
+                        //             Text(
+                        //                 'Weekly',
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         )
+                        //             : Row(
+                        //           children: [
+                        //             Text(
+                        //                 genderPeriodDropDown,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //             const SizedBox(width: 5),
+                        //           ],
+                        //         ),
+                        //         value: genderPeriodDropDown,
+                        //         onChanged: (newValue) {
+                        //           setState(() {
+                        //             isSelectedGender = true;
+                        //             genderPeriodDropDown = newValue;
+                        //           });
+                        //         },
+                        //         items: [
+                        //           'Weekly',
+                        //           'Monthly',
+                        //         ].map((String value) {
+                        //           return DropdownMenuItem<String>(
+                        //             value: value,
+                        //             child: Text(value,
+                        //                 style: durationDropDownTextStyle
+                        //             ),
+                        //           );
+                        //         }).toList(),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // )
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: whiteColor,
+                        ),
+                        child: Container(
+                          color: whiteColor,
+                          width: 300,
+                          height: 200,
+                          child: Stack(
+                            children: [
+                              SfCircularChart(
+                                centerY: '100',
+                                centerX: '90',
+                                margin: EdgeInsets.zero,
+                                palette: const <Color>[
+                                  maleIndicatorColor,
+                                  femaleIndicatorColor,
+                                ],
+                                legend: Legend(
+                                  position: LegendPosition.right,
+                                  isVisible: true,
+                                  isResponsive:true,
+                                  overflowMode: LegendItemOverflowMode.wrap,
+                                ),
+                                series: <CircularSeries>[
+                                  DoughnutSeries<GenderData,String>(
+                                    dataSource: _genderChartData,
+                                    xValueMapper: (GenderData data,_) => data.type,
+                                    yValueMapper: (GenderData data,_) => data.value,
+                                    innerRadius: '90%',
+                                    radius: '60%',
                                   ),
+                                ],
+                              ),
+
+                              Positioned(
+                                left: 62,
+                                top: 93,
+                                child: Text(
+                                  '',
+                                  // 'Mar 2024',
+                                  style: graphValueTextStyle,
                                 ),
                               )
                             ],
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 15),
-                      // What language do they speak?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'What language do they speak?',
-                            style: normalTextStyle,
-                          ),
-                          // Card(
-                          //   elevation: 2,
-                          //   child: Container(
-                          //     height: 30,
-                          //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          //     padding: const EdgeInsets.only(left: 10,right: 10),
-                          //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          //     decoration: BoxDecoration(
-                          //       color: whiteColor,
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     child: DropdownButtonHideUnderline(
-                          //       child: DropdownButton(
-                          //         icon: const Icon(
-                          //           Icons.keyboard_arrow_down_outlined,
-                          //           color: blackColor,
-                          //         ),
-                          //         // iconSize: 0,
-                          //         hint: languagePeriodDropDown == null
-                          //             ? Row(
-                          //           children: [
-                          //             Text(
-                          //                 'Weekly',
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         )
-                          //             : Row(
-                          //           children: [
-                          //             Text(
-                          //                 languagePeriodDropDown,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         ),
-                          //         value: languagePeriodDropDown,
-                          //         onChanged: (newValue) {
-                          //           setState(() {
-                          //             isSelectedLanguage = true;
-                          //             languagePeriodDropDown = newValue;
-                          //           });
-                          //         },
-                          //         items: [
-                          //           'Weekly',
-                          //           'Monthly',
-                          //         ].map((String value) {
-                          //           return DropdownMenuItem<String>(
-                          //             value: value,
-                          //             child: Text(value,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //           );
-                          //         }).toList(),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
-                        child: Container(
-                          height: 400,
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 3),
-                              const Divider(
-                                color: dividerColor,
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        'Language',
-                                        style: tableTitleTextStyle,
-                                      ),
-                                    ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 20),
-                                      child: Text(
-                                        'Users',
-                                        style: tableTitleTextStyle,
-                                      ),
-                                    ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 35),
-                                      child: Text(
-                                        '%',
-                                        style: tableTitleTextStyle,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-
-                              const SizedBox(height: 3),
-                              const Divider(
-                                color: dividerColor,
-                              ),
-
-                              const SizedBox(height: 3),
-
-                              Expanded(
-                                child: Scrollbar(
-                                  thumbVisibility: true,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 5,left: 5),
-                                    child: ListView.builder(
-                                      itemCount: 20,
-                                        shrinkWrap: true,
-                                        physics: const AlwaysScrollableScrollPhysics(),
-                                        itemBuilder: (context,index) {
-                                        return Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  // Text(
-                                                  //   '${index + 1}',
-                                                  //   style: tableContentTextStyle,
-                                                  // ),
-
-                                                  Text(
-                                                    'English',
-                                                    style: tableContentTextStyle,
-                                                  ),
-
-                                                  Text(
-                                                    '118',
-                                                    style: tableContentTextStyle,
-                                                  ),
-
-                                                  LinearPercentIndicator(
-                                                    width: 65.0,
-                                                    lineHeight: 14.0,
-                                                    percent: 0.8, //percent value must be between 0.0 and 1.0
-                                                    backgroundColor: whiteColor,
-                                                    progressColor: percentageIndicatorColor,
-                                                    center: Text(
-                                                        '83.10%',
-                                                      style: percentTextStyle,
-                                                    ),
-                                                  ),
-
-
-                                                  // Text(
-                                                  //   '83.10%',
-                                                  //   style: tableContentTextStyle,
-                                                  // )
-                                                ],
-                                              ),
-                                            ),
-
-                                            const SizedBox(height: 3),
-                                            const Divider(
-                                              color: dividerColor,
-                                            ),
-                                            const SizedBox(height: 3),
-                                          ],
-                                        );
-                                        },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 15),
-                      // What is their age group?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'What is their age group?',
-                            style: normalTextStyle,
-                          ),
-                          // Card(
-                          //   elevation: 2,
-                          //   child: Container(
-                          //     height: 30,
-                          //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          //     padding: const EdgeInsets.only(left: 10,right: 10),
-                          //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          //     decoration: BoxDecoration(
-                          //       color: whiteColor,
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     child: DropdownButtonHideUnderline(
-                          //       child: DropdownButton(
-                          //         icon: const Icon(
-                          //           Icons.keyboard_arrow_down_outlined,
-                          //           color: blackColor,
-                          //         ),
-                          //         // iconSize: 0,
-                          //         hint: agePeriodDropDown == null
-                          //             ? Row(
-                          //           children: [
-                          //             Text(
-                          //                 'Weekly',
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         )
-                          //             : Row(
-                          //           children: [
-                          //             Text(
-                          //                 agePeriodDropDown,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         ),
-                          //         value: agePeriodDropDown,
-                          //         onChanged: (newValue) {
-                          //           setState(() {
-                          //             isSelectedAge = true;
-                          //             agePeriodDropDown = newValue;
-                          //           });
-                          //         },
-                          //         items: [
-                          //           'Weekly',
-                          //           'Monthly',
-                          //         ].map((String value) {
-                          //           return DropdownMenuItem<String>(
-                          //             value: value,
-                          //             child: Text(value,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //           );
-                          //         }).toList(),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
-                          child: buildBarChart(),
-                        ),
-                      ),
-
-                      const SizedBox(height: 15),
-                      // What is their gender?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'What is their gender?',
-                            style: normalTextStyle,
-                          ),
-                          // Card(
-                          //   elevation: 2,
-                          //   child: Container(
-                          //     height: 30,
-                          //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                          //     padding: const EdgeInsets.only(left: 10,right: 10),
-                          //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                          //     decoration: BoxDecoration(
-                          //       color: whiteColor,
-                          //       borderRadius: BorderRadius.circular(5),
-                          //     ),
-                          //     child: DropdownButtonHideUnderline(
-                          //       child: DropdownButton(
-                          //         icon: const Icon(
-                          //           Icons.keyboard_arrow_down_outlined,
-                          //           color: blackColor,
-                          //         ),
-                          //         // iconSize: 0,
-                          //         hint: genderPeriodDropDown == null
-                          //             ? Row(
-                          //           children: [
-                          //             Text(
-                          //                 'Weekly',
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         )
-                          //             : Row(
-                          //           children: [
-                          //             Text(
-                          //                 genderPeriodDropDown,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //             const SizedBox(width: 5),
-                          //           ],
-                          //         ),
-                          //         value: genderPeriodDropDown,
-                          //         onChanged: (newValue) {
-                          //           setState(() {
-                          //             isSelectedGender = true;
-                          //             genderPeriodDropDown = newValue;
-                          //           });
-                          //         },
-                          //         items: [
-                          //           'Weekly',
-                          //           'Monthly',
-                          //         ].map((String value) {
-                          //           return DropdownMenuItem<String>(
-                          //             value: value,
-                          //             child: Text(value,
-                          //                 style: durationDropDownTextStyle
-                          //             ),
-                          //           );
-                          //         }).toList(),
-                          //       ),
-                          //     ),
-                          //   ),
-                          // )
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Card(
-                        elevation: 2,
-                        shadowColor: whiteColor,
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: whiteColor,
-                          ),
-                          child: Container(
-                            color: whiteColor,
-                            width: 300,
-                            height: 200,
-                            child: Stack(
-                              children: [
-                                SfCircularChart(
-                                  centerY: '100',
-                                  centerX: '90',
-                                  margin: EdgeInsets.zero,
-                                  palette: const <Color>[
-                                    maleIndicatorColor,
-                                    femaleIndicatorColor,
-                                  ],
-                                  legend: Legend(
-                                    position: LegendPosition.right,
-                                    isVisible: true,
-                                    isResponsive:true,
-                                    overflowMode: LegendItemOverflowMode.wrap,
-                                  ),
-                                  series: <CircularSeries>[
-                                    DoughnutSeries<GenderData,String>(
-                                      dataSource: _genderChartData,
-                                      xValueMapper: (GenderData data,_) => data.type,
-                                      yValueMapper: (GenderData data,_) => data.value,
-                                      innerRadius: '90%',
-                                      radius: '60%',
-                                    ),
-                                  ],
-                                ),
-
-                                Positioned(
-                                  left: 62,
-                                  top: 93,
-                                  child: Text(
-                                    '',
-                                    // 'Mar 2024',
-                                    style: graphValueTextStyle,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-
+                    ),
+                  ],
                 ),
               );
             }else if (state is Failure) {
