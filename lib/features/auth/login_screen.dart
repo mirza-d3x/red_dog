@@ -9,12 +9,15 @@ import '../../styles/text_styles.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../utilities/api_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../../utilities/shared_prefernces.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 const List<String> scopes = <String>[
   'email',
+  'profile',
+  'https://www.googleapis.com/auth/analytics.readonly',
+  'https://www.googleapis.com/auth/analytics.manage.users'
 ];
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -69,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
             googleSignInAccount.email,
             token.toString(),
             googleAuth.accessToken,
-            "false"
-            // _value == 'With Analytics' ? "true" : "false"
+            // "false"
+            _value == 'With Analytics' ? "true" : "false"
         );
         if(loginProvider.loginModel.status == 'success'){
           print('ffffffffffffffffffffffffffffffff');
@@ -83,6 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
           });
         }
         else{
+          print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
+          print(googleAuth.accessToken);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: whiteColor,

@@ -136,6 +136,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     storedProfilePic = await getValue('profilePic');
   }
 
+  String storedWebsiteId = '';
+
+  void getStoredWebsiteId() async{
+    storedProfilePic = await getValue('websiteId');
+  }
+
   dynamic websiteName ;
 
   @override
@@ -1474,6 +1480,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             selectedWebsite = newValue;
                             setValue('websiteId', selectedWebsite[0]);
                           });
+                          getStoredWebsiteId();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
