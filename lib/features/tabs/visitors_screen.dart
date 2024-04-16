@@ -6,7 +6,9 @@ import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/providers/visitor_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
+import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
 import 'package:reddog_mobile_app/widgets/tiles_full_width.dart';
@@ -63,10 +65,13 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
  RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
+ VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
+
   @override
   void initState(){
     getStoredProfilePic();
     registeredWebsiteProvider.getRegisteredWebsiteList();
+    visitorProvider.getVisitorTileData();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -343,27 +348,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   //     itemBuilder: (BuildContext context,index) => tiles(context,tilesList[index].title, tilesList[index].value)
                   // ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      tiles(context,'VISITORS', '140'),
-                      tiles(context,'NEW VISITORS', '132'),
-                    ],
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      tiles(context,'BOUNCE RATE', '61.75%'),
-                      tiles(context,'SESSIONS', '183'),
-                    ],
-                  ),
-
-                  const SizedBox(height: 8),
-                  tilesFullWidth(context, 'AVG SESSION DURATION', '106.46 S'),
-
+                  visitorWidget(),
 
                   // tiles('VISITORS', '140'),
                   //
@@ -1519,6 +1504,74 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           return Container();
         }
       }),
+    );
+  }
+
+  Widget visitorWidget(){
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx){
+        return visitorProvider;
+      },
+      child: Column(
+        children: [
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.visitorTileLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      tiles(context,'VISITORS',
+                          '${data.tileDataModel.data!.visitors}',
+                      ),
+                      tiles(context,'NEW VISITORS',
+                          '${data.tileDataModel.data!.newVisitors}'
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      tiles(context,'BOUNCE RATE',
+                          '${data.tileDataModel.data!.bounceRate}',
+                      ),
+                      tiles(context,'SESSIONS', '${data.tileDataModel.data!.sessions}'),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+                  tilesFullWidth(context, 'AVG SESSION DURATION', '${data.tileDataModel.data!.avgSessionDuration} S'),
+                ],
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      ),
     );
   }
 

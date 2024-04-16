@@ -9,13 +9,37 @@ VisitorsTileDataModel visitorsTileDataModelFromJson(String str) => VisitorsTileD
 String visitorsTileDataModelToJson(VisitorsTileDataModel data) => json.encode(data.toJson());
 
 class VisitorsTileDataModel {
+  String ? message;
+  int ? code;
+  Data ? data;
+
+  VisitorsTileDataModel({
+     this.message,
+     this.code,
+     this.data,
+  });
+
+  factory VisitorsTileDataModel.fromJson(Map<String, dynamic> json) => VisitorsTileDataModel(
+    message: json["message"],
+    code: json["code"],
+    data: Data.fromJson(json["data"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "message": message,
+    "code": code,
+    "data": data!.toJson(),
+  };
+}
+
+class Data {
   String ? visitors;
   String ? newVisitors;
   String ? bounceRate;
   String ? sessions;
   String ? avgSessionDuration;
 
-  VisitorsTileDataModel({
+  Data({
      this.visitors,
      this.newVisitors,
      this.bounceRate,
@@ -23,7 +47,7 @@ class VisitorsTileDataModel {
      this.avgSessionDuration,
   });
 
-  factory VisitorsTileDataModel.fromJson(Map<String, dynamic> json) => VisitorsTileDataModel(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
     visitors: json["visitors"],
     newVisitors: json["newVisitors"],
     bounceRate: json["bounceRate"],

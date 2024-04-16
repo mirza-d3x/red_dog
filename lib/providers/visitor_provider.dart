@@ -28,11 +28,11 @@ class VisitorProvider extends ChangeNotifier {
     try {
       VisitorTileData.setValue(IsLoading());
       tileDataModel = await visitorRepository.getVisitorTile();
-      // if (tileDataModel.status == 'success') {
-      //   VisitorTileData.setValue(Success(tileDataModel));
-      // } else {
-      //   VisitorTileData.setValue(Failure(tileDataModel.toString()));
-      // }
+      if (tileDataModel.code == 200) {
+        VisitorTileData.setValue(Success(tileDataModel));
+      } else {
+        VisitorTileData.setValue(Failure(tileDataModel.toString()));
+      }
     } catch (ex) {
       VisitorTileData.setValue(Failure(ex.toString()));
     } finally {
