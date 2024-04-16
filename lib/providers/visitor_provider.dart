@@ -26,7 +26,6 @@ class VisitorProvider extends ChangeNotifier {
   }
 
   getVisitorTileData(
-      dynamic viewId,
       dynamic fromDate,
       dynamic toDate,
       ) async {
@@ -34,7 +33,12 @@ class VisitorProvider extends ChangeNotifier {
       VisitorTileData.setValue(IsLoading());
       var googleToken = await getValue('googleToken');
       var googleId = await getValue('googleId');
-      tileDataModel = await visitorRepository.getVisitorTile(googleId, googleToken,viewId,fromDate,toDate);
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      tileDataModel = await visitorRepository.getVisitorTile(googleId, googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate);
       if (tileDataModel.code == 200) {
         VisitorTileData.setValue(Success(tileDataModel));
       } else {

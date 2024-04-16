@@ -67,16 +67,27 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
  VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
 
+ getMethod () async{
+  await  visitorProvider.getVisitorTileData(
+     // '384272511',
+       _selectedFromDate != null ?
+       '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+       _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+   );
+ }
+
   @override
   void initState(){
     getStoredProfilePic();
+    deleteValue('websiteId');
     registeredWebsiteProvider.getRegisteredWebsiteList();
-    visitorProvider.getVisitorTileData(
-      '384272511',
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-           _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
+    getMethod();
+    // visitorProvider.getVisitorTileData(
+    //   // '384272511',
+    //     _selectedFromDate != null ?
+    //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+    //        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    // );
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -132,7 +143,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
         visitorProvider.getVisitorTileData(
-            '384272511',
             _selectedFromDate != null ?
             '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
             _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -165,6 +175,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
 
   dynamic websiteName ;
+  dynamic websiteViewId ;
 
   @override
   Widget build(BuildContext context) {
@@ -1484,12 +1495,15 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           setState(() {
                             isSelectedFromDropDwn = true;
                             selectedWebsite = newValue;
-                            setValue('websiteId', selectedWebsite[0]);
+                            setValue('websiteId', websiteViewId);
                           });
                           getStoredWebsiteId();
+                          getMethod ();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
+                          websiteViewId = e.datumId;
+                          setValue('websiteId', websiteViewId);
                           return DropdownMenuItem(
                             // value: valueItem,
                             child: Text(e.name),

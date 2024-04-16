@@ -30,6 +30,7 @@ class RegisteredWebsiteProvider extends ChangeNotifier {
       var googleId = await getValue("googleId");
       websiteListModel = await commonRepository.getRegisteredWebsite(googleId);
       if (websiteListModel.code == "200") {
+        setValue('initialWebId', websiteListModel.data![0].datumId);
         websiteListData.setValue(Success(websiteListModel));
       } else {
         websiteListData.setValue(Failure(websiteListModel.toString()));
