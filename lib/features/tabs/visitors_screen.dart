@@ -71,7 +71,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   void initState(){
     getStoredProfilePic();
     registeredWebsiteProvider.getRegisteredWebsiteList();
-    visitorProvider.getVisitorTileData();
+    visitorProvider.getVisitorTileData(
+      '384272511',
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedDate,
+           _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
+import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
 import '../core/live_data.dart';
 import '../core/ui_state.dart';
 
@@ -24,10 +25,16 @@ class VisitorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getVisitorTileData() async {
+  getVisitorTileData(
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
     try {
       VisitorTileData.setValue(IsLoading());
-      tileDataModel = await visitorRepository.getVisitorTile();
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      tileDataModel = await visitorRepository.getVisitorTile(googleId, googleToken,viewId,fromDate,toDate);
       if (tileDataModel.code == 200) {
         VisitorTileData.setValue(Success(tileDataModel));
       } else {

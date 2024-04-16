@@ -10,6 +10,12 @@ class VisitorRepository {
     this.webService = Webservice();
   }
 
-  Future getVisitorTile() => webService?.get(getVisitorsTileDataApi());
+  Future getVisitorTile(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      ) => webService?.get(getVisitorsTileDataApi(googleId, googleToken,viewId,fromDate,toDate));
 
 }
