@@ -74,7 +74,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     visitorProvider.getVisitorTileData(
       '384272511',
         _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedDate,
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
            _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
     _chartData = getChartData();
@@ -131,12 +131,23 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       setState(() {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        visitorProvider.getVisitorTileData(
+            '384272511',
+            _selectedFromDate != null ?
+            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+            _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+        );
       });
     }
   }
 
-  // Format the current date in "yyyy-MM-dd" format
+  // Format the current date in "yyyy-MM-dd" format - todate
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+
+  //initial from date
+  String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 30)));
+
 
   String selectedOption = 'Country';
 
@@ -297,7 +308,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                   _selectedFromDate != null && _selectedToDate != null ?
                                   '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                                   // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
-                                      : '2024-03-03 to ${formattedDate}',
+                                      : '${formattedInitialdDate} to ${formattedDate}',
                                   style: dropDownTextStyle,
                                 ),
                               ),

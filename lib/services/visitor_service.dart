@@ -14,8 +14,9 @@ Resource<VisitorsTileDataModel> getVisitorsTileDataApi(
     ) {
   return Resource(
       url:
-      'https://app.reddog.live/api/ga/singleGa/$googleId/$googleToken/ 384272511/2024-03-06/2024-04-04',
+      'https://app.reddog.live/api/ga/singleGa/$googleId/$googleToken/ 384272511/$fromDate/$toDate',
       parse: (response) {
+        print(response.body);
         Map<String, dynamic> getVisitorsTileDataMap = jsonDecode(response.body);
         VisitorsTileDataModel visitorsTileResult = VisitorsTileDataModel.fromJson(getVisitorsTileDataMap);
         return visitorsTileResult;
