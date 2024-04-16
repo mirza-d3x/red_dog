@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     const LoginScreen()));
       }else{
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) =>  TabViewScreen(storedProfilePic)));
+            context, MaterialPageRoute(builder: (_) =>  TabViewScreen()));
       }
     });
   }

@@ -44,6 +44,27 @@ class Webservice {
     }
   }
 
+  Future<T> postWithGoogleToken<T>(Resource<T> resource) async {
+    try {
+      Response response;
+      String token = await getGoogleToken();
+      print(token);
+      if (token.isNotEmpty) {
+        response = await http.post(getUrl(resource.url!),
+            body: resource.body, headers: getHeaders(token));
+      } else {
+        response = await http.post(
+          getUrl(resource.url!),
+          body: resource.body,
+        );
+      }
+      return resource.parse!(response);
+    } catch (e) {
+      print('*******webservice post******' + e.toString());
+      throw e;
+    }
+  }
+
   Future<T> postJson<T>(Resource<T> resource) async {
     try {
       Response response;

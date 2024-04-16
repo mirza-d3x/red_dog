@@ -19,6 +19,10 @@ Future<String> getToken() async {
   return await getValue(Constants.token);
 }
 
+Future<String> getGoogleToken() async {
+  return await getValue(Constants.googleToken);
+}
+
 Map<String, String> getHeaders(String token) {
   return {"x-auth-token": token};
 }

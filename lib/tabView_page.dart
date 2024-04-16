@@ -8,9 +8,7 @@ import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
 
 class TabViewScreen extends StatefulWidget {
-  dynamic imgUrl;
    TabViewScreen(
-       this.imgUrl,
       {super.key});
 
   @override
@@ -21,16 +19,9 @@ class _TabViewScreenState extends State<TabViewScreen> {
 
   int tabIndex = 0;
 
-  String storedProfilePic = '';
-
-  void getStoredProfilePic() async{
-    storedProfilePic = await getValue('profilePic');
-  }
-
   @override
   void initState(){
     super.initState();
-    getStoredProfilePic();
   }
 
 
@@ -43,7 +34,7 @@ class _TabViewScreenState extends State<TabViewScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-              VisitorsScreen(widget.imgUrl),
+              VisitorsScreen(),
               AcquisitionScreen(),
              const ServerScreen(),
              const EnquiryScreen(),

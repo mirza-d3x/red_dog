@@ -4,9 +4,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/providers/login_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
 import 'package:reddog_mobile_app/providers/visitor_provider.dart';
 import 'package:reddog_mobile_app/repositories/auth_repository.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
+import 'package:reddog_mobile_app/repositories/user_repository.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
 import 'package:reddog_mobile_app/utilities/http_ssl_certificate.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
@@ -42,6 +44,9 @@ void main() async{
 
         ChangeNotifierProvider(
             create: (_) => VisitorProvider(visitorRepository: VisitorRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => UserProfileProvider(userRepository: UserRepository())),
       ],
       child: const MyApp()
     ),

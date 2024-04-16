@@ -79,9 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           print(googleAuth.accessToken);
           // await userDetailProvider.fetchUserDetails();
           Future.delayed(Duration.zero, () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen(
-              '${loginProvider.loginModel.userData!.picture}'
-            )));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
           });
         }
         else{

@@ -6,8 +6,10 @@ import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
 import 'package:reddog_mobile_app/providers/visitor_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
+import 'package:reddog_mobile_app/repositories/user_repository.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
@@ -25,9 +27,7 @@ import 'dart:math' as math;
 import '../../utilities/shared_prefernces.dart';
 
 class VisitorsScreen extends StatefulWidget {
-  dynamic imgUrl;
    VisitorsScreen(
-       this.imgUrl,
       {super.key});
 
   @override
@@ -76,26 +76,17 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
    );
  }
 
+ UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
+
   @override
   void initState(){
-    getStoredProfilePic();
     deleteValue('websiteId');
+    userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getMethod();
-    // visitorProvider.getVisitorTileData(
-    //   // '384272511',
-    //     _selectedFromDate != null ?
-    //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-    //        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    // );
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
-    tilesList.add(VisitorTileModel('VISITORS', '140'));
-    tilesList.add(VisitorTileModel('NEW VISITORS', '132'));
-    tilesList.add(VisitorTileModel('BOUNCE RATE', '61.75%'));
-    tilesList.add(VisitorTileModel('SESSIONS', '183'));
-    tilesList.add(VisitorTileModel('AVG SESSION DURATION', '106.46 S'));
   }
 
   List<Color> gradientColors = [
@@ -161,16 +152,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   String selectedOption = 'Country';
 
-  String storedProfilePic = '';
-
-  void getStoredProfilePic() async{
-    storedProfilePic = await getValue('profilePic');
-  }
-
   String storedWebsiteId = '';
 
   void getStoredWebsiteId() async{
-    storedProfilePic = await getValue('websiteId');
+    storedWebsiteId = await getValue('websiteId');
   }
 
 
@@ -179,7 +164,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    getStoredProfilePic();
     var a = getValue('analytics');
     print('vjdngkidgjdndmf');
     print(a);
@@ -219,53 +203,55 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         ),
                         const SizedBox(width: 8),
 
-                        PopupMenuButton(
-                            constraints: const BoxConstraints.expand(width: 140,height: 70),
-                            // padding: EdgeInsets.zero,
-                            position: PopupMenuPosition.under,
-                          child:
-                          CircleAvatar(
-                              radius: 24,
-                              backgroundColor: dividerColor,
-                              backgroundImage: storedProfilePic.isEmpty ?
-                                  NetworkImage(widget.imgUrl) :
-                              NetworkImage(storedProfilePic),
-                              // AssetImage(
-                              //     'assets/images/profile_pic_sample.jpeg'
-                              // )
+                        // PopupMenuButton(
+                        //     constraints: const BoxConstraints.expand(width: 140,height: 70),
+                        //     // padding: EdgeInsets.zero,
+                        //     position: PopupMenuPosition.under,
+                        //   child:
+                        //   CircleAvatar(
+                        //       radius: 24,
+                        //       backgroundColor: dividerColor,
+                        //       backgroundImage: storedProfilePic.isEmpty ?
+                        //           NetworkImage(widget.imgUrl) :
+                        //       NetworkImage(storedProfilePic),
+                        //       // AssetImage(
+                        //       //     'assets/images/profile_pic_sample.jpeg'
+                        //       // )
+                        //
+                        //   ),
+                        //     itemBuilder: (BuildContext context){
+                        //       return <PopupMenuItem <String>>[
+                        //         PopupMenuItem<String> (
+                        //           child: Center(
+                        //             child: TextButton(
+                        //               child: Row(
+                        //                 mainAxisAlignment: MainAxisAlignment.center,
+                        //                 children: [
+                        //                   const Icon(
+                        //                     Icons.logout,
+                        //                     color: blackColor,
+                        //                     size: 20,
+                        //                   ),
+                        //
+                        //                   const SizedBox(width: 12),
+                        //                   Text('Logout',
+                        //                       style: nameTextStyle
+                        //                   ),
+                        //                 ],
+                        //               ),onPressed: (){
+                        //               deleteValue('token');
+                        //               WidgetsBinding.instance.addPostFrameCallback((_) {
+                        //                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                        //               });
+                        //               // UpdateAddress(data.list[index]);
+                        //             },
+                        //             ),
+                        //           ),height: 31,),
+                        //       ];
+                        //     }
+                        // ),
 
-                          ),
-                            itemBuilder: (BuildContext context){
-                              return <PopupMenuItem <String>>[
-                                PopupMenuItem<String> (
-                                  child: Center(
-                                    child: TextButton(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.logout,
-                                            color: blackColor,
-                                            size: 20,
-                                          ),
-
-                                          const SizedBox(width: 12),
-                                          Text('Logout',
-                                              style: nameTextStyle
-                                          ),
-                                        ],
-                                      ),onPressed: (){
-                                      deleteValue('token');
-                                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                                      });
-                                      // UpdateAddress(data.list[index]);
-                                    },
-                                    ),
-                                  ),height: 31,),
-                              ];
-                            }
-                        ),
+                        profileWidget(),
                         // CircleAvatar(
                         //   radius: 26,
                         //   backgroundImage: AssetImage(
@@ -1429,6 +1415,79 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             ),
           ),
         )
+    );
+  }
+
+  Widget profileWidget(){
+    return ChangeNotifierProvider<UserProfileProvider>(
+      create: (ctx){
+        return userProfileProvider;
+      },
+      child: Column(
+        children: [
+          Consumer<UserProfileProvider>(builder: (ctx, data, _){
+            var state = data.profileLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return PopupMenuButton(
+                  constraints: const BoxConstraints.expand(width: 140,height: 70),
+                  // padding: EdgeInsets.zero,
+                  position: PopupMenuPosition.under,
+                  child:
+                  CircleAvatar(
+                    radius: 21,
+                    backgroundColor: dividerColor,
+                    backgroundImage:
+                    NetworkImage('${data.profileModel.userDetails!.picture}'),
+                    // AssetImage(
+                    //     'assets/images/profile_pic_sample.jpeg'
+                    // )
+
+                  ),
+                  itemBuilder: (BuildContext context){
+                    return <PopupMenuItem <String>>[
+                      PopupMenuItem<String> (
+                        child: Center(
+                          child: TextButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.logout,
+                                  color: blackColor,
+                                  size: 20,
+                                ),
+
+                                const SizedBox(width: 12),
+                                Text('Logout',
+                                    style: nameTextStyle
+                                ),
+                              ],
+                            ),onPressed: (){
+                            deleteValue('token');
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                            });
+                            // UpdateAddress(data.list[index]);
+                          },
+                          ),
+                        ),height: 31,),
+                    ];
+                  }
+              );
+            }else if (state is Failure) {
+              return CircleAvatar(
+                radius: 20,
+                backgroundColor: dividerColor,
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      ),
     );
   }
 
