@@ -1608,20 +1608,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                     visitorWidget(),
 
-                    // tiles('VISITORS', '140'),
-                    //
-                    // const SizedBox(height: 8),
-                    // tiles('NEW VISITORS', '132'),
-                    //
-                    // const SizedBox(height: 8),
-                    // tiles('BOUNCE RATE', '61.75%'),
-                    //
-                    // const SizedBox(height: 8),
-                    // tiles('SESSIONS', '183'),
-                    //
-                    // const SizedBox(height: 8),
-                    // tiles('AVG SESSION DURATION', '106.46 S'),
-
                     const SizedBox(height: 15),
                     // Visitors trending time?
                     Row(

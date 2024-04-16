@@ -20,8 +20,6 @@ Resource<LoginModel> loginApi(
       }),
       parse: (response) {
         Map<String, dynamic> loginResultMap = json.decode(response.body);
-        print('lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll');
-        print(response.body);
         var loginResult = LoginModel.fromJson(loginResultMap);
         return loginResult;
       });

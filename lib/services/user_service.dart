@@ -10,9 +10,6 @@ Resource<UserProfileModel> getUserProfileApi() {
       'https://app.reddog.live/api/auth/getUserDetails',
       body: {},
       parse: (response) {
-        print('lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll');
-        print(response.body);
-        print('////////////////////////////////////////////////////////////////');
         Map<String, dynamic> userDataResultMap = jsonDecode(response.body);
         UserProfileModel userDataResult = UserProfileModel.fromJson(userDataResultMap);
         return userDataResult;
