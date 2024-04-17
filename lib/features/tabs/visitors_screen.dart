@@ -86,7 +86,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   getUserByCountryMethod () async{
-    await visitorProvider.getUserByCountryList();
+    await visitorProvider.getUserByCountryList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
   }
 
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
@@ -155,6 +159,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
         );
         getUserByLangMethod();
+        getUserByCountryMethod();
       });
     }
   }
@@ -2741,6 +2746,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           getStoredWebsiteId();
                           getVisitorTileMethod();
                           getUserByLangMethod();
+                          getUserByCountryMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
@@ -3484,6 +3490,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   //     ),
                   //   ),
                   // ):
+
+
+                  // city list
                   Expanded(
                     child: Scrollbar(
                       thumbVisibility: true,

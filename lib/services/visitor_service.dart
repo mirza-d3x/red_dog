@@ -43,15 +43,15 @@ Resource<UserByLangModel> getUserByLangApi(
 }
 
 Resource<UserByCountryModel> getUserByCountryApi(
-    // dynamic googleId,
-    // dynamic googleToken,
-    // dynamic viewId,
-    // dynamic fromDate,
-    // dynamic toDate,
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
     ) {
   return Resource(
       url:
-      'https://app.reddog.live/api/ga/userbycountry/103842196489734838365/ya29.a0Ad52N3_o0egRvOjMKfH4eF65Y9kwWL7dRzDR4DTrS2_whmr-B-7LLwitd5cFm9MPsG7DNmktxNOSnLHZrN7unAQPtGKaUQBD5J0HtIWF9j1t7E4be9DASBCIiobfl4w7LBiBRIQgGjxlZxQpJmZbHM-ITvC5azl8oMdwaCgYKAUoSARESFQHGX2MiH5LUX79ee25HSg-bfSHrlQ0171/ 384272511/2024-03-06/2024-04-04/1/true',
+      'https://app.reddog.live/api/ga/userbycountry/$googleId/$googleToken/ $viewId/$fromDate/$toDate/1/true',
       parse: (response) {
         Map<String, dynamic> getUserByCountryDataMap = jsonDecode(response.body);
         UserByCountryModel userByCountryResult = UserByCountryModel.fromJson(getUserByCountryDataMap);

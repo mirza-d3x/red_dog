@@ -103,8 +103,8 @@ class VisitorProvider extends ChangeNotifier {
 
   // user by country method
   getUserByCountryList(
-      // dynamic fromDate,
-      // dynamic toDate,
+      dynamic fromDate,
+      dynamic toDate,
       ) async {
     try {
       userByCountryData.setValue(IsLoading());
@@ -112,7 +112,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
-      userByCountryModel = await visitorRepository.getUserByCountryData();
+      userByCountryModel = await visitorRepository.getUserByCountryData(
+        googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,fromDate,toDate
+      );
       if (userByCountryModel.code == 200) {
         userByCountryData.setValue(Success(userByCountryModel));
       } else {
