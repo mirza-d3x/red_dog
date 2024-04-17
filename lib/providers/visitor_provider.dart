@@ -1,6 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
@@ -30,9 +31,19 @@ class VisitorProvider extends ChangeNotifier {
     return userByLangData;
   }
 
+  // user by country
+
+  var userByCountryModel = UserByCountryModel();
+  LiveData<UIState<UserByCountryModel>> userByCountryData = LiveData<UIState<UserByCountryModel>>();
+
+  LiveData<UIState<UserByCountryModel>> userByCountryLiveData() {
+    return userByCountryData;
+  }
+
   void initialState() {
     VisitorTileData.setValue(Initial());
     userByLangData.setValue(Initial());
+    userByCountryData.setValue(Initial());
     notifyListeners();
   }
 
@@ -85,6 +96,30 @@ class VisitorProvider extends ChangeNotifier {
       }
     } catch (ex) {
       userByLangData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // user by country method
+  getUserByCountryList(
+      // dynamic fromDate,
+      // dynamic toDate,
+      ) async {
+    try {
+      userByCountryData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      userByCountryModel = await visitorRepository.getUserByCountryData();
+      if (userByCountryModel.code == 200) {
+        userByCountryData.setValue(Success(userByCountryModel));
+      } else {
+        userByLangData.setValue(Failure(userByCountryModel.toString()));
+      }
+    } catch (ex) {
+      userByCountryData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

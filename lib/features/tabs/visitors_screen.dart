@@ -85,6 +85,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByCountryMethod () async{
+    await visitorProvider.getUserByCountryList();
+  }
+
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   @override
@@ -95,6 +99,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getVisitorTileMethod();
     getUserByLangMethod();
+    getUserByCountryMethod();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -3264,14 +3269,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(right: 20),
+                        padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           'Users',
                           style: tableTitleTextStyle,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 35),
+                        padding: const EdgeInsets.only(right: 40),
                         child: Text(
                           '%',
                           style: tableTitleTextStyle,
@@ -3315,74 +3320,170 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   const SizedBox(height: 3),
 
                   selectedOption == 'Country' ?
-                  Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 5,left: 5),
-                        child: ListView.builder(
-                          itemCount: 20,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemBuilder: (context,index) {
-                            return Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      // Text(
-                                      //   '${index + 1}',
-                                      //   style: tableContentTextStyle,
-                                      // ),
+                  //  country list
+                  Consumer<VisitorProvider>(builder: (ctx, data, _){
+                    var state = data.userByCountryLiveData().getValue();
+                    print(state);
+                    if (state is IsLoading) {
+                      return SizedBox();
+                    } else if (state is Success) {
+                      return Expanded(
+                        child: Scrollbar(
+                          thumbVisibility: true,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 5,left: 5),
+                            child: ListView.builder(
+                              itemCount: data.userByCountryModel.data!.length,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemBuilder: (context,index) {
+                                return Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // Text(
+                                          //   '${index + 1}',
+                                          //   style: tableContentTextStyle,
+                                          // ),
 
-                                      Text(
-                                        'India',
-                                        style: tableContentTextStyle,
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              '${data.userByCountryModel.data![index].name}',
+                                              style: tableContentTextStyle,
+                                            ),
+                                          ),
+
+                                          const SizedBox(width: 10),
+
+                                          Expanded(
+                                            flex: 1,
+                                            child: Text(
+                                              '${data.userByCountryModel.data![index].value}',
+                                              style: tableContentTextStyle,
+                                            ),
+                                          ),
+
+                                          Expanded(
+                                            flex: 1,
+                                            child: LinearPercentIndicator(
+                                              width: 65.0,
+                                              lineHeight: 14.0,
+                                              percent: data.userByCountryModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
+                                              backgroundColor: whiteColor,
+                                              progressColor: percentageIndicatorColor,
+                                              center: Text(
+                                                '${data.userByCountryModel.data![index].percentage}',
+                                                style: percentTextStyle,
+                                              ),
+                                            ),
+                                          ),
+
+
+                                          // Text(
+                                          //   '83.10%',
+                                          //   style: tableContentTextStyle,
+                                          // )
+                                        ],
                                       ),
+                                    ),
 
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 30),
-                                        child: Text(
-                                          '1051',
-                                          style: tableContentTextStyle,
-                                        ),
-                                      ),
-
-                                      LinearPercentIndicator(
-                                        width: 65.0,
-                                        lineHeight: 14.0,
-                                        percent: 0.8, //percent value must be between 0.0 and 1.0
-                                        backgroundColor: whiteColor,
-                                        progressColor: percentageIndicatorColor,
-                                        center: Text(
-                                          '83.10%',
-                                          style: percentTextStyle,
-                                        ),
-                                      ),
-
-
-                                      // Text(
-                                      //   '83.10%',
-                                      //   style: tableContentTextStyle,
-                                      // )
-                                    ],
-                                  ),
-                                ),
-
-                                const SizedBox(height: 3),
-                                const Divider(
-                                  color: dividerColor,
-                                ),
-                                const SizedBox(height: 3),
-                              ],
-                            );
-                          },
+                                    const SizedBox(height: 3),
+                                    const Divider(
+                                      color: dividerColor,
+                                    ),
+                                    const SizedBox(height: 3),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ):
+                      );
+                    }else if (state is Failure) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.3,
+                        child: Center(
+                          child: Text(
+                            'Failed to load!!',
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }):
+                  // Expanded(
+                  //   child: Scrollbar(
+                  //     thumbVisibility: true,
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.only(right: 5,left: 5),
+                  //       child: ListView.builder(
+                  //         itemCount: 20,
+                  //         shrinkWrap: true,
+                  //         physics: const AlwaysScrollableScrollPhysics(),
+                  //         itemBuilder: (context,index) {
+                  //           return Column(
+                  //             children: [
+                  //               Padding(
+                  //                 padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //                 child: Row(
+                  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //                   children: [
+                  //                     // Text(
+                  //                     //   '${index + 1}',
+                  //                     //   style: tableContentTextStyle,
+                  //                     // ),
+                  //
+                  //                     Text(
+                  //                       'India',
+                  //                       style: tableContentTextStyle,
+                  //                     ),
+                  //
+                  //                     Padding(
+                  //                       padding: const EdgeInsets.only(left: 30),
+                  //                       child: Text(
+                  //                         '1051',
+                  //                         style: tableContentTextStyle,
+                  //                       ),
+                  //                     ),
+                  //
+                  //                     LinearPercentIndicator(
+                  //                       width: 65.0,
+                  //                       lineHeight: 14.0,
+                  //                       percent: 0.8, //percent value must be between 0.0 and 1.0
+                  //                       backgroundColor: whiteColor,
+                  //                       progressColor: percentageIndicatorColor,
+                  //                       center: Text(
+                  //                         '83.10%',
+                  //                         style: percentTextStyle,
+                  //                       ),
+                  //                     ),
+                  //
+                  //
+                  //                     // Text(
+                  //                     //   '83.10%',
+                  //                     //   style: tableContentTextStyle,
+                  //                     // )
+                  //                   ],
+                  //                 ),
+                  //               ),
+                  //
+                  //               const SizedBox(height: 3),
+                  //               const Divider(
+                  //                 color: dividerColor,
+                  //               ),
+                  //               const SizedBox(height: 3),
+                  //             ],
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ):
                   Expanded(
                     child: Scrollbar(
                       thumbVisibility: true,
