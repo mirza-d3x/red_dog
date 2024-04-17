@@ -76,6 +76,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
    );
  }
 
+  getUserByLangMethod () async{
+    await  visitorProvider.getUserByLangList();
+  }
+
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   @override
@@ -85,6 +89,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getVisitorTileMethod();
+    getUserByLangMethod();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
