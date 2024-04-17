@@ -67,7 +67,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
  VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
 
- getMethod () async{
+ getVisitorTileMethod () async{
   await  visitorProvider.getVisitorTileData(
      // '384272511',
        _selectedFromDate != null ?
@@ -84,7 +84,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     deleteValue('websiteId');
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
-    getMethod();
+    getVisitorTileMethod();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -2723,7 +2723,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             setValue('websiteId', websiteViewId);
                           });
                           getStoredWebsiteId();
-                          getMethod ();
+                          getVisitorTileMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
