@@ -3186,6 +3186,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
 
           const SizedBox(height: 10),
+          // world map
           Card(
             elevation: 2,
             shadowColor: whiteColor,
@@ -3313,14 +3314,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(left: 5),
+                        padding: const EdgeInsets.only(left: 45),
                         child: Text(
                           'Users',
                           style: tableTitleTextStyle,
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 35),
+                        padding: const EdgeInsets.only(right: 45),
                         child: Text(
                           '%',
                           style: tableTitleTextStyle,
