@@ -149,6 +149,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
             _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
         );
+        getUserByLangMethod();
       });
     }
   }
