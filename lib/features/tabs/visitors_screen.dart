@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
@@ -3560,12 +3561,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               ),
                             ),
 
-                            Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: Text(
-                                'Users',
-                                style: tableTitleTextStyle,
-                              ),
+                            Text(
+                              'Users',
+                              style: tableTitleTextStyle,
                             ),
 
                             Padding(
@@ -3598,28 +3596,34 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               itemBuilder: (context,index) {
                                 return Column(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          // Text(
-                                          //   '${index + 1}',
-                                          //   style: tableContentTextStyle,
-                                          // ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // Text(
+                                        //   '${index + 1}',
+                                        //   style: tableContentTextStyle,
+                                        // ),
 
-                                          Text(
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
                                             '${data.userByLangModel.data![index].language}',
                                             style: tableContentTextStyle,
                                           ),
+                                        ),
 
-                                          Text(
+
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
                                             '${data.userByLangModel.data![index].usercount}',
                                             style: tableContentTextStyle,
-                                            textAlign: TextAlign.justify,
                                           ),
+                                        ),
 
-                                          LinearPercentIndicator(
+                                        Expanded(
+                                          flex: 1,
+                                          child: LinearPercentIndicator(
                                             width: 65.0,
                                             lineHeight: 14.0,
                                             percent:
@@ -3632,14 +3636,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                               style: percentTextStyle,
                                             ),
                                           ),
+                                        ),
 
 
-                                          // Text(
-                                          //   '83.10%',
-                                          //   style: tableContentTextStyle,
-                                          // )
-                                        ],
-                                      ),
+                                        // Text(
+                                        //   '83.10%',
+                                        //   style: tableContentTextStyle,
+                                        // )
+                                      ],
                                     ),
 
                                     const SizedBox(height: 3),
