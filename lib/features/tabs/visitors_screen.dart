@@ -78,7 +78,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
  }
 
   getUserByLangMethod () async{
-    await  visitorProvider.getUserByLangList();
+    await  visitorProvider.getUserByLangList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
   }
 
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
@@ -2730,6 +2734,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           });
                           getStoredWebsiteId();
                           getVisitorTileMethod();
+                          getUserByLangMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;

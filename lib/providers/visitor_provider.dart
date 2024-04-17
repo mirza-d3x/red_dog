@@ -66,6 +66,8 @@ class VisitorProvider extends ChangeNotifier {
 
   // user by lang method
   getUserByLangList(
+      dynamic fromDate,
+      dynamic toDate,
       ) async {
     try {
       userByLangData.setValue(IsLoading());
@@ -73,7 +75,9 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
-      userByLangModel = await visitorRepository.getUserByLangData();
+      userByLangModel = await visitorRepository.getUserByLangData(
+        googleId,googleToken,storedWebId.isEmpty ?
+      initialWebId: storedWebId,fromDate,toDate);
       if (userByLangModel.code == 200) {
         userByLangData.setValue(Success(userByLangModel));
       } else {
