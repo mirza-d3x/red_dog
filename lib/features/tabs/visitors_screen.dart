@@ -3609,24 +3609,26 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                           // ),
 
                                           Text(
-                                            'English',
-                                            // '${data.userByLangModel.data[index].}'
+                                            '${data.userByLangModel.data![index].language}',
                                             style: tableContentTextStyle,
                                           ),
 
                                           Text(
-                                            '118',
+                                            '${data.userByLangModel.data![index].usercount}',
                                             style: tableContentTextStyle,
+                                            textAlign: TextAlign.justify,
                                           ),
 
                                           LinearPercentIndicator(
                                             width: 65.0,
                                             lineHeight: 14.0,
-                                            percent: 0.8, //percent value must be between 0.0 and 1.0
+                                            percent:
+                                            double.parse(data.userByLangModel.data![index].percentage) / 100,
+                                            // 0.8, //percent value must be between 0.0 and 1.0
                                             backgroundColor: whiteColor,
                                             progressColor: percentageIndicatorColor,
                                             center: Text(
-                                              '83.10%',
+                                              '${data.userByLangModel.data![index].percentage}',
                                               style: percentTextStyle,
                                             ),
                                           ),
