@@ -1,6 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
@@ -32,7 +33,6 @@ class VisitorProvider extends ChangeNotifier {
   }
 
   // user by country
-
   var userByCountryModel = UserByCountryModel();
   LiveData<UIState<UserByCountryModel>> userByCountryData = LiveData<UIState<UserByCountryModel>>();
 
@@ -40,10 +40,19 @@ class VisitorProvider extends ChangeNotifier {
     return userByCountryData;
   }
 
+  // user by city
+  var userByCityModel = UserByCityModel();
+  LiveData<UIState<UserByCityModel>> userByCityData = LiveData<UIState<UserByCityModel>>();
+
+  LiveData<UIState<UserByCityModel>> userByCityLiveData() {
+    return userByCityData;
+  }
+
   void initialState() {
     VisitorTileData.setValue(Initial());
     userByLangData.setValue(Initial());
     userByCountryData.setValue(Initial());
+    userByCityData.setValue(Initial());
     notifyListeners();
   }
 
@@ -124,6 +133,34 @@ class VisitorProvider extends ChangeNotifier {
       }
     } catch (ex) {
       userByCountryData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // user by city method
+  getUserByCityList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      userByCityData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      userByCityModel = await visitorRepository.getUserByCityData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,fromDate,toDate
+      );
+      if (userByCityModel.code == 200) {
+        userByCityData.setValue(Success(userByCityModel));
+      } else {
+        userByCityData.setValue(Failure(userByCityModel.toString()));
+      }
+    } catch (ex) {
+      userByCityData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

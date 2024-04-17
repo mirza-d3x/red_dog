@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/registred_website_model.dart';
+import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
@@ -56,5 +57,22 @@ Resource<UserByCountryModel> getUserByCountryApi(
         Map<String, dynamic> getUserByCountryDataMap = jsonDecode(response.body);
         UserByCountryModel userByCountryResult = UserByCountryModel.fromJson(getUserByCountryDataMap);
         return userByCountryResult;
+      });
+}
+
+Resource<UserByCityModel> getUserByCityApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/ga/userbycity/$googleId/$googleToken/ $viewId/$fromDate/$toDate/1/true',
+      parse: (response) {
+        Map<String, dynamic> getUserByCityDataMap = jsonDecode(response.body);
+        UserByCityModel userByCityResult = UserByCityModel.fromJson(getUserByCityDataMap);
+        return userByCityResult;
       });
 }

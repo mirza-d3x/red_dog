@@ -35,4 +35,12 @@ class VisitorRepository {
       dynamic toDate,
       ) => webService?.get(getUserByCountryApi(googleId,googleToken,viewId,fromDate,toDate));
 
+  Future getUserByCityData(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      ) => webService?.get(getUserByCityApi(googleId,googleToken,viewId,fromDate,toDate));
+
 }
