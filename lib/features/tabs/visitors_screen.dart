@@ -39,7 +39,6 @@ class VisitorsScreen extends StatefulWidget {
 class _VisitorsScreenState extends State<VisitorsScreen> {
 
   late List<VisitorData> _chartData;
-  late List<GenderData> _genderChartData;
 
   List<VisitorData> getChartData(){
     final List<VisitorData> chartData = [
@@ -47,14 +46,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       VisitorData('Returning Visitor', 200),
     ];
     return chartData;
-  }
-
-  List<GenderData> getGenderChartData(){
-    final List<GenderData> genderChartData = [
-      GenderData('Male', 1000),
-      GenderData('Female', 700),
-    ];
-    return genderChartData;
   }
 
   final List<BarChartData> data = [
@@ -124,7 +115,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByCityMethod();
     getUserByGenderMethod();
     _chartData = getChartData();
-    _genderChartData = getGenderChartData();
     super.initState();
   }
 
@@ -4733,11 +4723,5 @@ class VisitorData{
   final String type;
   final int value;
   VisitorData(this.type,this.value);
-}
-
-class GenderData{
-  final String type;
-  final int value;
-  GenderData(this.type,this.value);
 }
 
