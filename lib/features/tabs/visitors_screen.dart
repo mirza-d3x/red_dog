@@ -25,8 +25,8 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:countries_world_map/data/maps/world_map.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
-
 import '../../utilities/shared_prefernces.dart';
+import 'package:reddog_mobile_app/models/user_by_newturned_model.dart';
 
 class VisitorsScreen extends StatefulWidget {
    VisitorsScreen(
@@ -101,6 +101,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByNewReturnedMethod () async{
+    await visitorProvider.getUserByNewReturnedList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   @override
@@ -114,6 +122,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByCountryMethod();
     getUserByCityMethod();
     getUserByGenderMethod();
+    getUserByNewReturnedMethod();
     _chartData = getChartData();
     super.initState();
   }
@@ -171,6 +180,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByCountryMethod();
         getUserByCityMethod();
         getUserByGenderMethod();
+        getUserByNewReturnedMethod();
       });
     }
   }
@@ -2760,6 +2770,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           getUserByCountryMethod();
                           getUserByCityMethod();
                           getUserByGenderMethod();
+                          getUserByNewReturnedMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
@@ -3059,60 +3070,133 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
 
           const SizedBox(height: 10),
-          Card(
-            elevation: 2,
-            shadowColor: whiteColor,
-            child: Container(
-              // padding: const EdgeInsets.all(10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Container(
-                color: whiteColor,
-                width: 300,
-                height: 200,
-                child: Stack(
-                  children: [
-                    SfCircularChart(
-                      centerY: '100',
-                      centerX: '90',
-                      margin: EdgeInsets.zero,
-                      palette: const <Color>[
-                        graphGreyColor,
-                        graphBlackColor,
-                      ],
-                      legend: Legend(
-                        position: LegendPosition.right,
-                        isVisible: true,
-                        isResponsive:true,
-                        overflowMode: LegendItemOverflowMode.wrap,
-                      ),
-                      series: <CircularSeries>[
-                        DoughnutSeries<VisitorData,String>(
-                          dataSource: _chartData,
-                          xValueMapper: (VisitorData data,_) => data.type,
-                          yValueMapper: (VisitorData data,_) => data.value,
-                          innerRadius: '90%',
-                          radius: '60%',
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByNewReturnedLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  // padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Container(
+                    color: whiteColor,
+                    width: 300,
+                    height: 200,
+                    child: Stack(
+                      children: [
+                        SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            graphBlackColor,
+                            graphGreyColor,
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<NewReturnedData,String>(
+                              dataSource: data.userByNewReturnedModel.data,
+                              xValueMapper: (NewReturnedData data,_) => data.key,
+                              yValueMapper: (NewReturnedData data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
+                            ),
+                          ],
                         ),
+
+                        // Positioned(
+                        //   left: 73,
+                        //   top: 93,
+                        //   child: Text(
+                        //     '25.7%',
+                        //     style: visitorGraphValueTextStyle,
+                        //   ),
+                        // )
                       ],
                     ),
-
-                    Positioned(
-                      left: 73,
-                      top: 93,
-                      child: Text(
-                        '25.7%',
-                        style: visitorGraphValueTextStyle,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+          // Card(
+          //   elevation: 2,
+          //   shadowColor: whiteColor,
+          //   child: Container(
+          //     // padding: const EdgeInsets.all(10),
+          //     width: double.infinity,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(3),
+          //       color: whiteColor,
+          //     ),
+          //     child: Container(
+          //       color: whiteColor,
+          //       width: 300,
+          //       height: 200,
+          //       child: Stack(
+          //         children: [
+          //           SfCircularChart(
+          //             centerY: '100',
+          //             centerX: '90',
+          //             margin: EdgeInsets.zero,
+          //             palette: const <Color>[
+          //               graphGreyColor,
+          //               graphBlackColor,
+          //             ],
+          //             legend: Legend(
+          //               position: LegendPosition.right,
+          //               isVisible: true,
+          //               isResponsive:true,
+          //               overflowMode: LegendItemOverflowMode.wrap,
+          //             ),
+          //             series: <CircularSeries>[
+          //               DoughnutSeries<VisitorData,String>(
+          //                 dataSource: _chartData,
+          //                 xValueMapper: (VisitorData data,_) => data.type,
+          //                 yValueMapper: (VisitorData data,_) => data.value,
+          //                 innerRadius: '90%',
+          //                 radius: '60%',
+          //               ),
+          //             ],
+          //           ),
+          //
+          //           Positioned(
+          //             left: 73,
+          //             top: 93,
+          //             child: Text(
+          //               '25.7%',
+          //               style: visitorGraphValueTextStyle,
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           const SizedBox(height: 15),
           // Where are your users from?
@@ -3509,7 +3593,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
                   // city list
                   Consumer<VisitorProvider>(builder: (ctx, data, _){
-                    var state = data.userByCountryLiveData().getValue();
+                    var state = data.userByCityLiveData().getValue();
                     print(state);
                     if (state is IsLoading) {
                       return SizedBox();
@@ -4183,7 +4267,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
           const SizedBox(height: 10),
           Consumer<VisitorProvider>(builder: (ctx, data, _){
-            var state = data.userByLangLiveData().getValue();
+            var state = data.userByGenderLiveData().getValue();
             print(state);
             if (state is IsLoading) {
               return SizedBox();

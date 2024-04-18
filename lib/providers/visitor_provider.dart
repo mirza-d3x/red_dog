@@ -5,6 +5,7 @@ import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
+import 'package:reddog_mobile_app/models/user_by_newturned_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
@@ -57,12 +58,21 @@ class VisitorProvider extends ChangeNotifier {
     return userByGenderData;
   }
 
+  // user by new returned
+  var userByNewReturnedModel = UserByNewTurnedModel();
+  LiveData<UIState<UserByNewTurnedModel>> userByNewReturnedData = LiveData<UIState<UserByNewTurnedModel>>();
+
+  LiveData<UIState<UserByNewTurnedModel>> userByNewReturnedLiveData() {
+    return userByNewReturnedData;
+  }
+
   void initialState() {
     VisitorTileData.setValue(Initial());
     userByLangData.setValue(Initial());
     userByCountryData.setValue(Initial());
     userByCityData.setValue(Initial());
     userByGenderData.setValue(Initial());
+    userByNewReturnedData.setValue(Initial());
     notifyListeners();
   }
 
@@ -192,13 +202,41 @@ class VisitorProvider extends ChangeNotifier {
           storedWebId.isEmpty ?
           initialWebId: storedWebId,fromDate,toDate
       );
-      if (userByCityModel.code == 200) {
+      if (userByGenderModel.code == 200) {
         userByGenderData.setValue(Success(userByGenderModel));
       } else {
         userByGenderData.setValue(Failure(userByGenderModel.toString()));
       }
     } catch (ex) {
       userByGenderData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // user by nee-returned method
+  getUserByNewReturnedList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      userByNewReturnedData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      userByNewReturnedModel = await visitorRepository.getUserByNewReturnedData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,fromDate,toDate
+      );
+      if (userByNewReturnedModel.code == 200) {
+        userByNewReturnedData.setValue(Success(userByNewReturnedModel));
+      } else {
+        userByNewReturnedData.setValue(Failure(userByNewReturnedModel.toString()));
+      }
+    } catch (ex) {
+      userByNewReturnedData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

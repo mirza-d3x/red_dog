@@ -4,6 +4,7 @@ import 'package:reddog_mobile_app/models/registred_website_model.dart';
 import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
+import 'package:reddog_mobile_app/models/user_by_newturned_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 
 import '../models/user_by_gender_model.dart';
@@ -92,5 +93,22 @@ Resource<UserByGenderModel> getUserByGenderApi(
         Map<String, dynamic> getUserByGenderDataMap = jsonDecode(response.body);
         UserByGenderModel userByGenderResult = UserByGenderModel.fromJson(getUserByGenderDataMap);
         return userByGenderResult;
+      });
+}
+
+Resource<UserByNewTurnedModel> getUserByNewReturnedApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/ga/newretained/$googleId/$googleToken/ $viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> getUserByNewReturnedDataMap = jsonDecode(response.body);
+        UserByNewTurnedModel userByNewReturnedResult = UserByNewTurnedModel.fromJson(getUserByNewReturnedDataMap);
+        return userByNewReturnedResult;
       });
 }
