@@ -51,7 +51,7 @@ class Webservice {
       print(token);
       if (token.isNotEmpty) {
         response = await http.post(getUrl(resource.url!),
-            body: resource.body, headers: getHeaders(token));
+            body: resource.body, headers: getHeadersWithApplicationJson());
       } else {
         response = await http.post(
           getUrl(resource.url!),

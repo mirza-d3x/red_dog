@@ -4191,8 +4191,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 borderRadius: BorderRadius.circular(3),
                 color: whiteColor,
               ),
-              child: userByAgeWidget(),
-              // buildBarChart(),
+              child:
+              // userByAgeWidget(),
+              buildBarChart(),
             ),
           ),
 

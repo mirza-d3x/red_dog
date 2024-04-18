@@ -9,7 +9,7 @@ class UserRepository {
   UserRepository() {
     this.webService = Webservice();
   }
-  Future getUserProfileData() =>
-      webService?.postWithGoogleToken(getUserProfileApi());
+  Future getUserProfileData(dynamic googleId) =>
+      webService?.postWithGoogleToken(getUserProfileApi(googleId));
 
 }

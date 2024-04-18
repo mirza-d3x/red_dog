@@ -26,7 +26,8 @@ class UserProfileProvider extends ChangeNotifier {
   getProfile() async {
     try {
       profileData.setValue(IsLoading());
-      profileModel = await userRepository.getUserProfileData();
+      var googleId = await getValue('googleId');
+      profileModel = await userRepository.getUserProfileData(googleId);
       if (profileModel.status == 'success') {
         profileData.setValue(Success(profileModel));
       } else {
