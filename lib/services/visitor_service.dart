@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/registred_website_model.dart';
+import 'package:reddog_mobile_app/models/user_by_age_group_model.dart';
 import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
@@ -110,5 +111,22 @@ Resource<UserByNewTurnedModel> getUserByNewReturnedApi(
         Map<String, dynamic> getUserByNewReturnedDataMap = jsonDecode(response.body);
         UserByNewTurnedModel userByNewReturnedResult = UserByNewTurnedModel.fromJson(getUserByNewReturnedDataMap);
         return userByNewReturnedResult;
+      });
+}
+
+Resource<UserByAgeGroupModel> getUserByAgeApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/ga/userbyage/$googleId/$googleToken/ $viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> getUserByAgeDataMap = jsonDecode(response.body);
+        UserByAgeGroupModel userByAgeResult = UserByAgeGroupModel.fromJson(getUserByAgeDataMap);
+        return userByAgeResult;
       });
 }

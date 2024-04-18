@@ -1,6 +1,7 @@
 
 import 'package:reddog_mobile_app/services/user_service.dart';
 import 'package:reddog_mobile_app/services/visitor_service.dart';
+import 'package:reddog_mobile_app/utilities/api_helpers.dart';
 
 import '../services/web_service.dart';
 
@@ -58,5 +59,13 @@ class VisitorRepository {
       dynamic fromDate,
       dynamic toDate,
       ) => webService?.get(getUserByNewReturnedApi(googleId,googleToken,viewId,fromDate,toDate));
+
+  Future getUserByAgeData(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      ) => webService?.get(getUserByAgeApi(googleId,googleToken,viewId,fromDate,toDate));
 
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/models/user_by_age_group_model.dart';
 import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
@@ -66,6 +67,14 @@ class VisitorProvider extends ChangeNotifier {
     return userByNewReturnedData;
   }
 
+  // user by age group
+  var userByAgeGroupModel = UserByAgeGroupModel();
+  LiveData<UIState<UserByAgeGroupModel>> userByAgeGroupData = LiveData<UIState<UserByAgeGroupModel>>();
+
+  LiveData<UIState<UserByAgeGroupModel>> userByAgeGroupLiveData() {
+    return userByAgeGroupData;
+  }
+
   void initialState() {
     VisitorTileData.setValue(Initial());
     userByLangData.setValue(Initial());
@@ -73,6 +82,7 @@ class VisitorProvider extends ChangeNotifier {
     userByCityData.setValue(Initial());
     userByGenderData.setValue(Initial());
     userByNewReturnedData.setValue(Initial());
+    userByAgeGroupData.setValue(Initial());
     notifyListeners();
   }
 
@@ -237,6 +247,34 @@ class VisitorProvider extends ChangeNotifier {
       }
     } catch (ex) {
       userByNewReturnedData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // user by nee-returned method
+  getUserByAgeList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      userByAgeGroupData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      userByAgeGroupModel = await visitorRepository.getUserByAgeData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,fromDate,toDate
+      );
+      if (userByAgeGroupModel.code == 200) {
+        userByAgeGroupData.setValue(Success(userByAgeGroupModel));
+      } else {
+        userByAgeGroupData.setValue(Failure(userByAgeGroupModel.toString()));
+      }
+    } catch (ex) {
+      userByAgeGroupData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

@@ -17,6 +17,7 @@ import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/tiles.dart';
 import 'package:reddog_mobile_app/widgets/tiles_full_width.dart';
 import '../../core/ui_state.dart';
+import '../../models/user_by_age_group_model.dart';
 import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -99,6 +100,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByAgeGroupMethod () async{
+    await visitorProvider.getUserByAgeList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   @override
@@ -113,6 +122,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByCityMethod();
     getUserByGenderMethod();
     getUserByNewReturnedMethod();
+    getUserByAgeGroupMethod();
     super.initState();
   }
 
@@ -170,6 +180,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByCityMethod();
         getUserByGenderMethod();
         getUserByNewReturnedMethod();
+        getUserByAgeGroupMethod();
       });
     }
   }
@@ -2760,6 +2771,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           getUserByCityMethod();
                           getUserByGenderMethod();
                           getUserByNewReturnedMethod();
+                          getUserByAgeGroupMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
@@ -4179,7 +4191,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 borderRadius: BorderRadius.circular(3),
                 color: whiteColor,
               ),
-              child: buildBarChart(),
+              child: userByAgeWidget(),
+              // buildBarChart(),
             ),
           ),
 
@@ -4702,6 +4715,104 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   //     ],
   //   );
   // }
+
+  Widget userByAgeWidget(){
+    return ChangeNotifierProvider<VisitorProvider>(
+        create: (ctx) {
+          return visitorProvider;
+        },
+      child: Consumer<VisitorProvider>(
+          builder: (ctx, data, _) {
+            var state = data.userByAgeGroupLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            }else if (state is Success) {
+              List<charts.Series<AgeData, String>> series = [
+                charts.Series(
+                    id: '',
+                    data: data.userByAgeGroupModel.data,
+                    domainFn: (AgeData sales, _) => sales.key,
+                    measureFn: (AgeData sales, _) => sales.value,
+                    colorFn: (_, __) => charts.ColorUtil.fromDartColor(graphBlackColor),
+                    // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+                    labelAccessorFn: (AgeData sales, _) => '${sales.value}',
+                    insideLabelStyleAccessorFn: (AgeData sales, _){
+                      return  const charts.TextStyleSpec(
+                        fontFamily: 'Barlow-Bold',
+                        color:  charts.MaterialPalette.white,
+                        fontSize: 16,
+                      );
+                    }
+                ),
+              ];
+
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 300.0,
+                  child: charts.BarChart(
+                    series,
+                    animate: true,
+                    barGroupingType: charts.BarGroupingType.grouped,
+
+                    // custom X- axis
+                    domainAxis: charts.OrdinalAxisSpec(
+                      // X-axis configuration
+                      renderSpec: charts.SmallTickRendererSpec(
+                        labelStyle: charts.TextStyleSpec(
+                            fontFamily: 'Barlow-Regular',
+                            color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
+                            fontSize: 12
+                        ),
+                      ),
+                    ),
+
+                    // Customize Y-axis values
+                    primaryMeasureAxis: charts.NumericAxisSpec(
+                      renderSpec: charts.GridlineRendererSpec(
+                        labelStyle: charts.TextStyleSpec(
+                          fontFamily: 'Barlow-Regular',
+                          color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
+                          fontSize: 12,
+                        ),
+                      ),
+                      tickProviderSpec: const charts.StaticNumericTickProviderSpec(
+                        // Custom ticks from 0 to 20 with an interval of 4
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(4),
+                          charts.TickSpec<num>(8),
+                          charts.TickSpec<num>(12),
+                          charts.TickSpec<num>(16),
+                          charts.TickSpec<num>(20),
+                        ],
+                      ),
+                      tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
+                            (value) => '${value!.toInt()}',
+                      ),
+                    ),
+
+                    //  display values on bars
+
+                    barRendererDecorator: charts.BarLabelDecorator<String>(
+                      labelPosition: charts.BarLabelPosition.inside, // Position of the label
+                      labelAnchor: charts.BarLabelAnchor.middle, // Anchor point of the label
+                      labelPadding: 4, // Padding around the label
+                    ),
+                    // behaviors: [charts.SeriesLegend()],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return Text('Failed to load!!');
+            }else {
+              return SizedBox();
+            }
+          },
+      ),
+    );
+  }
 
   Widget buildBarChart() {
     List<charts.Series<BarChartData, String>> series = [
