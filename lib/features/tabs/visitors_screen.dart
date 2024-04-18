@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
+import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
@@ -101,6 +102,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByGenderMethod () async{
+    await visitorProvider.getUserByGenderList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   @override
@@ -113,6 +122,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByLangMethod();
     getUserByCountryMethod();
     getUserByCityMethod();
+    getUserByGenderMethod();
     _chartData = getChartData();
     _genderChartData = getGenderChartData();
     super.initState();
@@ -170,6 +180,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByLangMethod();
         getUserByCountryMethod();
         getUserByCityMethod();
+        getUserByGenderMethod();
       });
     }
   }
@@ -2758,6 +2769,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           getUserByLangMethod();
                           getUserByCountryMethod();
                           getUserByCityMethod();
+                          getUserByGenderMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
@@ -3199,7 +3211,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 15,top: 15),
-                child: SimpleMap(
+                child:
+                SimpleMap(
                   instructions: SMapWorld.instructions,
                   defaultColor: Colors.grey,
                   colors: const SMapWorldColors(
@@ -4179,61 +4192,135 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             ],
           ),
           const SizedBox(height: 10),
-          Card(
-            elevation: 2,
-            shadowColor: whiteColor,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Container(
-                color: whiteColor,
-                width: 300,
-                height: 200,
-                child: Stack(
-                  children: [
-                    SfCircularChart(
-                      centerY: '100',
-                      centerX: '90',
-                      margin: EdgeInsets.zero,
-                      palette: const <Color>[
-                        maleIndicatorColor,
-                        femaleIndicatorColor,
-                      ],
-                      legend: Legend(
-                        position: LegendPosition.right,
-                        isVisible: true,
-                        isResponsive:true,
-                        overflowMode: LegendItemOverflowMode.wrap,
-                      ),
-                      series: <CircularSeries>[
-                        DoughnutSeries<GenderData,String>(
-                          dataSource: _genderChartData,
-                          xValueMapper: (GenderData data,_) => data.type,
-                          yValueMapper: (GenderData data,_) => data.value,
-                          innerRadius: '90%',
-                          radius: '60%',
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByLangLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Container(
+                    color: whiteColor,
+                    width: 300,
+                    height: 200,
+                    child: Stack(
+                      children: [
+                        SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            femaleIndicatorColor,
+                            maleIndicatorColor,
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<Datum,String>(
+                              dataSource: data.userByGenderModel.data,
+                              xValueMapper: (Datum data,_) => data.key,
+                              yValueMapper: (Datum data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
+                            ),
+                          ],
                         ),
+
+                        Positioned(
+                          left: 62,
+                          top: 93,
+                          child: Text(
+                            '',
+                            // 'Mar 2024',
+                            style: graphValueTextStyle,
+                          ),
+                        )
                       ],
                     ),
-
-                    Positioned(
-                      left: 62,
-                      top: 93,
-                      child: Text(
-                        '',
-                        // 'Mar 2024',
-                        style: graphValueTextStyle,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+          // Card(
+          //   elevation: 2,
+          //   shadowColor: whiteColor,
+          //   child: Container(
+          //     padding: const EdgeInsets.all(10),
+          //     width: double.infinity,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(3),
+          //       color: whiteColor,
+          //     ),
+          //     child: Container(
+          //       color: whiteColor,
+          //       width: 300,
+          //       height: 200,
+          //       child: Stack(
+          //         children: [
+          //           SfCircularChart(
+          //             centerY: '100',
+          //             centerX: '90',
+          //             margin: EdgeInsets.zero,
+          //             palette: const <Color>[
+          //               maleIndicatorColor,
+          //               femaleIndicatorColor,
+          //             ],
+          //             legend: Legend(
+          //               position: LegendPosition.right,
+          //               isVisible: true,
+          //               isResponsive:true,
+          //               overflowMode: LegendItemOverflowMode.wrap,
+          //             ),
+          //             series: <CircularSeries>[
+          //               DoughnutSeries<GenderData,String>(
+          //                 dataSource: _genderChartData,
+          //                 xValueMapper: (GenderData data,_) => data.type,
+          //                 yValueMapper: (GenderData data,_) => data.value,
+          //                 innerRadius: '90%',
+          //                 radius: '60%',
+          //               ),
+          //             ],
+          //           ),
+          //
+          //           Positioned(
+          //             left: 62,
+          //             top: 93,
+          //             child: Text(
+          //               '',
+          //               // 'Mar 2024',
+          //               style: graphValueTextStyle,
+          //             ),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

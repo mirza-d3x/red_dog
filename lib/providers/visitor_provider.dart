@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
+import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
@@ -48,11 +49,20 @@ class VisitorProvider extends ChangeNotifier {
     return userByCityData;
   }
 
+  // user by gender
+  var userByGenderModel = UserByGenderModel();
+  LiveData<UIState<UserByGenderModel>> userByGenderData = LiveData<UIState<UserByGenderModel>>();
+
+  LiveData<UIState<UserByGenderModel>> userByGenderLiveData() {
+    return userByGenderData;
+  }
+
   void initialState() {
     VisitorTileData.setValue(Initial());
     userByLangData.setValue(Initial());
     userByCountryData.setValue(Initial());
     userByCityData.setValue(Initial());
+    userByGenderData.setValue(Initial());
     notifyListeners();
   }
 
@@ -161,6 +171,34 @@ class VisitorProvider extends ChangeNotifier {
       }
     } catch (ex) {
       userByCityData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // user by gender method
+  getUserByGenderList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      userByGenderData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      userByGenderModel = await visitorRepository.getUserByGenderData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,fromDate,toDate
+      );
+      if (userByCityModel.code == 200) {
+        userByGenderData.setValue(Success(userByGenderModel));
+      } else {
+        userByGenderData.setValue(Failure(userByGenderModel.toString()));
+      }
+    } catch (ex) {
+      userByGenderData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
