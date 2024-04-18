@@ -51,8 +51,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
  VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
 
- getVisitorTileMethod () async{
-   await registeredWebsiteProvider.getRegisteredWebsiteList();
+ getVisitorTileMethod () {
+   // await registeredWebsiteProvider.getRegisteredWebsiteList();
    visitorProvider.getVisitorTileData(
      // '384272511',
        _selectedFromDate != null ?
@@ -61,8 +61,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
    );
  }
 
-  getUserByLangMethod () async{
-    await registeredWebsiteProvider.getRegisteredWebsiteList();
+  getUserByLangMethod () {
+     // await registeredWebsiteProvider.getRegisteredWebsiteList();
       visitorProvider.getUserByLangList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
@@ -70,8 +70,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  getUserByCountryMethod () async{
-    await registeredWebsiteProvider.getRegisteredWebsiteList();
+  getUserByCountryMethod () {
+    // await registeredWebsiteProvider.getRegisteredWebsiteList();
      visitorProvider.getUserByCountryList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
@@ -79,8 +79,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  getUserByCityMethod () async{
-    await registeredWebsiteProvider.getRegisteredWebsiteList();
+  getUserByCityMethod () {
+    // await registeredWebsiteProvider.getRegisteredWebsiteList();
      visitorProvider.getUserByCityList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
@@ -88,8 +88,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  getUserByGenderMethod () async{
-    await registeredWebsiteProvider.getRegisteredWebsiteList();
+  getUserByGenderMethod () {
+    // await registeredWebsiteProvider.getRegisteredWebsiteList();
      visitorProvider.getUserByGenderList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
@@ -97,8 +97,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  getUserByNewReturnedMethod () async{
-    await registeredWebsiteProvider.getRegisteredWebsiteList();
+  getUserByNewReturnedMethod () {
+    // await registeredWebsiteProvider.getRegisteredWebsiteList();
      visitorProvider.getUserByNewReturnedList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
@@ -106,8 +106,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  getUserByAgeGroupMethod () async{
-    await registeredWebsiteProvider.getRegisteredWebsiteList();
+  getUserByAgeGroupMethod () {
+    // await registeredWebsiteProvider.getRegisteredWebsiteList();
      visitorProvider.getUserByAgeList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,

@@ -86,7 +86,6 @@ class VisitorProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   // user Tile info method
   getVisitorTileData(
       dynamic fromDate,
