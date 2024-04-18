@@ -4,7 +4,9 @@ import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
 import '../../providers/login_provider.dart';
+import '../../providers/user_profile_provider.dart';
 import '../../repositories/auth_repository.dart';
+import '../../repositories/user_repository.dart';
 import '../../styles/text_styles.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../../utilities/api_helpers.dart';
@@ -33,6 +35,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   LoginProvider loginProvider = LoginProvider(authRepository: AuthRepository());
+  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   bool isLoading = false;
 
@@ -78,6 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
           print('ffffffffffffffffffffffffffffffff');
           print(googleAuth.accessToken);
           // await userDetailProvider.fetchUserDetails();
+          await userProfileProvider.getProfile();
           Future.delayed(Duration.zero, () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
           });

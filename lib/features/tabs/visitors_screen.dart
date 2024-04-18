@@ -52,7 +52,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
  VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
 
  getVisitorTileMethod () async{
-  await  visitorProvider.getVisitorTileData(
+   await registeredWebsiteProvider.getRegisteredWebsiteList();
+   visitorProvider.getVisitorTileData(
      // '384272511',
        _selectedFromDate != null ?
        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
@@ -61,7 +62,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
  }
 
   getUserByLangMethod () async{
-    await  visitorProvider.getUserByLangList(
+    await registeredWebsiteProvider.getRegisteredWebsiteList();
+      visitorProvider.getUserByLangList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -69,7 +71,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   getUserByCountryMethod () async{
-    await visitorProvider.getUserByCountryList(
+    await registeredWebsiteProvider.getRegisteredWebsiteList();
+     visitorProvider.getUserByCountryList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -77,7 +80,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   getUserByCityMethod () async{
-    await visitorProvider.getUserByCityList(
+    await registeredWebsiteProvider.getRegisteredWebsiteList();
+     visitorProvider.getUserByCityList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -85,7 +89,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   getUserByGenderMethod () async{
-    await visitorProvider.getUserByGenderList(
+    await registeredWebsiteProvider.getRegisteredWebsiteList();
+     visitorProvider.getUserByGenderList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -93,7 +98,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   getUserByNewReturnedMethod () async{
-    await visitorProvider.getUserByNewReturnedList(
+    await registeredWebsiteProvider.getRegisteredWebsiteList();
+     visitorProvider.getUserByNewReturnedList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -101,7 +107,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   getUserByAgeGroupMethod () async{
-    await visitorProvider.getUserByAgeList(
+    await registeredWebsiteProvider.getRegisteredWebsiteList();
+     visitorProvider.getUserByAgeList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -4191,9 +4198,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 borderRadius: BorderRadius.circular(3),
                 color: whiteColor,
               ),
-              child:
-              // userByAgeWidget(),
-              buildBarChart(),
+              child: userByAgeWidget(),
+              // buildBarChart(),
             ),
           ),
 
@@ -4732,12 +4738,19 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               List<charts.Series<AgeData, String>> series = [
                 charts.Series(
                     id: '',
-                    data: data.userByAgeGroupModel.data,
+                    data: data.userByAgeGroupModel.data!,
                     domainFn: (AgeData sales, _) => sales.key,
-                    measureFn: (AgeData sales, _) => sales.value,
+                    measureFn: (AgeData sales, _) => int.parse(sales.value),
                     colorFn: (_, __) => charts.ColorUtil.fromDartColor(graphBlackColor),
                     // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
                     labelAccessorFn: (AgeData sales, _) => '${sales.value}',
+                    outsideLabelStyleAccessorFn: (AgeData sales, _){
+                      return  const charts.TextStyleSpec(
+                        fontFamily: 'Barlow-Bold',
+                        color:  charts.MaterialPalette.black,
+                        fontSize: 13,
+                      );
+                    },
                     insideLabelStyleAccessorFn: (AgeData sales, _){
                       return  const charts.TextStyleSpec(
                         fontFamily: 'Barlow-Bold',
@@ -4747,6 +4760,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     }
                 ),
               ];
+
+              // Calculate maximum value
+              int maxValue = data.userByAgeGroupModel.data!
+                  .map((e) => int.parse(e.value))
+                  .reduce((value, element) => value > element ? value : element);
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -4778,16 +4796,63 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           fontSize: 12,
                         ),
                       ),
-                      tickProviderSpec: const charts.StaticNumericTickProviderSpec(
+                      tickProviderSpec:
+                       charts.StaticNumericTickProviderSpec(
                         // Custom ticks from 0 to 20 with an interval of 4
+                        maxValue >= 50 && maxValue == 300 ?
                         <charts.TickSpec<num>>[
                           charts.TickSpec<num>(0),
-                          charts.TickSpec<num>(4),
-                          charts.TickSpec<num>(8),
-                          charts.TickSpec<num>(12),
-                          charts.TickSpec<num>(16),
-                          charts.TickSpec<num>(20),
-                        ],
+                          charts.TickSpec<num>(60),
+                          charts.TickSpec<num>(120),
+                          charts.TickSpec<num>(180),
+                          charts.TickSpec<num>(240),
+                          charts.TickSpec<num>(300),
+                        ] :
+                        maxValue >300 && maxValue == 1000  ?
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(200),
+                          charts.TickSpec<num>(400),
+                          charts.TickSpec<num>(600),
+                          charts.TickSpec<num>(800),
+                          charts.TickSpec<num>(100),
+                        ] :
+                            maxValue > 1000 ?
+                            <charts.TickSpec<num>>[
+                              charts.TickSpec<num>(0),
+                              charts.TickSpec<num>(500),
+                              charts.TickSpec<num>(1000),
+                              charts.TickSpec<num>(1500),
+                              charts.TickSpec<num>(2000),
+                              charts.TickSpec<num>(2500),
+                            ] :
+                            maxValue <= 15 ?
+                            <charts.TickSpec<num>>[
+                              charts.TickSpec<num>(0),
+                              charts.TickSpec<num>(3),
+                              charts.TickSpec<num>(6),
+                              charts.TickSpec<num>(9),
+                              charts.TickSpec<num>(12),
+                              charts.TickSpec<num>(15),
+                            ] :
+                                maxValue >15 && maxValue == 50  ?
+                            <charts.TickSpec<num>>[
+                              charts.TickSpec<num>(0),
+                              charts.TickSpec<num>(10),
+                              charts.TickSpec<num>(20),
+                              charts.TickSpec<num>(30),
+                              charts.TickSpec<num>(40),
+                              charts.TickSpec<num>(50),
+                            ] :
+                                <charts.TickSpec<num>>[
+                                  charts.TickSpec<num>(0),
+                                  charts.TickSpec<num>(15),
+                                  charts.TickSpec<num>(30),
+                                  charts.TickSpec<num>(45),
+                                  charts.TickSpec<num>(60),
+                                  charts.TickSpec<num>(75),
+                                ]
+
                       ),
                       tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
                             (value) => '${value!.toInt()}',
@@ -4797,7 +4862,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     //  display values on bars
 
                     barRendererDecorator: charts.BarLabelDecorator<String>(
-                      labelPosition: charts.BarLabelPosition.inside, // Position of the label
+                      labelPosition: maxValue > 1000 ?
+                      charts.BarLabelPosition.outside : charts.BarLabelPosition.inside,// Position of the label
                       labelAnchor: charts.BarLabelAnchor.middle, // Anchor point of the label
                       labelPadding: 4, // Padding around the label
                     ),

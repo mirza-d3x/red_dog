@@ -11,7 +11,7 @@ String userByAgeGroupModelToJson(UserByAgeGroupModel data) => json.encode(data.t
 class UserByAgeGroupModel {
   String ? message;
   int ? code;
-  dynamic data;
+  List<AgeData> ? data;
 
   UserByAgeGroupModel({
      this.message,
