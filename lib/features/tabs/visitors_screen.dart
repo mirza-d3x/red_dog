@@ -4490,15 +4490,17 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
             // Find the corresponding date from dataList based on value
             int startValue = 0;
-            int interval = 3;
+            int interval = 1;
             int index = value.toInt();
-            if (index < 0 || index >= data.userByVisitorsTrendingTimeModel.data!.length) {
+            // Adjust the maximum value
+            int maxDisplayedValue = 13;
+            if (index < 0 || index >= maxDisplayedValue) {
               return Container(); // Return an empty container if index is out of bounds
             }
 
-            if (index < 0 || index >= data.userByVisitorsTrendingTimeModel.data!.length) {
-              return Container(); // Return an empty container if index is out of bounds
-            }
+            // if (index < 0 || index >= data.userByVisitorsTrendingTimeModel.data!.length) {
+            //   return Container(); // Return an empty container if index is out of bounds
+            // }
 
             // final text = (startValue + index * interval).toString();
             final String date = (startValue + index * interval).toString();
@@ -4511,7 +4513,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             );
 
             return Padding(
-              padding: const EdgeInsets.only(right: 25,top: 5),
+              padding: const EdgeInsets.only(right: 20,top: 5),
               child: SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: text,
@@ -4559,10 +4561,21 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   LineChartData mainData(List<TrendingTimeData> data) {
     List<FlSpot> spots = [];
+    double maxYValue = 0; // Initialize the maximum Y-value
+
     // Create FlSpot instances from your data
     for (int i = 0; i < data.length; i++) {
+      double yValue = double.parse(data[i].value ?? '0');
       spots.add(FlSpot(i.toDouble(), double.parse(data[i].value ?? '0')));
+
+      // Update maxYValue if current Y-value is greater
+      if (yValue > maxYValue) {
+        maxYValue = yValue;
+      }
     }
+
+    // Adjust maxYValue if needed (e.g., add some buffer)
+    maxYValue += 2; // Adding buffer for better visualization
 
     return LineChartData(
       gridData: FlGridData(
@@ -4570,7 +4583,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         drawVerticalLine: false,
         drawHorizontalLine: true,
         horizontalInterval: 3,
-        verticalInterval: 1,
+        verticalInterval: 3,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
             color: dividerColor,
@@ -4603,7 +4616,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 1,
+            interval: 3,
             getTitlesWidget: leftTitleWidgets,
             reservedSize: 42,
           ),
@@ -4616,7 +4629,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 7,
+      maxY: maxYValue,
       lineBarsData: [
         LineChartBarData(
           spots: spots,
