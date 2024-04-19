@@ -7,6 +7,7 @@ import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
 import 'package:reddog_mobile_app/models/user_by_newturned_model.dart';
+import 'package:reddog_mobile_app/models/visitor_trending_time_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
@@ -75,6 +76,14 @@ class VisitorProvider extends ChangeNotifier {
     return userByAgeGroupData;
   }
 
+  // user by visitors trending time
+  var userByVisitorsTrendingTimeModel = VisitorsTrendingTimeModel();
+  LiveData<UIState<VisitorsTrendingTimeModel>> userByVisitorsTrendingTimeData = LiveData<UIState<VisitorsTrendingTimeModel>>();
+
+  LiveData<UIState<VisitorsTrendingTimeModel>> userByVisitorsTrendingTimeLiveData() {
+    return userByVisitorsTrendingTimeData;
+  }
+
   void initialState() {
     VisitorTileData.setValue(Initial());
     userByLangData.setValue(Initial());
@@ -83,6 +92,7 @@ class VisitorProvider extends ChangeNotifier {
     userByGenderData.setValue(Initial());
     userByNewReturnedData.setValue(Initial());
     userByAgeGroupData.setValue(Initial());
+    userByVisitorsTrendingTimeData.setValue(Initial());
     notifyListeners();
   }
 
@@ -223,7 +233,7 @@ class VisitorProvider extends ChangeNotifier {
     }
   }
 
-  // user by nee-returned method
+  // user by new-returned method
   getUserByNewReturnedList(
       dynamic fromDate,
       dynamic toDate,
@@ -274,6 +284,34 @@ class VisitorProvider extends ChangeNotifier {
       }
     } catch (ex) {
       userByAgeGroupData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // user by visitors trending time method
+  getUserByTrendingTimeList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      userByVisitorsTrendingTimeData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      userByVisitorsTrendingTimeModel = await visitorRepository.getUserByTrendingTimeData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,fromDate,toDate
+      );
+      if (userByVisitorsTrendingTimeModel.code == 200) {
+        userByVisitorsTrendingTimeData.setValue(Success(userByVisitorsTrendingTimeModel));
+      } else {
+        userByVisitorsTrendingTimeData.setValue(Failure(userByVisitorsTrendingTimeModel.toString()));
+      }
+    } catch (ex) {
+      userByVisitorsTrendingTimeData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

@@ -6,6 +6,7 @@ import 'package:reddog_mobile_app/models/user_by_city_model.dart';
 import 'package:reddog_mobile_app/models/user_by_country_model.dart';
 import 'package:reddog_mobile_app/models/user_by_lang_model.dart';
 import 'package:reddog_mobile_app/models/user_by_newturned_model.dart';
+import 'package:reddog_mobile_app/models/visitor_trending_time_model.dart';
 import 'package:reddog_mobile_app/models/visitors_tiles_model.dart';
 
 import '../models/user_by_gender_model.dart';
@@ -128,5 +129,22 @@ Resource<UserByAgeGroupModel> getUserByAgeApi(
         Map<String, dynamic> getUserByAgeDataMap = jsonDecode(response.body);
         UserByAgeGroupModel userByAgeResult = UserByAgeGroupModel.fromJson(getUserByAgeDataMap);
         return userByAgeResult;
+      });
+}
+
+Resource<VisitorsTrendingTimeModel> getVisitorTrendingTimeApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/ga/visitorbydate/$googleId/$googleToken/ $viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> getUserByVisitorsTrendingTimeDataMap = jsonDecode(response.body);
+        VisitorsTrendingTimeModel userByVisitorsTrendingTimeResult = VisitorsTrendingTimeModel.fromJson(getUserByVisitorsTrendingTimeDataMap);
+        return userByVisitorsTrendingTimeResult;
       });
 }

@@ -18,6 +18,7 @@ import 'package:reddog_mobile_app/widgets/tiles.dart';
 import 'package:reddog_mobile_app/widgets/tiles_full_width.dart';
 import '../../core/ui_state.dart';
 import '../../models/user_by_age_group_model.dart';
+import '../../models/visitor_trending_time_model.dart';
 import '../../styles/text_styles.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -115,6 +116,15 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByTrendingTimeMethod () {
+    // await registeredWebsiteProvider.getRegisteredWebsiteList();
+    visitorProvider.getUserByTrendingTimeList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   @override
@@ -130,6 +140,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByGenderMethod();
     getUserByNewReturnedMethod();
     getUserByAgeGroupMethod();
+    visitorProvider.getUserByTrendingTimeList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
     super.initState();
   }
 
@@ -188,6 +203,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByGenderMethod();
         getUserByNewReturnedMethod();
         getUserByAgeGroupMethod();
+        getUserByTrendingTimeMethod();
       });
     }
   }
@@ -2779,6 +2795,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           getUserByGenderMethod();
                           getUserByNewReturnedMethod();
                           getUserByAgeGroupMethod();
+                          getUserByTrendingTimeMethod();
                         },
                         items: data.websiteListModel.data!.map((e) {
                           websiteName = e.name;
@@ -2954,6 +2971,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             ],
           ),
           const SizedBox(height: 10),
+          // visitors trending time graph
           Card(
             elevation: 2,
             shadowColor: whiteColor,
@@ -2964,7 +2982,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   borderRadius: BorderRadius.circular(3),
                   color: whiteColor,
                 ),
-                child: Stack(
+                child:
+                Stack(
                   children: <Widget>[
                     AspectRatio(
                       aspectRatio: 1.70,
@@ -2975,30 +2994,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           top: 10,
                           bottom: 12,
                         ),
-                        child: LineChart(
-                          mainData(),
-                          // showAvg ? avgData() : mainData(),
-                        ),
+                        child: trendingTimeGraphWidget(),
+                        // LineChart(
+                        //   mainData(),
+                        // ),
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 60,
-                    //   height: 34,
-                    //   child: TextButton(
-                    //     onPressed: () {
-                    //       setState(() {
-                    //         showAvg = !showAvg;
-                    //       });
-                    //     },
-                    //     child: Text(
-                    //       'avg',
-                    //       style: TextStyle(
-                    //         fontSize: 12,
-                    //         color: showAvg ? Colors.white.withOpacity(0.5) : Colors.white,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 )
             ),
@@ -4424,120 +4425,145 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontSize: 12,
-      fontFamily: 'Barlow-Regular',
-      color: titleTextColor
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('Feb 26',
-            style: style
-        );
-        break;
-      case 1:
-        text = const Text('Feb 27',
-            style: style,
-        );
-        break;
-      case 2:
-        text = const Text('Feb 28',
-            style: style
-        );
-        break;
-      case 3:
-        text = const Text('Feb 29',
-            style: style
-        );
-        break;
-      case 4:
-        text = const Text('Mar 01',
-            style: style
-        );
-        break;
-      case 5:
-        text = const Text('Mar 02',
-            style: style
-        );
-        break;
-      case 6:
-        text = const Text('Mar 03',
-            style: style
-        );
-        break;
-      case 7:
-        text = const Text('Mar 04',
-            style: style
-        );
-        break;
-      case 8:
-        text = const Text('Mar 05',
-            style: style
-        );
-        break;
-      case 9:
-        text = const Text('Mar 06',
-            style: style
-        );
-        break;
-      case 10:
-        text = const Text('Mar 07',
-            style: style
-        );
-        break;
-      default:
-        text = const Text('',
-            style: style
-        );
-        break;
-    }
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx) {
+        return visitorProvider;
+      },
+      child: Consumer<VisitorProvider>(
+        builder: (ctx, data, _) {
+          var state = data.userByVisitorsTrendingTimeLiveData().getValue();
+          print(state);
+          if (state is IsLoading) {
+            return SizedBox();
+          }else if (state is Success) {
+            const style = TextStyle(
+                fontSize: 12,
+                fontFamily: 'Barlow-Regular',
+                color: titleTextColor
+            );
 
-    return
-      Padding(
-        padding: const EdgeInsets.only(right: 25,top: 5),
-        child: SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: text,
-          angle: -math.pi / 3.5,
-            ),
-      );
+            // Find the corresponding date from dataList based on value
+            final int index = value.toInt();
+            if (index < 0 || index >= data.userByVisitorsTrendingTimeModel.data!.length) {
+              return Container(); // Return an empty container if index is out of bounds
+            }
+
+            final String date = data.userByVisitorsTrendingTimeModel.data![index].date ?? ''; // Get date from dataList
+
+            final text = Text(date, style: style);
+
+            return Padding(
+                padding: const EdgeInsets.only(right: 25,top: 5),
+                child: SideTitleWidget(
+                  axisSide: meta.axisSide,
+                  child: text,
+                  angle: -math.pi / 3.5,
+                ),
+              );
+          }else if (state is Failure) {
+            return Text('Failed to load!!');
+          }else {
+            return SizedBox();
+          }
+        },
+      ),
+    );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-        fontSize: 12,
-        fontFamily: 'Barlow-Regular',
-        color: titleTextColor
-    );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = '0';
-        break;
-      case 3:
-        text = '4';
-        break;
-      case 6:
-        text = '8';
-        break;
-      case 9:
-        text = '12';
-        break;
-      case 12:
-        text = '16';
-        break;
-      default:
-        return Container();
-    }
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx) {
+        return visitorProvider;
+      },
+      child: Consumer<VisitorProvider>(
+        builder: (ctx, data, _) {
+          var state = data.userByVisitorsTrendingTimeLiveData().getValue();
+          print(state);
+          if (state is IsLoading) {
+            return SizedBox();
+          }else if (state is Success) {
+            const style = TextStyle(
+                fontSize: 12,
+                fontFamily: 'Barlow-Regular',
+                color: titleTextColor
+            );
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 12),
-      child: Text(text, style: style, textAlign: TextAlign.end),
+            // Find the corresponding date from dataList based on value
+            int startValue = 0;
+            int interval = 3;
+            int index = value.toInt();
+            if (index < 0 || index >= data.userByVisitorsTrendingTimeModel.data!.length) {
+              return Container(); // Return an empty container if index is out of bounds
+            }
+
+            if (index < 0 || index >= data.userByVisitorsTrendingTimeModel.data!.length) {
+              return Container(); // Return an empty container if index is out of bounds
+            }
+
+            // final text = (startValue + index * interval).toString();
+            final String date = (startValue + index * interval).toString();
+            //
+            final text = Text(
+                date,
+                softWrap: false,
+                maxLines: 1,
+                style: style
+            );
+
+            return Padding(
+              padding: const EdgeInsets.only(right: 25,top: 5),
+              child: SideTitleWidget(
+                axisSide: meta.axisSide,
+                child: text,
+                angle: 0,
+              ),
+            );
+          }else if (state is Failure) {
+            return Text('Failed to load!!');
+          }else {
+            return SizedBox();
+          }
+        },
+      ),
     );
   }
 
-  LineChartData mainData() {
+  Widget trendingTimeGraphWidget(){
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx) {
+        return visitorProvider;
+      },
+      child: Consumer<VisitorProvider>(
+        builder: (ctx, data, _) {
+          var state = data.userByVisitorsTrendingTimeLiveData().getValue();
+          print(state);
+          if (state is IsLoading) {
+            return SizedBox();
+          }else if (state is Success) {
+            return LineChart(
+                mainData(
+                    data.userByVisitorsTrendingTimeModel.data ?? []
+                  // data.userByVisitorsTrendingTimeModel.data!.length,
+                  // data.userByVisitorsTrendingTimeModel.data!.length,
+                )
+            );
+          }else if (state is Failure) {
+            return Text('Failed to load!!');
+          }else {
+            return SizedBox();
+          }
+        },
+      ),
+    );
+  }
+
+  LineChartData mainData(List<TrendingTimeData> data) {
+    List<FlSpot> spots = [];
+    // Create FlSpot instances from your data
+    for (int i = 0; i < data.length; i++) {
+      spots.add(FlSpot(i.toDouble(), double.parse(data[i].value ?? '0')));
+    }
+
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -4590,19 +4616,20 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       minX: 0,
       maxX: 11,
       minY: 0,
-      maxY: 14,
+      maxY: 7,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(1, 5),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 10),
-            FlSpot(6.8, 4),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: spots,
+          // spots: [
+          //   FlSpot(1, 3),
+          //   FlSpot(2, 5),
+          //   FlSpot(3, 2),
+          //   FlSpot(4, 10),
+          //   FlSpot(5, 4),
+          //   FlSpot(6, 4),
+          //   FlSpot(7, 3),
+          //   FlSpot(8, 4),
+          // ],
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
