@@ -4617,7 +4617,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: 35,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
