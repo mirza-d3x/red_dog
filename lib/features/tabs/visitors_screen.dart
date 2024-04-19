@@ -4542,12 +4542,18 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           if (state is IsLoading) {
             return SizedBox();
           }else if (state is Success) {
-            return LineChart(
-                mainData(
-                    data.userByVisitorsTrendingTimeModel.data ?? []
-                  // data.userByVisitorsTrendingTimeModel.data!.length,
-                  // data.userByVisitorsTrendingTimeModel.data!.length,
-                )
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                width: 500,
+                child: LineChart(
+                    mainData(
+                        data.userByVisitorsTrendingTimeModel.data ?? []
+                      // data.userByVisitorsTrendingTimeModel.data!.length,
+                      // data.userByVisitorsTrendingTimeModel.data!.length,
+                    )
+                ),
+              ),
             );
           }else if (state is Failure) {
             return Text('Failed to load!!');
@@ -4561,7 +4567,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   LineChartData mainData(List<TrendingTimeData> data) {
     List<FlSpot> spots = [];
-    double maxYValue = 0; // Initialize the maximum Y-value
+    double maxYValue = 0;
+    // Determine the length of your date data list
+    int dataLength = data.length;
+
 
     // Create FlSpot instances from your data
     for (int i = 0; i < data.length; i++) {
@@ -4627,7 +4636,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         border: Border.all(color: const Color(0xff37434d)),
       ),
       minX: 0,
-      maxX: 11,
+      maxX: dataLength.toDouble(),
       minY: 0,
       maxY: maxYValue,
       lineBarsData: [
