@@ -93,6 +93,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByAgeGroupMethod() async{
+    await visitorProvider.getUserByAgeList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
   String storedWebsiteId = '';
 
   void getStoredWebsiteId() async{
@@ -118,6 +126,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByCountryMethod();
     getUserByCityMethod();
     getUserByLangMethod();
+    getUserByAgeGroupMethod();
   }
 
   // drop down menu variables
@@ -158,6 +167,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByCountryMethod();
         getUserByCityMethod();
         getUserByLangMethod();
+        getUserByAgeGroupMethod();
       });
     }
   }
@@ -494,6 +504,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               getUserByCountryMethod();
                               getUserByCityMethod();
                               getUserByLangMethod();
+                              getUserByAgeGroupMethod();
                             });
                           })
 
@@ -1358,6 +1369,29 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               return Container();
             }
           }),
+
+          const SizedBox(height: 15),
+          // What is their age group?
+          Text(
+            'What is their age group?',
+            style: normalTextStyle,
+          ),
+
+          const SizedBox(height: 10),
+          Card(
+            elevation: 2,
+            shadowColor: whiteColor,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: whiteColor,
+              ),
+              child: userByAgeWidget(),
+              // buildBarChart(),
+            ),
+          ),
         ],
       ),
     );
@@ -1601,6 +1635,164 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 axisSide: meta.axisSide,
                 child: text,
                 angle: 0,
+              ),
+            );
+          }else if (state is Failure) {
+            return Text('Failed to load!!');
+          }else {
+            return SizedBox();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget userByAgeWidget(){
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx) {
+        return visitorProvider;
+      },
+      child: Consumer<VisitorProvider>(
+        builder: (ctx, data, _) {
+          var state = data.userByAgeGroupLiveData().getValue();
+          print(state);
+          if (state is IsLoading) {
+            return SizedBox();
+          }else if (state is Success) {
+            List<charts.Series<AgeData, String>> series = [
+              charts.Series(
+                  id: '',
+                  data: data.userByAgeGroupModel.data!,
+                  domainFn: (AgeData sales, _) => sales.key,
+                  measureFn: (AgeData sales, _) => int.parse(sales.value),
+                  colorFn: (_, __) => charts.ColorUtil.fromDartColor(graphBlackColor),
+                  // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+                  labelAccessorFn: (AgeData sales, _) => '${sales.value}',
+                  outsideLabelStyleAccessorFn: (AgeData sales, _){
+                    return  const charts.TextStyleSpec(
+                      fontFamily: 'Barlow-Bold',
+                      color:  charts.MaterialPalette.black,
+                      fontSize: 13,
+                    );
+                  },
+                  insideLabelStyleAccessorFn: (AgeData sales, _){
+                    return  const charts.TextStyleSpec(
+                      fontFamily: 'Barlow-Bold',
+                      color:  charts.MaterialPalette.white,
+                      fontSize: 16,
+                    );
+                  }
+              ),
+            ];
+
+            // Calculate maximum value
+            int maxValue = data.userByAgeGroupModel.data!
+                .map((e) => int.parse(e.value))
+                .reduce((value, element) => value > element ? value : element);
+
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox(
+                height: 300.0,
+                child: charts.BarChart(
+                  series,
+                  animate: true,
+                  barGroupingType: charts.BarGroupingType.grouped,
+
+                  // custom X- axis
+                  domainAxis: charts.OrdinalAxisSpec(
+                    // X-axis configuration
+                    renderSpec: charts.SmallTickRendererSpec(
+                      labelStyle: charts.TextStyleSpec(
+                          fontFamily: 'Barlow-Regular',
+                          color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
+                          fontSize: 12
+                      ),
+                    ),
+                  ),
+
+                  // Customize Y-axis values
+                  primaryMeasureAxis: charts.NumericAxisSpec(
+                    renderSpec: charts.GridlineRendererSpec(
+                      labelStyle: charts.TextStyleSpec(
+                        fontFamily: 'Barlow-Regular',
+                        color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
+                        fontSize: 12,
+                      ),
+                    ),
+                    tickProviderSpec:
+                    charts.StaticNumericTickProviderSpec(
+                      // Custom ticks from 0 to 20 with an interval of 4
+                        maxValue >= 50 && maxValue == 300 ?
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(60),
+                          charts.TickSpec<num>(120),
+                          charts.TickSpec<num>(180),
+                          charts.TickSpec<num>(240),
+                          charts.TickSpec<num>(300),
+                        ] :
+                        maxValue >300 && maxValue == 1000  ?
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(200),
+                          charts.TickSpec<num>(400),
+                          charts.TickSpec<num>(600),
+                          charts.TickSpec<num>(800),
+                          charts.TickSpec<num>(100),
+                        ] :
+                        maxValue > 1000 ?
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(500),
+                          charts.TickSpec<num>(1000),
+                          charts.TickSpec<num>(1500),
+                          charts.TickSpec<num>(2000),
+                          charts.TickSpec<num>(2500),
+                        ] :
+                        maxValue <= 15 ?
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(3),
+                          charts.TickSpec<num>(6),
+                          charts.TickSpec<num>(9),
+                          charts.TickSpec<num>(12),
+                          charts.TickSpec<num>(15),
+                        ] :
+                        maxValue >15 && maxValue == 50  ?
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(10),
+                          charts.TickSpec<num>(20),
+                          charts.TickSpec<num>(30),
+                          charts.TickSpec<num>(40),
+                          charts.TickSpec<num>(50),
+                        ] :
+                        <charts.TickSpec<num>>[
+                          charts.TickSpec<num>(0),
+                          charts.TickSpec<num>(15),
+                          charts.TickSpec<num>(30),
+                          charts.TickSpec<num>(45),
+                          charts.TickSpec<num>(60),
+                          charts.TickSpec<num>(75),
+                        ]
+
+                    ),
+                    tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
+                          (value) => '${value!.toInt()}',
+                    ),
+                  ),
+
+                  //  display values on bars
+
+                  barRendererDecorator: charts.BarLabelDecorator<String>(
+                    labelPosition: maxValue > 1000 ?
+                    charts.BarLabelPosition.outside : charts.BarLabelPosition.inside,// Position of the label
+                    labelAnchor: charts.BarLabelAnchor.middle, // Anchor point of the label
+                    labelPadding: 4, // Padding around the label
+                  ),
+                  // behaviors: [charts.SeriesLegend()],
+                ),
               ),
             );
           }else if (state is Failure) {
