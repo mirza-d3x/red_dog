@@ -44,22 +44,23 @@ class _ServerScreenState extends State<ServerScreen> {
       setState(() {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
-        serverProvider.getLatencyValue(
-            _selectedFromDate != null
-                ?
-            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                : formattedInitialdDate,
-            _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                _selectedToDate)}' : formattedDate
-        );
-        serverProvider.getUptimeValue(
-            _selectedFromDate != null
-                ?
-            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                : formattedInitialdDate,
-            _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                _selectedToDate)}' : formattedDate
-        );
+        getData();
+        // serverProvider.getLatencyValue(
+        //     _selectedFromDate != null
+        //         ?
+        //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+        //         : formattedInitialdDate,
+        //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+        //         _selectedToDate)}' : formattedDate
+        // );
+        // serverProvider.getUptimeValue(
+        //     _selectedFromDate != null
+        //         ?
+        //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+        //         : formattedInitialdDate,
+        //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+        //         _selectedToDate)}' : formattedDate
+        // );
       });
     }
   }
@@ -72,10 +73,9 @@ class _ServerScreenState extends State<ServerScreen> {
   ServerProvider serverProvider = ServerProvider(
       serverRepository: ServerRepository());
 
-  @override
-  void initState() {
-    registeredWebsiteProvider.getRegisteredWebsiteList();
-    serverProvider.getLatencyValue(
+
+  getData() async{
+    await serverProvider.getLatencyValue(
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
@@ -84,7 +84,7 @@ class _ServerScreenState extends State<ServerScreen> {
             _selectedToDate)}' : formattedDate
     );
 
-    serverProvider.getUptimeValue(
+    await serverProvider.getUptimeValue(
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
@@ -92,6 +92,29 @@ class _ServerScreenState extends State<ServerScreen> {
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
+  }
+
+  @override
+  void initState() {
+    registeredWebsiteProvider.getRegisteredWebsiteList();
+    getData();
+    // serverProvider.getLatencyValue(
+    //     _selectedFromDate != null
+    //         ?
+    //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+    //         : formattedInitialdDate,
+    //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+    //         _selectedToDate)}' : formattedDate
+    // );
+    //
+    // serverProvider.getUptimeValue(
+    //     _selectedFromDate != null
+    //         ?
+    //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+    //         : formattedInitialdDate,
+    //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+    //         _selectedToDate)}' : formattedDate
+    // );
     super.initState();
   }
 
@@ -286,22 +309,23 @@ class _ServerScreenState extends State<ServerScreen> {
                               deleteValue('websiteId');
                               selectedWebsite = val;
                               setValue('websiteId', val);
-                              serverProvider.getLatencyValue(
-                                  _selectedFromDate != null
-                                      ?
-                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                                      : formattedInitialdDate,
-                                  _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                                      _selectedToDate)}' : formattedDate
-                              );
-                              serverProvider.getUptimeValue(
-                                  _selectedFromDate != null
-                                      ?
-                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                                      : formattedInitialdDate,
-                                  _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                                      _selectedToDate)}' : formattedDate
-                              );
+                              getData();
+                              // serverProvider.getLatencyValue(
+                              //     _selectedFromDate != null
+                              //         ?
+                              //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                              //         : formattedInitialdDate,
+                              //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                              //         _selectedToDate)}' : formattedDate
+                              // );
+                              // serverProvider.getUptimeValue(
+                              //     _selectedFromDate != null
+                              //         ?
+                              //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                              //         : formattedInitialdDate,
+                              //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                              //         _selectedToDate)}' : formattedDate
+                              // );
                             });
                           })
                       ),
