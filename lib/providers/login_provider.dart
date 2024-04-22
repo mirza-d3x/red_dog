@@ -38,6 +38,7 @@ class LoginProvider extends ChangeNotifier {
         setValue('googleToken', loginModel.token);
         setValue('googleId', loginModel.userData!.googleId);
         setValue('analytics', loginModel.isAnalytic);
+        setValue('email', loginModel.userData!.email);
         loginData.setValue(Success(loginModel));
       } else {
         loginData.setValue(Failure(loginModel.toString()));

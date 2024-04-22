@@ -8,4 +8,5 @@ class Constants{
   static const googleId = 'googleId';
   static const analytics = 'analytics';
   static const initialWebId = 'initialWebId';
+  static const email = 'email';
 }

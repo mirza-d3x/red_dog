@@ -18,4 +18,12 @@ class ServerRepository {
       ) =>
       webService?.get(getLatencyDataApi(googleId,googleToken,viewId,fromDate,toDate));
 
+  Future getUptime(
+      dynamic viewId,
+      dynamic email,
+      dynamic fromDate,
+      dynamic toDate,
+      ) =>
+      webService?.get(getUptimeDataApi(viewId,email,fromDate,toDate));
+
 }

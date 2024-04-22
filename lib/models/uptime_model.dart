@@ -33,10 +33,10 @@ class UptimeModel {
 }
 
 class Data {
-  String ? uptime;
+  dynamic uptime;
 
   Data({
-    required this.uptime,
+     this.uptime,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(

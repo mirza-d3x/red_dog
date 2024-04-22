@@ -52,6 +52,14 @@ class _ServerScreenState extends State<ServerScreen> {
             _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
                 _selectedToDate)}' : formattedDate
         );
+        serverProvider.getUptimeValue(
+            _selectedFromDate != null
+                ?
+            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+            _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                _selectedToDate)}' : formattedDate
+        );
       });
     }
   }
@@ -68,6 +76,15 @@ class _ServerScreenState extends State<ServerScreen> {
   void initState() {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     serverProvider.getLatencyValue(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+
+    serverProvider.getUptimeValue(
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
@@ -183,43 +200,6 @@ class _ServerScreenState extends State<ServerScreen> {
 
                 const SizedBox(height: 8),
 
-                Card(
-                  elevation: 2,
-                  shadowColor: whiteColor,
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: whiteColor,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Uptime',
-                              style: tileTitleTextStyle,
-                            ),
-
-                            const SizedBox(height: 8),
-                            Text(
-                              '67.65%',
-                              style: tileNumberTextStyle,
-                            )
-                          ],
-                        ),
-
-                        Image.asset(
-                          'assets/images/server_uptime.PNG',
-                          height: 50,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -314,6 +294,14 @@ class _ServerScreenState extends State<ServerScreen> {
                                   _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
                                       _selectedToDate)}' : formattedDate
                               );
+                              serverProvider.getUptimeValue(
+                                  _selectedFromDate != null
+                                      ?
+                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                                      : formattedInitialdDate,
+                                  _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                                      _selectedToDate)}' : formattedDate
+                              );
                             });
                           })
                       ),
@@ -386,6 +374,78 @@ class _ServerScreenState extends State<ServerScreen> {
                       Text(
                         '${data.latencyModel.data!.latency} ms',
                         style: tileNumberTextStyle,
+                      )
+                    ],
+                  ),
+                ),
+              );
+            } else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+
+          const SizedBox(height: 8),
+
+          Consumer<ServerProvider>(builder: (ctx, data, _) {
+            var state = data.uptimeLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: whiteColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Uptime',
+                            style: tileTitleTextStyle,
+                          ),
+
+                          const SizedBox(height: 8),
+                          Text(
+                            '${data.uptimeModel.data!.uptime}%',
+                            style: tileNumberTextStyle,
+                          )
+                        ],
+                      ),
+
+                      Image.asset(
+                        'assets/images/server_uptime.PNG',
+                        height: 50,
                       )
                     ],
                   ),
