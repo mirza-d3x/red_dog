@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reddog_mobile_app/providers/server_provider.dart';
+import 'package:reddog_mobile_app/repositories/server_repository.dart';
 import 'dart:math' as math;
 import '../../core/ui_state.dart';
 import '../../providers/registered_website_provider.dart';
@@ -24,10 +26,6 @@ class _ServerScreenState extends State<ServerScreen> {
   dynamic selectedWebsite;
   bool isSelectedFromDropDwn = false;
 
-  List<Color> gradientColors = [
-    lightRedColor,
-    darkRedColor,
-  ];
 
   dynamic _selectedFromDate;
   dynamic _selectedToDate;
@@ -46,21 +44,46 @@ class _ServerScreenState extends State<ServerScreen> {
       setState(() {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        serverProvider.getLatencyValue(
+            _selectedFromDate != null
+                ?
+            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+            _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                _selectedToDate)}' : formattedDate
+        );
       });
     }
   }
 
-  RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
-  dynamic websiteName ;
+  RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(
+      commonRepository: CommonRepository());
+  dynamic websiteName;
+  dynamic websiteViewId ;
+
+  ServerProvider serverProvider = ServerProvider(
+      serverRepository: ServerRepository());
 
   @override
-  void initState(){
+  void initState() {
     registeredWebsiteProvider.getRegisteredWebsiteList();
+    serverProvider.getLatencyValue(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
     super.initState();
   }
 
   // Format the current date in "yyyy-MM-dd" format
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  //initial from date
+  String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(
+      DateTime.now().subtract(Duration(days: 30)));
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +107,7 @@ class _ServerScreenState extends State<ServerScreen> {
                       flex: 3,
                       child: InkWell(
 
-                        onTap: () =>  _selectDateRange(context),
+                        onTap: () => _selectDateRange(context),
                         child: Card(
                           elevation: 2,
                           child: Container(
@@ -97,8 +120,11 @@ class _ServerScreenState extends State<ServerScreen> {
                             child:
                             Center(
                               child: Text(
-                                _selectedFromDate != null && _selectedToDate != null ?
-                                '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                _selectedFromDate != null &&
+                                    _selectedToDate != null ?
+                                '${DateFormat('yyyy-MM-dd').format(
+                                    _selectedFromDate) } to ${DateFormat(
+                                    'yyyy-MM-dd').format(_selectedToDate)}'
                                 // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
                                     : '2024-03-03 to ${formattedDate}',
                                 style: dropDownTextStyle,
@@ -146,56 +172,14 @@ class _ServerScreenState extends State<ServerScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    tiles(context,'Average page load time', '6.03 ms'),
-                    tiles(context,'Average server response time', '0.47 ms'),
+                    tiles(context, 'Average page load time', '6.03 ms'),
+                    tiles(context, 'Average server response time', '0.47 ms'),
                   ],
                 ),
 
                 const SizedBox(height: 8),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    tiles(context,'Average server latency', '6.03 ms'),
-                    Card(
-                      elevation: 2,
-                      shadowColor: whiteColor,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 2.3,
-                        padding: const EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: whiteColor,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Content',
-                                  style: tileTitleTextStyle,
-                                ),
-                                Text(
-                                  'load time',
-                                  style: tileTitleTextStyle,
-                                )
-                              ],
-                            ),
-
-                            const SizedBox(height: 8),
-                            Text(
-                              '0.47 ms',
-                              style: tileNumberTextStyle,
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                    // tiles(context,'Content load time', '0.47 ms'),
-                  ],
-                ),
+                serverScreenWidget(),
 
                 const SizedBox(height: 8),
 
@@ -236,45 +220,6 @@ class _ServerScreenState extends State<ServerScreen> {
                     ),
                   ),
                 ),
-
-                // const SizedBox(height: 15),
-                // Text(
-                //   'What is the average time to connect with your server (per day)?',
-                //   style: normalTextStyle,
-                // ),
-                //
-                // const SizedBox(height: 10),
-                // Card(
-                //   elevation: 2,
-                //   shadowColor: whiteColor,
-                //   child: Container(
-                //       padding: const EdgeInsets.all(10),
-                //       width: double.infinity,
-                //       decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(3),
-                //         color: whiteColor,
-                //       ),
-                //       child: Stack(
-                //         children: <Widget>[
-                //           AspectRatio(
-                //             aspectRatio: 1.70,
-                //             child: Padding(
-                //               padding: const EdgeInsets.only(
-                //                 right: 18,
-                //                 left: 12,
-                //                 top: 10,
-                //                 bottom: 12,
-                //               ),
-                //               child: LineChart(
-                //                 mainData(),
-                //                 // showAvg ? avgData() : mainData(),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       )
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -282,17 +227,20 @@ class _ServerScreenState extends State<ServerScreen> {
     );
   }
 
-  Widget websiteDropdownMenu(){
+  Widget websiteDropdownMenu() {
     return ChangeNotifierProvider<RegisteredWebsiteProvider>(
-      create: (ctx){
+      create: (ctx) {
         return registeredWebsiteProvider;
       },
-      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _){
+      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _) {
         var state = data.websiteListLiveData().getValue();
         print(state);
         if (state is IsLoading) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height / 1.3,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height / 1.3,
             child: Center(
               child: CircularProgressIndicator(
                 color: loginBgColor,
@@ -339,32 +287,42 @@ class _ServerScreenState extends State<ServerScreen> {
                             const SizedBox(width: 10),
                           ],
                         ),
-                        value: selectedWebsite,
-                        onChanged: (newValue) {
-                          deleteValue('websiteId');
-                          setState(() {
-                            isSelectedFromDropDwn = true;
-                            selectedWebsite = newValue;
-                            setValue('websiteId', selectedWebsite[0]);
-                          });
-                        },
-                        items: data.websiteListModel.data!.map((e) {
-                          websiteName = e.name;
-                          return DropdownMenuItem(
-                            // value: valueItem,
-                            child: Text(e.name),
-                            value: e.name,
-                          );
-                        },
-                        ).toList(),
+                          items:
+                          data.websiteListModel.data!.map((e) {
+                            websiteName = e.name;
+                            websiteViewId = e.datumId;
+                            return DropdownMenuItem(
+                              // value: valueItem,
+                              child: Text(e.name),
+                              value: e.datumId,
+                            );
+                          },
+                          ).toList(),
+                          value: selectedWebsite,
+                          onChanged: (val) {
+                            deleteValue('websiteId');
+                            deleteValue('websiteName');
+                            setState(()  {
+                              deleteValue('websiteId');
+                              selectedWebsite = val;
+                              setValue('websiteId', val);
+                              serverProvider.getLatencyValue(
+                                  _selectedFromDate != null
+                                      ?
+                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                                      : formattedInitialdDate,
+                                  _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                                      _selectedToDate)}' : formattedDate
+                              );
+                            });
+                          })
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           );
-        }else if (state is Failure) {
+        } else if (state is Failure) {
           return SizedBox(
             height: MediaQuery
                 .of(context)
@@ -383,188 +341,96 @@ class _ServerScreenState extends State<ServerScreen> {
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-        fontSize: 12,
-        fontFamily: 'Barlow-Regular',
-        color: titleTextColor
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('Feb 26',
-            style: style
-        );
-        break;
-      case 1:
-        text = const Text('Feb 27',
-          style: style,
-        );
-        break;
-      case 2:
-        text = const Text('Feb 28',
-            style: style
-        );
-        break;
-      case 3:
-        text = const Text('Feb 29',
-            style: style
-        );
-        break;
-      case 4:
-        text = const Text('Mar 01',
-            style: style
-        );
-        break;
-      case 5:
-        text = const Text('Mar 02',
-            style: style
-        );
-        break;
-      case 6:
-        text = const Text('Mar 03',
-            style: style
-        );
-        break;
-      case 7:
-        text = const Text('Mar 07',
-            style: style
-        );
-        break;
-      default:
-        text = const Text('',
-            style: style
-        );
-        break;
-    }
+  Widget serverScreenWidget() {
+    return ChangeNotifierProvider<ServerProvider>(
+      create: (ctx) {
+        return serverProvider;
+      },
+      child: Column(
+        children: [
+          Consumer<ServerProvider>(builder: (ctx, data, _) {
+            var state = data.latencyLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  tiles(context, 'Average server latency',
+                      '${data.latencyModel.data!.latency} ms'
+                  ),
+                  Card(
+                    elevation: 2,
+                    shadowColor: whiteColor,
+                    child: Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width / 2.3,
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: whiteColor,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Content',
+                                style: tileTitleTextStyle,
+                              ),
+                              Text(
+                                'load time',
+                                style: tileTitleTextStyle,
+                              )
+                            ],
+                          ),
 
-    return
-      Padding(
-        padding: const EdgeInsets.only(right: 25,top: 5),
-        child: SideTitleWidget(
-          axisSide: meta.axisSide,
-          child: text,
-          angle: -math.pi / 3.5,
-        ),
-      );
-  }
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-        fontSize: 12,
-        fontFamily: 'Barlow-Regular',
-        color: titleTextColor
-    );
-    String text;
-    switch (value.toInt()) {
-      case 0:
-        text = '0';
-        break;
-      case 3:
-        text = '1000';
-        break;
-      case 6:
-        text = '2000';
-        break;
-      case 9:
-        text = '3000';
-        break;
-      case 12:
-        text = '4000';
-        break;
-      default:
-        return Container();
-    }
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 12),
-      child: Text(text, style: style, textAlign: TextAlign.end),
+                          const SizedBox(height: 8),
+                          Text(
+                            '0.47 ms',
+                            style: tileNumberTextStyle,
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                  // tiles(context,'Content load time', '0.47 ms'),
+                ],
+              );
+            } else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      )
     );
   }
 
-  LineChartData mainData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: false,
-        drawHorizontalLine: true,
-        horizontalInterval: 3,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: dividerColor,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.black,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false,),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            interval: 1,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 8,
-      minY: 0,
-      maxY: 14,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(1, 5),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 10),
-            FlSpot(6.8, 4),
-            FlSpot(8, 4),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: gradientColors,
-          ),
-          barWidth: 2,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 }

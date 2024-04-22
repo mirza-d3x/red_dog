@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/example_cl_graph.dart';
 import 'package:reddog_mobile_app/providers/login_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/providers/server_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
 import 'package:reddog_mobile_app/providers/visitor_provider.dart';
 import 'package:reddog_mobile_app/repositories/auth_repository.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
+import 'package:reddog_mobile_app/repositories/server_repository.dart';
 import 'package:reddog_mobile_app/repositories/user_repository.dart';
 import 'package:reddog_mobile_app/repositories/visitor_repository.dart';
 import 'package:reddog_mobile_app/utilities/http_ssl_certificate.dart';
@@ -48,6 +50,9 @@ void main() async{
 
         ChangeNotifierProvider(
             create: (_) => UserProfileProvider(userRepository: UserRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => ServerProvider(serverRepository: ServerRepository())),
       ],
       child: const MyApp()
     ),
