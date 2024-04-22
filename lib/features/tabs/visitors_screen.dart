@@ -61,6 +61,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByNewReturnedMethod() async{
+    await visitorProvider.getUserByNewReturnedList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
   getUserByCountryMethod() async{
     await visitorProvider.getUserByCountryList(
         _selectedFromDate != null ?
@@ -77,9 +85,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-
-  getUserByNewReturnedMethod() async{
-    await visitorProvider.getUserByNewReturnedList(
+  getUserByLangMethod() async{
+    await visitorProvider.getUserByLangList(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -110,6 +117,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByNewReturnedMethod();
     getUserByCountryMethod();
     getUserByCityMethod();
+    getUserByLangMethod();
   }
 
   // drop down menu variables
@@ -149,6 +157,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByNewReturnedMethod();
         getUserByCountryMethod();
         getUserByCityMethod();
+        getUserByLangMethod();
       });
     }
   }
@@ -484,6 +493,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               getUserByNewReturnedMethod();
                               getUserByCountryMethod();
                               getUserByCityMethod();
+                              getUserByLangMethod();
                             });
                           })
 
@@ -1185,6 +1195,169 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               ),
             ),
           ),
+
+          const SizedBox(height: 15),
+          // What language do they speak?
+          Text(
+            'What language do they speak?',
+            style: normalTextStyle,
+          ),
+
+          const SizedBox(height: 10),
+          // language list
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByLangLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  height: 400,
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 3),
+                      const Divider(
+                        color: dividerColor,
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Text(
+                                'Language',
+                                style: tableTitleTextStyle,
+                              ),
+                            ),
+
+                            Text(
+                              'Users',
+                              style: tableTitleTextStyle,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.only(right: 35),
+                              child: Text(
+                                '%',
+                                style: tableTitleTextStyle,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 3),
+                      const Divider(
+                        color: dividerColor,
+                      ),
+
+                      const SizedBox(height: 3),
+
+                      Expanded(
+                        child: Scrollbar(
+                          thumbVisibility: true,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 5,left: 5),
+                            child: ListView.builder(
+                              itemCount: data.userByLangModel.data!.length,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemBuilder: (context,index) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // Text(
+                                        //   '${index + 1}',
+                                        //   style: tableContentTextStyle,
+                                        // ),
+
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(
+                                            '${data.userByLangModel.data![index].language}',
+                                            style: tableContentTextStyle,
+                                          ),
+                                        ),
+
+
+                                        Expanded(
+                                          flex: 1,
+                                          child: Text(
+                                            '${data.userByLangModel.data![index].usercount}',
+                                            style: tableContentTextStyle,
+                                          ),
+                                        ),
+
+                                        Expanded(
+                                          flex: 1,
+                                          child: LinearPercentIndicator(
+                                            width: 65.0,
+                                            lineHeight: 14.0,
+                                            percent:
+                                            double.parse(data.userByLangModel.data![index].percentage) / 100,
+                                            // 0.8, //percent value must be between 0.0 and 1.0
+                                            backgroundColor: whiteColor,
+                                            progressColor: percentageIndicatorColor,
+                                            center: Text(
+                                              '${data.userByLangModel.data![index].percentage}',
+                                              style: percentTextStyle,
+                                            ),
+                                          ),
+                                        ),
+
+
+                                        // Text(
+                                        //   '83.10%',
+                                        //   style: tableContentTextStyle,
+                                        // )
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 3),
+                                    const Divider(
+                                      color: dividerColor,
+                                    ),
+                                    const SizedBox(height: 3),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );
