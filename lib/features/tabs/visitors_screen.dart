@@ -46,7 +46,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
 
   getVisitorTileMethod() async{
-      await visitorProvider.getVisitorTileData(
+    await visitorProvider.getVisitorTileData(
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
@@ -464,65 +464,65 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down_outlined,
-                          color: blackColor,
-                        ),
-                        hint: selectedWebsite == null
-                            ? Row(
-                          children: [
-                            Text(
-                                data.websiteListModel.data![0].name,
-                                style: dropDownTextStyle
+                        child: DropdownButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: blackColor,
                             ),
+                            hint: selectedWebsite == null
+                                ? Row(
+                              children: [
+                                Text(
+                                    data.websiteListModel.data![0].name,
+                                    style: dropDownTextStyle
+                                ),
 
-                            const SizedBox(width: 10),
-                          ],
-                        )
-                            : Row(
-                          children: [
-                            Text(
-                                selectedWebsite,
-                                style: dropDownTextStyle
+                                const SizedBox(width: 10),
+                              ],
+                            )
+                                : Row(
+                              children: [
+                                Text(
+                                    selectedWebsite,
+                                    style: dropDownTextStyle
+                                ),
+                                const SizedBox(width: 10),
+                              ],
                             ),
-                            const SizedBox(width: 10),
-                          ],
-                        ),
-                          items:
-                          data.websiteListModel.data!.map((e) {
-                            websiteName = e.name;
-                            websiteViewId = e.datumId;
-                            return DropdownMenuItem(
-                              // value: valueItem,
-                              child: Text(e.name),
-                              value: e.datumId,
-                            );
-                          },
-                          ).toList(),
-                          value: selectedWebsite,
-                          onChanged: (val) {
-                            deleteValue('websiteId');
-                            deleteValue('websiteName');
-                            setState(()  {
+                            items:
+                            data.websiteListModel.data!.map((e) {
+                              websiteName = e.name;
+                              websiteViewId = e.datumId;
+                              return DropdownMenuItem(
+                                // value: valueItem,
+                                child: Text(e.name),
+                                value: e.datumId,
+                              );
+                            },
+                            ).toList(),
+                            value: selectedWebsite,
+                            onChanged: (val) {
                               deleteValue('websiteId');
-                              selectedWebsite = val;
-                              setValue('websiteId', val);
-                              getVisitorTileMethod();
-                              // getUserByTrendingTimeMethod();
-                              getUserByNewReturnedMethod();
-                              getUserByCountryMethod();
-                              getUserByCityMethod();
-                              getUserByLangMethod();
-                              getUserByAgeGroupMethod();
-                              getUserByGenderMethod();
-                            });
-                          })
+                              deleteValue('websiteName');
+                              setState(()  {
+                                deleteValue('websiteId');
+                                selectedWebsite = val;
+                                setValue('websiteId', val);
+                                getVisitorTileMethod();
+                                // getUserByTrendingTimeMethod();
+                                getUserByNewReturnedMethod();
+                                getUserByCountryMethod();
+                                getUserByCityMethod();
+                                getUserByLangMethod();
+                                getUserByAgeGroupMethod();
+                                getUserByGenderMethod();
+                              });
+                            })
 
-                      ),
                     ),
                   ),
                 ),
+              ),
             ],
           );
         }else if (state is Failure) {
@@ -548,7 +548,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-        // Visitor Tile Data
+          // Visitor Tile Data
           Consumer<VisitorProvider>(builder: (ctx, data, _){
             var state = data.visitorTileLiveData().getValue();
             print(state);
@@ -607,7 +607,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           }),
 
           const SizedBox(height: 15),
-        // Visitor trending time graph
+          // Visitor trending time graph
           Text(
             'Visitors trending time?',
             style: normalTextStyle,

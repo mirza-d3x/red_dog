@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/features/example_cl_graph.dart';
 import 'package:reddog_mobile_app/providers/login_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
@@ -65,7 +66,9 @@ class MyApp extends StatelessWidget {
         // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
-      home: RedDogApp(),
+      home:
+      // ExampleClGraph()
+      RedDogApp(),
     );
   }
 }

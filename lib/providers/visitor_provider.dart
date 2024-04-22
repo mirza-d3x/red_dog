@@ -303,7 +303,8 @@ class VisitorProvider extends ChangeNotifier {
       userByVisitorsTrendingTimeModel = await visitorRepository.getUserByTrendingTimeData(
           googleId,googleToken,
           storedWebId.isEmpty ?
-          initialWebId: storedWebId,fromDate,toDate
+          initialWebId: storedWebId,
+          fromDate,toDate
       );
       if (userByVisitorsTrendingTimeModel.code == 200) {
         userByVisitorsTrendingTimeData.setValue(Success(userByVisitorsTrendingTimeModel));
