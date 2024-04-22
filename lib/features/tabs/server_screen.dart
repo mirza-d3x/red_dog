@@ -169,15 +169,15 @@ class _ServerScreenState extends State<ServerScreen> {
 
                 const SizedBox(height: 10),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    tiles(context, 'Average page load time', '6.03 ms'),
-                    tiles(context, 'Average server response time', '0.47 ms'),
-                  ],
-                ),
-
-                const SizedBox(height: 8),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     tiles(context, 'Average page load time', '6.03 ms'),
+                //     tiles(context, 'Average server response time', '0.47 ms'),
+                //   ],
+                // ),
+                //
+                // const SizedBox(height: 8),
 
                 serverScreenWidget(),
 
@@ -364,53 +364,32 @@ class _ServerScreenState extends State<ServerScreen> {
                 ),
               );
             } else if (state is Success) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  tiles(context, 'Average server latency',
-                      '${data.latencyModel.data!.latency} ms'
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: whiteColor,
                   ),
-                  Card(
-                    elevation: 2,
-                    shadowColor: whiteColor,
-                    child: Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width / 2.3,
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: whiteColor,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Average server latency',
+                        style: tileTitleTextStyle,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Content',
-                                style: tileTitleTextStyle,
-                              ),
-                              Text(
-                                'load time',
-                                style: tileTitleTextStyle,
-                              )
-                            ],
-                          ),
 
-                          const SizedBox(height: 8),
-                          Text(
-                            '0.47 ms',
-                            style: tileNumberTextStyle,
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                  // tiles(context,'Content load time', '0.47 ms'),
-                ],
+                      const SizedBox(height: 8),
+                      Text(
+                        '${data.latencyModel.data!.latency} ms',
+                        style: tileNumberTextStyle,
+                      )
+                    ],
+                  ),
+                ),
               );
             } else if (state is Failure) {
               return SizedBox(
