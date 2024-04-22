@@ -5,11 +5,15 @@ import 'package:provider/provider.dart';
 import '../../core/ui_state.dart';
 import '../../providers/registered_website_provider.dart';
 import '../../providers/user_profile_provider.dart';
+import '../../providers/visitor_provider.dart';
 import '../../repositories/common_repository.dart';
 import '../../repositories/user_repository.dart';
+import '../../repositories/visitor_repository.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 import '../../utilities/shared_prefernces.dart';
+import '../../widgets/tiles.dart';
+import '../../widgets/tiles_full_width.dart';
 import '../auth/login_screen.dart';
 import '../common/notification_list_screen.dart';
 
@@ -26,11 +30,30 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
+  VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
+
+  getVisitorTileMethod() async{
+      await visitorProvider.getVisitorTileData(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
+  String storedWebsiteId = '';
+
+  void getStoredWebsiteId() async{
+    storedWebsiteId = await getValue('websiteId');
+  }
+
   @override
   void initState(){
     super.initState();
+    getStoredWebsiteId();
+    deleteValue('websiteId');
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
+    getVisitorTileMethod();
   }
 
   // drop down menu variables
@@ -118,7 +141,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             ),
           ),
           backgroundColor: bgColor,
-          body: visitorsUiBasedOnAnalytics(),
+          body: SingleChildScrollView(
+              child: visitorsUiBasedOnAnalytics()
+          ),
         )
     );
   }
@@ -310,6 +335,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
 
           const SizedBox(height: 10),
+          visitorApiDataWidget(),
         ],
       ),
     );
@@ -371,31 +397,33 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             const SizedBox(width: 10),
                           ],
                         ),
-                        value: selectedWebsite,
-                        onChanged: (newValue) {
-                          deleteValue('websiteId');
-                          setState(() {
-                            isSelectedFromDropDwn = true;
-                            selectedWebsite = newValue;
-                            setValue('websiteId', websiteViewId);
-                          });
-                        },
-                        items: data.websiteListModel.data!.map((e) {
-                          websiteName = e.name;
-                          websiteViewId = e.datumId;
-                          setValue('websiteId', websiteViewId);
-                          return DropdownMenuItem(
-                            // value: valueItem,
-                            child: Text(e.name),
-                            value: e.name,
-                          );
-                        },
-                        ).toList(),
+                          items:
+                          data.websiteListModel.data!.map((e) {
+                            websiteName = e.name;
+                            websiteViewId = e.datumId;
+                            return DropdownMenuItem(
+                              // value: valueItem,
+                              child: Text(e.name),
+                              value: e.datumId,
+                            );
+                          },
+                          ).toList(),
+                          value: selectedWebsite,
+                          onChanged: (val) {
+                            deleteValue('websiteId');
+                            deleteValue('websiteName');
+                            setState(()  {
+                              deleteValue('websiteId');
+                              selectedWebsite = val;
+                              setValue('websiteId', val);
+                              getVisitorTileMethod();
+                            });
+                          })
+
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           );
         }else if (state is Failure) {
@@ -409,6 +437,76 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           return Container();
         }
       }),
+    );
+  }
+
+  Widget visitorApiDataWidget(){
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx){
+        return visitorProvider;
+      },
+      child: Column(
+        children: [
+
+        // Visitor Tile Data
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.visitorTileLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      tiles(context,'VISITORS',
+                        '${data.tileDataModel.data!.visitors}',
+                      ),
+                      tiles(context,'NEW VISITORS',
+                          '${data.tileDataModel.data!.newVisitors}'
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      tiles(context,'BOUNCE RATE',
+                        '${data.tileDataModel.data!.bounceRate}',
+                      ),
+                      tiles(context,'SESSIONS', '${data.tileDataModel.data!.sessions}'),
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+                  tilesFullWidth(context, 'AVG SESSION DURATION', '${data.tileDataModel.data!.avgSessionDuration} S'),
+                ],
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      ),
     );
   }
 
