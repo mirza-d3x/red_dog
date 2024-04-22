@@ -61,6 +61,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByNewReturnedMethod() async{
+    await visitorProvider.getUserByNewReturnedList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
   String storedWebsiteId = '';
 
   void getStoredWebsiteId() async{
@@ -82,6 +90,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getVisitorTileMethod();
     getUserByTrendingTimeMethod();
+    getUserByNewReturnedMethod();
   }
 
   // drop down menu variables
@@ -118,6 +127,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         _selectedToDate = picked.end;
         getVisitorTileMethod();
         getUserByTrendingTimeMethod();
+        getUserByNewReturnedMethod();
       });
     }
   }
@@ -448,6 +458,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               setValue('websiteId', val);
                               getVisitorTileMethod();
                               // getUserByTrendingTimeMethod();
+                              getUserByNewReturnedMethod();
                             });
                           })
 
@@ -577,6 +588,88 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 )
             ),
           ),
+
+          const SizedBox(height: 15),
+          // Retained visitors
+          Text(
+            'Retained visitors',
+            style: normalTextStyle,
+          ),
+
+          const SizedBox(height: 10),
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByNewReturnedLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  // padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Container(
+                    color: whiteColor,
+                    width: 300,
+                    height: 200,
+                    child: Stack(
+                      children: [
+                        SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            graphBlackColor,
+                            graphGreyColor,
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<NewReturnedData,String>(
+                              dataSource: data.userByNewReturnedModel.data,
+                              xValueMapper: (NewReturnedData data,_) => data.key,
+                              yValueMapper: (NewReturnedData data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
+                            ),
+                          ],
+                        ),
+
+                        // Positioned(
+                        //   left: 73,
+                        //   top: 93,
+                        //   child: Text(
+                        //     '25.7%',
+                        //     style: visitorGraphValueTextStyle,
+                        //   ),
+                        // )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );
