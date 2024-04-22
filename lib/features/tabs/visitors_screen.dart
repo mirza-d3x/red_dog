@@ -101,6 +101,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
+  getUserByGenderMethod() async{
+    await visitorProvider.getUserByGenderList(
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
+
   String storedWebsiteId = '';
 
   void getStoredWebsiteId() async{
@@ -127,6 +135,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByCityMethod();
     getUserByLangMethod();
     getUserByAgeGroupMethod();
+    getUserByGenderMethod();
   }
 
   // drop down menu variables
@@ -168,6 +177,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         getUserByCityMethod();
         getUserByLangMethod();
         getUserByAgeGroupMethod();
+        getUserByGenderMethod();
       });
     }
   }
@@ -505,6 +515,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               getUserByCityMethod();
                               getUserByLangMethod();
                               getUserByAgeGroupMethod();
+                              getUserByGenderMethod();
                             });
                           })
 
@@ -1392,6 +1403,89 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               // buildBarChart(),
             ),
           ),
+
+          const SizedBox(height: 15),
+          // What is their gender?
+          Text(
+            'What is their gender?',
+            style: normalTextStyle,
+          ),
+
+          const SizedBox(height: 10),
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByGenderLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Container(
+                    color: whiteColor,
+                    width: 300,
+                    height: 200,
+                    child: Stack(
+                      children: [
+                        SfCircularChart(
+                          centerY: '100',
+                          centerX: '90',
+                          margin: EdgeInsets.zero,
+                          palette: const <Color>[
+                            femaleIndicatorColor,
+                            maleIndicatorColor,
+                          ],
+                          legend: Legend(
+                            position: LegendPosition.right,
+                            isVisible: true,
+                            isResponsive:true,
+                            overflowMode: LegendItemOverflowMode.wrap,
+                          ),
+                          series: <CircularSeries>[
+                            DoughnutSeries<Datum,String>(
+                              dataSource: data.userByGenderModel.data,
+                              xValueMapper: (Datum data,_) => data.key,
+                              yValueMapper: (Datum data,_) => data.value,
+                              innerRadius: '90%',
+                              radius: '60%',
+                            ),
+                          ],
+                        ),
+
+                        Positioned(
+                          left: 62,
+                          top: 93,
+                          child: Text(
+                            '',
+                            // 'Mar 2024',
+                            style: graphValueTextStyle,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );
