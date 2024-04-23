@@ -633,7 +633,28 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                             ],
                           ),
 
-                          // const SizedBox(height: 5),
+                          const SizedBox(height: 5),
+                          InkWell(
+                            onTap: (){
+                              FlutterPhoneDirectCaller.callNumber('+919946451194');
+                            },
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.phone_enabled,
+                                  size: 15,
+                                  color: titleTextColor,
+                                ),
+
+                                const SizedBox(width: 5),
+
+                                Text(
+                                  '+91 9946451194',
+                                  style: subTextTextStyle,
+                                )
+                              ],
+                            ),
+                          ),
                           // Row(
                           //   children: [
                           //     const Icon(
@@ -1021,7 +1042,28 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                       ],
                                     ),
 
-                                    // const SizedBox(height: 5),
+                                    const SizedBox(height: 5),
+                                    InkWell(
+                                      onTap: (){
+                                        FlutterPhoneDirectCaller.callNumber('+919946451194');
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.phone_enabled,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+
+                                          Text(
+                                            '+91 9946451194',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                     // Row(
                                     //   children: [
                                     //     const Icon(
