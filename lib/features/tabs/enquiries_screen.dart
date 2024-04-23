@@ -320,6 +320,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                 const SizedBox(height: 10),
 
+                // unreaded enquiries
                 InkWell(
                   onTap: (){
                     showModalBottomSheet(
@@ -618,9 +619,41 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Akshay M',
-                            style: nameTextStyle,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Akshay M',
+                                style: nameTextStyle,
+                              ),
+                              PopupMenuButton(
+                                child: Icon(
+                                  Icons.more_vert_outlined,
+                                  size: 20,
+                                ),
+                                itemBuilder: (BuildContext context) {
+                                  return <PopupMenuItem<String>>[
+                                    PopupMenuItem<String>(
+                                      child: TextButton(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Mark as Read',
+                                              style: popupMenuTextStyle,
+                                            ),
+                                          ],
+                                        ),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      height: 31,
+                                    ),
+                                  ];
+                                },
+                              )
+                            ],
                           ),
 
                           const SizedBox(height: 8),
@@ -735,6 +768,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                 const SizedBox(height: 10),
 
+                // readed enquiries
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -1027,9 +1061,43 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                        'Viswarag C M',
-                                      style: nameTextStyle,
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                            'Viswarag C M',
+                                          style: nameTextStyle,
+                                        ),
+
+                                        PopupMenuButton(
+                                          child: Icon(
+                                            Icons.more_vert_outlined,
+                                            size: 20,
+                                          ),
+                                          itemBuilder: (BuildContext context) {
+                                            return <PopupMenuItem<String>>[
+                                              PopupMenuItem<String>(
+                                                child: TextButton(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        'Mark as Unread',
+                                                        style: popupMenuTextStyle,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                ),
+                                                height: 31,
+                                              ),
+                                            ];
+                                          },
+                                        )
+                                      ],
                                     ),
 
                                     const SizedBox(height: 8),
