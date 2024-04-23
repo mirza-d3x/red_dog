@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
+import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
 import '../../providers/login_provider.dart';
@@ -36,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   LoginProvider loginProvider = LoginProvider(authRepository: AuthRepository());
   UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
+  RegisteredWebsiteProvider registeredWebsiteProvider= RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
   bool isLoading = false;
 
@@ -82,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
           print(googleAuth.accessToken);
           // await userDetailProvider.fetchUserDetails();
           await userProfileProvider.getProfile();
+          await registeredWebsiteProvider.getRegisteredWebsiteList();
           Future.delayed(Duration.zero, () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
           });
