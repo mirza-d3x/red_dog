@@ -30,39 +30,58 @@ class _ServerScreenState extends State<ServerScreen> {
   dynamic _selectedFromDate;
   dynamic _selectedToDate;
 
-  void _selectDateRange(BuildContext context) async {
-    final picked = await showDateRangePicker(
+  // void _selectDateRange(BuildContext context) async {
+  //   final picked = await showDateRangePicker(
+  //     context: context,
+  //     firstDate: DateTime(2023),
+  //     lastDate: DateTime.now(),
+  //     initialDateRange: _selectedFromDate != null && _selectedToDate != null
+  //         ? DateTimeRange(start: _selectedFromDate, end: _selectedToDate)
+  //         : DateTimeRange(start: DateTime(2024, 3, 3), end: DateTime.now()),
+  //   );
+  //
+  //   if (picked != null) {
+  //     setState(() {
+  //       _selectedFromDate = picked.start;
+  //       _selectedToDate = picked.end;
+  //       getData();
+  //       // serverProvider.getLatencyValue(
+  //       //     _selectedFromDate != null
+  //       //         ?
+  //       //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+  //       //         : formattedInitialdDate,
+  //       //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+  //       //         _selectedToDate)}' : formattedDate
+  //       // );
+  //       // serverProvider.getUptimeValue(
+  //       //     _selectedFromDate != null
+  //       //         ?
+  //       //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+  //       //         : formattedInitialdDate,
+  //       //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+  //       //         _selectedToDate)}' : formattedDate
+  //       // );
+  //     });
+  //   }
+  // }
+
+  void _selectDateRange(BuildContext context) {
+    showDateRangePicker(
       context: context,
       firstDate: DateTime(2023),
       lastDate: DateTime.now(),
       initialDateRange: _selectedFromDate != null && _selectedToDate != null
           ? DateTimeRange(start: _selectedFromDate, end: _selectedToDate)
           : DateTimeRange(start: DateTime(2024, 3, 3), end: DateTime.now()),
-    );
-
-    if (picked != null) {
-      setState(() {
-        _selectedFromDate = picked.start;
-        _selectedToDate = picked.end;
-        getData();
-        // serverProvider.getLatencyValue(
-        //     _selectedFromDate != null
-        //         ?
-        //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-        //         : formattedInitialdDate,
-        //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-        //         _selectedToDate)}' : formattedDate
-        // );
-        // serverProvider.getUptimeValue(
-        //     _selectedFromDate != null
-        //         ?
-        //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-        //         : formattedInitialdDate,
-        //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-        //         _selectedToDate)}' : formattedDate
-        // );
-      });
-    }
+    ).then((picked) {
+      if (picked != null) {
+        setState(() {
+          _selectedFromDate = picked.start;
+          _selectedToDate = picked.end;
+          getData();
+        });
+      }
+    });
   }
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(
@@ -221,7 +240,7 @@ class _ServerScreenState extends State<ServerScreen> {
 
                 serverScreenWidget(),
 
-                const SizedBox(height: 8),
+                // const SizedBox(height: 8),
 
               ],
             ),
@@ -405,13 +424,11 @@ class _ServerScreenState extends State<ServerScreen> {
               );
             } else if (state is Failure) {
               return SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 1.3,
+                // height: MediaQuery.of(context).size.height / 1.3,
                 child: Center(
                   child: Text(
-                    '',
+                    ''
+                    // 'Failed to load',
                   ),
                 ),
               );
@@ -477,13 +494,10 @@ class _ServerScreenState extends State<ServerScreen> {
               );
             } else if (state is Failure) {
               return SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 1.3,
+                height: MediaQuery.of(context).size.height / 1.3,
                 child: Center(
                   child: Text(
-                    '',
+                    '${data.uptimeModel.message}',
                   ),
                 ),
               );
