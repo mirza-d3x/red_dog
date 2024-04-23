@@ -117,23 +117,6 @@ class _ServerScreenState extends State<ServerScreen> {
   void initState() {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getData();
-    // serverProvider.getLatencyValue(
-    //     _selectedFromDate != null
-    //         ?
-    //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-    //         : formattedInitialdDate,
-    //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-    //         _selectedToDate)}' : formattedDate
-    // );
-    //
-    // serverProvider.getUptimeValue(
-    //     _selectedFromDate != null
-    //         ?
-    //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-    //         : formattedInitialdDate,
-    //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-    //         _selectedToDate)}' : formattedDate
-    // );
     super.initState();
   }
 
@@ -329,22 +312,6 @@ class _ServerScreenState extends State<ServerScreen> {
                               selectedWebsite = val;
                               setValue('websiteId', val);
                               getData();
-                              // serverProvider.getLatencyValue(
-                              //     _selectedFromDate != null
-                              //         ?
-                              //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                              //         : formattedInitialdDate,
-                              //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                              //         _selectedToDate)}' : formattedDate
-                              // );
-                              // serverProvider.getUptimeValue(
-                              //     _selectedFromDate != null
-                              //         ?
-                              //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                              //         : formattedInitialdDate,
-                              //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                              //         _selectedToDate)}' : formattedDate
-                              // );
                             });
                           })
                       ),
