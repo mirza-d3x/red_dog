@@ -23,7 +23,6 @@ Resource<VisitorsTileDataModel> getVisitorsTileDataApi(
       url:
       'https://app.reddog.live/api/ga/singleGa/$googleId/$googleToken/ $viewId/$fromDate/$toDate',
       parse: (response) {
-        print(response.body);
         Map<String, dynamic> getVisitorsTileDataMap = jsonDecode(response.body);
         VisitorsTileDataModel visitorsTileResult = VisitorsTileDataModel.fromJson(getVisitorsTileDataMap);
         return visitorsTileResult;
@@ -142,9 +141,7 @@ Resource<VisitorsTrendingTimeModel> getVisitorTrendingTimeApi(
   return Resource(
       url:
       'https://app.reddog.live/api/ga/visitorbydate/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
-      // 'https://app.reddog.live/api/ga/visitorbydate/$googleId/$googleToken/ 384272511/$fromDate/$toDate/true',
       parse: (response) {
-        print(response.body);
         Map<String, dynamic> getUserByVisitorsTrendingTimeDataMap = jsonDecode(response.body);
         VisitorsTrendingTimeModel userByVisitorsTrendingTimeResult = VisitorsTrendingTimeModel.fromJson(getUserByVisitorsTrendingTimeDataMap);
         return userByVisitorsTrendingTimeResult;
