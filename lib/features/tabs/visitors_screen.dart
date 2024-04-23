@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
+import 'package:reddog_mobile_app/features/visitor_graph/large_value_graph.dart';
+import 'package:reddog_mobile_app/features/visitor_graph/normal_graph.dart';
 import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
@@ -1367,10 +1369,20 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 width: 500,
                 child:
                     int.parse('${data.userByVisitorsTrendingTimeModel.data![0].value}').toInt() > 20?
-                LineChart(
-                    mainDataForGreaterValues(data.userByVisitorsTrendingTimeModel.data ?? [])
-                )
-                        : Text('bhbh')
+                // LineChart(
+                //     mainDataForGreaterValues(data.userByVisitorsTrendingTimeModel.data ?? [])
+                // )
+                       LargeValueGraph(
+                           _selectedFromDate != null ?
+                           '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+                           _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                               : formattedDate
+                       ) : NormalGraph(
+                        _selectedFromDate != null ?
+                        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+                        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                            : formattedDate
+                    ),
                     //     : LineChart(
                     //     mainData(data.userByVisitorsTrendingTimeModel.data ?? [])
                     // )
