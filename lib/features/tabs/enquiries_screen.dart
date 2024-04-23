@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reddog_mobile_app/features/filter/filter_screen.dart';
 import 'package:reddog_mobile_app/features/notes/add_notes_screen.dart';
 import 'package:reddog_mobile_app/widgets/infotiles.dart';
 
 import '../../core/ui_state.dart';
+import '../../models/checkbox_model.dart';
 import '../../providers/registered_website_provider.dart';
 import '../../repositories/common_repository.dart';
 import '../../styles/colors.dart';
@@ -86,6 +88,8 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
   dynamic websiteName ;
+
+
   @override
   void initState(){
     registeredWebsiteProvider.getRegisteredWebsiteList();
@@ -288,20 +292,25 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                         //     ),
                         //   ),
                         // )
-                        Card(
-                          elevation: 2,
-                          child: Container(
-                              height: 43,
-                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Icon(
-                                Icons.filter_alt_outlined,
-                                color: blackColor,
-                                size: 22,
-                              )
+                        InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => FilterScreen()));
+                          },
+                          child: Card(
+                            elevation: 2,
+                            child: Container(
+                                height: 43,
+                                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: const Icon(
+                                  Icons.filter_alt_outlined,
+                                  color: blackColor,
+                                  size: 22,
+                                )
+                            ),
                           ),
                         ),
                       ],
@@ -1344,4 +1353,5 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
         },
     );
   }
+
 }
