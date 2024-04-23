@@ -144,6 +144,7 @@ Resource<VisitorsTrendingTimeModel> getVisitorTrendingTimeApi(
       'https://app.reddog.live/api/ga/visitorbydate/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
       // 'https://app.reddog.live/api/ga/visitorbydate/$googleId/$googleToken/ 384272511/$fromDate/$toDate/true',
       parse: (response) {
+        print(response.body);
         Map<String, dynamic> getUserByVisitorsTrendingTimeDataMap = jsonDecode(response.body);
         VisitorsTrendingTimeModel userByVisitorsTrendingTimeResult = VisitorsTrendingTimeModel.fromJson(getUserByVisitorsTrendingTimeDataMap);
         return userByVisitorsTrendingTimeResult;

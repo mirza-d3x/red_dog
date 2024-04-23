@@ -34,7 +34,7 @@ class VisitorsTrendingTimeModel {
 
 class TrendingTimeData {
   String ? date;
-  String ? value;
+  dynamic value;
 
   TrendingTimeData({
      this.date,
