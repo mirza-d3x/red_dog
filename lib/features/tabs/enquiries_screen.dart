@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/filter/filter_screen.dart';
 import 'package:reddog_mobile_app/features/notes/add_notes_screen.dart';
+import 'package:reddog_mobile_app/providers/enquiry_provider.dart';
+import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 import 'package:reddog_mobile_app/widgets/infotiles.dart';
 
 import '../../core/ui_state.dart';
@@ -46,6 +48,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
       setState(() {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        getEnquiryCountMethod();
       });
     }
   }
@@ -88,11 +91,29 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
   dynamic websiteName ;
+  EnquiryProvider enquiryProvider = EnquiryProvider(enquiryRepository: EnquiryRepository());
 
+  //initial from date
+  String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(
+      DateTime.now().subtract(Duration(days: 30)));
+
+  getEnquiryCountMethod(){
+    enquiryProvider.getEnquiryList(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+  }
+
+  dynamic websiteViewId ;
 
   @override
   void initState(){
     registeredWebsiteProvider.getRegisteredWebsiteList();
+    getEnquiryCountMethod();
     super.initState();
   }
 
@@ -179,24 +200,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                 const SizedBox(height: 10),
 
-                // Tiles
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Infoiles(context, 'Total', '356'),
-                  Infoiles(context, 'Contact Us', '56'),
-                  Infoiles(context, 'Ask Us', '32')
-                ],
-              ),
-
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    tiles(context,'Carriers', '137'),
-                    tiles(context,'Register', '131'),
-                  ],
-                ),
+                enquiryUiWidget(),
 
                 const SizedBox(height: 15),
 
@@ -1280,29 +1284,32 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                             const SizedBox(width: 10),
                           ],
                         ),
-                        value: selectedWebsite,
-                        onChanged: (newValue) {
-                          deleteValue('websiteId');
-                          setState(() {
-                            isSelectedFromDropDwn = true;
-                            selectedWebsite = newValue;
-                            setValue('websiteId', selectedWebsite[0]);
-                          });
-                        },
-                        items: data.websiteListModel.data!.map((e) {
-                          websiteName = e.name;
-                          return DropdownMenuItem(
-                            // value: valueItem,
-                            child: Text(e.name),
-                            value: e.name,
-                          );
-                        },
-                        ).toList(),
+                          items:
+                          data.websiteListModel.data!.map((e) {
+                            websiteName = e.name;
+                            websiteViewId = e.datumId;
+                            return DropdownMenuItem(
+                              // value: valueItem,
+                              child: Text(e.name),
+                              value: e.datumId,
+                            );
+                          },
+                          ).toList(),
+                          value: selectedWebsite,
+                          onChanged: (val) {
+                            deleteValue('websiteId');
+                            deleteValue('websiteName');
+                            setState(()  {
+                              deleteValue('websiteId');
+                              selectedWebsite = val;
+                              setValue('websiteId', val);
+                              getEnquiryCountMethod();
+                            });
+                          })
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           );
         }else if (state is Failure) {
@@ -1419,6 +1426,57 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
           ),
         );
         },
+    );
+  }
+
+  Widget enquiryUiWidget(){
+    return ChangeNotifierProvider<EnquiryProvider>(
+      create: (ctx){
+        return enquiryProvider;
+      },
+      child: Column(
+        children: [
+          Consumer<EnquiryProvider>(builder: (ctx, data, _){
+            var state = data.enquiryCountLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                itemCount: data.enquiryCountModel.data!.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                    crossAxisSpacing: 4.0,
+                    mainAxisSpacing: 4.0,
+                      mainAxisExtent: 98
+                  ),
+                  itemBuilder: (BuildContext context,index) =>
+                      tiles(context,
+                          '${data.enquiryCountModel.data![index].category}',
+                          '${data.enquiryCountModel.data![index].count}')
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.5,
+                child: Center(
+                  child: noEnquiryWidget()
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
+      ),
     );
   }
 
