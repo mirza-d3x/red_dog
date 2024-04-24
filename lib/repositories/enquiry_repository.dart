@@ -18,4 +18,11 @@ class EnquiryRepository {
       ) =>
       webService?.get(getEnquiryCountApi(viewId,fromDate,toDate));
 
+  Future getEnquiryLeadDetails(
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      ) =>
+      webService?.get(getEnquiryLeadDetailApi(viewId,fromDate,toDate));
+
 }

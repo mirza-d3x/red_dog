@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
+import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 import '../core/live_data.dart';
 import '../core/ui_state.dart';
@@ -20,8 +21,17 @@ class EnquiryProvider extends ChangeNotifier {
     return this.enquiryCountData;
   }
 
+  //Enquiry lead Details
+  var enquiryLeadDetailsModel = EnquiryLeadDetailsModel();
+  LiveData<UIState<EnquiryLeadDetailsModel>> enquiryLeadDetailsData = LiveData<UIState<EnquiryLeadDetailsModel>>();
+
+  LiveData<UIState<EnquiryLeadDetailsModel>> enquiryLeadDetailsLiveData() {
+    return this.enquiryLeadDetailsData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
+    enquiryLeadDetailsData.setValue(Initial());
     notifyListeners();
   }
 
@@ -46,6 +56,31 @@ class EnquiryProvider extends ChangeNotifier {
       }
     } catch (ex) {
       enquiryCountData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  getEnquiryLeadDetailsList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      enquiryLeadDetailsData.setValue(IsLoading());
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      enquiryLeadDetailsModel = await enquiryRepository.getEnquiryLeadDetails(
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate
+      );
+      if (enquiryLeadDetailsModel.code == 200) {
+        enquiryLeadDetailsData.setValue(Success(enquiryLeadDetailsModel));
+      } else {
+        enquiryLeadDetailsData.setValue(Failure(enquiryLeadDetailsModel.toString()));
+      }
+    } catch (ex) {
+      enquiryLeadDetailsData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
