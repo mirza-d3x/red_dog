@@ -162,21 +162,12 @@ class _ServerScreenState extends State<ServerScreen> {
                             child:
                             Center(
                               child: Text(
-                                _selectedFromDate != null &&
-                                    _selectedToDate != null ?
-                                '${DateFormat('yyyy-MM-dd').format(
-                                    _selectedFromDate) } to ${DateFormat(
-                                    'yyyy-MM-dd').format(_selectedToDate)}'
-                                // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
-                                    : '2024-03-03 to ${formattedDate}',
+                                _selectedFromDate != null && _selectedToDate != null ?
+                                '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                    : '${formattedInitialdDate} to ${formattedDate}',
                                 style: dropDownTextStyle,
                               ),
                             ),
-                            // const Icon(
-                            //   Icons.calendar_month,
-                            //   color: blackColor,
-                            //   size: 20,
-                            // )
                           ),
                         ),
                       ),

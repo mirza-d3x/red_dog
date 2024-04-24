@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -165,16 +166,10 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                               child: Text(
                                 _selectedFromDate != null && _selectedToDate != null ?
                                 '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
-                                    : '2024-03-03 to ${formattedDate}',
+                                    : '${formattedInitialdDate} to ${formattedDate}',
                                 style: dropDownTextStyle,
                               ),
                             ),
-                            // const Icon(
-                            //   Icons.calendar_month,
-                            //   color: blackColor,
-                            //   size: 20,
-                            // )
                           ),
                         ),
                       ),
@@ -2100,7 +2095,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             // name
-                                            Text('Viswaraj C M',
+                                            Text('${data.enquiryLeadDetailsModel.data![index].name}',
                                               style: nameTextStyle,
                                             ),
                                             const SizedBox(height: 10),
@@ -2117,7 +2112,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                                 const SizedBox(width: 5),
 
                                                 Text(
-                                                  'cmviswarag@gmail.com',
+                                                  '${data.enquiryLeadDetailsModel.data![index].email}',
                                                   style: subTextTextStyle,
                                                 )
                                               ],
@@ -2128,7 +2123,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                             // contact number
                                             InkWell(
                                               onTap: (){
-                                                FlutterPhoneDirectCaller.callNumber('+919946451194');
+                                                FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
                                               },
                                               child: Row(
                                                 children: [
@@ -2141,7 +2136,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                                   const SizedBox(width: 5),
 
                                                   Text(
-                                                    '+91 9946451194',
+                                                    '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
                                                     style: subTextTextStyle,
                                                   )
                                                 ],
@@ -2160,7 +2155,9 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                                                 const SizedBox(width: 5),
                                                 Text(
-                                                  '29-03-2024',
+                                                  formatDateFromAPI(
+                                                    '${data.enquiryLeadDetailsModel.data![index].date}'
+                                                  ),
                                                   style: subTextTextStyle,
                                                 ),
 
@@ -2173,7 +2170,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                                 ),
                                                 const SizedBox(width: 3),
                                                 Text(
-                                                  'Contact Us',
+                                                  '${data.enquiryLeadDetailsModel.data![index].category}',
                                                   style: subTextTextStyle,
                                                 ),
                                               ],
@@ -2182,17 +2179,30 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                             // messages
                                             const SizedBox(height: 7),
                                             Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                const Icon(
-                                                  Icons.message_outlined,
-                                                  size: 15,
-                                                  color: titleTextColor,
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 3),
+                                                  child: const Icon(
+                                                    Icons.message_outlined,
+                                                    size: 15,
+                                                    color: titleTextColor,
+                                                  ),
                                                 ),
 
                                                 const SizedBox(width: 5),
-                                                Text(
-                                                  'Message',
-                                                  style: subTextTextStyle,
+                                                Expanded(
+                                                  child:
+                                                  '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
+                                                      Text(
+                                                        'No message',
+                                                        style: subTextTextStyle,
+                                                      ) :
+                                                  Text(
+                                                    '${data.enquiryLeadDetailsModel.data![index].message}',
+                                                    style: subTextTextStyle,
+                                                  ),
                                                 )
                                               ],
                                             ),
@@ -2468,4 +2478,10 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
     );
   }
 
+  String formatDateFromAPI(String apiDate) {
+    DateTime? date = DateTime.tryParse(apiDate);
+    final formattedDate =
+        DateFormat('d').format(date!) + '-' + DateFormat('MM').format(date) +'-' + DateFormat('y').format(date);
+    return formattedDate;
+  }
 }
