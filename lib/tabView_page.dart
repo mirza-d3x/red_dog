@@ -63,7 +63,7 @@ class _TabViewScreenState extends State<TabViewScreen> {
                     ),
                     Text('Visitors',
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: 'Barlow-Medium'
                         )
                     ),
@@ -81,7 +81,7 @@ class _TabViewScreenState extends State<TabViewScreen> {
                     Icon(Icons.home),
                     Text('Acquisition',
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: 'Barlow-Medium'
                         )),
                   ],
@@ -100,7 +100,7 @@ class _TabViewScreenState extends State<TabViewScreen> {
                     ),
                     Text('Server',
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: 'Barlow-Medium'
                         )),
                   ],
@@ -120,7 +120,7 @@ class _TabViewScreenState extends State<TabViewScreen> {
                     ),
                     Text('Enquiries',
                         style: TextStyle(
-                            fontSize: 12,
+                            fontSize: 11,
                             fontFamily: 'Barlow-Medium'
                         )),
                   ],
