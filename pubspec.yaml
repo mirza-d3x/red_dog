@@ -58,7 +58,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/redDog_logo.png"
+  image_path: "assets/images/RedDogAppIcon.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -85,6 +85,7 @@ flutter:
     - assets/images/redDog_logo.png
     - assets/images/profile_pic_sample.jpeg
     - assets/images/server_uptime.PNG
+    - assets/images/RedDogAppIcon.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
