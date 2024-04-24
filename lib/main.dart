@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/example_cl_graph.dart';
 import 'package:reddog_mobile_app/providers/enquiry_provider.dart';
 import 'package:reddog_mobile_app/providers/login_provider.dart';
+import 'package:reddog_mobile_app/providers/notification_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/providers/server_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
@@ -58,6 +59,9 @@ void main() async{
 
         ChangeNotifierProvider(
             create: (_) => EnquiryProvider(enquiryRepository: EnquiryRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => NotificationProvider(commonRepository: CommonRepository())),
       ],
       child: const MyApp()
     ),

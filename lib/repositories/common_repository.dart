@@ -13,4 +13,6 @@ class CommonRepository {
 
   Future getRegisteredWebsite(dynamic googleId) => webService?.get(getRegisteredWebsiteApi(googleId));
 
+  Future getNotificationList(dynamic email) => webService?.get(getNotificationListApi(email));
+
 }
