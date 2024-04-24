@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/providers/notification_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/ui_state.dart';
 import '../../styles/text_styles.dart';
@@ -154,9 +155,23 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${data.getNotificationModel.notifications![index].description}',
+                                '${data.getNotificationModel.notifications![index].description}'
+                                    .replaceAll(RegExp(
+                                    r'http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'),
+                                    ''),
                                 style: notificationTextStyle,
                               ),
+
+                          const SizedBox(height: 2),
+                          InkWell(
+                            onTap: (){
+                              launch('${data.getNotificationModel.notifications![index].url}');
+                            },
+                            child: Text(
+                              '${data.getNotificationModel.notifications![index].url}',
+                              style: notificationUrlTextStyle,
+                            ),
+                          ),
 
                           const SizedBox(height: 5),
                           Text(

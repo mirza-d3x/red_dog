@@ -184,7 +184,7 @@ TextStyle notificationTitleTextStyle = const TextStyle(
 TextStyle notificationTextStyle = const TextStyle(
   fontFamily: _regularFont,
   color: titleTextColor,
-  fontSize: 15,
+  fontSize: 16,
 );
 
 TextStyle errorTextStyle = const TextStyle(
@@ -223,4 +223,9 @@ TextStyle popupMenuTextStyle = TextStyle(
   fontSize: 13,
 );
 
+TextStyle notificationUrlTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: Colors.blue,
+  fontSize: 16,
+);
 
