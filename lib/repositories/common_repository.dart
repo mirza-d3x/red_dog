@@ -15,4 +15,6 @@ class CommonRepository {
 
   Future getNotificationList(dynamic email) => webService?.get(getNotificationListApi(email));
 
+  Future putLogout(dynamic email,dynamic fireId) => webService?.put(logoutApi(email,fireId));
+
 }

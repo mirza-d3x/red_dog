@@ -106,7 +106,10 @@ class Webservice {
       String token = await getToken();
       if (token!= '') {
         response = await http.put(getUrl(resource.url!),
-            body: resource.body, headers: getJsonHeader(token));
+            body: resource.body,
+            headers: getJsonContent()
+            // headers: getJsonHeader(token)
+        );
       } else {
         response = await http.put(
           getUrl(resource.url!),

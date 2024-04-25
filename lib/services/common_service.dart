@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/get_Notificatio_model.dart';
+import 'package:reddog_mobile_app/models/logout_model.dart';
 
 import '../models/registred_website_model.dart';
 import '../utilities/api_helpers.dart';
@@ -24,5 +25,23 @@ Resource<GetNotificationModel> getNotificationListApi(dynamic email) {
         Map<String, dynamic> getNotificationListDataMap = jsonDecode(response.body);
         GetNotificationModel notificationListResult = GetNotificationModel.fromJson(getNotificationListDataMap);
         return notificationListResult;
+      });
+}
+
+Resource<LogoutModel> logoutApi(
+    dynamic email,
+    dynamic firebaseToken,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/auth/logout',
+      body: json.encode({
+        "email": email,
+        "firId": firebaseToken,
+      }),
+      parse: (response) {
+        Map<String, dynamic> logoutResultMap = json.decode(response.body);
+        var logoutResult = LogoutModel.fromJson(logoutResultMap);
+        return logoutResult;
       });
 }

@@ -9,6 +9,7 @@ import 'package:reddog_mobile_app/features/visitor_graph/large_value_graph.dart'
 import 'package:reddog_mobile_app/features/visitor_graph/normal_graph.dart';
 import 'package:reddog_mobile_app/models/user_by_gender_model.dart';
 import 'package:reddog_mobile_app/models/visitor_info_tile_model.dart';
+import 'package:reddog_mobile_app/providers/logout_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
 import 'package:reddog_mobile_app/providers/visitor_provider.dart';
@@ -46,6 +47,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
   VisitorProvider visitorProvider = VisitorProvider(visitorRepository: VisitorRepository());
+
+  LogoutProvider logoutProvider = LogoutProvider(commonRepository: CommonRepository());
 
   getVisitorTileMethod() async{
     await visitorProvider.getVisitorTileData(
@@ -286,11 +289,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 ),
                               ],
                             ),onPressed: (){
-                            deleteValue('token');
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                            });
-                            // UpdateAddress(data.list[index]);
+                            onLogout();
+                            // deleteValue('token');
+                            // WidgetsBinding.instance.addPostFrameCallback((_) {
+                            //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+                            // });
                           },
                           ),
                         ),height: 31,),
@@ -1972,5 +1975,18 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         ),
       ],
     );
+  }
+
+  onLogout() async {
+     await logoutProvider.logoutFromDevice();
+      deleteValue('token');
+      deleteValue('fireBaseToken');
+      deleteValue('googleToken');
+      deleteValue('email');
+      deleteValue('analytics');
+      deleteValue('googleId');
+      deleteValue('websiteId');
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (_) => LoginScreen()));
   }
 }
