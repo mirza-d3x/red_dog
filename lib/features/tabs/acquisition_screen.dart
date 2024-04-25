@@ -2053,14 +2053,9 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
           );
         }else if (state is Failure) {
           return SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 1.3,
+            height: MediaQuery.of(context).size.height / 1.4,
             child: Center(
-              child: Text(
-                '',
-              ),
+              child:withoutAnalyticsWidget(),
             ),
           );
         } else {
