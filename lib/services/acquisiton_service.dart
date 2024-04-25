@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/models/user_profile_model.dart';
 
@@ -37,5 +38,22 @@ Resource<TrafficSourceModel> getTrafficSourceApi(
         Map<String, dynamic> trafficSourceResultMap = jsonDecode(response.body);
         TrafficSourceModel trafficSourceResult = TrafficSourceModel.fromJson(trafficSourceResultMap);
         return trafficSourceResult;
+      });
+}
+
+Resource<MostVisitedPageModel> getMostVisitedPageApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/aquasition/viewByPage/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> mostVisitedPageDataMap = jsonDecode(response.body);
+        MostVisitedPageModel mostVisitedPageResult = MostVisitedPageModel.fromJson(mostVisitedPageDataMap);
+        return mostVisitedPageResult;
       });
 }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
 import '../core/live_data.dart';
@@ -29,9 +30,18 @@ class AcquisitionProvider extends ChangeNotifier {
     return this.trafficSourceData;
   }
 
+  // most Visited page list
+  var mostVisitedPageModel = MostVisitedPageModel();
+  LiveData<UIState<MostVisitedPageModel>> mostVisitedPageData = LiveData<UIState<MostVisitedPageModel>>();
+
+  LiveData<UIState<MostVisitedPageModel>> mostVisitedPageLiveData() {
+    return this.mostVisitedPageData;
+  }
+
   void initialState() {
     topChannelsData.setValue(Initial());
     trafficSourceData.setValue(Initial());
+    mostVisitedPageData.setValue(Initial());
     notifyListeners();
   }
 
@@ -94,4 +104,32 @@ class AcquisitionProvider extends ChangeNotifier {
     }
   }
 
+  // get most visited page list
+  getMostVisitedPageList(
+      dynamic fromDate,
+      dynamic toDate
+      ) async {
+    try {
+      mostVisitedPageData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      mostVisitedPageModel = await acquisitionRepository.getMostVisitedPageData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate
+      );
+      if (mostVisitedPageModel.code == 200) {
+        mostVisitedPageData.setValue(Success(mostVisitedPageModel));
+      } else {
+        mostVisitedPageData.setValue(Failure(mostVisitedPageModel.toString()));
+      }
+    } catch (ex) {
+      mostVisitedPageData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
 }

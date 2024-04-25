@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -78,6 +79,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   AcquisitionProvider acquisitionProvider = AcquisitionProvider(acquisitionRepository: AcquisitionRepository());
 
   acquisitionApiCall() {
+    // top channels
     acquisitionProvider.getTopChannels(
         _selectedFromDate != null
             ?
@@ -87,7 +89,18 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
             _selectedToDate)}' : formattedDate
     );
 
+    // traffic source
     acquisitionProvider.getTrafficSource(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+
+    // most visited page
+    acquisitionProvider.getMostVisitedPageList(
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
@@ -1793,7 +1806,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: Center(
                   child: Text(
-                    'Failed to load',
+                    '',
                   ),
                 ),
               );
@@ -1877,66 +1890,97 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
           const SizedBox(height: 10),
 
           // website list
-          Card(
-            elevation: 2,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  color: whiteColor
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.mostVisitedPageLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      color: whiteColor
+                  ),
+                  child: Column(
                     children: [
-                      Text(
-                        'Page',
-                        style: tableTitleTextStyle,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Page',
+                            style: tableTitleTextStyle,
+                          ),
+
+                          Text(
+                            'Users',
+                            style: tableTitleTextStyle,
+                          )
+                        ],
                       ),
 
-                      Text(
-                        'Users',
-                        style: tableTitleTextStyle,
-                      )
-                    ],
-                  ),
+                      const SizedBox(height: 15),
 
-                  const SizedBox(height: 15),
-
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 8,
-                    itemBuilder: (context,index) => Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: data.mostVisitedPageModel.data!.length,
+                        itemBuilder: (context,index) => Column(
                           children: [
-                            Text(
-                              'Codelattice Leadership',
-                              style: tableContentTextStyle,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 30),
+                                    child: Text(
+                                      '${data.mostVisitedPageModel.data![index].key}',
+                                      style: tableContentTextStyle,
+                                    ),
+                                  ),
+                                ),
+
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: Text(
+                                    '${data.mostVisitedPageModel.data![index].value}',
+                                    style: tableContentTextStyle,
+                                  ),
+                                )
+                              ],
                             ),
 
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Text(
-                                '18',
-                                style: tableContentTextStyle,
-                              ),
-                            )
+                            const SizedBox(height: 15),
                           ],
                         ),
-
-                        const SizedBox(height: 15),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
           const SizedBox(height: 10),
           // What are the devices used heading + drop down

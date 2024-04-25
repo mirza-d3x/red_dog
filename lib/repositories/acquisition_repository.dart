@@ -26,4 +26,13 @@ class AcquisitionRepository {
       ) =>
       webService?.get(getTrafficSourceApi(googleId,googleToken,viewId,fromDate,toDate));
 
+  Future getMostVisitedPageData(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate
+      ) =>
+      webService?.get(getMostVisitedPageApi(googleId,googleToken,viewId,fromDate,toDate));
+
 }
