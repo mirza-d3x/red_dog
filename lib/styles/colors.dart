@@ -75,3 +75,15 @@ const highlightingColor = Color.fromRGBO(221, 221, 255, 1);
 const boxColor = Color.fromRGBO(225, 229, 235, 1);
 
 const buildTextFormColor = Color.fromRGBO(226, 226, 226, 1);
+
+const directIndicatorColor = Color.fromRGBO(254, 176, 25, 1);
+
+const organicSearchIndicatorColor = Color.fromRGBO(0, 227, 150, 1);
+
+const referralIndicatorColor = Color.fromRGBO(119, 93, 208, 1);
+
+const organicSocialIndicatorColor = Color.fromRGBO(0, 143, 251, 1);
+
+const organicVideoIndicatorColor = Color.fromRGBO(255, 69, 96, 1);
+
+const unAssignedIndicatorColor = Color.fromRGBO(128, 70, 0, 1);

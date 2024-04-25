@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/providers/acquisition_provider.dart';
+import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/widgets/common_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -85,14 +88,32 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
   dynamic websiteName ;
+  dynamic websiteViewId;
 
+  //initial from date
+  String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(
+      DateTime.now().subtract(Duration(days: 30)));
 
   UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
+
+  AcquisitionProvider acquisitionProvider = AcquisitionProvider(acquisitionRepository: AcquisitionRepository());
+
+  acquisitionApiCall() {
+    acquisitionProvider.getTopChannels(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+  }
 
   @override
   void initState(){
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
+    acquisitionApiCall();
     _chartData = getChartData();
     _trafficChartData = getTrafficChartData();
     _deviceChartData = getDeviceChartData();
@@ -116,6 +137,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
       setState(() {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        acquisitionApiCall();
       });
     }
   }
@@ -1139,8 +1161,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                   child: Text(
                                     _selectedFromDate != null && _selectedToDate != null ?
                                     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                    // ? '${_selectedFromDate.toString()} To: ${_selectedToDate.toString()}'
-                                        : '2024-03-03 to ${formattedDate}',
+                                        : '${formattedInitialdDate} to ${formattedDate}',
                                     style: dropDownTextStyle,
                                   ),
                                 ),
@@ -1183,132 +1204,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
                     const SizedBox(height: 10),
 
-                    // How people found your website heading + drop down
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Visitors trending time?',
-                          style: normalTextStyle,
-                        ),
-                        // Card(
-                        //   elevation: 2,
-                        //   child: Container(
-                        //     height: 30,
-                        //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                        //     padding: const EdgeInsets.only(left: 10,right: 10),
-                        //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-                        //     decoration: BoxDecoration(
-                        //       color: whiteColor,
-                        //       borderRadius: BorderRadius.circular(5),
-                        //     ),
-                        //     child: DropdownButtonHideUnderline(
-                        //       child: DropdownButton(
-                        //         icon: const Icon(
-                        //           Icons.keyboard_arrow_down_outlined,
-                        //           color: blackColor,
-                        //         ),
-                        //         // iconSize: 0,
-                        //         hint: peopleTimeDropDown == null
-                        //             ? Row(
-                        //           children: [
-                        //             Text(
-                        //                 'Monthly',
-                        //                 style: durationDropDownTextStyle
-                        //             ),
-                        //
-                        //             const SizedBox(width: 5),
-                        //           ],
-                        //         )
-                        //             : Row(
-                        //           children: [
-                        //             Text(
-                        //                 peopleTimeDropDown,
-                        //                 style: durationDropDownTextStyle
-                        //             ),
-                        //             const SizedBox(width: 5),
-                        //           ],
-                        //         ),
-                        //         value: peopleTimeDropDown,
-                        //         onChanged: (newValue) {
-                        //           setState(() {
-                        //             isSelectedPeopleFound = true;
-                        //             peopleTimeDropDown = newValue;
-                        //           });
-                        //         },
-                        //         items: [
-                        //           'Weekly',
-                        //           'Monthly',
-                        //         ].map((String value) {
-                        //           return DropdownMenuItem<String>(
-                        //             value: value,
-                        //             child: Text(value,
-                        //                 style: durationDropDownTextStyle
-                        //             ),
-                        //           );
-                        //         }).toList(),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-
-                    // Circular chart
-                    Card(
-                      elevation: 2,
-                      child: Container(
-                        height: 200,
-                        padding:  EdgeInsets.zero,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: whiteColor,
-                        ),
-                        child: Stack(
-                          children: [
-                            SfCircularChart(
-                              centerY: '100',
-                              centerX: '90',
-                              margin: EdgeInsets.zero,
-                              palette: const <Color>[
-                                graphGreyColor,
-                                graphBlackColor,
-                                graphRedColor
-                              ],
-                              legend: Legend(
-                                position: LegendPosition.right,
-                                isVisible: true,
-                                isResponsive:true,
-                                overflowMode: LegendItemOverflowMode.wrap,
-                              ),
-                              series: <CircularSeries>[
-                                DoughnutSeries<WebsiteVisitData,String>(
-                                  // animationDelay: 0,
-                                  // animationDuration: 0,
-                                  dataSource: _chartData,
-                                  xValueMapper: (WebsiteVisitData data,_) => data.type,
-                                  yValueMapper: (WebsiteVisitData data,_) => data.value,
-                                  innerRadius: '90%',
-                                  radius: '60%',
-
-                                ),
-                              ],
-                            ),
-
-                            Positioned(
-                              left: 62,
-                              top: 93,
-                              child: Text(
-                                'Mar 2024',
-                                style: graphValueTextStyle,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    acquisitionApiDataWidget(),
 
                     const SizedBox(height: 10),
                     // Stacked column graph
@@ -2127,29 +2023,32 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             const SizedBox(width: 10),
                           ],
                         ),
-                        value: selectedWebsite,
-                        onChanged: (newValue) {
-                          deleteValue('websiteId');
-                          setState(() {
-                            isSelectedFromDropDwn = true;
-                            selectedWebsite = newValue;
-                            setValue('websiteId', selectedWebsite[0]);
-                          });
-                        },
-                        items: data.websiteListModel.data!.map((e) {
-                          websiteName = e.name;
-                          return DropdownMenuItem(
-                            // value: valueItem,
-                            child: Text(e.name),
-                            value: e.name,
-                          );
-                        },
-                        ).toList(),
+                          items:
+                          data.websiteListModel.data!.map((e) {
+                            websiteName = e.name;
+                            websiteViewId = e.datumId;
+                            return DropdownMenuItem(
+                              // value: valueItem,
+                              child: Text(e.name),
+                              value: e.datumId,
+                            );
+                          },
+                          ).toList(),
+                          value: selectedWebsite,
+                          onChanged: (val) {
+                            deleteValue('websiteId');
+                            deleteValue('websiteName');
+                            setState(()  {
+                              deleteValue('websiteId');
+                              selectedWebsite = val;
+                              setValue('websiteId', val);
+                              acquisitionApiCall();
+                            });
+                          })
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           );
         }else if (state is Failure) {
@@ -2181,6 +2080,112 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
           textAlign: TextAlign.center,
           style: messageTextStyle,
         ),
+      ),
+    );
+  }
+
+  Widget acquisitionApiDataWidget(){
+    return ChangeNotifierProvider<AcquisitionProvider>(
+      create: (ctx){
+        return acquisitionProvider;
+      },
+      child: Column(
+        children: [
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.topChannelsLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Visitors trending time?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Circular chart
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      height: 200,
+                      padding:  EdgeInsets.zero,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: whiteColor,
+                      ),
+                      child: Stack(
+                        children: [
+                          SfCircularChart(
+                            centerY: '100',
+                            centerX: '90',
+                            margin: EdgeInsets.zero,
+                            palette: const <Color>[
+                              directIndicatorColor,
+                              organicSearchIndicatorColor,
+                              organicSocialIndicatorColor,
+                              referralIndicatorColor,
+                              organicVideoIndicatorColor,
+                              unAssignedIndicatorColor
+                            ],
+                            legend: Legend(
+                              position: LegendPosition.right,
+                              isVisible: true,
+                              isResponsive:true,
+                              overflowMode: LegendItemOverflowMode.wrap,
+                            ),
+                            series: <CircularSeries>[
+                              DoughnutSeries<TopChannelData,String>(
+                                // animationDelay: 0,
+                                // animationDuration: 0,
+                                dataSource: data.topChannelsModel.data,
+                                xValueMapper: (TopChannelData data,_) => data.key,
+                                yValueMapper: (TopChannelData data,_) => int.parse(data.value),
+                                innerRadius: '90%',
+                                radius: '60%',
+
+                              ),
+                            ],
+                          ),
+
+                          // Positioned(
+                          //   left: 62,
+                          //   top: 93,
+                          //   child: Text(
+                          //     'Mar 2024',
+                          //     style: graphValueTextStyle,
+                          //   ),
+                          // )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+        ],
       ),
     );
   }
