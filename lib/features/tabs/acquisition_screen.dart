@@ -37,19 +37,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
   late List<WebsiteVisitData> _chartData;
 
-  late List<TrafficSourcePieChartData> _trafficChartData;
-
-  List<TrafficSourcePieChartData> getTrafficChartData(){
-    final List<TrafficSourcePieChartData> trafficChartData = [
-      TrafficSourcePieChartData('Direct', 1000),
-      TrafficSourcePieChartData('Google', 200),
-      TrafficSourcePieChartData('Timejobs', 100),
-      TrafficSourcePieChartData('m.timejobs', 70),
-      TrafficSourcePieChartData('Clutch', 50),
-      TrafficSourcePieChartData('Others', 30),
-    ];
-    return trafficChartData;
-  }
 
   final List<ChartData> chartData = [
     ChartData('01 Mar', 22, 35, 10),
@@ -115,7 +102,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     acquisitionApiCall();
-    _trafficChartData = getTrafficChartData();
     _deviceChartData = getDeviceChartData();
     super.initState();
   }
@@ -1780,7 +1766,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               othersIndicatorColor
                             ],
                             legend: Legend(
-                              position: LegendPosition.bottom,
+                              position: LegendPosition.right,
                               isVisible: true,
                               isResponsive:true,
                               overflowMode: LegendItemOverflowMode.wrap,
@@ -1807,7 +1793,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: Center(
                   child: Text(
-                    '',
+                    'Failed to load',
                   ),
                 ),
               );
@@ -2098,12 +2084,6 @@ class ChartData{
   final double y1;
   final double y2;
   final double y3;
-}
-
-class TrafficSourcePieChartData{
-  final String type;
-  final int value;
-  TrafficSourcePieChartData(this.type,this.value);
 }
 
 class UsedDeviceData{
