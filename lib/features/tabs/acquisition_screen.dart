@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
@@ -1829,77 +1830,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
           const SizedBox(height: 10),
 
           // what are the most visited pages heading + drop down menu
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'What are the most visited pages?',
-                style: normalTextStyle,
-              ),
-              // Card(
-              //   elevation: 2,
-              //   child: Container(
-              //     height: 30,
-              //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-              //     padding: const EdgeInsets.only(left: 10,right: 10),
-              //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-              //     decoration: BoxDecoration(
-              //       color: whiteColor,
-              //       borderRadius: BorderRadius.circular(5),
-              //     ),
-              //     child: DropdownButtonHideUnderline(
-              //       child: DropdownButton(
-              //         icon: const Icon(
-              //           Icons.keyboard_arrow_down_outlined,
-              //           color: blackColor,
-              //         ),
-              //         // iconSize: 0,
-              //         hint: mostVisitedOptionDropDown == null
-              //             ? Row(
-              //           children: [
-              //             Text(
-              //                 'Monthly',
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //
-              //             const SizedBox(width: 5),
-              //           ],
-              //         )
-              //             : Row(
-              //           children: [
-              //             Text(
-              //                 mostVisitedOptionDropDown,
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //             const SizedBox(width: 5),
-              //           ],
-              //         ),
-              //         value: mostVisitedOptionDropDown,
-              //         onChanged: (newValue) {
-              //           setState(() {
-              //             isSelectedMostVisited = true;
-              //             mostVisitedOptionDropDown = newValue;
-              //           });
-              //         },
-              //         items: [
-              //           'Weekly',
-              //           'Monthly',
-              //         ].map((String value) {
-              //           return DropdownMenuItem<String>(
-              //             value: value,
-              //             child: Text(value,
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //           );
-              //         }).toList(),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
           // website list
           Consumer<AcquisitionProvider>(builder: (ctx, data, _){
             var state = data.mostVisitedPageLiveData().getValue();
@@ -1914,70 +1844,90 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
               );
             } else if (state is Success) {
-              return Card(
-                elevation: 2,
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: whiteColor
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What are the most visited pages?',
+                    style: normalTextStyle,
                   ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  const SizedBox(height: 10),
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      height: data.mostVisitedPageModel.data!.length > 6 ?
+                      395 : 320,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          color: whiteColor
+                      ),
+                      child: Column(
                         children: [
-                          Text(
-                            'Page',
-                            style: tableTitleTextStyle,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Page',
+                                style: tableTitleTextStyle,
+                              ),
+
+                              Text(
+                                'Users',
+                                style: tableTitleTextStyle,
+                              )
+                            ],
                           ),
 
-                          Text(
-                            'Users',
-                            style: tableTitleTextStyle,
-                          )
-                        ],
-                      ),
+                          const SizedBox(height: 15),
 
-                      const SizedBox(height: 15),
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 5,right: 5),
+                                child: ListView.builder(
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: data.mostVisitedPageModel.data!.length,
+                                  itemBuilder: (context,index) => Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(right: 30),
+                                              child: Text(
+                                                '${data.mostVisitedPageModel.data![index].key}',
+                                                style: tableContentTextStyle,
+                                              ),
+                                            ),
+                                          ),
 
-                      ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: data.mostVisitedPageModel.data!.length,
-                        itemBuilder: (context,index) => Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 30),
-                                    child: Text(
-                                      '${data.mostVisitedPageModel.data![index].key}',
-                                      style: tableContentTextStyle,
-                                    ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(right: 10),
+                                            child: Text(
+                                              '${data.mostVisitedPageModel.data![index].value}',
+                                              style: tableContentTextStyle,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+
+                                      const SizedBox(height: 15),
+                                    ],
                                   ),
                                 ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: Text(
-                                    '${data.mostVisitedPageModel.data![index].value}',
-                                    style: tableContentTextStyle,
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
-
-                            const SizedBox(height: 15),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               );
             }else if (state is Failure) {
               return SizedBox(
