@@ -1856,7 +1856,11 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     elevation: 2,
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      height: data.mostVisitedPageModel.data!.length > 6 ?
+                      height:  data.mostVisitedPageModel.data!.length == 1 ||  data.mostVisitedPageModel.data!.length == 2?
+                      120 :
+                          data.mostVisitedPageModel.data!.length >= 3 && data.mostVisitedPageModel.data!.length <6 ?
+                              220 :
+                      data.mostVisitedPageModel.data!.length > 6 ?
                       395 : 320,
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -1885,40 +1889,37 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           Expanded(
                             child: Scrollbar(
                               thumbVisibility: true,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 5,right: 5),
-                                child: ListView.builder(
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: data.mostVisitedPageModel.data!.length,
-                                  itemBuilder: (context,index) => Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(right: 30),
-                                              child: Text(
-                                                '${data.mostVisitedPageModel.data![index].key}',
-                                                style: tableContentTextStyle,
-                                              ),
-                                            ),
-                                          ),
-
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 10),
+                              child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: data.mostVisitedPageModel.data!.length,
+                                itemBuilder: (context,index) => Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 30),
                                             child: Text(
-                                              '${data.mostVisitedPageModel.data![index].value}',
+                                              '${data.mostVisitedPageModel.data![index].key}',
                                               style: tableContentTextStyle,
                                             ),
-                                          )
-                                        ],
-                                      ),
+                                          ),
+                                        ),
 
-                                      const SizedBox(height: 15),
-                                    ],
-                                  ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 10),
+                                          child: Text(
+                                            '${data.mostVisitedPageModel.data![index].value}',
+                                            style: tableContentTextStyle,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 15),
+                                  ],
                                 ),
                               ),
                             ),
