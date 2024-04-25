@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/providers/acquisition_provider.dart';
 import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
@@ -35,15 +36,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   bool isSelectedTrafficTime = false;
 
   late List<WebsiteVisitData> _chartData;
-
-  List<WebsiteVisitData> getChartData(){
-    final List<WebsiteVisitData> chartData = [
-      WebsiteVisitData('Unknown Source', 1000),
-      WebsiteVisitData('Organic', 200),
-      WebsiteVisitData('Referral', 300),
-    ];
-    return chartData;
-  }
 
   late List<TrafficSourcePieChartData> _trafficChartData;
 
@@ -107,6 +99,15 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
+
+    acquisitionProvider.getTrafficSource(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
   }
 
   @override
@@ -114,7 +115,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     acquisitionApiCall();
-    _chartData = getChartData();
     _trafficChartData = getTrafficChartData();
     _deviceChartData = getDeviceChartData();
     super.initState();
@@ -1739,178 +1739,82 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
           ),
 
           const SizedBox(height: 10),
-          // Circular chart
-          Card(
-            elevation: 2,
-            child: Container(
-              // height: 340,
-              padding:  EdgeInsets.zero,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Column(
-                children: [
-                  Stack(
+          // Circular chart - traffic source
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.trafficSourceLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                child: Container(
+                  // height: 340,
+                  padding:  EdgeInsets.zero,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Column(
                     children: [
-                      SfCircularChart(
-                        margin: EdgeInsets.zero,
-                        palette: const <Color>[
-                          graphGreyColor,
-                          googleIndicatorColor,
-                          graphRedColor,
-                          mTimeJobsIndicatorColor,
-                          clutchIndicatorColor,
-                          othersIndicatorColor
-                        ],
-                        series: <CircularSeries>[
-                          DoughnutSeries<TrafficSourcePieChartData,String>(
-                            // animationDelay: 0,
-                            // animationDuration: 0,
-                            dataSource: _trafficChartData,
-                            xValueMapper: (TrafficSourcePieChartData data,_) => data.type,
-                            yValueMapper: (TrafficSourcePieChartData data,_) => data.value,
-                            innerRadius: '90%',
-                            radius: '60%',
+                      Stack(
+                        children: [
+                          SfCircularChart(
+                            // centerY: '100',
+                            // centerX: '90',
+                            margin: EdgeInsets.zero,
+                            palette: const <Color>[
+                              graphGreyColor,
+                              googleIndicatorColor,
+                              graphRedColor,
+                              mTimeJobsIndicatorColor,
+                              clutchIndicatorColor,
+                              othersIndicatorColor
+                            ],
+                            legend: Legend(
+                              position: LegendPosition.bottom,
+                              isVisible: true,
+                              isResponsive:true,
+                              overflowMode: LegendItemOverflowMode.wrap,
+                            ),
+                            series: <CircularSeries>[
+                              DoughnutSeries<TrafficSourceData,String>(
+                                dataSource: data.trafficSourceModel.data,
+                                xValueMapper: (TrafficSourceData data,_) => data.key,
+                                yValueMapper: (TrafficSourceData data,_) => data.value,
+                                innerRadius: '90%',
+                                radius: '60%',
 
+                              ),
+                            ],
                           ),
                         ],
-                      ),
-
-                      Positioned(
-                        left: 148,
-                        top: 140,
-                        child: Text(
-                          'Mar 2024',
-                          style: graphValueTextStyle,
-                        ),
                       )
                     ],
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(left: 35,right: 35),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: graphGreyColor,
-                            ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'Direct',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
-
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: graphRedColor,
-                            ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'TimeJobs',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
-
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: mTimeJobsIndicatorColor,
-                            ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'm.timeJobs',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
                   ),
-
-                  const SizedBox(height: 12),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 35,right: 35,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: googleIndicatorColor,
-                            ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'Google',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(right: 25),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 10,
-                                width: 10,
-                                color: clutchIndicatorColor,
-                              ),
-
-                              const SizedBox(width: 5),
-                              Text(
-                                'Clutch',
-                                style: graphHintTextStyle,
-                              )
-                            ],
-                          ),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 10,
-                                width: 10,
-                                color: othersIndicatorColor,
-                              ),
-
-                              const SizedBox(width: 5),
-                              Text(
-                                'Others',
-                                style: graphHintTextStyle,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
           const SizedBox(height: 10),
 
