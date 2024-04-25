@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/providers/acquisition_provider.dart';
 import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
@@ -101,6 +102,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
     // most visited page
     acquisitionProvider.getMostVisitedPageList(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+
+  // device category
+    acquisitionProvider.getDeviceCategory(
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
@@ -1984,132 +1995,88 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
           // What are the devices used heading + drop down
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'What are the devices used',
-                style: normalTextStyle,
-              ),
-              // Card(
-              //   elevation: 2,
-              //   child: Container(
-              //     height: 30,
-              //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-              //     padding: const EdgeInsets.only(left: 10,right: 10),
-              //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-              //     decoration: BoxDecoration(
-              //       color: whiteColor,
-              //       borderRadius: BorderRadius.circular(5),
-              //     ),
-              //     child: DropdownButtonHideUnderline(
-              //       child: DropdownButton(
-              //         icon: const Icon(
-              //           Icons.keyboard_arrow_down_outlined,
-              //           color: blackColor,
-              //         ),
-              //         // iconSize: 0,
-              //         hint: deviceTypeOptionDropDown == null
-              //             ? Row(
-              //           children: [
-              //             Text(
-              //                 'Monthly',
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //
-              //             const SizedBox(width: 5),
-              //           ],
-              //         )
-              //             : Row(
-              //           children: [
-              //             Text(
-              //                 deviceTypeOptionDropDown,
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //             const SizedBox(width: 5),
-              //           ],
-              //         ),
-              //         value: deviceTypeOptionDropDown,
-              //         onChanged: (newValue) {
-              //           setState(() {
-              //             isSelectedDeviceType = true;
-              //             deviceTypeOptionDropDown = newValue;
-              //           });
-              //         },
-              //         items: [
-              //           'Weekly',
-              //           'Monthly',
-              //         ].map((String value) {
-              //           return DropdownMenuItem<String>(
-              //             value: value,
-              //             child: Text(value,
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //           );
-              //         }).toList(),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
-          const SizedBox(height: 10),
-
-          // Circular chart
-          Card(
-            elevation: 2,
-            child: Container(
-              height: 200,
-              padding:  EdgeInsets.zero,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Stack(
-                children: [
-                  SfCircularChart(
-                    centerY: '100',
-                    centerX: '90',
-                    margin: EdgeInsets.zero,
-                    palette: const <Color>[
-                      graphGreyColor,
-                      graphBlackColor,
-                      graphRedColor
-                    ],
-                    legend: Legend(
-                      position: LegendPosition.right,
-                      isVisible: true,
-                      isResponsive:true,
-                      overflowMode: LegendItemOverflowMode.wrap,
-                    ),
-                    series: <CircularSeries>[
-                      DoughnutSeries<UsedDeviceData,String>(
-                        // animationDelay: 0,
-                        // animationDuration: 0,
-                        dataSource: _deviceChartData,
-                        xValueMapper: (UsedDeviceData data,_) => data.type,
-                        yValueMapper: (UsedDeviceData data,_) => data.value,
-                        innerRadius: '90%',
-                        radius: '60%',
-
-                      ),
-                    ],
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.deviceCategoryLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
                   ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What are the devices used',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
 
-                  Positioned(
-                    left: 62,
-                    top: 93,
-                    child: Text(
-                      'Mar 2024',
-                      style: graphValueTextStyle,
+                  // Circular chart
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      height: 200,
+                      padding:  EdgeInsets.zero,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: whiteColor,
+                      ),
+                      child: Stack(
+                        children: [
+                          SfCircularChart(
+                            centerY: '100',
+                            centerX: '90',
+                            margin: EdgeInsets.zero,
+                            palette: const <Color>[
+                              desktopColor,
+                              mobileColor,
+                              tabletColor
+                            ],
+                            legend: Legend(
+                              position: LegendPosition.right,
+                              isVisible: true,
+                              isResponsive:true,
+                              overflowMode: LegendItemOverflowMode.wrap,
+                            ),
+                            series: <CircularSeries>[
+                              DoughnutSeries<DeviceCategoryData,String>(
+                                // animationDelay: 0,
+                                // animationDuration: 0,
+                                dataSource: data.deviceCategoryModel.data,
+                                xValueMapper: (DeviceCategoryData data,_) => data.key,
+                                yValueMapper: (DeviceCategoryData data,_) => data.value,
+                                innerRadius: '90%',
+                                radius: '60%',
+
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
-              ),
-            ),
-          ),
-
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );

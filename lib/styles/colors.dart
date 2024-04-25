@@ -87,3 +87,9 @@ const organicSocialIndicatorColor = Color.fromRGBO(0, 143, 251, 1);
 const organicVideoIndicatorColor = Color.fromRGBO(255, 69, 96, 1);
 
 const unAssignedIndicatorColor = Color.fromRGBO(128, 70, 0, 1);
+
+const mobileColor = Color.fromRGBO(35, 213, 233, 1);
+
+const tabletColor = Color.fromRGBO(131, 185, 45, 1);
+
+const desktopColor = Color.fromRGBO(233, 213, 35, 1);

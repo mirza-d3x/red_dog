@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
@@ -38,10 +39,19 @@ class AcquisitionProvider extends ChangeNotifier {
     return this.mostVisitedPageData;
   }
 
+  // device category
+  var deviceCategoryModel = DeviceCategoryModel();
+  LiveData<UIState<DeviceCategoryModel>> deviceCategoryData = LiveData<UIState<DeviceCategoryModel>>();
+
+  LiveData<UIState<DeviceCategoryModel>> deviceCategoryLiveData() {
+    return this.deviceCategoryData;
+  }
+
   void initialState() {
     topChannelsData.setValue(Initial());
     trafficSourceData.setValue(Initial());
     mostVisitedPageData.setValue(Initial());
+    deviceCategoryData.setValue(Initial());
     notifyListeners();
   }
 
@@ -128,6 +138,35 @@ class AcquisitionProvider extends ChangeNotifier {
       }
     } catch (ex) {
       mostVisitedPageData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // get device category
+  getDeviceCategory(
+      dynamic fromDate,
+      dynamic toDate
+      ) async {
+    try {
+      deviceCategoryData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      deviceCategoryModel = await acquisitionRepository.getDeviceCategoryData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate
+      );
+      if (deviceCategoryModel.code == 200) {
+        deviceCategoryData.setValue(Success(deviceCategoryModel));
+      } else {
+        deviceCategoryData.setValue(Failure(deviceCategoryModel.toString()));
+      }
+    } catch (ex) {
+      deviceCategoryData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

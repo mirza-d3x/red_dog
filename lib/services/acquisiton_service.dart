@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
+import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/models/user_profile_model.dart';
@@ -55,5 +56,22 @@ Resource<MostVisitedPageModel> getMostVisitedPageApi(
         Map<String, dynamic> mostVisitedPageDataMap = jsonDecode(response.body);
         MostVisitedPageModel mostVisitedPageResult = MostVisitedPageModel.fromJson(mostVisitedPageDataMap);
         return mostVisitedPageResult;
+      });
+}
+
+Resource<DeviceCategoryModel> getDeviceCategoryApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/aquasition/deviceCategory/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> deviceCategoryDataMap = jsonDecode(response.body);
+        DeviceCategoryModel deviceCategoryResult = DeviceCategoryModel.fromJson(deviceCategoryDataMap);
+        return deviceCategoryResult;
       });
 }
