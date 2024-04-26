@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
+import 'package:reddog_mobile_app/models/lead_details_with_filter_tile_model.dart';
 import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 import '../core/live_data.dart';
 import '../core/ui_state.dart';
@@ -29,9 +30,18 @@ class EnquiryProvider extends ChangeNotifier {
     return this.enquiryLeadDetailsData;
   }
 
+  //Enquiry lead Details with filter tile
+  var leadDetailsWithTileFilterModel = LeadDetailsWithFilterTileModel();
+  LiveData<UIState<LeadDetailsWithFilterTileModel>> leadDetailsWithTileFilterData = LiveData<UIState<LeadDetailsWithFilterTileModel>>();
+
+  LiveData<UIState<LeadDetailsWithFilterTileModel>> leadDetailsWithTileFilterLiveData() {
+    return this.leadDetailsWithTileFilterData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
     enquiryLeadDetailsData.setValue(Initial());
+    leadDetailsWithTileFilterData.setValue(Initial());
     notifyListeners();
   }
 
@@ -85,5 +95,34 @@ class EnquiryProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  getEnquiryLeadDetailsWithTileList(
+      dynamic fromDate,
+      dynamic toDate,
+      dynamic categoryName,
+      ) async {
+    try {
+      leadDetailsWithTileFilterData.setValue(IsLoading());
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      leadDetailsWithTileFilterModel = await enquiryRepository.getEnquiryLeadDetailsWithTileFilterData(
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate,
+        categoryName
+      );
+      if (leadDetailsWithTileFilterModel.code == 200) {
+        leadDetailsWithTileFilterData.setValue(Success(leadDetailsWithTileFilterModel));
+      } else {
+        leadDetailsWithTileFilterData.setValue(Failure(leadDetailsWithTileFilterModel.toString()));
+      }
+    } catch (ex) {
+      leadDetailsWithTileFilterData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
 
 }

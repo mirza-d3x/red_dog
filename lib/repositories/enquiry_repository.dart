@@ -25,4 +25,12 @@ class EnquiryRepository {
       ) =>
       webService?.get(getEnquiryLeadDetailApi(viewId,fromDate,toDate));
 
+  Future getEnquiryLeadDetailsWithTileFilterData(
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      dynamic categoryName
+      ) =>
+      webService?.get(getEnquiryLeadDetailWithTileFilterApi(viewId,fromDate,toDate,categoryName));
+
 }

@@ -127,6 +127,8 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
     super.initState();
   }
 
+  bool onTileTap = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -448,9 +450,25 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                       mainAxisExtent: 98
                   ),
                   itemBuilder: (BuildContext context,index) =>
-                      tiles(context,
-                          '${data.enquiryCountModel.data![index].category}',
-                          '${data.enquiryCountModel.data![index].count}')
+                      InkWell(
+                        onTap: (){
+                          setState(() {
+                            onTileTap = true;
+                          });
+                          enquiryProvider.getEnquiryLeadDetailsWithTileList(
+                              _selectedFromDate != null
+                                  ?
+                              '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                                  : formattedInitialdDate,
+                              _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                                  _selectedToDate)}' : formattedDate,
+                              '${data.enquiryCountModel.data![index].category}'
+                          );
+                        },
+                        child: tiles(context,
+                            '${data.enquiryCountModel.data![index].category}',
+                            '${data.enquiryCountModel.data![index].count}'),
+                      )
               );
             }else if (state is Failure) {
               return SizedBox(
@@ -467,6 +485,70 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
           const SizedBox(height: 15),
 
           // lead Details enquiries read & unread
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Lead Details',
+                style: normalTextStyle,
+              ),
+
+              Row(
+                children: [
+                  Card(
+                    elevation: 2,
+                    child: InkWell(
+                      onTap: (){
+                        searchModal(context);
+                      },
+                      child: Container(
+                          height: 43,
+                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Icon(
+                            Icons.search_outlined,
+                            color: blackColor,
+                            size: 22,
+                          )
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 5),
+
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => FilterScreen()));
+                    },
+                    child: Card(
+                      elevation: 2,
+                      child: Container(
+                          height: 43,
+                          padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Icon(
+                            Icons.filter_alt_outlined,
+                            color: blackColor,
+                            size: 22,
+                          )
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+         onTileTap == true ? filterWithTileWidget() :
+
           Consumer<EnquiryProvider>(builder: (ctx, data, _){
             var state = data.enquiryLeadDetailsLiveData().getValue();
             print(state);
@@ -482,68 +564,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
             } else if (state is Success) {
               return Column(
                 children: [
-                  // List
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Lead Details',
-                        style: normalTextStyle,
-                      ),
-
-                      Row(
-                        children: [
-                          Card(
-                            elevation: 2,
-                            child: InkWell(
-                              onTap: (){
-                                searchModal(context);
-                              },
-                              child: Container(
-                                  height: 43,
-                                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                  decoration: BoxDecoration(
-                                    color: whiteColor,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: const Icon(
-                                    Icons.search_outlined,
-                                    color: blackColor,
-                                    size: 22,
-                                  )
-                              ),
-                            ),
-                          ),
-
-                          const SizedBox(width: 5),
-
-                          InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => FilterScreen()));
-                            },
-                            child: Card(
-                              elevation: 2,
-                              child: Container(
-                                  height: 43,
-                                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                                  decoration: BoxDecoration(
-                                    color: whiteColor,
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: const Icon(
-                                    Icons.filter_alt_outlined,
-                                    color: blackColor,
-                                    size: 22,
-                                  )
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
+                  // Lis
 
                   // unreaded enquiries
                   InkWell(
@@ -1402,6 +1423,383 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
           }),
         ],
       ),
+    );
+  }
+
+  Widget filterWithTileWidget(){
+    return ChangeNotifierProvider<EnquiryProvider>(
+      create: (ctx){
+        return enquiryProvider;
+      },
+      child: Consumer<EnquiryProvider>(builder: (ctx, data, _){
+        var state = data.leadDetailsWithTileFilterLiveData().getValue();
+        print(state);
+        if (state is IsLoading) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height / 1.3,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: loginBgColor,
+              ),
+            ),
+          );
+        } else if (state is Success) {
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: data.leadDetailsWithTileFilterModel.data!.length,
+            itemBuilder: (context, index) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: (){
+                    showModalBottomSheet(
+                      enableDrag: true,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
+                      ),
+                      context: context,
+                      builder: (context){
+                        return FractionallySizedBox(
+                          heightFactor: 0.9,
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Wrap(
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // name
+                                    Text('${data.leadDetailsWithTileFilterModel.data![index].name}',
+                                      style: nameTextStyle,
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    // email
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.email_outlined,
+                                          size: 15,
+                                          color: titleTextColor,
+                                        ),
+
+                                        const SizedBox(width: 5),
+
+                                        Text(
+                                          '${data.leadDetailsWithTileFilterModel.data![index].email}',
+                                          style: subTextTextStyle,
+                                        )
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 7),
+
+                                    // contact number
+                                    InkWell(
+                                      onTap: (){
+                                        FlutterPhoneDirectCaller.callNumber('+91${data.leadDetailsWithTileFilterModel.data![index].phone}');
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.phone_enabled,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+
+                                          const SizedBox(width: 5),
+
+                                          Text(
+                                            '+91 ${data.leadDetailsWithTileFilterModel.data![index].phone}',
+                                            style: subTextTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+
+                                    //  Calendar
+                                    const SizedBox(height: 7),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.calendar_month,
+                                          size: 15,
+                                          color: titleTextColor,
+                                        ),
+
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          formatDateFromAPI(
+                                              '${data.leadDetailsWithTileFilterModel.data![index].date}'
+                                          ),
+                                          style: subTextTextStyle,
+                                        ),
+
+                                        const SizedBox(width: 15),
+
+                                        const Icon(
+                                          CupertinoIcons.arrow_down_left,
+                                          size: 15,
+                                          color: titleTextColor,
+                                        ),
+                                        const SizedBox(width: 3),
+                                        Text(
+                                          '${data.leadDetailsWithTileFilterModel.data![index].category}',
+                                          style: subTextTextStyle,
+                                        ),
+                                      ],
+                                    ),
+
+                                    // messages
+                                    const SizedBox(height: 7),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 3),
+                                          child: const Icon(
+                                            Icons.message_outlined,
+                                            size: 15,
+                                            color: titleTextColor,
+                                          ),
+                                        ),
+
+                                        const SizedBox(width: 5),
+                                        Expanded(
+                                          child:
+                                          '${data.leadDetailsWithTileFilterModel.data![index].message}' == "" ?
+                                          Text(
+                                            'No message',
+                                            style: subTextTextStyle,
+                                          ) :
+                                          Text(
+                                            '${data.leadDetailsWithTileFilterModel.data![index].message}',
+                                            style: subTextTextStyle,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 15),
+                                    Text(
+                                      'Comments',
+                                      style: noteHeadingTextStyle,
+                                    ),
+
+                                    const SizedBox(height: 10),
+                                    ListView.builder(
+                                      itemCount: 5,
+                                      shrinkWrap: true,
+                                      physics: const AlwaysScrollableScrollPhysics(),
+                                      itemBuilder: (BuildContext context, index) =>
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding: EdgeInsets.all(10),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: const BorderRadius.only(
+                                                          topRight: Radius.circular(8),
+                                                          topLeft: Radius.circular(8),
+                                                          bottomLeft: Radius.circular(8),
+                                                        ),
+                                                        color: unselectedRadioColor
+                                                    ),
+                                                    child: Text(
+                                                      'Previous notes',
+                                                      style: noteTextStyle,
+                                                    ),
+                                                  ),
+
+                                                  const SizedBox(width: 25),
+
+                                                  PopupMenuButton(
+                                                    child: Icon(
+                                                      Icons.more_vert_outlined,
+                                                      size: 20,
+                                                    ),
+                                                    itemBuilder: (BuildContext context) {
+                                                      return <PopupMenuItem<String>>[
+                                                        PopupMenuItem<String>(
+                                                          child: TextButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              children: [
+                                                                Text(
+                                                                  'Edit',
+                                                                  style: popupMenuTextStyle,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+
+                                                            },
+                                                          ),
+                                                          height: 31,
+                                                        ),
+                                                        PopupMenuItem<String>(
+                                                          child: TextButton(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.start,
+                                                              children: [
+                                                                Text('Remove',
+                                                                    style: popupMenuTextStyle
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            onPressed: () {
+                                                            },
+                                                          ),
+                                                          height: 31,
+                                                        ),
+                                                      ];
+                                                    },
+                                                  )
+                                                ],
+                                              ),
+
+                                              const SizedBox(height: 8),
+                                            ],
+                                          ),
+                                    ),
+
+                                    const SizedBox(height: 20),
+
+                                    AddNotesWidget(),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Card(
+                    elevation: 2,
+                    child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${data.leadDetailsWithTileFilterModel.data![index].name}',
+                                    style: nameTextStyle,
+                                  ),
+
+                                  PopupMenuButton(
+                                    child: Icon(
+                                      Icons.more_vert_outlined,
+                                      size: 20,
+                                    ),
+                                    itemBuilder: (BuildContext context) {
+                                      return <PopupMenuItem<String>>[
+                                        PopupMenuItem<String>(
+                                          child: TextButton(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Mark as Unread',
+                                                  style: popupMenuTextStyle,
+                                                ),
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          height: 31,
+                                        ),
+                                      ];
+                                    },
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.email_outlined,
+                                    size: 15,
+                                    color: titleTextColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+
+                                  Text(
+                                    '${data.leadDetailsWithTileFilterModel.data![index].email}',
+                                    style: subTextTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(height: 5),
+                              InkWell(
+                                onTap: (){
+                                  FlutterPhoneDirectCaller.callNumber('+91${data.leadDetailsWithTileFilterModel.data![index].phone}');
+                                },
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.phone_enabled,
+                                      size: 15,
+                                      color: titleTextColor,
+                                    ),
+
+                                    const SizedBox(width: 5),
+
+                                    Text(
+                                      '+91 ${data.leadDetailsWithTileFilterModel.data![index].phone}',
+                                      style: subTextTextStyle,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 7),
+              ],
+            ),
+          );
+        }else if (state is Failure) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Center(
+              child: Text(
+                'No Enquiries',
+              ),
+            ),
+          );
+        } else {
+          return Container();
+        }
+      }),
     );
   }
 

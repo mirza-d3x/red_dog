@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 
+import '../models/lead_details_with_filter_tile_model.dart';
 import '../utilities/api_helpers.dart';
 
 Resource<EnquiryCountModel> getEnquiryCountApi(
@@ -33,5 +34,21 @@ Resource<EnquiryLeadDetailsModel> getEnquiryLeadDetailApi(
         Map<String, dynamic> getLeadDetailsMap = jsonDecode(response.body);
         EnquiryLeadDetailsModel leadDetailsResult = EnquiryLeadDetailsModel.fromJson(getLeadDetailsMap);
         return leadDetailsResult;
+      });
+}
+
+Resource<LeadDetailsWithFilterTileModel> getEnquiryLeadDetailWithTileFilterApi(
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
+    dynamic categoryName
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/getfilteredData/$viewId/$fromDate/$toDate/$categoryName',
+      parse: (response) {
+        Map<String, dynamic> getLeadDetailsWithTileFilterMap = jsonDecode(response.body);
+        LeadDetailsWithFilterTileModel leadDetailsWithTileFilterResult = LeadDetailsWithFilterTileModel.fromJson(getLeadDetailsWithTileFilterMap);
+        return leadDetailsWithTileFilterResult;
       });
 }
