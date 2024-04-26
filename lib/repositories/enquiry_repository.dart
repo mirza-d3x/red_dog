@@ -33,4 +33,9 @@ class EnquiryRepository {
       ) =>
       webService?.get(getEnquiryLeadDetailWithTileFilterApi(viewId,fromDate,toDate,categoryName));
 
+  Future updateReadStatus(
+      dynamic enquiryId,
+      ) =>
+      webService?.put(updateEnquiryReadStatusApi(enquiryId));
+
 }

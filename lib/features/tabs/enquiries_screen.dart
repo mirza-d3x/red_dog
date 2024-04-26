@@ -1350,6 +1350,10 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                                       ],
                                                     ),
                                                     onPressed: () {
+                                                      enquiryProvider.updateEnquiryStatus(
+                                                        data.enquiryLeadDetailsModel.data![index].id
+                                                      );
+                                                      getEnquiryCountMethod();
                                                       Navigator.pop(context);
                                                     },
                                                   ),

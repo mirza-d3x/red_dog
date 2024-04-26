@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 import 'package:reddog_mobile_app/models/lead_details_with_filter_tile_model.dart';
+import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 import '../core/live_data.dart';
 import '../core/ui_state.dart';
@@ -38,10 +39,19 @@ class EnquiryProvider extends ChangeNotifier {
     return this.leadDetailsWithTileFilterData;
   }
 
+  //update Read status
+  var updateReadStatusModel = UpdateReadStatusModel();
+  LiveData<UIState<UpdateReadStatusModel>> updateReadStatusData = LiveData<UIState<UpdateReadStatusModel>>();
+
+  LiveData<UIState<UpdateReadStatusModel>> updateReadStatusLiveData() {
+    return this.updateReadStatusData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
     enquiryLeadDetailsData.setValue(Initial());
     leadDetailsWithTileFilterData.setValue(Initial());
+    updateReadStatusData.setValue(Initial());
     notifyListeners();
   }
 
@@ -124,5 +134,23 @@ class EnquiryProvider extends ChangeNotifier {
     }
   }
 
-
+  updateEnquiryStatus(
+      dynamic enquiryId,
+      ) async {
+    try {
+      updateReadStatusData.setValue(IsLoading());
+      updateReadStatusModel = await enquiryRepository.updateReadStatus(
+          enquiryId
+      );
+      if (updateReadStatusModel.code == 200) {
+        updateReadStatusData.setValue(Success(updateReadStatusModel));
+      } else {
+        updateReadStatusData.setValue(Failure(updateReadStatusModel.toString()));
+      }
+    } catch (ex) {
+      updateReadStatusData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
 }

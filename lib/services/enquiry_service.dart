@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
+import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 
 import '../models/lead_details_with_filter_tile_model.dart';
 import '../utilities/api_helpers.dart';
@@ -50,5 +51,18 @@ Resource<LeadDetailsWithFilterTileModel> getEnquiryLeadDetailWithTileFilterApi(
         Map<String, dynamic> getLeadDetailsWithTileFilterMap = jsonDecode(response.body);
         LeadDetailsWithFilterTileModel leadDetailsWithTileFilterResult = LeadDetailsWithFilterTileModel.fromJson(getLeadDetailsWithTileFilterMap);
         return leadDetailsWithTileFilterResult;
+      });
+}
+
+Resource<UpdateReadStatusModel> updateEnquiryReadStatusApi(
+    dynamic enquiryId,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/updateReadStatus/$enquiryId',
+      parse: (response) {
+        Map<String, dynamic> updateReadStatusMap = jsonDecode(response.body);
+        UpdateReadStatusModel updateReadStatusResult = UpdateReadStatusModel.fromJson(updateReadStatusMap);
+        return updateReadStatusResult;
       });
 }
