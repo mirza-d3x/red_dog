@@ -6,6 +6,7 @@ import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/models/user_profile_model.dart';
 
+import '../models/top_channels_by_date_model.dart';
 import '../utilities/api_helpers.dart';
 
 Resource<AcquisitionTopChannelsModel> getTopChannelApi(
@@ -73,5 +74,22 @@ Resource<DeviceCategoryModel> getDeviceCategoryApi(
         Map<String, dynamic> deviceCategoryDataMap = jsonDecode(response.body);
         DeviceCategoryModel deviceCategoryResult = DeviceCategoryModel.fromJson(deviceCategoryDataMap);
         return deviceCategoryResult;
+      });
+}
+
+Resource<ChannelsByDateModel> getTopChannelsByDateApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/aquasition/channelsbydate/$googleId/$googleToken/$viewId/$fromDate/$toDate',
+      parse: (response) {
+        Map<String, dynamic> topChannelsByDateDataMap = jsonDecode(response.body);
+        ChannelsByDateModel topChannelsByDateResult = ChannelsByDateModel.fromJson(topChannelsByDateDataMap);
+        return topChannelsByDateResult;
       });
 }

@@ -38,9 +38,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   dynamic trafficTimeDropDown;
   bool isSelectedTrafficTime = false;
 
-  late List<WebsiteVisitData> _chartData;
-
-
   final List<ChartData> chartData = [
     ChartData('01 Mar', 22, 35, 10),
     ChartData('02 Mar', 14, 11, 18),
@@ -56,17 +53,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   dynamic deviceTypeOptionDropDown;
   bool isSelectedDeviceType = false;
 
-
-  late List<UsedDeviceData> _deviceChartData;
-
-  List<UsedDeviceData> getDeviceChartData(){
-    final List<UsedDeviceData> deviceChartData = [
-      UsedDeviceData('Desktop', 1000),
-      UsedDeviceData('Mobile', 200),
-      UsedDeviceData('Tablet', 100),
-    ];
-    return deviceChartData;
-  }
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
   dynamic websiteName ;
@@ -90,6 +76,17 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
+
+    // top channels by date
+    acquisitionProvider.getTopChannelsByDate(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+
 
     // traffic source
     acquisitionProvider.getTrafficSource(
@@ -127,7 +124,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     acquisitionApiCall();
-    _deviceChartData = getDeviceChartData();
     super.initState();
   }
 
@@ -1367,7 +1363,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Visitors trending time?',
+                    'How did people find your website?',
                     style: normalTextStyle,
                   ),
                   const SizedBox(height: 10),
@@ -1447,118 +1443,144 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
           // Stacked column graph - top channels by data
-          Card(
-            elevation: 2,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Column(
-                children: [
-                  SfCartesianChart(
-                      plotAreaBorderWidth: 0,
-                      primaryXAxis: CategoryAxis(
-                          majorGridLines: const MajorGridLines(width: 0),
-                          labelStyle: graphIndexTextStyle
-                      ),
-                      primaryYAxis: NumericAxis(
-                        labelStyle: graphIndexTextStyle,
-                        majorGridLines: const MajorGridLines(width: 0),
-                        visibleMinimum: 0, // Set the minimum visible value
-                        visibleMaximum: 149, // Set the maximum visible value
-                        interval: 30, // Set the interval here
-                      ),
-                      series: <CartesianSeries>[
-                        StackedColumnSeries<ChartData, String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y1,
-                            width: 0.4,
-                            color: referralBarColor
-                        ),
-                        StackedColumnSeries<ChartData, String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y2,
-                            width: 0.4,
-                            color: unknownBarColor
-                        ),
-                        StackedColumnSeries<ChartData,String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y3,
-                            width: 0.4,
-                            color: organicBarColor
-                        ),
-                      ]
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.topChannelsByDateLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
                   ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    children: [
+                      SfCartesianChart(
+                          plotAreaBorderWidth: 0,
+                          primaryXAxis: CategoryAxis(
+                              majorGridLines: const MajorGridLines(width: 0),
+                              labelStyle: graphIndexTextStyle
+                          ),
+                          primaryYAxis: NumericAxis(
+                            labelStyle: graphIndexTextStyle,
+                            majorGridLines: const MajorGridLines(width: 0),
+                            visibleMinimum: 0, // Set the minimum visible value
+                            visibleMaximum: 149, // Set the maximum visible value
+                            interval: 30, // Set the interval here
+                          ),
+                          series: <CartesianSeries>[
+                            StackedColumnSeries<ChartData, String>(
+                                dataSource: chartData,
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y1,
+                                width: 0.4,
+                                color: referralBarColor
+                            ),
+                            StackedColumnSeries<ChartData, String>(
+                                dataSource: chartData,
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y2,
+                                width: 0.4,
+                                color: unknownBarColor
+                            ),
+                            StackedColumnSeries<ChartData,String>(
+                                dataSource: chartData,
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y3,
+                                width: 0.4,
+                                color: organicBarColor
+                            ),
+                          ]
+                      ),
 
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: organicBarColor,
+                            Row(
+                              children: [
+                                Container(
+                                  height: 10,
+                                  width: 10,
+                                  color: organicBarColor,
+                                ),
+
+                                const SizedBox(width: 5),
+                                Text(
+                                  'Organic',
+                                  style: graphHintTextStyle,
+                                )
+                              ],
                             ),
 
-                            const SizedBox(width: 5),
-                            Text(
-                              'Organic',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
+                            const SizedBox(width: 20),
 
-                        const SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 10,
+                                  width: 10,
+                                  color: unknownBarColor,
+                                ),
 
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: unknownBarColor,
+                                const SizedBox(width: 5),
+                                Text(
+                                  'Unknown',
+                                  style: graphHintTextStyle,
+                                )
+                              ],
                             ),
 
-                            const SizedBox(width: 5),
-                            Text(
-                              'Unknown',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
+                            const SizedBox(width: 20),
 
-                        const SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Container(
+                                  height: 10,
+                                  width: 10,
+                                  color: referralBarColor,
+                                ),
 
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: referralBarColor,
+                                const SizedBox(width: 5),
+                                Text(
+                                  'Referral',
+                                  style: graphHintTextStyle,
+                                )
+                              ],
                             ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'Referral',
-                              style: graphHintTextStyle,
-                            )
                           ],
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
           const SizedBox(height: 10),
 
@@ -1570,66 +1592,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 'What are the traffic sources?',
                 style: normalTextStyle,
               ),
-              // Card(
-              //   elevation: 2,
-              //   child: Container(
-              //     height: 30,
-              //     // padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-              //     padding: const EdgeInsets.only(left: 10,right: 10),
-              //     // margin: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
-              //     decoration: BoxDecoration(
-              //       color: whiteColor,
-              //       borderRadius: BorderRadius.circular(5),
-              //     ),
-              //     child: DropdownButtonHideUnderline(
-              //       child: DropdownButton(
-              //         icon: const Icon(
-              //           Icons.keyboard_arrow_down_outlined,
-              //           color: blackColor,
-              //         ),
-              //         // iconSize: 0,
-              //         hint: trafficTimeDropDown == null
-              //             ? Row(
-              //           children: [
-              //             Text(
-              //                 'Monthly',
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //
-              //             const SizedBox(width: 5),
-              //           ],
-              //         )
-              //             : Row(
-              //           children: [
-              //             Text(
-              //                 trafficTimeDropDown,
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //             const SizedBox(width: 5),
-              //           ],
-              //         ),
-              //         value: trafficTimeDropDown,
-              //         onChanged: (newValue) {
-              //           setState(() {
-              //             isSelectedTrafficTime = true;
-              //             trafficTimeDropDown = newValue;
-              //           });
-              //         },
-              //         items: [
-              //           'Weekly',
-              //           'Monthly',
-              //         ].map((String value) {
-              //           return DropdownMenuItem<String>(
-              //             value: value,
-              //             child: Text(value,
-              //                 style: durationDropDownTextStyle
-              //             ),
-              //           );
-              //         }).toList(),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
           const SizedBox(height: 10),
@@ -2034,23 +1996,11 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   }
 }
 
-class WebsiteVisitData{
-  final String type;
-  final int value;
-  WebsiteVisitData(this.type,this.value);
-}
-
 class ChartData{
   ChartData(this.x, this.y1, this.y2, this.y3);
   final String x;
   final double y1;
   final double y2;
   final double y3;
-}
-
-class UsedDeviceData{
-  final String type;
-  final int value;
-  UsedDeviceData(this.type,this.value);
 }
 

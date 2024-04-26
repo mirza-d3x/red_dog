@@ -44,4 +44,13 @@ class AcquisitionRepository {
       ) =>
       webService?.get(getDeviceCategoryApi(googleId,googleToken,viewId,fromDate,toDate));
 
+  Future getTopChannelsByDateData(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate
+      ) =>
+      webService?.get(getTopChannelsByDateApi(googleId,googleToken,viewId,fromDate,toDate));
+
 }

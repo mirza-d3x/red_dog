@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
 import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
+import 'package:reddog_mobile_app/models/top_channels_by_date_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
 import '../core/live_data.dart';
@@ -21,6 +22,14 @@ class AcquisitionProvider extends ChangeNotifier {
 
   LiveData<UIState<AcquisitionTopChannelsModel>> topChannelsLiveData() {
     return this.topChannelsData;
+  }
+
+  // top channels by date
+  var topChannelsByDateModel = ChannelsByDateModel();
+  LiveData<UIState<ChannelsByDateModel>> topChannelsByDateData = LiveData<UIState<ChannelsByDateModel>>();
+
+  LiveData<UIState<ChannelsByDateModel>> topChannelsByDateLiveData() {
+    return this.topChannelsByDateData;
   }
 
   // traffic source
@@ -52,6 +61,7 @@ class AcquisitionProvider extends ChangeNotifier {
     trafficSourceData.setValue(Initial());
     mostVisitedPageData.setValue(Initial());
     deviceCategoryData.setValue(Initial());
+    topChannelsByDateData.setValue(Initial());
     notifyListeners();
   }
 
@@ -80,6 +90,36 @@ class AcquisitionProvider extends ChangeNotifier {
       }
     } catch (ex) {
       topChannelsData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // get top channels by date
+  // get top channels
+  getTopChannelsByDate(
+      dynamic fromDate,
+      dynamic toDate
+      ) async {
+    try {
+      topChannelsByDateData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      topChannelsByDateModel = await acquisitionRepository.getTopChannelsByDateData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate
+      );
+      if (topChannelsByDateModel.code == 200) {
+        topChannelsByDateData.setValue(Success(topChannelsByDateModel));
+      } else {
+        topChannelsByDateData.setValue(Failure(topChannelsByDateModel.toString()));
+      }
+    } catch (ex) {
+      topChannelsByDateData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
