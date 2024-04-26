@@ -38,6 +38,7 @@ class EnquiryLeadDetailsModel {
 
 class Datum {
   dynamic category;
+  String ? status;
   String ? id;
   String ? viewid;
   String ? name;
@@ -50,6 +51,7 @@ class Datum {
 
   Datum({
      this.category,
+    this.status,
      this.id,
      this.viewid,
      this.name,
@@ -63,6 +65,7 @@ class Datum {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     category: json["category"],
+    status: json["status"],
     id: json["_id"],
     viewid: json["viewid"],
     name: json["name"],
@@ -76,6 +79,7 @@ class Datum {
 
   Map<String, dynamic> toJson() => {
     "category": category,
+    "status": status,
     "_id": id,
     "viewid": viewid,
     "name": name,
