@@ -61,6 +61,8 @@ Resource<UpdateReadStatusModel> updateEnquiryReadStatusApi(
       url:
       'https://app.reddog.live/api/leads/updateReadStatus/$enquiryId',
       parse: (response) {
+        print('QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQqqqq');
+        print(response.body);
         Map<String, dynamic> updateReadStatusMap = jsonDecode(response.body);
         UpdateReadStatusModel updateReadStatusResult = UpdateReadStatusModel.fromJson(updateReadStatusMap);
         return updateReadStatusResult;

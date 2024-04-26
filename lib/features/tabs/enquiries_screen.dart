@@ -1728,6 +1728,19 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                               ],
                                             ),
                                             onPressed: () {
+                                              enquiryProvider.updateEnquiryStatus(
+                                                  data.enquiryLeadDetailsModel.data![index].id
+                                              );
+                                              enquiryProvider.getEnquiryLeadDetailsWithTileList(
+                                                  _selectedFromDate != null
+                                                      ?
+                                                  '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                                                      : formattedInitialdDate,
+                                                  _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+                                                      _selectedToDate)}' : formattedDate,
+                                                  '${data.leadDetailsWithTileFilterModel.data![index].category}'
+                                              );
+                                              getEnquiryCountMethod();
                                               Navigator.pop(context);
                                             },
                                           ),
