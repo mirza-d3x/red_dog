@@ -34,6 +34,7 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
   }
 
   TextEditingController noteController = TextEditingController();
+  TextEditingController updateNoteController = TextEditingController();
   EnquiryProvider enquiryProvider = EnquiryProvider(enquiryRepository: EnquiryRepository());
 
   @override
@@ -84,7 +85,52 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
     }
   }
 
+  onUpdateComment(dynamic commentId) async {
+    if (updateNoteController.text.isNotEmpty) {
+      setState(() {
+        isLoading = true;
+      });
+      await enquiryProvider.editComment(
+          commentId,
+          updateNoteController.text
+      );
+      if(enquiryProvider.updateCommentModel.message == "success") {
+        enquiryProvider.getCommentsList(widget.enquiryId);
+        FocusScope.of(context).unfocus();
+        updateNoteController.clear();
+        setState(() {
+          isLoading = false;
+          onEditClicked = false;
+        });
+      }else{
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final snackBar = SnackBar(
+            backgroundColor: Colors.blue,
+            content: Container(
+              height: 30,
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ooops!!Something went wrong.Please try again later!',
+                    // style: submitButtonText,
+                  )),
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Navigator.of(context).pop();
+        });
+      }
+    } else {
+      setState(() {
+        isLoading = false;
+        onEditClicked = false;
+        errorMessage = 'Enter your comments';
+      });
+    }
+  }
+
   bool isLoading = false;
+  bool onEditClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +140,7 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
         commentWidget(),
 
         const SizedBox(height: 20),
+        onEditClicked == false ?
         Padding(
           padding: const EdgeInsets.only(right: 10),
           child: TextField(
@@ -148,7 +195,7 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
             keyboardType: TextInputType.multiline,
             maxLines: 25,
           ),
-        ),
+        ) : SizedBox(),
       ],
     );
   }
@@ -220,7 +267,11 @@ Widget commentWidget(){
                                   ],
                                 ),
                                 onPressed: () {
-
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    onEditClicked = true;
+                                  });
+                                  updateNoteController.text = '${data.getCommentModel.data![index].message}';
                                 },
                               ),
                               height: 31,
@@ -253,6 +304,65 @@ Widget commentWidget(){
                   ),
 
                   const SizedBox(height: 8),
+
+                  onEditClicked == true ?
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: TextField(
+                      // style: postTextFieldStyle,
+                      autofocus: true,
+                      cursorColor: blackColor,
+                      controller: updateNoteController,
+                      onChanged: (_) => setState((){}),
+                      decoration:  InputDecoration(
+                        fillColor: blackColor,
+                        isDense: true,
+                        errorText: updateNoteController.text == '' ? errorMessage : '',
+                        hintText: 'Enter your Comments',
+                        hintStyle: hintTextStyle,
+                        suffixIcon:
+                        InkWell(
+                          onTap: (){
+                            onUpdateComment(
+                              '${data.getCommentModel.data![index].id}'
+                            );
+                          },
+                          child: isLoading == false ?
+                          const Icon(
+                            Icons.send_outlined,
+                            color: loginBgColor,
+                          ) :
+                          const CircularProgressIndicator(
+                            color: loginBgColor,
+                          ),
+                        ),
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: titleTextColor,
+                          ),
+                        ),
+                        enabledBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: titleTextColor,
+                          ),
+                        ),
+                        errorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: titleTextColor,
+                          ),
+                        ),
+                        focusedErrorBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: titleTextColor,
+                          ),
+                        ),
+                        // disabledBorder: InputBorder.none,
+                      ),
+                      minLines: 1, // any number you need (It works as the rows for the textarea)
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 25,
+                    ),
+                  ) : SizedBox()
                 ],
               ),
         );

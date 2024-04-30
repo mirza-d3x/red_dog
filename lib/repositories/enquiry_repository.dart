@@ -56,4 +56,9 @@ class EnquiryRepository {
       ) =>
       webService?.get(getUnreadEnquiriesApi(viewId,fromDate,toDate));
 
+  Future updateCommentData(
+      dynamic commentId,
+      dynamic comment,
+      ) =>
+      webService?.put(updateCommentApi(commentId,comment));
 }

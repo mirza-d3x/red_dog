@@ -4,6 +4,7 @@ import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
 import 'package:reddog_mobile_app/models/unread_enquiry_model.dart';
+import 'package:reddog_mobile_app/models/update_comment_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/lead_details_with_filter_tile_model.dart';
@@ -125,5 +126,22 @@ Resource<UnReadEnquiryModel> getUnreadEnquiriesApi(
         Map<String, dynamic> getUnreadEnquiriesMap = jsonDecode(response.body);
         UnReadEnquiryModel unreadEnquiryResult = UnReadEnquiryModel.fromJson(getUnreadEnquiriesMap);
         return unreadEnquiryResult;
+      });
+}
+
+Resource<UpdateCommentModel> updateCommentApi(
+    dynamic commentId,
+    dynamic comment,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/editComment/$commentId',
+      body: json.encode({
+        "comment": comment,
+      }),
+      parse: (response) {
+        Map<String, dynamic> updateCommentMap = json.decode(response.body);
+        var updateCommentResult = UpdateCommentModel.fromJson(updateCommentMap);
+        return updateCommentResult;
       });
 }

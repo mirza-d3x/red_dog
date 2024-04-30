@@ -7,6 +7,7 @@ import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/lead_details_with_filter_tile_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
 import 'package:reddog_mobile_app/models/unread_enquiry_model.dart';
+import 'package:reddog_mobile_app/models/update_comment_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 import '../core/live_data.dart';
@@ -74,6 +75,14 @@ class EnquiryProvider extends ChangeNotifier {
     return this.unreadEnquiryData;
   }
 
+  //update comment
+  var updateCommentModel = UpdateCommentModel();
+  LiveData<UIState<UpdateCommentModel>> editCommentData = LiveData<UIState<UpdateCommentModel>>();
+
+  LiveData<UIState<UpdateCommentModel>> editCommentLiveData() {
+    return this.editCommentData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
     enquiryLeadDetailsData.setValue(Initial());
@@ -82,6 +91,7 @@ class EnquiryProvider extends ChangeNotifier {
     postCommentsData.setValue(Initial());
     getCommentsData.setValue(Initial());
     unreadEnquiryData.setValue(Initial());
+    editCommentData.setValue(Initial());
     notifyListeners();
   }
 
@@ -243,6 +253,27 @@ class EnquiryProvider extends ChangeNotifier {
       }
     } catch (ex) {
       unreadEnquiryData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  editComment(
+      dynamic enquiryId,
+      dynamic comment
+      ) async {
+    try {
+      editCommentData.setValue(IsLoading());
+      updateCommentModel = await enquiryRepository.updateCommentData(
+          enquiryId,comment
+      );
+      if (updateCommentModel.code == 200) {
+        editCommentData.setValue(Success(updateCommentModel));
+      } else {
+        editCommentData.setValue(Failure(updateCommentModel.toString()));
+      }
+    } catch (ex) {
+      editCommentData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
