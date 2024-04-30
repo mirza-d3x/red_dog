@@ -48,75 +48,78 @@ class _SearchScreenState extends State<SearchScreen> {
               style: appBarTitleTextStyle,
             ),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: TextField(
-                    cursorColor: blackColor,
-                    cursorHeight: 21,
-                    controller: searchKeywordController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 4,left: 10),
-                      hintText: 'Search for your data',
-                      // hintStyle: searchTextStyle,
-                      filled: true,
-                      fillColor: whiteColor,
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.search, color: Colors.black),
-                        onPressed: () {
-                          if (searchKeywordController.text.isEmpty) {
-                            Dialog(
-                              child: Container(
-                                height: 305,
-                                decoration: BoxDecoration(
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
+          body: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: TextField(
+                  cursorColor: blackColor,
+                  cursorHeight: 21,
+                  controller: searchKeywordController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 4,left: 10),
+                    hintText: 'Search for your data',
+                    filled: true,
+                    fillColor: whiteColor,
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search, color: Colors.black),
+                      onPressed: () {
+                        if (searchKeywordController.text.isEmpty) {
+                          Dialog(
+                            child: Container(
+                              height: 305,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            );
-                            final snackBar = SnackBar(
-                              backgroundColor: loginBgColor,
-                              content: Container(
-                                height: 30,
-                                child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Please enter a keyword to search',
-                                      style:
-                                      TextStyle(color: blackColor),
-                                    )),
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                          } else {
-                            setState(() {
-                              apiCall = true;
-                            });
+                            ),
+                          );
+                          final snackBar = SnackBar(
+                            backgroundColor: loginBgColor,
+                            content: Container(
+                              height: 30,
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Please enter a keyword to search',
+                                    style:
+                                    TextStyle(color: blackColor),
+                                  )),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(snackBar);
+                        } else {
+                          setState(() {
                             searchProvider.fetchSearchList(searchKeywordController.text);
-                          }
-                        },
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(color: buildTextFormColor),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
-                        borderSide: const BorderSide(
-                          color: boxColor,
-                        ),
+                            apiCall = true;
+                          });
+                          // searchProvider.fetchSearchList(searchKeywordController.text);
+                        }
+                      },
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(color: buildTextFormColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: boxColor,
                       ),
                     ),
                   ),
                 ),
+              ),
 
-                  apiCall == false ? SizedBox() :
-                  searchResultWidget()
-              ],
-            ),
+                // apiCall == false ? SizedBox() :
+                // searchResultWidget()
+              Expanded(
+                child: SingleChildScrollView(
+                  child: apiCall == false ? SizedBox() : searchResultWidget(),
+                ),
+              ),
+            ],
           ),
         )
     );
@@ -320,48 +323,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                         '${data.searchModel.data![index].name}',
                                         style: nameTextStyle,
                                       ),
-
-                                      // PopupMenuButton(
-                                      //   child: Icon(
-                                      //     Icons.more_vert_outlined,
-                                      //     size: 20,
-                                      //   ),
-                                      //   itemBuilder: (BuildContext context) {
-                                      //     return <PopupMenuItem<String>>[
-                                      //       PopupMenuItem<String>(
-                                      //         child: TextButton(
-                                      //           child: Row(
-                                      //             mainAxisAlignment:
-                                      //             MainAxisAlignment.start,
-                                      //             children: [
-                                      //               Text(
-                                      //                 'Mark as Unread',
-                                      //                 style: popupMenuTextStyle,
-                                      //               ),
-                                      //             ],
-                                      //           ),
-                                      //           onPressed: () {
-                                      //             enquiryProvider.updateEnquiryStatus(
-                                      //                 data.enquiryLeadDetailsModel.data![index].id
-                                      //             );
-                                      //             enquiryProvider.getEnquiryLeadDetailsWithTileList(
-                                      //                 _selectedFromDate != null
-                                      //                     ?
-                                      //                 '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-                                      //                     : formattedInitialdDate,
-                                      //                 _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-                                      //                     _selectedToDate)}' : formattedDate,
-                                      //                 '${data.leadDetailsWithTileFilterModel.data![index].category}'
-                                      //             );
-                                      //             getEnquiryCountMethod();
-                                      //             Navigator.pop(context);
-                                      //           },
-                                      //         ),
-                                      //         height: 31,
-                                      //       ),
-                                      //     ];
-                                      //   },
-                                      // )
                                     ],
                                   ),
 
