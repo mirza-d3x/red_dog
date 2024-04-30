@@ -6,6 +6,7 @@ import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/lead_details_with_filter_tile_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
+import 'package:reddog_mobile_app/models/unread_enquiry_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 import '../core/live_data.dart';
@@ -65,6 +66,14 @@ class EnquiryProvider extends ChangeNotifier {
     return this.getCommentsData;
   }
 
+  //get unread enquiry list
+  var unreadEnquiryModel = UnReadEnquiryModel();
+  LiveData<UIState<UnReadEnquiryModel>> unreadEnquiryData = LiveData<UIState<UnReadEnquiryModel>>();
+
+  LiveData<UIState<UnReadEnquiryModel>> getUnreadEnquiryLiveData() {
+    return this.unreadEnquiryData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
     enquiryLeadDetailsData.setValue(Initial());
@@ -72,6 +81,7 @@ class EnquiryProvider extends ChangeNotifier {
     updateReadStatusData.setValue(Initial());
     postCommentsData.setValue(Initial());
     getCommentsData.setValue(Initial());
+    unreadEnquiryData.setValue(Initial());
     notifyListeners();
   }
 
@@ -208,6 +218,31 @@ class EnquiryProvider extends ChangeNotifier {
       }
     } catch (ex) {
       getCommentsData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  getUnreadEnquiryList(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      unreadEnquiryData.setValue(IsLoading());
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      unreadEnquiryModel = await enquiryRepository.getUnreadEnquiryData(
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate
+      );
+      if (unreadEnquiryModel.code == 200) {
+        unreadEnquiryData.setValue(Success(unreadEnquiryModel));
+      } else {
+        unreadEnquiryData.setValue(Failure(unreadEnquiryModel.toString()));
+      }
+    } catch (ex) {
+      unreadEnquiryData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }

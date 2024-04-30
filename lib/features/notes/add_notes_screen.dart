@@ -257,11 +257,8 @@ Widget commentWidget(){
               ),
         );
       }else if (state is Failure) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height / 1.3,
-          child: Center(
-              child: Text('No Comments')
-          ),
+        return Center(
+            child: Text('No Comments')
         );
       } else {
         return Container();

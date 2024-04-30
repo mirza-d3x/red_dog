@@ -3,6 +3,7 @@ import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
+import 'package:reddog_mobile_app/models/unread_enquiry_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 import 'package:http/http.dart' as http;
 import '../models/lead_details_with_filter_tile_model.dart';
@@ -110,4 +111,19 @@ Future<Object> deleteCommentApi(dynamic enquiryId,dynamic commentId) async {
     throw Exception('Failed to delete Comment.');
   }
   return response;
+}
+
+Resource<UnReadEnquiryModel> getUnreadEnquiriesApi(
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/getUnreadData/$viewId/$fromDate/$toDate',
+      parse: (response) {
+        Map<String, dynamic> getUnreadEnquiriesMap = jsonDecode(response.body);
+        UnReadEnquiryModel unreadEnquiryResult = UnReadEnquiryModel.fromJson(getUnreadEnquiriesMap);
+        return unreadEnquiryResult;
+      });
 }

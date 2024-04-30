@@ -99,6 +99,16 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
       DateTime.now().subtract(Duration(days: 30)));
 
   getEnquiryCountMethod(){
+
+    enquiryProvider.getUnreadEnquiryList(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+
     enquiryProvider.getEnquiryList(
         _selectedFromDate != null
             ?
@@ -549,608 +559,595 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
          onTileTap == true ? filterWithTileWidget() :
 
-          Consumer<EnquiryProvider>(builder: (ctx, data, _){
-            var state = data.enquiryLeadDetailsLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: loginBgColor,
-                  ),
-                ),
-              );
-            } else if (state is Success) {
-              return Column(
-                children: [
-                  // Lis
+             Column(
+               crossAxisAlignment: CrossAxisAlignment.start,
+               children: [
 
-                  // unreaded enquiries
-                  InkWell(
-                    onTap: (){
-                      showModalBottomSheet(
-                        enableDrag: true,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
-                        ),
-                        context: context,
-                        builder: (context){
-                          return Padding(
-                            padding: EdgeInsets.fromLTRB(
-                              20, 30, 20,
-                              MediaQuery.of(context).viewInsets.bottom,
-                            ),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // name
-                                  Text('Akshay M',
-                                    style: nameTextStyle,
-                                  ),
-                                  const SizedBox(height: 10),
+                 // unread enquiries
+                 Consumer<EnquiryProvider>(builder: (ctx, data, _){
+                   var state = data.getUnreadEnquiryLiveData().getValue();
+                   print(state);
+                   if (state is IsLoading) {
+                     return SizedBox(
+                       height: MediaQuery.of(context).size.height / 1.3,
+                       child: Center(
+                         child: CircularProgressIndicator(
+                           color: loginBgColor,
+                         ),
+                       ),
+                     );
+                   } else if (state is Success) {
+                     return ListView.builder(
+                       physics: const NeverScrollableScrollPhysics(),
+                       shrinkWrap: true,
+                       itemCount: data.unreadEnquiryModel.data!.length,
+                       itemBuilder: (context, index) => Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           InkWell(
+                             onTap: (){
+                               enquiryProvider.updateEnquiryStatus(
+                                   data.unreadEnquiryModel.data![index].id
+                               );
+                               showModalBottomSheet(
+                                 enableDrag: true,
+                                 isScrollControlled: true,
+                                 shape: const RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.only(
+                                       topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
+                                 ),
+                                 context: context,
+                                 builder: (context){
+                                   return Padding(
+                                     padding: EdgeInsets.fromLTRB(
+                                       20, 30, 20,
+                                       MediaQuery.of(context).viewInsets.bottom,
+                                     ),
+                                     child: SingleChildScrollView(
+                                       child: Column(
+                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                         children: [
+                                           // name
+                                           Text('${data.unreadEnquiryModel.data![index].name}',
+                                             style: nameTextStyle,
+                                           ),
+                                           const SizedBox(height: 10),
 
-                                  // email
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.email_outlined,
-                                        size: 15,
-                                        color: titleTextColor,
-                                      ),
+                                           // email
+                                           Row(
+                                             children: [
+                                               const Icon(
+                                                 Icons.email_outlined,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
 
-                                      const SizedBox(width: 5),
+                                               const SizedBox(width: 5),
 
-                                      Text(
-                                        'akshay@gmail.com',
-                                        style: subTextTextStyle,
-                                      )
-                                    ],
-                                  ),
+                                               Text(
+                                                 '${data.unreadEnquiryModel.data![index].email}',
+                                                 style: subTextTextStyle,
+                                               )
+                                             ],
+                                           ),
 
-                                  const SizedBox(height: 7),
+                                           const SizedBox(height: 7),
 
-                                  // contact number
-                                  InkWell(
-                                    onTap: (){
-                                      FlutterPhoneDirectCaller.callNumber('+919946451194');
-                                    },
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.phone_enabled,
-                                          size: 15,
-                                          color: titleTextColor,
-                                        ),
+                                           // contact number
+                                           InkWell(
+                                             onTap: (){
+                                               FlutterPhoneDirectCaller.callNumber('+91${data.unreadEnquiryModel.data![index].phone}');
+                                             },
+                                             child: Row(
+                                               children: [
+                                                 const Icon(
+                                                   Icons.phone_enabled,
+                                                   size: 15,
+                                                   color: titleTextColor,
+                                                 ),
 
-                                        const SizedBox(width: 5),
+                                                 const SizedBox(width: 5),
 
-                                        Text(
-                                          '+91 9946451194',
-                                          style: subTextTextStyle,
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                                 Text(
+                                                   '+91 ${data.unreadEnquiryModel.data![index].phone}',
+                                                   style: subTextTextStyle,
+                                                 )
+                                               ],
+                                             ),
+                                           ),
 
-                                  //  Calendar
-                                  const SizedBox(height: 7),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.calendar_month,
-                                        size: 15,
-                                        color: titleTextColor,
-                                      ),
+                                           //  Calendar
+                                           const SizedBox(height: 7),
+                                           Row(
+                                             children: [
+                                               const Icon(
+                                                 Icons.calendar_month,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
 
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        '29-03-2024',
-                                        style: subTextTextStyle,
-                                      ),
+                                               const SizedBox(width: 5),
+                                               Text(
+                                                 formatDateFromAPI(
+                                                     '${data.unreadEnquiryModel.data![index].date}'
+                                                 ),
+                                                 style: subTextTextStyle,
+                                               ),
 
-                                      const SizedBox(width: 15),
+                                               const SizedBox(width: 15),
 
-                                      const Icon(
-                                        CupertinoIcons.arrow_down_left,
-                                        size: 15,
-                                        color: titleTextColor,
-                                      ),
-                                      const SizedBox(width: 3),
-                                      Text(
-                                        'Contact Us',
-                                        style: subTextTextStyle,
-                                      ),
-                                    ],
-                                  ),
+                                               const Icon(
+                                                 CupertinoIcons.arrow_down_left,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
+                                               const SizedBox(width: 3),
+                                               Text(
+                                                 '${data.unreadEnquiryModel.data![index].category}',
+                                                 style: subTextTextStyle,
+                                               ),
+                                             ],
+                                           ),
 
-                                  // messages
-                                  const SizedBox(height: 7),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.message_outlined,
-                                        size: 15,
-                                        color: titleTextColor,
-                                      ),
+                                           // messages
+                                           const SizedBox(height: 7),
+                                           Row(
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Padding(
+                                                 padding: const EdgeInsets.only(top: 3),
+                                                 child: const Icon(
+                                                   Icons.message_outlined,
+                                                   size: 15,
+                                                   color: titleTextColor,
+                                                 ),
+                                               ),
 
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        'Message',
-                                        style: subTextTextStyle,
-                                      )
-                                    ],
-                                  ),
+                                               const SizedBox(width: 5),
+                                               Expanded(
+                                                 child:
+                                                 '${data.unreadEnquiryModel.data![index].message}' == "" ?
+                                                 Text(
+                                                   'No message',
+                                                   style: subTextTextStyle,
+                                                 ) :
+                                                 Text(
+                                                   '${data.unreadEnquiryModel.data![index].message}',
+                                                   style: subTextTextStyle,
+                                                 ),
+                                               )
+                                             ],
+                                           ),
 
-                                  const SizedBox(height: 15),
-                                  Text(
-                                    'Comments',
-                                    style: noteHeadingTextStyle,
-                                  ),
+                                           const SizedBox(height: 15),
+                                           Text(
+                                             'Comments',
+                                             style: noteHeadingTextStyle,
+                                           ),
 
-                                  const SizedBox(height: 10),
+                                           const SizedBox(height: 10),
 
-                                  AddNotesWidget(''),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ).then((value) {
-                        setState(() {
-                          isOpenedNewMessage = true;
-                        });
-                        // This function is called when the modal sheet is dismissed
-                        print('Modal sheet dismissed');
-                        // Add your function here
-                      });
-                    },
-                    child: Card(
-                      elevation: 2,
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: isOpenedNewMessage == false ?highlightingColor : whiteColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: highlightingColor.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 90,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Akshay M',
-                                  style: nameTextStyle,
-                                ),
-                                PopupMenuButton(
-                                  child: Icon(
-                                    Icons.more_vert_outlined,
-                                    size: 20,
-                                  ),
-                                  itemBuilder: (BuildContext context) {
-                                    return <PopupMenuItem<String>>[
-                                      PopupMenuItem<String>(
-                                        child: TextButton(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Mark as Read',
-                                                style: popupMenuTextStyle,
-                                              ),
-                                            ],
-                                          ),
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        height: 31,
-                                      ),
-                                    ];
-                                  },
-                                )
-                              ],
-                            ),
+                                           AddNotesWidget(
+                                               '${data.unreadEnquiryModel.data![index].id}'
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   );
+                                 },
+                               ).then((value) {
+                                 getEnquiryCountMethod();
+                                 // This function is called when the modal sheet is dismissed
+                                 print('Modal sheet dismissed');
+                                 // Add your function here
+                               });
+                             },
+                             child: Card(
+                               elevation: 2,
+                               child: Container(
+                                   width: double.infinity,
+                                   decoration: BoxDecoration(
+                                     color: highlightingColor,
+                                     borderRadius: BorderRadius.circular(2),
+                                   ),
+                                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                   child: IntrinsicHeight(
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Row(
+                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                           children: [
+                                             Text(
+                                               '${data.unreadEnquiryModel.data![index].name}',
+                                               style: nameTextStyle,
+                                             ),
 
-                            const SizedBox(height: 8),
+                                             PopupMenuButton(
+                                               child: Icon(
+                                                 Icons.more_vert_outlined,
+                                                 size: 20,
+                                               ),
+                                               itemBuilder: (BuildContext context) {
+                                                 return <PopupMenuItem<String>>[
+                                                   PopupMenuItem<String>(
+                                                     child: TextButton(
+                                                       child: Row(
+                                                         mainAxisAlignment:
+                                                         MainAxisAlignment.start,
+                                                         children: [
+                                                           Text(
+                                                             'Mark as Unread',
+                                                             style: popupMenuTextStyle,
+                                                           ),
+                                                         ],
+                                                       ),
+                                                       onPressed: () {
+                                                         enquiryProvider.updateEnquiryStatus(
+                                                             data.unreadEnquiryModel.data![index].id
+                                                         );
+                                                         getEnquiryCountMethod();
+                                                         Navigator.pop(context);
+                                                       },
+                                                     ),
+                                                     height: 31,
+                                                   ),
+                                                 ];
+                                               },
+                                             )
+                                           ],
+                                         ),
 
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.email_outlined,
-                                  size: 15,
-                                  color: titleTextColor,
-                                ),
+                                         const SizedBox(height: 8),
 
-                                const SizedBox(width: 5),
+                                         Row(
+                                           children: [
+                                             const Icon(
+                                               Icons.email_outlined,
+                                               size: 15,
+                                               color: titleTextColor,
+                                             ),
 
-                                Text(
-                                  'akshay@gmail.com',
-                                  style: subTextTextStyle,
-                                )
-                              ],
-                            ),
+                                             const SizedBox(width: 5),
 
-                            const SizedBox(height: 5),
-                            InkWell(
-                              onTap: (){
-                                FlutterPhoneDirectCaller.callNumber('+919946451194');
-                              },
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.phone_enabled,
-                                    size: 15,
-                                    color: titleTextColor,
-                                  ),
+                                             Text(
+                                               '${data.unreadEnquiryModel.data![index].email}',
+                                               style: subTextTextStyle,
+                                             )
+                                           ],
+                                         ),
 
-                                  const SizedBox(width: 5),
+                                         const SizedBox(height: 5),
+                                         InkWell(
+                                           onTap: (){
+                                             FlutterPhoneDirectCaller.callNumber('+91${data.unreadEnquiryModel.data![index].phone}');
+                                           },
+                                           child: Row(
+                                             children: [
+                                               const Icon(
+                                                 Icons.phone_enabled,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
 
-                                  Text(
-                                    '+91 9946451194',
-                                    style: subTextTextStyle,
-                                  )
-                                ],
-                              ),
-                            ),
-                            // Row(
-                            //   children: [
-                            //     const Icon(
-                            //       Icons.phone_enabled,
-                            //       size: 15,
-                            //       color: titleTextColor,
-                            //     ),
-                            //
-                            //     const SizedBox(width: 5),
-                            //
-                            //     Text(
-                            //         '9785507650',
-                            //       style: subTextTextStyle,
-                            //     )
-                            //   ],
-                            // ),
-                            //
-                            // const SizedBox(height: 5),
-                            // Row(
-                            //   children: [
-                            //     const Icon(
-                            //       Icons.calendar_month,
-                            //       size: 15,
-                            //       color: titleTextColor,
-                            //     ),
-                            //
-                            //     const SizedBox(width: 5),
-                            //     Text(
-                            //       '29-03-2024',
-                            //       style: subTextTextStyle,
-                            //     ),
-                            //
-                            //     const SizedBox(width: 15),
-                            //
-                            //     const Icon(
-                            //       CupertinoIcons.arrow_down_left,
-                            //       size: 15,
-                            //       color: titleTextColor,
-                            //     ),
-                            //     const SizedBox(width: 3),
-                            //     Text(
-                            //         'Contact Us',
-                            //       style: subTextTextStyle,
-                            //     ),
-                            //   ],
-                            // ),
-                            //
-                            // const SizedBox(height: 5),
-                            // Row(
-                            //   children: [
-                            //     const Icon(
-                            //       Icons.message_outlined,
-                            //       size: 15,
-                            //       color: titleTextColor,
-                            //     ),
-                            //
-                            //     const SizedBox(width: 5),
-                            //     Text(
-                            //       'Message',
-                            //       style: subTextTextStyle,
-                            //     )
-                            //   ],
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                                               const SizedBox(width: 5),
 
-                  const SizedBox(height: 10),
+                                               Text(
+                                                 '+91 ${data.unreadEnquiryModel.data![index].phone}',
+                                                 style: subTextTextStyle,
+                                               )
+                                             ],
+                                           ),
+                                         ),
+                                       ],
+                                     ),
+                                   )
+                               ),
+                             ),
+                           ),
 
-                  // readed enquiry list
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: data.enquiryLeadDetailsModel.data!.length,
-                    itemBuilder: (context, index) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            showModalBottomSheet(
-                              enableDrag: true,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
-                              ),
-                              context: context,
-                              builder: (context){
-                                return Padding(
-                                  padding: EdgeInsets.fromLTRB(
-                                    20, 30, 20,
-                                    MediaQuery.of(context).viewInsets.bottom,
-                                  ),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        // name
-                                        Text('${data.enquiryLeadDetailsModel.data![index].name}',
-                                          style: nameTextStyle,
-                                        ),
-                                        const SizedBox(height: 10),
+                           const SizedBox(height: 7),
+                         ],
+                       ),
+                     );
+                   }else if (state is Failure) {
+                     return SizedBox();
+                   } else {
+                     return Container();
+                   }
+                 }),
 
-                                        // email
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.email_outlined,
-                                              size: 15,
-                                              color: titleTextColor,
-                                            ),
+                 const SizedBox(height: 10),
 
-                                            const SizedBox(width: 5),
+                 // read enquiries
+                 Consumer<EnquiryProvider>(builder: (ctx, data, _){
+                   var state = data.enquiryLeadDetailsLiveData().getValue();
+                   print(state);
+                   if (state is IsLoading) {
+                     return SizedBox(
+                       height: MediaQuery.of(context).size.height / 1.3,
+                       child: Center(
+                         child: CircularProgressIndicator(
+                           color: loginBgColor,
+                         ),
+                       ),
+                     );
+                   } else if (state is Success) {
+                     return ListView.builder(
+                       physics: const NeverScrollableScrollPhysics(),
+                       shrinkWrap: true,
+                       itemCount: data.enquiryLeadDetailsModel.data!.length,
+                       itemBuilder: (context, index) => Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           InkWell(
+                             onTap: (){
+                               showModalBottomSheet(
+                                 enableDrag: true,
+                                 isScrollControlled: true,
+                                 shape: const RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.only(
+                                       topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
+                                 ),
+                                 context: context,
+                                 builder: (context){
+                                   return Padding(
+                                     padding: EdgeInsets.fromLTRB(
+                                       20, 30, 20,
+                                       MediaQuery.of(context).viewInsets.bottom,
+                                     ),
+                                     child: SingleChildScrollView(
+                                       child: Column(
+                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                         children: [
+                                           // name
+                                           Text('${data.enquiryLeadDetailsModel.data![index].name}',
+                                             style: nameTextStyle,
+                                           ),
+                                           const SizedBox(height: 10),
 
-                                            Text(
-                                              '${data.enquiryLeadDetailsModel.data![index].email}',
-                                              style: subTextTextStyle,
-                                            )
-                                          ],
-                                        ),
+                                           // email
+                                           Row(
+                                             children: [
+                                               const Icon(
+                                                 Icons.email_outlined,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
 
-                                        const SizedBox(height: 7),
+                                               const SizedBox(width: 5),
 
-                                        // contact number
-                                        InkWell(
-                                          onTap: (){
-                                            FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
-                                          },
-                                          child: Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.phone_enabled,
-                                                size: 15,
-                                                color: titleTextColor,
-                                              ),
+                                               Text(
+                                                 '${data.enquiryLeadDetailsModel.data![index].email}',
+                                                 style: subTextTextStyle,
+                                               )
+                                             ],
+                                           ),
 
-                                              const SizedBox(width: 5),
+                                           const SizedBox(height: 7),
 
-                                              Text(
-                                                '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
-                                                style: subTextTextStyle,
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                           // contact number
+                                           InkWell(
+                                             onTap: (){
+                                               FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+                                             },
+                                             child: Row(
+                                               children: [
+                                                 const Icon(
+                                                   Icons.phone_enabled,
+                                                   size: 15,
+                                                   color: titleTextColor,
+                                                 ),
 
-                                        //  Calendar
-                                        const SizedBox(height: 7),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.calendar_month,
-                                              size: 15,
-                                              color: titleTextColor,
-                                            ),
+                                                 const SizedBox(width: 5),
 
-                                            const SizedBox(width: 5),
-                                            Text(
-                                              formatDateFromAPI(
-                                                '${data.enquiryLeadDetailsModel.data![index].date}'
-                                              ),
-                                              style: subTextTextStyle,
-                                            ),
+                                                 Text(
+                                                   '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+                                                   style: subTextTextStyle,
+                                                 )
+                                               ],
+                                             ),
+                                           ),
 
-                                            const SizedBox(width: 15),
+                                           //  Calendar
+                                           const SizedBox(height: 7),
+                                           Row(
+                                             children: [
+                                               const Icon(
+                                                 Icons.calendar_month,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
 
-                                            const Icon(
-                                              CupertinoIcons.arrow_down_left,
-                                              size: 15,
-                                              color: titleTextColor,
-                                            ),
-                                            const SizedBox(width: 3),
-                                            Text(
-                                              '${data.enquiryLeadDetailsModel.data![index].category}',
-                                              style: subTextTextStyle,
-                                            ),
-                                          ],
-                                        ),
+                                               const SizedBox(width: 5),
+                                               Text(
+                                                 formatDateFromAPI(
+                                                     '${data.enquiryLeadDetailsModel.data![index].date}'
+                                                 ),
+                                                 style: subTextTextStyle,
+                                               ),
 
-                                        // messages
-                                        const SizedBox(height: 7),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 3),
-                                              child: const Icon(
-                                                Icons.message_outlined,
-                                                size: 15,
-                                                color: titleTextColor,
-                                              ),
-                                            ),
+                                               const SizedBox(width: 15),
 
-                                            const SizedBox(width: 5),
-                                            Expanded(
-                                              child:
-                                              '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
-                                                  Text(
-                                                    'No message',
-                                                    style: subTextTextStyle,
-                                                  ) :
-                                              Text(
-                                                '${data.enquiryLeadDetailsModel.data![index].message}',
-                                                style: subTextTextStyle,
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                               const Icon(
+                                                 CupertinoIcons.arrow_down_left,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
+                                               const SizedBox(width: 3),
+                                               Text(
+                                                 '${data.enquiryLeadDetailsModel.data![index].category}',
+                                                 style: subTextTextStyle,
+                                               ),
+                                             ],
+                                           ),
 
-                                        const SizedBox(height: 15),
-                                        Text(
-                                          'Comments',
-                                          style: noteHeadingTextStyle,
-                                        ),
+                                           // messages
+                                           const SizedBox(height: 7),
+                                           Row(
+                                             mainAxisAlignment: MainAxisAlignment.start,
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               Padding(
+                                                 padding: const EdgeInsets.only(top: 3),
+                                                 child: const Icon(
+                                                   Icons.message_outlined,
+                                                   size: 15,
+                                                   color: titleTextColor,
+                                                 ),
+                                               ),
 
-                                        const SizedBox(height: 10),
+                                               const SizedBox(width: 5),
+                                               Expanded(
+                                                 child:
+                                                 '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
+                                                 Text(
+                                                   'No message',
+                                                   style: subTextTextStyle,
+                                                 ) :
+                                                 Text(
+                                                   '${data.enquiryLeadDetailsModel.data![index].message}',
+                                                   style: subTextTextStyle,
+                                                 ),
+                                               )
+                                             ],
+                                           ),
 
-                                        AddNotesWidget(
-                                            '${data.enquiryLeadDetailsModel.data![index].id}'
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                          },
-                          child: Card(
-                            elevation: 2,
-                            child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: whiteColor,
-                                  borderRadius: BorderRadius.circular(2),
-                                ),
-                                padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                                child: IntrinsicHeight(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '${data.enquiryLeadDetailsModel.data![index].name}',
-                                            style: nameTextStyle,
-                                          ),
+                                           const SizedBox(height: 15),
+                                           Text(
+                                             'Comments',
+                                             style: noteHeadingTextStyle,
+                                           ),
 
-                                          PopupMenuButton(
-                                            child: Icon(
-                                              Icons.more_vert_outlined,
-                                              size: 20,
-                                            ),
-                                            itemBuilder: (BuildContext context) {
-                                              return <PopupMenuItem<String>>[
-                                                PopupMenuItem<String>(
-                                                  child: TextButton(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          'Mark as Unread',
-                                                          style: popupMenuTextStyle,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    onPressed: () {
-                                                      enquiryProvider.updateEnquiryStatus(
-                                                        data.enquiryLeadDetailsModel.data![index].id
-                                                      );
-                                                      getEnquiryCountMethod();
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                  height: 31,
-                                                ),
-                                              ];
-                                            },
-                                          )
-                                        ],
-                                      ),
+                                           const SizedBox(height: 10),
 
-                                      const SizedBox(height: 8),
+                                           AddNotesWidget(
+                                               '${data.enquiryLeadDetailsModel.data![index].id}'
+                                           ),
+                                         ],
+                                       ),
+                                     ),
+                                   );
+                                 },
+                               );
+                             },
+                             child: Card(
+                               elevation: 2,
+                               child: Container(
+                                   width: double.infinity,
+                                   decoration: BoxDecoration(
+                                     color: whiteColor,
+                                     borderRadius: BorderRadius.circular(2),
+                                   ),
+                                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                                   child: IntrinsicHeight(
+                                     child: Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         Row(
+                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                           children: [
+                                             Text(
+                                               '${data.enquiryLeadDetailsModel.data![index].name}',
+                                               style: nameTextStyle,
+                                             ),
 
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.email_outlined,
-                                            size: 15,
-                                            color: titleTextColor,
-                                          ),
+                                             PopupMenuButton(
+                                               child: Icon(
+                                                 Icons.more_vert_outlined,
+                                                 size: 20,
+                                               ),
+                                               itemBuilder: (BuildContext context) {
+                                                 return <PopupMenuItem<String>>[
+                                                   PopupMenuItem<String>(
+                                                     child: TextButton(
+                                                       child: Row(
+                                                         mainAxisAlignment:
+                                                         MainAxisAlignment.start,
+                                                         children: [
+                                                           Text(
+                                                             'Mark as Unread',
+                                                             style: popupMenuTextStyle,
+                                                           ),
+                                                         ],
+                                                       ),
+                                                       onPressed: () {
+                                                         enquiryProvider.updateEnquiryStatus(
+                                                             data.enquiryLeadDetailsModel.data![index].id
+                                                         );
+                                                         getEnquiryCountMethod();
+                                                         Navigator.pop(context);
+                                                       },
+                                                     ),
+                                                     height: 31,
+                                                   ),
+                                                 ];
+                                               },
+                                             )
+                                           ],
+                                         ),
 
-                                          const SizedBox(width: 5),
+                                         const SizedBox(height: 8),
 
-                                          Text(
-                                            '${data.enquiryLeadDetailsModel.data![index].email}',
-                                            style: subTextTextStyle,
-                                          )
-                                        ],
-                                      ),
+                                         Row(
+                                           children: [
+                                             const Icon(
+                                               Icons.email_outlined,
+                                               size: 15,
+                                               color: titleTextColor,
+                                             ),
 
-                                      const SizedBox(height: 5),
-                                      InkWell(
-                                        onTap: (){
-                                          FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
-                                        },
-                                        child: Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.phone_enabled,
-                                              size: 15,
-                                              color: titleTextColor,
-                                            ),
+                                             const SizedBox(width: 5),
 
-                                            const SizedBox(width: 5),
+                                             Text(
+                                               '${data.enquiryLeadDetailsModel.data![index].email}',
+                                               style: subTextTextStyle,
+                                             )
+                                           ],
+                                         ),
 
-                                            Text(
-                                              '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
-                                              style: subTextTextStyle,
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                            ),
-                          ),
-                        ),
+                                         const SizedBox(height: 5),
+                                         InkWell(
+                                           onTap: (){
+                                             FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+                                           },
+                                           child: Row(
+                                             children: [
+                                               const Icon(
+                                                 Icons.phone_enabled,
+                                                 size: 15,
+                                                 color: titleTextColor,
+                                               ),
 
-                        const SizedBox(height: 7),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            }else if (state is Failure) {
-              return SizedBox();
-            } else {
-              return Container();
-            }
-          }),
+                                               const SizedBox(width: 5),
+
+                                               Text(
+                                                 '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+                                                 style: subTextTextStyle,
+                                               )
+                                             ],
+                                           ),
+                                         ),
+                                       ],
+                                     ),
+                                   )
+                               ),
+                             ),
+                           ),
+
+                           const SizedBox(height: 7),
+                         ],
+                       ),
+                     );
+                   }else if (state is Failure) {
+                     return SizedBox();
+                   } else {
+                     return Container();
+                   }
+                 }),
+               ],
+             ),
         ],
       ),
     );

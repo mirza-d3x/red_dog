@@ -49,4 +49,11 @@ class EnquiryRepository {
       ) =>
       webService?.get(getCommentsApi(leadId));
 
+  Future getUnreadEnquiryData(
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate,
+      ) =>
+      webService?.get(getUnreadEnquiriesApi(viewId,fromDate,toDate));
+
 }
