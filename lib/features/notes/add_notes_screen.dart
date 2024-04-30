@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/providers/enquiry_provider.dart';
 import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
+import 'package:reddog_mobile_app/services/enquiry_service.dart';
 
+import '../../core/ui_state.dart';
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 
@@ -33,12 +36,12 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
   TextEditingController noteController = TextEditingController();
   EnquiryProvider enquiryProvider = EnquiryProvider(enquiryRepository: EnquiryRepository());
 
-  // onSubmit(){
-  //   final isValidNote = validateNote(noteController.text);
-  //   if(isValidNote){
-  //     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(false)));
-  //   }
-  // }
+  @override
+  void initState(){
+    super.initState();
+    enquiryProvider.getCommentsList(widget.enquiryId);
+  }
+
   onSubmitComment() async {
     if (noteController.text.isNotEmpty) {
       setState(() {
@@ -49,7 +52,7 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
           noteController.text
       );
       if(enquiryProvider.postCommentModel.message == "success") {
-        // enquiryProvider.getChannelConnectPost(widget.channelId);
+        enquiryProvider.getCommentsList(widget.enquiryId);
         FocusScope.of(context).unfocus();
         noteController.clear();
         setState(() {
@@ -88,85 +91,7 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListView.builder(
-          itemCount: 5,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, index) =>
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(8),
-                              topLeft: Radius.circular(8),
-                              bottomLeft: Radius.circular(8),
-                            ),
-                            color: unselectedRadioColor
-                        ),
-                        child: Text(
-                          'Previous notes',
-                          style: noteTextStyle,
-                        ),
-                      ),
-
-                      const SizedBox(width: 25),
-
-                      PopupMenuButton(
-                        child: Icon(
-                          Icons.more_vert_outlined,
-                          size: 20,
-                        ),
-                        itemBuilder: (BuildContext context) {
-                          return <PopupMenuItem<String>>[
-                            PopupMenuItem<String>(
-                              child: TextButton(
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Edit',
-                                      style: popupMenuTextStyle,
-                                    ),
-                                  ],
-                                ),
-                                onPressed: () {
-
-                                },
-                              ),
-                              height: 31,
-                            ),
-                            PopupMenuItem<String>(
-                              child: TextButton(
-                                child: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  children: [
-                                    Text('Remove',
-                                        style: popupMenuTextStyle
-                                    ),
-                                  ],
-                                ),
-                                onPressed: () {
-                                },
-                              ),
-                              height: 31,
-                            ),
-                          ];
-                        },
-                      )
-                    ],
-                  ),
-
-                  const SizedBox(height: 8),
-                ],
-              ),
-        ),
+        commentWidget(),
 
         const SizedBox(height: 20),
         Padding(
@@ -227,4 +152,122 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
       ],
     );
   }
+
+Widget commentWidget(){
+    return ChangeNotifierProvider<EnquiryProvider>(
+      create: (ctx) {
+        return enquiryProvider;
+      },
+  child: Consumer<EnquiryProvider>(
+    builder: (ctx, data, _) {
+      var state = data.getCommentsLiveData().getValue();
+      print(state);
+      if (state is IsLoading) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height / 1.3,
+          child: Center(
+            child: CircularProgressIndicator(
+              color: loginBgColor,
+            ),
+          ),
+        );
+      }else if (state is Success) {
+        return ListView.builder(
+          itemCount: data.getCommentModel.data!.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, index) =>
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              topLeft: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                            ),
+                            color: unselectedRadioColor
+                        ),
+                        child: Text(
+                          '${data.getCommentModel.data![index].message}',
+                          style: noteTextStyle,
+                        ),
+                      ),
+
+                      const SizedBox(width: 25),
+
+                      PopupMenuButton(
+                        child: Icon(
+                          Icons.more_vert_outlined,
+                          size: 20,
+                        ),
+                        itemBuilder: (BuildContext context) {
+                          return <PopupMenuItem<String>>[
+                            PopupMenuItem<String>(
+                              child: TextButton(
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Edit',
+                                      style: popupMenuTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+
+                                },
+                              ),
+                              height: 31,
+                            ),
+                            PopupMenuItem<String>(
+                              child: TextButton(
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    Text('Remove',
+                                        style: popupMenuTextStyle
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  deleteCommentApi(
+                                      widget.enquiryId,
+                                      '${data.getCommentModel.data![index].id}');
+                                  enquiryProvider.getCommentsList(widget.enquiryId);
+                                },
+                              ),
+                              height: 31,
+                            ),
+                          ];
+                        },
+                      )
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+                ],
+              ),
+        );
+      }else if (state is Failure) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height / 1.3,
+          child: Center(
+              child: Text('No Comments')
+          ),
+        );
+      } else {
+        return Container();
+      }
+    },
+  ),
+    );
+}
 }

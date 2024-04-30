@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
+import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/lead_details_with_filter_tile_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
@@ -56,12 +57,21 @@ class EnquiryProvider extends ChangeNotifier {
     return this.postCommentsData;
   }
 
+  //get comments list
+  var getCommentModel = GetCommentsModel();
+  LiveData<UIState<GetCommentsModel>> getCommentsData = LiveData<UIState<GetCommentsModel>>();
+
+  LiveData<UIState<GetCommentsModel>> getCommentsLiveData() {
+    return this.getCommentsData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
     enquiryLeadDetailsData.setValue(Initial());
     leadDetailsWithTileFilterData.setValue(Initial());
     updateReadStatusData.setValue(Initial());
     postCommentsData.setValue(Initial());
+    getCommentsData.setValue(Initial());
     notifyListeners();
   }
 
@@ -184,4 +194,23 @@ class EnquiryProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  getCommentsList(
+      dynamic leadId,
+      ) async {
+    try {
+      getCommentsData.setValue(IsLoading());
+      getCommentModel = await enquiryRepository.getCommentData(leadId);
+      if (getCommentModel.code == 200) {
+        getCommentsData.setValue(Success(getCommentModel));
+      } else {
+        getCommentsData.setValue(Failure(getCommentModel.toString()));
+      }
+    } catch (ex) {
+      getCommentsData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
 }
+

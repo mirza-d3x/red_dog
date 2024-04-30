@@ -44,4 +44,9 @@ class EnquiryRepository {
       ) =>
       webService?.put(postCommentApi(enquiryId,comment));
 
+  Future getCommentData(
+      dynamic leadId,
+      ) =>
+      webService?.get(getCommentsApi(leadId));
+
 }

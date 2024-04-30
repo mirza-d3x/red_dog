@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
+import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
 import 'package:http/http.dart' as http;
@@ -83,18 +84,28 @@ Resource<PostCommentModel> postCommentApi(
       });
 }
 
+Resource<GetCommentsModel> getCommentsApi(
+    dynamic leadId,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/viewComment/$leadId',
+      parse: (response) {
+        Map<String, dynamic> getCommentsListMap = jsonDecode(response.body);
+        GetCommentsModel getCommentsListResult = GetCommentsModel.fromJson(getCommentsListMap);
+        return getCommentsListResult;
+      });
+}
+
 Future<Object> deleteCommentApi(dynamic enquiryId,dynamic commentId) async {
   String token = await getToken();
-  final http.Response response = await http.delete(
+  final http.Response response = await http.put(
     Uri.parse(
         'https://app.reddog.live/api/leads/removeComment/$enquiryId/$commentId'
     ),
-    // headers: <String, String>{
-    //   "x-auth-token": token,
-    // },
   );
   if (response.statusCode == 200) {
-    return EnquiryLeadDetailsModel.fromJson(jsonDecode(response.body));
+    return GetCommentsModel.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to delete Comment.');
   }
