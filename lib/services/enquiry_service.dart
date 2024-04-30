@@ -3,7 +3,7 @@ import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
 import 'package:reddog_mobile_app/models/update_read_status_model.dart';
-
+import 'package:http/http.dart' as http;
 import '../models/lead_details_with_filter_tile_model.dart';
 import '../utilities/api_helpers.dart';
 
@@ -81,4 +81,22 @@ Resource<PostCommentModel> postCommentApi(
         var postCommentResult = PostCommentModel.fromJson(postCommentMap);
         return postCommentResult;
       });
+}
+
+Future<Object> deleteCommentApi(dynamic enquiryId,dynamic commentId) async {
+  String token = await getToken();
+  final http.Response response = await http.delete(
+    Uri.parse(
+        'https://app.reddog.live/api/leads/removeComment/$enquiryId/$commentId'
+    ),
+    // headers: <String, String>{
+    //   "x-auth-token": token,
+    // },
+  );
+  if (response.statusCode == 200) {
+    return EnquiryLeadDetailsModel.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to delete Comment.');
+  }
+  return response;
 }
