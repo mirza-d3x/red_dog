@@ -1035,48 +1035,25 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                               builder: (context){
                                 return FractionallySizedBox(
                                   heightFactor: 0.9,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(20),
-                                    child: Wrap(
-                                      children: [
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            // name
-                                            Text('${data.enquiryLeadDetailsModel.data![index].name}',
-                                              style: nameTextStyle,
-                                            ),
-                                            const SizedBox(height: 10),
+                                  child: SingleChildScrollView(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Wrap(
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              // name
+                                              Text('${data.enquiryLeadDetailsModel.data![index].name}',
+                                                style: nameTextStyle,
+                                              ),
+                                              const SizedBox(height: 10),
 
-                                            // email
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.email_outlined,
-                                                  size: 15,
-                                                  color: titleTextColor,
-                                                ),
-
-                                                const SizedBox(width: 5),
-
-                                                Text(
-                                                  '${data.enquiryLeadDetailsModel.data![index].email}',
-                                                  style: subTextTextStyle,
-                                                )
-                                              ],
-                                            ),
-
-                                            const SizedBox(height: 7),
-
-                                            // contact number
-                                            InkWell(
-                                              onTap: (){
-                                                FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
-                                              },
-                                              child: Row(
+                                              // email
+                                              Row(
                                                 children: [
                                                   const Icon(
-                                                    Icons.phone_enabled,
+                                                    Icons.email_outlined,
                                                     size: 15,
                                                     color: titleTextColor,
                                                   ),
@@ -1084,227 +1061,197 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                                                   const SizedBox(width: 5),
 
                                                   Text(
-                                                    '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+                                                    '${data.enquiryLeadDetailsModel.data![index].email}',
                                                     style: subTextTextStyle,
                                                   )
                                                 ],
                                               ),
-                                            ),
 
-                                            //  Calendar
-                                            const SizedBox(height: 7),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.calendar_month,
-                                                  size: 15,
-                                                  color: titleTextColor,
+                                              const SizedBox(height: 7),
+
+                                              // contact number
+                                              InkWell(
+                                                onTap: (){
+                                                  FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    const Icon(
+                                                      Icons.phone_enabled,
+                                                      size: 15,
+                                                      color: titleTextColor,
+                                                    ),
+
+                                                    const SizedBox(width: 5),
+
+                                                    Text(
+                                                      '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+                                                      style: subTextTextStyle,
+                                                    )
+                                                  ],
                                                 ),
+                                              ),
 
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                  formatDateFromAPI(
-                                                    '${data.enquiryLeadDetailsModel.data![index].date}'
-                                                  ),
-                                                  style: subTextTextStyle,
-                                                ),
-
-                                                const SizedBox(width: 15),
-
-                                                const Icon(
-                                                  CupertinoIcons.arrow_down_left,
-                                                  size: 15,
-                                                  color: titleTextColor,
-                                                ),
-                                                const SizedBox(width: 3),
-                                                Text(
-                                                  '${data.enquiryLeadDetailsModel.data![index].category}',
-                                                  style: subTextTextStyle,
-                                                ),
-                                              ],
-                                            ),
-
-                                            // messages
-                                            const SizedBox(height: 7),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsets.only(top: 3),
-                                                  child: const Icon(
-                                                    Icons.message_outlined,
+                                              //  Calendar
+                                              const SizedBox(height: 7),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.calendar_month,
                                                     size: 15,
                                                     color: titleTextColor,
                                                   ),
-                                                ),
 
-                                                const SizedBox(width: 5),
-                                                Expanded(
-                                                  child:
-                                                  '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
-                                                      Text(
-                                                        'No message',
-                                                        style: subTextTextStyle,
-                                                      ) :
+                                                  const SizedBox(width: 5),
                                                   Text(
-                                                    '${data.enquiryLeadDetailsModel.data![index].message}',
+                                                    formatDateFromAPI(
+                                                      '${data.enquiryLeadDetailsModel.data![index].date}'
+                                                    ),
                                                     style: subTextTextStyle,
                                                   ),
-                                                )
-                                              ],
-                                            ),
 
-                                            const SizedBox(height: 15),
-                                            Text(
-                                              'Comments',
-                                              style: noteHeadingTextStyle,
-                                            ),
+                                                  const SizedBox(width: 15),
 
-                                            const SizedBox(height: 10),
-                                            ListView.builder(
-                                              itemCount: 5,
-                                              shrinkWrap: true,
-                                              physics: const AlwaysScrollableScrollPhysics(),
-                                              itemBuilder: (BuildContext context, index) =>
-                                                  Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Container(
-                                                            padding: EdgeInsets.all(10),
-                                                            decoration: BoxDecoration(
-                                                                borderRadius: const BorderRadius.only(
-                                                                  topRight: Radius.circular(8),
-                                                                  topLeft: Radius.circular(8),
-                                                                  bottomLeft: Radius.circular(8),
-                                                                ),
-                                                                color: unselectedRadioColor
-                                                            ),
-                                                            child: Text(
-                                                              'Previous notes',
-                                                              style: noteTextStyle,
-                                                            ),
-                                                          ),
-
-                                                          const SizedBox(width: 25),
-
-                                                          PopupMenuButton(
-                                                            child: Icon(
-                                                              Icons.more_vert_outlined,
-                                                              size: 20,
-                                                            ),
-                                                            itemBuilder: (BuildContext context) {
-                                                              return <PopupMenuItem<String>>[
-                                                                PopupMenuItem<String>(
-                                                                  child: TextButton(
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment.start,
-                                                                      children: [
-                                                                        Text(
-                                                                          'Edit',
-                                                                          style: popupMenuTextStyle,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    onPressed: () {
-
-                                                                    },
-                                                                  ),
-                                                                  height: 31,
-                                                                ),
-                                                                PopupMenuItem<String>(
-                                                                  child: TextButton(
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                      MainAxisAlignment.start,
-                                                                      children: [
-                                                                        Text('Remove',
-                                                                            style: popupMenuTextStyle
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    onPressed: () {
-                                                                    },
-                                                                  ),
-                                                                  height: 31,
-                                                                ),
-                                                              ];
-                                                            },
-                                                          )
-                                                        ],
-                                                      ),
-
-                                                      const SizedBox(height: 8),
-                                                    ],
+                                                  const Icon(
+                                                    CupertinoIcons.arrow_down_left,
+                                                    size: 15,
+                                                    color: titleTextColor,
                                                   ),
-                                            ),
+                                                  const SizedBox(width: 3),
+                                                  Text(
+                                                    '${data.enquiryLeadDetailsModel.data![index].category}',
+                                                    style: subTextTextStyle,
+                                                  ),
+                                                ],
+                                              ),
 
-                                            const SizedBox(height: 20),
+                                              // messages
+                                              const SizedBox(height: 7),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 3),
+                                                    child: const Icon(
+                                                      Icons.message_outlined,
+                                                      size: 15,
+                                                      color: titleTextColor,
+                                                    ),
+                                                  ),
 
-                                            AddNotesWidget(
-                                                '${data.enquiryLeadDetailsModel.data![index].id}'
-                                            ),
-                                            // Padding(
-                                            //   padding: const EdgeInsets.only(right: 10),
-                                            //   child: TextField(
-                                            //     // style: postTextFieldStyle,
-                                            //     autofocus: true,
-                                            //     cursorColor: blackColor,
-                                            //     controller: noteController,
-                                            //     onChanged: (_) => setState((){}),
-                                            //     decoration:  InputDecoration(
-                                            //       fillColor: blackColor,
-                                            //       isDense: true,
-                                            //       errorText: noteController.text == '' ? errorMessage : '',
-                                            //       hintText: 'Enter your Comments',
-                                            //       hintStyle: hintTextStyle,
-                                            //       suffixIcon:
-                                            //       InkWell(
-                                            //         onTap: (){
-                                            //           onSubmit();
-                                            //         },
-                                            //         child: isLoading == false ?
-                                            //         const Icon(
-                                            //           Icons.send_outlined,
-                                            //           color: loginBgColor,
-                                            //         ) :
-                                            //         const CircularProgressIndicator(
-                                            //           color: loginBgColor,
-                                            //         ),
-                                            //       ),
-                                            //       focusedBorder: const OutlineInputBorder(
-                                            //         borderSide: BorderSide(
-                                            //           color: titleTextColor,
-                                            //         ),
-                                            //       ),
-                                            //       enabledBorder: const OutlineInputBorder(
-                                            //         borderSide: BorderSide(
-                                            //           color: titleTextColor,
-                                            //         ),
-                                            //       ),
-                                            //       errorBorder: const OutlineInputBorder(
-                                            //         borderSide: BorderSide(
-                                            //           color: titleTextColor,
-                                            //         ),
-                                            //       ),
-                                            //       focusedErrorBorder: const OutlineInputBorder(
-                                            //         borderSide: BorderSide(
-                                            //           color: titleTextColor,
-                                            //         ),
-                                            //       ),
-                                            //       // disabledBorder: InputBorder.none,
-                                            //     ),
-                                            //     minLines: 1, // any number you need (It works as the rows for the textarea)
-                                            //     keyboardType: TextInputType.multiline,
-                                            //     maxLines: 25,
-                                            //   ),
-                                            // ),
-                                          ],
-                                        ),
-                                      ],
+                                                  const SizedBox(width: 5),
+                                                  Expanded(
+                                                    child:
+                                                    '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
+                                                        Text(
+                                                          'No message',
+                                                          style: subTextTextStyle,
+                                                        ) :
+                                                    Text(
+                                                      '${data.enquiryLeadDetailsModel.data![index].message}',
+                                                      style: subTextTextStyle,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+
+                                              const SizedBox(height: 15),
+                                              Text(
+                                                'Comments',
+                                                style: noteHeadingTextStyle,
+                                              ),
+
+                                              const SizedBox(height: 10),
+                                              ListView.builder(
+                                                itemCount: 1,
+                                                shrinkWrap: true,
+                                                physics: const AlwaysScrollableScrollPhysics(),
+                                                itemBuilder: (BuildContext context, index) =>
+                                                    Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              padding: EdgeInsets.all(10),
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius: const BorderRadius.only(
+                                                                    topRight: Radius.circular(8),
+                                                                    topLeft: Radius.circular(8),
+                                                                    bottomLeft: Radius.circular(8),
+                                                                  ),
+                                                                  color: unselectedRadioColor
+                                                              ),
+                                                              child: Text(
+                                                                'Previous notes',
+                                                                style: noteTextStyle,
+                                                              ),
+                                                            ),
+
+                                                            const SizedBox(width: 25),
+
+                                                            PopupMenuButton(
+                                                              child: Icon(
+                                                                Icons.more_vert_outlined,
+                                                                size: 20,
+                                                              ),
+                                                              itemBuilder: (BuildContext context) {
+                                                                return <PopupMenuItem<String>>[
+                                                                  PopupMenuItem<String>(
+                                                                    child: TextButton(
+                                                                      child: Row(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Text(
+                                                                            'Edit',
+                                                                            style: popupMenuTextStyle,
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      onPressed: () {
+
+                                                                      },
+                                                                    ),
+                                                                    height: 31,
+                                                                  ),
+                                                                  PopupMenuItem<String>(
+                                                                    child: TextButton(
+                                                                      child: Row(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment.start,
+                                                                        children: [
+                                                                          Text('Remove',
+                                                                              style: popupMenuTextStyle
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      onPressed: () {
+                                                                      },
+                                                                    ),
+                                                                    height: 31,
+                                                                  ),
+                                                                ];
+                                                              },
+                                                            )
+                                                          ],
+                                                        ),
+
+                                                        const SizedBox(height: 8),
+                                                      ],
+                                                    ),
+                                              ),
+
+                                              const SizedBox(height: 20),
+
+                                              AddNotesWidget(
+                                                  '${data.enquiryLeadDetailsModel.data![index].id}'
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

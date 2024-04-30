@@ -77,8 +77,6 @@ Resource<PostCommentModel> postCommentApi(
         "comment": comment,
       }),
       parse: (response) {
-        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5');
-        print(response.body);
         Map<String, dynamic> postCommentMap = json.decode(response.body);
         var postCommentResult = PostCommentModel.fromJson(postCommentMap);
         return postCommentResult;

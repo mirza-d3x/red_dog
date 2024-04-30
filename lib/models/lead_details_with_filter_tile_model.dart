@@ -38,16 +38,16 @@ class LeadDetailsWithFilterTileModel {
 
 class Datum {
   dynamic category;
-  String ? status;
+  bool ? status;
   String ? id;
   String ? viewid;
   String ? name;
-  int ? phone;
+  int? phone;
   String ? email;
   String ? message;
   DateTime ? date;
   int ? v;
-  String ? file;
+  List<Comment> ? comments;
 
   Datum({
      this.category,
@@ -60,7 +60,7 @@ class Datum {
      this.message,
      this.date,
      this.v,
-    this.file,
+     this.comments,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -74,7 +74,7 @@ class Datum {
     message: json["message"],
     date: DateTime.parse(json["date"]),
     v: json["__v"],
-    file: json["file"],
+    comments: List<Comment>.from(json["comments"].map((x) => Comment.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -88,7 +88,35 @@ class Datum {
     "message": message,
     "date": date!.toIso8601String(),
     "__v": v,
-    "file": file,
+    "comments": List<dynamic>.from(comments!.map((x) => x.toJson())),
+  };
+}
+
+class Comment {
+  String ? id;
+  String ? message;
+  DateTime ? createdDate;
+  DateTime ? updatedDate;
+
+  Comment({
+     this.id,
+     this.message,
+     this.createdDate,
+     this.updatedDate,
+  });
+
+  factory Comment.fromJson(Map<String, dynamic> json) => Comment(
+    id: json["_id"],
+    message: json["message"],
+    createdDate: DateTime.parse(json["created_date"]),
+    updatedDate: DateTime.parse(json["updated_date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "message": message,
+    "created_date": createdDate!.toIso8601String(),
+    "updated_date": updatedDate!.toIso8601String(),
   };
 }
 
