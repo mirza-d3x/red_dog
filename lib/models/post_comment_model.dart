@@ -1,71 +1,65 @@
 // To parse this JSON data, do
 //
-//     final enquiryLeadDetailsModel = enquiryLeadDetailsModelFromJson(jsonString);
+//     final postCommentModel = postCommentModelFromJson(jsonString);
 
 import 'dart:convert';
 
-EnquiryLeadDetailsModel enquiryLeadDetailsModelFromJson(String str) => EnquiryLeadDetailsModel.fromJson(json.decode(str));
+PostCommentModel postCommentModelFromJson(String str) => PostCommentModel.fromJson(json.decode(str));
 
-String enquiryLeadDetailsModelToJson(EnquiryLeadDetailsModel data) => json.encode(data.toJson());
+String postCommentModelToJson(PostCommentModel data) => json.encode(data.toJson());
 
-class EnquiryLeadDetailsModel {
+class PostCommentModel {
   String ? message;
   int ? code;
-  List<Datum> ? data;
-  int ? total;
+  Data ? data;
 
-  EnquiryLeadDetailsModel({
+  PostCommentModel({
      this.message,
      this.code,
      this.data,
-     this.total,
   });
 
-  factory EnquiryLeadDetailsModel.fromJson(Map<String, dynamic> json) => EnquiryLeadDetailsModel(
+  factory PostCommentModel.fromJson(Map<String, dynamic> json) => PostCommentModel(
     message: json["message"],
     code: json["code"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-    total: json["total"],
+    data: Data.fromJson(json["data"]),
   );
 
   Map<String, dynamic> toJson() => {
     "message": message,
     "code": code,
-    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
-    "total": total,
+    "data": data!.toJson(),
   };
 }
 
-class Datum {
-  dynamic category;
+class Data {
+  String ?  category;
   bool ? status;
   String ? id;
   String ? viewid;
   String ? name;
-  int? phone;
+  int ? phone;
   String ? email;
   String ? message;
   DateTime ? date;
   int ? v;
   List<Comment> ? comments;
-  String? file;
 
-  Datum({
+  Data({
      this.category,
      this.status,
      this.id,
      this.viewid,
      this.name,
-    this.phone,
+     this.phone,
      this.email,
      this.message,
      this.date,
      this.v,
      this.comments,
-    this.file,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
     category: json["category"],
     status: json["status"],
     id: json["_id"],
@@ -77,7 +71,6 @@ class Datum {
     date: DateTime.parse(json["date"]),
     v: json["__v"],
     comments: List<Comment>.from(json["comments"].map((x) => Comment.fromJson(x))),
-    file: json["file"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -92,7 +85,6 @@ class Datum {
     "date": date!.toIso8601String(),
     "__v": v,
     "comments": List<dynamic>.from(comments!.map((x) => x.toJson())),
-    "file": file,
   };
 }
 
@@ -123,4 +115,3 @@ class Comment {
     "updated_date": updatedDate!.toIso8601String(),
   };
 }
-

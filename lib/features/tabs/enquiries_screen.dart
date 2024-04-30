@@ -774,7 +774,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                                       const SizedBox(height: 20),
 
-                                      AddNotesWidget(),
+                                      AddNotesWidget(''),
                                       // Padding(
                                       //   padding: const EdgeInsets.only(right: 10),
                                       //   child: TextField(
@@ -1244,7 +1244,9 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                                             const SizedBox(height: 20),
 
-                                            AddNotesWidget(),
+                                            AddNotesWidget(
+                                                '${data.enquiryLeadDetailsModel.data![index].id}'
+                                            ),
                                             // Padding(
                                             //   padding: const EdgeInsets.only(right: 10),
                                             //   child: TextField(
@@ -1677,7 +1679,9 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                                     const SizedBox(height: 20),
 
-                                    AddNotesWidget(),
+                                    AddNotesWidget(
+                                        '${data.leadDetailsWithTileFilterModel.data![index].id}'
+                                    ),
                                   ],
                                 ),
                               ],

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/providers/enquiry_provider.dart';
+import 'package:reddog_mobile_app/repositories/enquiry_repository.dart';
 
 import '../../styles/colors.dart';
 import '../../styles/text_styles.dart';
 
 class AddNotesWidget extends StatefulWidget {
-  const AddNotesWidget({super.key});
+  dynamic enquiryId;
+   AddNotesWidget(this.enquiryId,{super.key});
 
   @override
   State<AddNotesWidget> createState() => _AddNotesWidgetState();
@@ -28,11 +31,53 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
   }
 
   TextEditingController noteController = TextEditingController();
+  EnquiryProvider enquiryProvider = EnquiryProvider(enquiryRepository: EnquiryRepository());
 
-  onSubmit(){
-    final isValidNote = validateNote(noteController.text);
-    if(isValidNote){
-      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(false)));
+  // onSubmit(){
+  //   final isValidNote = validateNote(noteController.text);
+  //   if(isValidNote){
+  //     // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(false)));
+  //   }
+  // }
+  onSubmitComment() async {
+    if (noteController.text.isNotEmpty) {
+      setState(() {
+        isLoading = true;
+      });
+      await enquiryProvider.postComment(
+          widget.enquiryId,
+          noteController.text
+      );
+      if(enquiryProvider.postCommentModel.message == "success") {
+        // enquiryProvider.getChannelConnectPost(widget.channelId);
+        FocusScope.of(context).unfocus();
+        noteController.clear();
+        setState(() {
+          isLoading = false;
+        });
+      }else{
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final snackBar = SnackBar(
+            backgroundColor: Colors.blue,
+            content: Container(
+              height: 30,
+              child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Ooops!!Something went wrong.Please try again later!',
+                    // style: submitButtonText,
+                  )),
+            ),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Navigator.of(context).pop();
+        });
+      }
+    } else {
+      setState(() {
+        isLoading = false;
+        errorMessage = 'Enter your comments';
+      });
     }
   }
 
@@ -57,7 +102,7 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
           suffixIcon:
           InkWell(
             onTap: (){
-              onSubmit();
+              onSubmitComment();
             },
             child: isLoading == false ?
             const Icon(

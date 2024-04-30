@@ -38,4 +38,10 @@ class EnquiryRepository {
       ) =>
       webService?.put(updateEnquiryReadStatusApi(enquiryId));
 
+  Future postCommentData(
+      dynamic enquiryId,
+      dynamic comment,
+      ) =>
+      webService?.put(postCommentApi(enquiryId,comment));
+
 }
