@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/get_Notificatio_model.dart';
 import 'package:reddog_mobile_app/models/logout_model.dart';
+import 'package:reddog_mobile_app/models/search_list_model.dart';
 
 import '../models/registred_website_model.dart';
 import '../utilities/api_helpers.dart';
@@ -43,5 +44,16 @@ Resource<LogoutModel> logoutApi(
         Map<String, dynamic> logoutResultMap = json.decode(response.body);
         var logoutResult = LogoutModel.fromJson(logoutResultMap);
         return logoutResult;
+      });
+}
+
+Resource<SearchResultModel> searchApi(dynamic keyword) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/search/$keyword',
+      parse: (response) {
+        Map<String, dynamic> getSearchResultDataMap = jsonDecode(response.body);
+        SearchResultModel searchResult = SearchResultModel.fromJson(getSearchResultDataMap);
+        return searchResult;
       });
 }

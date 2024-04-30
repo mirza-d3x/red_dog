@@ -9,6 +9,7 @@ import 'package:reddog_mobile_app/providers/login_provider.dart';
 import 'package:reddog_mobile_app/providers/logout_provider.dart';
 import 'package:reddog_mobile_app/providers/notification_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
+import 'package:reddog_mobile_app/providers/search_provider.dart';
 import 'package:reddog_mobile_app/providers/server_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
 import 'package:reddog_mobile_app/providers/visitor_provider.dart';
@@ -71,6 +72,9 @@ void main() async{
 
         ChangeNotifierProvider(
             create: (_) => AcquisitionProvider(acquisitionRepository: AcquisitionRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => SearchProvider(commonRepository: CommonRepository())),
       ],
       child: const MyApp()
     ),

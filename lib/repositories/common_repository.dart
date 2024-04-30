@@ -17,4 +17,6 @@ class CommonRepository {
 
   Future putLogout(dynamic email,dynamic fireId) => webService?.put(logoutApi(email,fireId));
 
+  Future getSearchResult(dynamic keyword) => webService?.get(searchApi(keyword));
+
 }
