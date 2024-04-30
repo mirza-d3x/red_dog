@@ -85,60 +85,146 @@ class _AddNotesWidgetState extends State<AddNotesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: TextField(
-        // style: postTextFieldStyle,
-        autofocus: true,
-        cursorColor: blackColor,
-        controller: noteController,
-        onChanged: (_) => setState((){}),
-        decoration:  InputDecoration(
-          fillColor: blackColor,
-          isDense: true,
-          errorText: noteController.text == '' ? errorMessage : '',
-          hintText: 'Enter your Comments',
-          hintStyle: hintTextStyle,
-          suffixIcon:
-          InkWell(
-            onTap: (){
-              onSubmitComment();
-            },
-            child: isLoading == false ?
-            const Icon(
-              Icons.send_outlined,
-              color: loginBgColor,
-            ) :
-            const CircularProgressIndicator(
-              color: loginBgColor,
-            ),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: titleTextColor,
-            ),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: titleTextColor,
-            ),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: titleTextColor,
-            ),
-          ),
-          focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: titleTextColor,
-            ),
-          ),
-          // disabledBorder: InputBorder.none,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListView.builder(
+          itemCount: 5,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, index) =>
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(8),
+                              topLeft: Radius.circular(8),
+                              bottomLeft: Radius.circular(8),
+                            ),
+                            color: unselectedRadioColor
+                        ),
+                        child: Text(
+                          'Previous notes',
+                          style: noteTextStyle,
+                        ),
+                      ),
+
+                      const SizedBox(width: 25),
+
+                      PopupMenuButton(
+                        child: Icon(
+                          Icons.more_vert_outlined,
+                          size: 20,
+                        ),
+                        itemBuilder: (BuildContext context) {
+                          return <PopupMenuItem<String>>[
+                            PopupMenuItem<String>(
+                              child: TextButton(
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Edit',
+                                      style: popupMenuTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+
+                                },
+                              ),
+                              height: 31,
+                            ),
+                            PopupMenuItem<String>(
+                              child: TextButton(
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    Text('Remove',
+                                        style: popupMenuTextStyle
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                },
+                              ),
+                              height: 31,
+                            ),
+                          ];
+                        },
+                      )
+                    ],
+                  ),
+
+                  const SizedBox(height: 8),
+                ],
+              ),
         ),
-        minLines: 1, // any number you need (It works as the rows for the textarea)
-        keyboardType: TextInputType.multiline,
-        maxLines: 25,
-      ),
+
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: TextField(
+            // style: postTextFieldStyle,
+            autofocus: true,
+            cursorColor: blackColor,
+            controller: noteController,
+            onChanged: (_) => setState((){}),
+            decoration:  InputDecoration(
+              fillColor: blackColor,
+              isDense: true,
+              errorText: noteController.text == '' ? errorMessage : '',
+              hintText: 'Enter your Comments',
+              hintStyle: hintTextStyle,
+              suffixIcon:
+              InkWell(
+                onTap: (){
+                  onSubmitComment();
+                },
+                child: isLoading == false ?
+                const Icon(
+                  Icons.send_outlined,
+                  color: loginBgColor,
+                ) :
+                const CircularProgressIndicator(
+                  color: loginBgColor,
+                ),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: titleTextColor,
+                ),
+              ),
+              enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: titleTextColor,
+                ),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: titleTextColor,
+                ),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: titleTextColor,
+                ),
+              ),
+              // disabledBorder: InputBorder.none,
+            ),
+            minLines: 1, // any number you need (It works as the rows for the textarea)
+            keyboardType: TextInputType.multiline,
+            maxLines: 25,
+          ),
+        ),
+      ],
     );
   }
 }
