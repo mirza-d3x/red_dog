@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
+import 'package:reddog_mobile_app/models/filter_model.dart';
 import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
 import 'package:reddog_mobile_app/models/unread_enquiry_model.dart';
@@ -143,5 +144,25 @@ Resource<UpdateCommentModel> updateCommentApi(
         Map<String, dynamic> updateCommentMap = json.decode(response.body);
         var updateCommentResult = UpdateCommentModel.fromJson(updateCommentMap);
         return updateCommentResult;
+      });
+}
+
+Resource<FilterModel> enquiryFilterApi(
+    dynamic timeFrame,
+    dynamic sortBy,
+    dynamic readStatus,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/leads/filter',
+      body: json.encode({
+        "timeFrame": timeFrame,
+        "sortBy": sortBy,
+        "status": readStatus
+      }),
+      parse: (response) {
+        Map<String, dynamic> getFilterDataMap = json.decode(response.body);
+        var filterResult = FilterModel.fromJson(getFilterDataMap);
+        return filterResult;
       });
 }

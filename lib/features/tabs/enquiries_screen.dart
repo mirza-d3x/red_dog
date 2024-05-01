@@ -532,6 +532,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
                   InkWell(
                     onTap: (){
+                      // filterModalSheet(context);
                       Navigator.push(context, MaterialPageRoute(builder: (_) => FilterScreen()));
                     },
                     child: Card(
@@ -1468,5 +1469,40 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
     final formattedDate =
         DateFormat('d').format(date!) + '-' + DateFormat('MM').format(date) +'-' + DateFormat('y').format(date);
     return formattedDate;
+  }
+
+  bool filterApiCall = false;
+
+  void filterModalSheet(BuildContext context){
+    showModalBottomSheet(
+      enableDrag: true,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0), topRight: Radius.circular(25.0)),
+      ),
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(25, 25, 25, 5),
+          child: FractionallySizedBox(
+            heightFactor: 0.9,
+            child: Container(
+              child: FilterScreen(),
+            ),
+          ),
+        );
+      },
+    ).then((value) {
+      setState(() {
+        filterApiCall = true;
+      });
+      enquiryUiWidget();
+      // getEnquiryCountMethod();
+      // channelConnectProvider.getChannelConnectPost(widget.channelId);
+      // This function is called when the modal sheet is dismissed
+      print('Modal sheet dismissed');
+      // Add your function here
+    });
   }
 }

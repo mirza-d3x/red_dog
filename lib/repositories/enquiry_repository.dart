@@ -61,4 +61,11 @@ class EnquiryRepository {
       dynamic comment,
       ) =>
       webService?.put(updateCommentApi(commentId,comment));
+
+  Future filterData(
+      dynamic timeFrame,
+      dynamic sortBy,
+      dynamic readStatus,
+      ) =>
+      webService?.get(enquiryFilterApi(timeFrame,sortBy,readStatus));
 }

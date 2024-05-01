@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/enquiry_count_model.dart';
 import 'package:reddog_mobile_app/models/enquiry_lead_details_model.dart';
+import 'package:reddog_mobile_app/models/filter_model.dart';
 import 'package:reddog_mobile_app/models/get_comments_model.dart';
 import 'package:reddog_mobile_app/models/lead_details_with_filter_tile_model.dart';
 import 'package:reddog_mobile_app/models/post_comment_model.dart';
@@ -83,6 +84,14 @@ class EnquiryProvider extends ChangeNotifier {
     return this.editCommentData;
   }
 
+  //Filter
+  var filterModel = FilterModel();
+  LiveData<UIState<FilterModel>> enquiryFilterData = LiveData<UIState<FilterModel>>();
+
+  LiveData<UIState<FilterModel>> enquiryFilterLiveData() {
+    return this.enquiryFilterData;
+  }
+
   void initialState() {
     enquiryCountData.setValue(Initial());
     enquiryLeadDetailsData.setValue(Initial());
@@ -92,6 +101,7 @@ class EnquiryProvider extends ChangeNotifier {
     getCommentsData.setValue(Initial());
     unreadEnquiryData.setValue(Initial());
     editCommentData.setValue(Initial());
+    enquiryFilterData.setValue(Initial());
     notifyListeners();
   }
 
@@ -274,6 +284,28 @@ class EnquiryProvider extends ChangeNotifier {
       }
     } catch (ex) {
       editCommentData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  getFilterList(
+      dynamic timeFrame,
+      dynamic sortBy,
+      dynamic readStatus,
+      ) async {
+    try {
+      enquiryFilterData.setValue(IsLoading());
+      filterModel = await enquiryRepository.filterData(
+          timeFrame,sortBy,readStatus
+      );
+      if (filterModel.code == 200) {
+        enquiryFilterData.setValue(Success(filterModel));
+      } else {
+        enquiryFilterData.setValue(Failure(filterModel.toString()));
+      }
+    } catch (ex) {
+      enquiryFilterData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
