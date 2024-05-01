@@ -510,8 +510,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                     elevation: 2,
                     child: InkWell(
                       onTap: (){
-                        // Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen()));
-                        searchModal(context);
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen()));
                       },
                       child: Container(
                           height: 43,
