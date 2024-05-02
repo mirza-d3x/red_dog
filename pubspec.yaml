@@ -50,6 +50,7 @@ dependencies:
   google_sign_in: ^6.2.1
   provider: ^6.0.1
   url_launcher: ^6.1.8
+  syncfusion_flutter_maps: ^21.2.10
 
 dev_dependencies:
   flutter_test:
@@ -87,6 +88,7 @@ flutter:
     - assets/images/profile_pic_sample.jpeg
     - assets/images/server_uptime.PNG
     - assets/images/RedDogAppIcon.jpg
+    - assets/world_map.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

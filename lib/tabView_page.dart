@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/tabs/acquisition_screen.dart';
 import 'package:reddog_mobile_app/features/tabs/enquiries_screen.dart';
 import 'package:reddog_mobile_app/features/tabs/server_screen.dart';
-// import 'package:reddog_mobile_app/features/z.dart';
 import 'package:reddog_mobile_app/features/tabs/visitors_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
@@ -35,7 +34,6 @@ class _TabViewScreenState extends State<TabViewScreen> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [
-              // VisitorsScreen(),
             VisitorsScreen(),
               AcquisitionScreen(),
              const ServerScreen(),

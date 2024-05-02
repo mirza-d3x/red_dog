@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -32,6 +33,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 import '../../utilities/shared_prefernces.dart';
 import 'package:reddog_mobile_app/models/user_by_newturned_model.dart';
+import 'package:syncfusion_flutter_maps/maps.dart';
+import 'package:http/http.dart' as http;
 
 class VisitorsScreen extends StatefulWidget {
   const VisitorsScreen({super.key});
@@ -126,6 +129,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     Colors.blue,
   ];
 
+  late List<Model> _data;
+  late MapShapeSource _mapSource;
+
   @override
   void initState(){
     super.initState();
@@ -141,6 +147,30 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getUserByLangMethod();
     getUserByAgeGroupMethod();
     getUserByGenderMethod();
+
+    _data = const <Model>[
+      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0),
+          '       New\nSouth Wales'),
+      Model('Queensland', Color.fromRGBO(72, 209, 204, 1.0), 'Queensland'),
+      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0),
+          'Northern\nTerritory'),
+      Model('Victoria', Color.fromRGBO(171, 56, 224, 0.75), 'Victoria'),
+      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75),
+          'South Australia'),
+      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7),
+          'Western Australia'),
+      Model('Tasmania', Color.fromRGBO(99, 164, 230, 1), 'Tasmania'),
+      Model('Australian Capital Territory', Colors.teal, 'ACT')
+    ];
+
+    _mapSource = MapShapeSource.asset(
+      'assets/australia.json',
+      shapeDataField: 'STATE_NAME',
+      dataCount: _data.length,
+      primaryValueMapper: (int index) => _data[index].state,
+      dataLabelMapper: (int index) => _data[index].stateCode,
+      shapeColorValueMapper: (int index) => _data[index].color,
+    );
   }
 
   // drop down menu variables
@@ -189,6 +219,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   // Declaration for coutry list
   String selectedOption = 'Country';
+
+  final List<CountryData> countriesData = [
+    CountryData('India', Colors.blue),
+    CountryData('China', Colors.red),
+    // Add more countries and colors as needed
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -738,35 +774,92 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
 
           const SizedBox(height: 10),
-          // world map
-          Card(
-            elevation: 2,
-            shadowColor: whiteColor,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 15,top: 15),
-                child:
-                SimpleMap(
-                  instructions: SMapWorld.instructions,
-                  defaultColor: Colors.grey,
-                  colors: const SMapWorldColors(
-                    uS: Colors.blue,   // This makes USA green
-                    cN: Colors.red,   // This makes China green
-                    iN: Colors.green,   // This makes Russia green
-                  ).toMap(),
-                  callback: (id, name, tapDetails) {
-                    print(id);
-                  },
+          // // world map
+          // Card(
+          //   elevation: 2,
+          //   shadowColor: whiteColor,
+          //   child: Container(
+          //     padding: const EdgeInsets.all(10),
+          //     width: double.infinity,
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(3),
+          //       color: whiteColor,
+          //     ),
+          //     child: Padding(
+          //       padding: const EdgeInsets.only(bottom: 15,top: 15),
+          //       child:
+          //
+          //       SimpleMap(
+          //         instructions: SMapWorld.instructions,
+          //         defaultColor: Colors.grey,
+          //         colors: const SMapWorldColors(
+          //           uS: Colors.green,   // This makes USA green
+          //           dE: Colors.red,   // This makes China green
+          //           iN: Colors.green,   // This makes Russia green
+          //         ).toMap(),
+          //         callback: (id, name, tapDetails) {
+          //           print(id);
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          // API  world map
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByCountryLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15,top: 15),
+                    child:
+                      SizedBox(
+                          height: 180,
+                          child: Center(
+                            child: SfMaps(
+                              layers: <MapShapeLayer>[
+                                MapShapeLayer(
+                                  source: MapShapeSource.asset(
+                                    'assets/world_map.json',
+                                    shapeDataField: 'name',
+                                    dataCount: data.userByCountryModel.data!.length,
+                                    primaryValueMapper: (int index) => data.userByCountryModel.data![index].name,
+                                    shapeColorValueMapper: (int index) => Colors.green,
+                                  ),
+                                  showDataLabels: false,
+                                ),
+                              ],
+                            ),
+                          )
+                      )
+                  ),
                 ),
-              ),
-            ),
-          ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load!!',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
           const SizedBox(height: 8),
           // country list
@@ -1989,4 +2082,25 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (_) => LoginScreen()));
   }
+}
+
+class CountryData {
+  final String name;
+  final Color color;
+
+  CountryData(this.name, this.color);
+}
+
+class Model {
+  /// Initialize the instance of the [Model] class.
+  const Model(this.state, this.color, this.stateCode);
+
+  /// Represents the Australia state name.
+  final String state;
+
+  /// Represents the Australia state color.
+  final Color color;
+
+  /// Represents the Australia state code.
+  final String stateCode;
 }

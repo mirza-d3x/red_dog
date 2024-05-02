@@ -33,7 +33,7 @@ class UserByCountryModel {
 }
 
 class Datum {
-  String ? name;
+  dynamic name;
   int ? value;
   dynamic percentage;
 
