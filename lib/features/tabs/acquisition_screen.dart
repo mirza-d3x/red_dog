@@ -45,7 +45,15 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     ChartData('03 Mar', 16, 30, 50),
     ChartData('04 Mar', 18, 16, 18),
     ChartData('06 Mar', 18, 16, 18),
-    ChartData('07 Mar', 18, 16, 18)
+    ChartData('07 Mar', 18, 16, 18),
+    ChartData('08 Mar', 18, 16, 18),
+    ChartData('09 Mar', 18, 16, 18),
+    ChartData('10 Mar', 18, 16, 18),
+    ChartData('11 Mar', 18, 16, 18),
+    ChartData('12 Mar', 18, 16, 18),
+    ChartData('13 Mar', 18, 16, 18),
+    ChartData('14 Mar', 18, 16, 18),
+    ChartData('15 Mar', 18, 16, 18),
   ];
 
   dynamic mostVisitedOptionDropDown;
@@ -1472,6 +1480,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           primaryXAxis: CategoryAxis(
                               majorGridLines: const MajorGridLines(width: 0),
                               labelStyle: graphIndexTextStyle,
+                            labelRotation: -90
                             // labelPlacement: LabelPlacement.betweenTicks,
                             // interval: 1
                           ),
@@ -1529,9 +1538,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
                                 width: 0.7,
-                                // spacing: 0.3,
                                 color: unassignedChannelColor
-                              // organicBarColor
                             ),
                           ]
                       ),
