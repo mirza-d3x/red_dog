@@ -96,7 +96,6 @@ class AcquisitionProvider extends ChangeNotifier {
   }
 
   // get top channels by date
-  // get top channels
   getTopChannelsByDate(
       dynamic fromDate,
       dynamic toDate

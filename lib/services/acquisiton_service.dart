@@ -86,7 +86,7 @@ Resource<ChannelsByDateModel> getTopChannelsByDateApi(
     ) {
   return Resource(
       url:
-      'https://app.reddog.live/api/aquasition/channelsbydate/$googleId/$googleToken/$viewId/$fromDate/$toDate',
+      'https://app.reddog.live/api/aquasition/channelsbydate/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
       parse: (response) {
         Map<String, dynamic> topChannelsByDateDataMap = jsonDecode(response.body);
         ChannelsByDateModel topChannelsByDateResult = ChannelsByDateModel.fromJson(topChannelsByDateDataMap);

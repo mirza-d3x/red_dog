@@ -11,7 +11,7 @@ String channelsByDateModelToJson(ChannelsByDateModel data) => json.encode(data.t
 class ChannelsByDateModel {
   String ? message;
   int ? code;
-  AxisData ? data;
+  List<ChannelsByDateModelDatum> ? data;
 
   ChannelsByDateModel({
      this.message,
@@ -22,52 +22,52 @@ class ChannelsByDateModel {
   factory ChannelsByDateModel.fromJson(Map<String, dynamic> json) => ChannelsByDateModel(
     message: json["message"],
     code: json["code"],
-    data: AxisData.fromJson(json["data"]),
+    data: List<ChannelsByDateModelDatum>.from(json["data"].map((x) => ChannelsByDateModelDatum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "message": message,
     "code": code,
-    "data": data!.toJson(),
+    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
-class AxisData {
-  List<dynamic> ? xaxis;
-  List<Series> ? series;
-
-  AxisData({
-     this.xaxis,
-     this.series,
-  });
-
-  factory AxisData.fromJson(Map<String, dynamic> json) => AxisData(
-    xaxis: List<String>.from(json["xaxis"].map((x) => x)),
-    series: List<Series>.from(json["series"].map((x) => Series.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "xaxis": List<dynamic>.from(xaxis!.map((x) => x)),
-    "series": List<dynamic>.from(series!.map((x) => x.toJson())),
-  };
-}
-
-class Series {
+class ChannelsByDateModelDatum {
   String ? name;
-  List<String> ? data;
+  List<ChannelsByDateValues> ? data;
 
-  Series({
+  ChannelsByDateModelDatum({
      this.name,
      this.data,
   });
 
-  factory Series.fromJson(Map<String, dynamic> json) => Series(
+  factory ChannelsByDateModelDatum.fromJson(Map<String, dynamic> json) => ChannelsByDateModelDatum(
     name: json["name"],
-    data: List<String>.from(json["data"].map((x) => x)),
+    data: List<ChannelsByDateValues>.from(json["data"].map((x) => ChannelsByDateValues.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "data": List<dynamic>.from(data!.map((x) => x)),
+    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
+  };
+}
+
+class ChannelsByDateValues {
+  String ? key;
+  String ? value;
+
+  ChannelsByDateValues({
+     required this.key,
+     required this.value,
+  });
+
+  factory ChannelsByDateValues.fromJson(Map<String, dynamic> json) => ChannelsByDateValues(
+    key: json["key"],
+    value: json["value"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "key": key,
+    "value": value,
   };
 }

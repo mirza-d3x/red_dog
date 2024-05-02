@@ -93,3 +93,13 @@ const mobileColor = Color.fromRGBO(35, 213, 233, 1);
 const tabletColor = Color.fromRGBO(131, 185, 45, 1);
 
 const desktopColor = Color.fromRGBO(233, 213, 35, 1);
+
+const directChannelColor = Color.fromRGBO(245, 105, 84, 1);
+
+const referralChannelColor = Color.fromRGBO(255, 157, 179, 1);
+
+const organicSearchChannelColor = Color.fromRGBO(255, 129, 131, 1);
+
+const organicSocialChannelColor = Color.fromRGBO(255, 188, 225, 1);
+
+const unassignedChannelColor = Color.fromRGBO(250, 203, 217, 1);

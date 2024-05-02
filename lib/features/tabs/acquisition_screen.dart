@@ -13,6 +13,7 @@ import 'package:reddog_mobile_app/widgets/common_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../core/ui_state.dart';
+import '../../models/top_channels_by_date_model.dart';
 import '../../providers/registered_website_provider.dart';
 import '../../providers/user_profile_provider.dart';
 import '../../repositories/common_repository.dart';
@@ -1470,98 +1471,109 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           plotAreaBorderWidth: 0,
                           primaryXAxis: CategoryAxis(
                               majorGridLines: const MajorGridLines(width: 0),
-                              labelStyle: graphIndexTextStyle
+                              labelStyle: graphIndexTextStyle,
+                            // labelPlacement: LabelPlacement.betweenTicks,
+                            // interval: 1
                           ),
                           primaryYAxis: NumericAxis(
                             labelStyle: graphIndexTextStyle,
                             majorGridLines: const MajorGridLines(width: 0),
                             visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: 149, // Set the maximum visible value
-                            interval: 30, // Set the interval here
+                            visibleMaximum: 15, // Set the maximum visible value
+                            interval: 3, // Set the interval here
                           ),
                           series: <CartesianSeries>[
-                            StackedColumnSeries<ChartData, String>(
-                                dataSource: chartData,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y1,
-                                width: 0.4,
-                                color: referralBarColor
+                            // Direct
+                            StackedColumnSeries<ChannelsByDateValues, String>(
+                                dataSource: data.topChannelsByDateModel.data![0].data!,
+                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                width: 0.7,
+                                // spacing: 0.2,
+                                 color: directChannelColor
+                                // referralBarColor
                             ),
-                            StackedColumnSeries<ChartData, String>(
-                                dataSource: chartData,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y2,
-                                width: 0.4,
-                                color: unknownBarColor
+                            // Organic Search
+                            StackedColumnSeries<ChannelsByDateValues, String>(
+                                dataSource: data.topChannelsByDateModel.data![1].data!,
+                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                width: 0.7,
+                                // spacing: 0.2,
+                                color: organicSearchChannelColor
+                                // unknownBarColor
                             ),
-                            StackedColumnSeries<ChartData,String>(
-                                dataSource: chartData,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y3,
-                                width: 0.4,
-                                color: organicBarColor
+                            // Referral
+                            StackedColumnSeries<ChannelsByDateValues,String>(
+                                dataSource: data.topChannelsByDateModel.data![2].data!,
+                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                width: 0.7,
+                                // spacing: 0.3,
+                                color: referralChannelColor
+                                // organicBarColor
+                            ),
+                            // Organic Social
+                            StackedColumnSeries<ChannelsByDateValues,String>(
+                                dataSource: data.topChannelsByDateModel.data![2].data!,
+                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                width: 0.7,
+                                // spacing: 0.3,
+                                color: organicSocialChannelColor
+                              // organicBarColor
+                            ),
+                            // Unassigned
+                            StackedColumnSeries<ChannelsByDateValues,String>(
+                                dataSource: data.topChannelsByDateModel.data![2].data!,
+                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                width: 0.7,
+                                // spacing: 0.3,
+                                color: unassignedChannelColor
+                              // organicBarColor
                             ),
                           ]
                       ),
 
                       const SizedBox(height: 8),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: 10,
-                                  color: organicBarColor,
-                                ),
+                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                        child: Expanded(
+                          child: GridView.builder(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisExtent: 23,
+                                crossAxisSpacing: 1,
+                              ),
+                              itemCount: 5,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context,index) => Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color:
+                                    data.topChannelsByDateModel.data![index].name == "Direct"?
+                                        directChannelColor :
+                                    data.topChannelsByDateModel.data![index].name == "Organic Search"?
+                                        organicSearchChannelColor :
+                                    data.topChannelsByDateModel.data![index].name == "Organic Social"?
+                                        organicSocialChannelColor :
+                                    data.topChannelsByDateModel.data![index].name == "Referral"?
+                                        referralChannelColor :
+                                        unassignedChannelColor
+                                  ),
 
-                                const SizedBox(width: 5),
-                                Text(
-                                  'Organic',
-                                  style: graphHintTextStyle,
-                                )
-                              ],
-                            ),
-
-                            const SizedBox(width: 20),
-
-                            Row(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: 10,
-                                  color: unknownBarColor,
-                                ),
-
-                                const SizedBox(width: 5),
-                                Text(
-                                  'Unknown',
-                                  style: graphHintTextStyle,
-                                )
-                              ],
-                            ),
-
-                            const SizedBox(width: 20),
-
-                            Row(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: 10,
-                                  color: referralBarColor,
-                                ),
-
-                                const SizedBox(width: 5),
-                                Text(
-                                  'Referral',
-                                  style: graphHintTextStyle,
-                                )
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '${data.topChannelsByDateModel.data![index].name}',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
+                          ),
                         ),
                       )
                     ],
