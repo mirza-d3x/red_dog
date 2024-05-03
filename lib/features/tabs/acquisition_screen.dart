@@ -50,10 +50,10 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     ChartData('09 Mar', 18, 16, 18),
     ChartData('10 Mar', 18, 16, 18),
     ChartData('11 Mar', 18, 16, 18),
-    ChartData('12 Mar', 18, 16, 18),
-    ChartData('13 Mar', 18, 16, 18),
-    ChartData('14 Mar', 18, 16, 18),
-    ChartData('15 Mar', 18, 16, 18),
+    // ChartData('12 Mar', 18, 16, 18),
+    // ChartData('13 Mar', 18, 16, 18),
+    // ChartData('14 Mar', 18, 16, 18),
+    // ChartData('15 Mar', 18, 16, 18),
   ];
 
   dynamic mostVisitedOptionDropDown;
@@ -1480,16 +1480,17 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           primaryXAxis: CategoryAxis(
                               majorGridLines: const MajorGridLines(width: 0),
                               labelStyle: graphIndexTextStyle,
-                            labelRotation: -90
-                            // labelPlacement: LabelPlacement.betweenTicks,
-                            // interval: 1
+                            labelRotation: -80,
+                            visibleMinimum: 0, // Set the minimum visible value
+                            visibleMaximum: 30, // Set the maximum visible value
+                            interval: 1,
                           ),
                           primaryYAxis: NumericAxis(
                             labelStyle: graphIndexTextStyle,
                             majorGridLines: const MajorGridLines(width: 0),
                             visibleMinimum: 0, // Set the minimum visible value
                             visibleMaximum: 15, // Set the maximum visible value
-                            interval: 3, // Set the interval here
+                            interval: 3,
                           ),
                           series: <CartesianSeries>[
                             // Direct
@@ -1497,47 +1498,39 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 dataSource: data.topChannelsByDateModel.data![0].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.7,
-                                // spacing: 0.2,
+                                width: 0.8,
                                  color: directChannelColor
-                                // referralBarColor
                             ),
                             // Organic Search
                             StackedColumnSeries<ChannelsByDateValues, String>(
                                 dataSource: data.topChannelsByDateModel.data![1].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.7,
-                                // spacing: 0.2,
+                                width: 0.8,
                                 color: organicSearchChannelColor
-                                // unknownBarColor
                             ),
                             // Referral
                             StackedColumnSeries<ChannelsByDateValues,String>(
                                 dataSource: data.topChannelsByDateModel.data![2].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.7,
-                                // spacing: 0.3,
+                                width: 0.8,
                                 color: referralChannelColor
-                                // organicBarColor
                             ),
                             // Organic Social
                             StackedColumnSeries<ChannelsByDateValues,String>(
                                 dataSource: data.topChannelsByDateModel.data![2].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.7,
-                                // spacing: 0.3,
+                                width: 0.8,
                                 color: organicSocialChannelColor
-                              // organicBarColor
                             ),
                             // Unassigned
                             StackedColumnSeries<ChannelsByDateValues,String>(
                                 dataSource: data.topChannelsByDateModel.data![2].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.7,
+                                width: 0.8,
                                 color: unassignedChannelColor
                             ),
                           ]
@@ -1627,42 +1620,47 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
               ),
               child: Column(
                 children: [
-                  SfCartesianChart(
-                      plotAreaBorderWidth: 0,
-                      primaryXAxis: CategoryAxis(
+                  SingleChildScrollView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: SfCartesianChart(
+                        plotAreaBorderWidth: 0,
+                        primaryXAxis: CategoryAxis(
+                            majorGridLines: const MajorGridLines(width: 0),
+                            labelStyle: graphIndexTextStyle,
+                          labelRotation: -90
+                        ),
+                        primaryYAxis: NumericAxis(
+                          labelStyle: graphIndexTextStyle,
                           majorGridLines: const MajorGridLines(width: 0),
-                          labelStyle: graphIndexTextStyle
-                      ),
-                      primaryYAxis: NumericAxis(
-                        labelStyle: graphIndexTextStyle,
-                        majorGridLines: const MajorGridLines(width: 0),
-                        visibleMinimum: 0, // Set the minimum visible value
-                        visibleMaximum: 149, // Set the maximum visible value
-                        interval: 30, // Set the interval here
-                      ),
-                      series: <CartesianSeries>[
-                        StackedColumnSeries<ChartData, String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y1,
-                            width: 0.4,
-                            color: directBarColor
+                          visibleMinimum: 0, // Set the minimum visible value
+                          visibleMaximum: 149, // Set the maximum visible value
+                          interval: 30, // Set the interval here
                         ),
-                        StackedColumnSeries<ChartData, String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y2,
-                            width: 0.4,
-                            color: timeJobBarColor
-                        ),
-                        StackedColumnSeries<ChartData,String>(
-                            dataSource: chartData,
-                            xValueMapper: (ChartData data, _) => data.x,
-                            yValueMapper: (ChartData data, _) => data.y3,
-                            width: 0.4,
-                            color: googleBarColor
-                        ),
-                      ]
+                        series: <CartesianSeries>[
+                          StackedColumnSeries<ChartData, String>(
+                              dataSource: chartData,
+                              xValueMapper: (ChartData data, _) => data.x,
+                              yValueMapper: (ChartData data, _) => data.y1,
+                              width: 0.4,
+                              color: directBarColor
+                          ),
+                          StackedColumnSeries<ChartData, String>(
+                              dataSource: chartData,
+                              xValueMapper: (ChartData data, _) => data.x,
+                              yValueMapper: (ChartData data, _) => data.y2,
+                              width: 0.4,
+                              color: timeJobBarColor
+                          ),
+                          StackedColumnSeries<ChartData,String>(
+                              dataSource: chartData,
+                              xValueMapper: (ChartData data, _) => data.x,
+                              yValueMapper: (ChartData data, _) => data.y3,
+                              width: 0.4,
+                              color: googleBarColor
+                          ),
+                        ]
+                    ),
                   ),
 
                   const SizedBox(height: 8),

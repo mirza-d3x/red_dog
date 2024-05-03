@@ -154,7 +154,7 @@ TextStyle visitorGraphValueTextStyle = const TextStyle(
 TextStyle graphIndexTextStyle = const TextStyle(
   fontFamily: _regularFont,
   color: blackColor,
-  fontSize: 8,
+  fontSize: 10,
 );
 
 TextStyle nameTextStyle = const TextStyle(
