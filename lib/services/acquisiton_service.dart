@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
 import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
+import 'package:reddog_mobile_app/models/traffic_source_by_date_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/models/user_profile_model.dart';
 
@@ -91,5 +92,22 @@ Resource<ChannelsByDateModel> getTopChannelsByDateApi(
         Map<String, dynamic> topChannelsByDateDataMap = jsonDecode(response.body);
         ChannelsByDateModel topChannelsByDateResult = ChannelsByDateModel.fromJson(topChannelsByDateDataMap);
         return topChannelsByDateResult;
+      });
+}
+
+Resource<TrafficSourceByDateModel> getTrafficSourceByDateApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/aquasition/trafficByDate/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> trafficSourcesByDateDataMap = jsonDecode(response.body);
+        TrafficSourceByDateModel trafficSourcesByDateResult = TrafficSourceByDateModel.fromJson(trafficSourcesByDateDataMap);
+        return trafficSourcesByDateResult;
       });
 }

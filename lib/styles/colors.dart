@@ -52,11 +52,17 @@ const unknownBarColor = Color.fromRGBO(75, 85, 99, 1);
 
 const referralBarColor = Color.fromRGBO(68, 68, 68, 1);
 
-const directBarColor = Color.fromRGBO(254, 0, 0, 1);
+const directBarColor = Color.fromRGBO(160, 141, 248, 1);
 
-const timeJobBarColor = Color.fromRGBO(255, 58, 58, 1);
+const bingBarColor = Color.fromRGBO(198, 187, 251, 1);
 
-const googleBarColor = Color.fromRGBO(255, 109, 109, 1);
+const googleBarColor = Color.fromRGBO(179, 164, 249, 1);
+
+const duckGoBarColor = Color.fromRGBO(217, 209, 252, 1);
+
+const baiduBarColor = Color.fromRGBO(231, 226, 253, 1);
+
+const otherTrafficBarColor = Color.fromRGBO(254, 243, 254, 1);
 
 const googleIndicatorColor = Color.fromRGBO(55, 65, 81, 1);
 

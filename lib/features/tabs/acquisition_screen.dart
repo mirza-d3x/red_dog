@@ -14,6 +14,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../core/ui_state.dart';
 import '../../models/top_channels_by_date_model.dart';
+import '../../models/traffic_source_by_date_model.dart';
 import '../../providers/registered_website_provider.dart';
 import '../../providers/user_profile_provider.dart';
 import '../../repositories/common_repository.dart';
@@ -88,6 +89,17 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
     // top channels by date
     acquisitionProvider.getTopChannelsByDate(
+        _selectedFromDate != null
+            ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+            : formattedInitialdDate,
+        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+            _selectedToDate)}' : formattedDate
+    );
+
+
+    // traffic source by date
+    acquisitionProvider.getTrafficSourceByDate(
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
@@ -1354,6 +1366,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         return acquisitionProvider;
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Consumer<AcquisitionProvider>(builder: (ctx, data, _){
             var state = data.topChannelsLiveData().getValue();
@@ -1596,137 +1609,161 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
 
-          // what are the traffic sources heading + drop down menu
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'What are the traffic sources?',
-                style: normalTextStyle,
-              ),
-            ],
+          // what are the traffic sources heading
+          Text(
+            'What are the traffic sources?',
+            style: normalTextStyle,
           ),
           const SizedBox(height: 10),
 
           const SizedBox(height: 10),
-          // stacked Column graph
-          Card(
-            elevation: 2,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Column(
-                children: [
-                  SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    child: SfCartesianChart(
-                        plotAreaBorderWidth: 0,
-                        primaryXAxis: CategoryAxis(
-                            majorGridLines: const MajorGridLines(width: 0),
-                            labelStyle: graphIndexTextStyle,
-                          labelRotation: -90
-                        ),
-                        primaryYAxis: NumericAxis(
-                          labelStyle: graphIndexTextStyle,
-                          majorGridLines: const MajorGridLines(width: 0),
-                          visibleMinimum: 0, // Set the minimum visible value
-                          visibleMaximum: 149, // Set the maximum visible value
-                          interval: 30, // Set the interval here
-                        ),
-                        series: <CartesianSeries>[
-                          StackedColumnSeries<ChartData, String>(
-                              dataSource: chartData,
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) => data.y1,
-                              width: 0.4,
-                              color: directBarColor
-                          ),
-                          StackedColumnSeries<ChartData, String>(
-                              dataSource: chartData,
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) => data.y2,
-                              width: 0.4,
-                              color: timeJobBarColor
-                          ),
-                          StackedColumnSeries<ChartData,String>(
-                              dataSource: chartData,
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) => data.y3,
-                              width: 0.4,
-                              color: googleBarColor
-                          ),
-                        ]
-                    ),
+          // stacked Column graph traffic sources by date
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.trafficSourceByDateLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
                   ),
-
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: directBarColor,
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    children: [
+                      SfCartesianChart(
+                          plotAreaBorderWidth: 0,
+                          primaryXAxis: CategoryAxis(
+                              majorGridLines: const MajorGridLines(width: 0),
+                              labelStyle: graphIndexTextStyle,
+                              labelRotation: -80,
+                            visibleMinimum: 0, // Set the minimum visible value
+                            visibleMaximum: 30, // Set the maximum visible value
+                            interval: 1,
+                          ),
+                          primaryYAxis: NumericAxis(
+                            labelStyle: graphIndexTextStyle,
+                            majorGridLines: const MajorGridLines(width: 0),
+                            visibleMinimum: 0, // Set the minimum visible value
+                            visibleMaximum: 15, // Set the maximum visible value
+                            interval: 3, // Set the interval here
+                          ),
+                          series: <CartesianSeries>[
+                            StackedColumnSeries<TrafficDataByDate, String>(
+                                dataSource: data.trafficSourceByDateModel.data![0].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: directBarColor
                             ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'Direct',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
-
-                        const SizedBox(width: 20),
-
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: timeJobBarColor,
+                            StackedColumnSeries<TrafficDataByDate, String>(
+                                dataSource: data.trafficSourceByDateModel.data![1].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: googleBarColor
                             ),
-
-                            const SizedBox(width: 5),
-                            Text(
-                              'TimeJobs',
-                              style: graphHintTextStyle,
-                            )
-                          ],
-                        ),
-
-                        const SizedBox(width: 20),
-
-                        Row(
-                          children: [
-                            Container(
-                              height: 10,
-                              width: 10,
-                              color: googleBarColor,
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![2].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: bingBarColor
                             ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![3].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: duckGoBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: baiduBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: otherTrafficBarColor
+                            ),
+                          ]
+                      ),
 
-                            const SizedBox(width: 5),
-                            Text(
-                              'Google',
-                              style: graphHintTextStyle,
-                            )
-                          ],
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                        child: Expanded(
+                          child: GridView.builder(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisExtent: 23,
+                              crossAxisSpacing: 1,
+                            ),
+                            itemCount: 5,
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context,index) => Row(
+                              children: [
+                                Container(
+                                    height: 10,
+                                    width: 10,
+                                    color:
+                                    data.trafficSourceByDateModel.data![index].name == "(direct)"?
+                                    directBarColor :
+                                    data.trafficSourceByDateModel.data![index].name == "google"?
+                                    googleBarColor :
+                                    data.trafficSourceByDateModel.data![index].name == "bing"?
+                                    bingBarColor :
+                                    data.trafficSourceByDateModel.data![index].name == "duckduckgo"?
+                                    duckGoBarColor :
+                                    data.trafficSourceByDateModel.data![index].name == "baidu"?
+                                    baiduBarColor:
+                                    otherTrafficBarColor
+                                ),
+
+                                const SizedBox(width: 5),
+                                Text(
+                                  '${data.trafficSourceByDateModel.data![index].name}',
+                                  style: graphHintTextStyle,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+
 
           const SizedBox(height: 10),
           // Circular chart - traffic source

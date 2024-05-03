@@ -53,4 +53,13 @@ class AcquisitionRepository {
       ) =>
       webService?.get(getTopChannelsByDateApi(googleId,googleToken,viewId,fromDate,toDate));
 
+  Future getTrafficSourcesByDateData(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate
+      ) =>
+      webService?.get(getTrafficSourceByDateApi(googleId,googleToken,viewId,fromDate,toDate));
+
 }
