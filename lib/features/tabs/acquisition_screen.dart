@@ -1478,6 +1478,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
               );
             } else if (state is Success) {
+              int largestValue = findLargestValueAcrossLists(data.topChannelsByDateModel.data!);
               return Card(
                 elevation: 2,
                 child: Container(
@@ -1502,8 +1503,18 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             labelStyle: graphIndexTextStyle,
                             majorGridLines: const MajorGridLines(width: 0),
                             visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: 15, // Set the maximum visible value
-                            interval: 3,
+                            visibleMaximum:
+                                largestValue <= 15 ? 15
+                                : largestValue > 15 && largestValue <= 50 ?
+                                50 :
+                                largestValue > 50 && largestValue <= 200 ? 200
+                            : largestValue > 200 && largestValue <= 1000 ?
+                            1000 : 5000,// Set the maximum visible value
+                            interval: largestValue <= 15 ? 3
+                            : largestValue > 15 && largestValue <= 50 ? 10
+                            : largestValue > 50 && largestValue <= 200
+                            ? 50 : largestValue > 200 && largestValue <= 100 ?
+                            250 : 1000,
                           ),
                           series: <CartesianSeries>[
                             // Direct
@@ -2048,6 +2059,21 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
       ),
     );
   }
+}
+
+int findLargestValueAcrossLists(List<ChannelsByDateModelDatum> dataList) {
+  int largestValue = 0; // Initialize with a default value
+
+  for (var datum in dataList) {
+    for (var valueData in datum.data!) {
+      int value = int.parse('${valueData.value}');
+      if (value > largestValue) {
+        largestValue = value;
+      }
+    }
+  }
+
+  return largestValue;
 }
 
 class ChartData{
