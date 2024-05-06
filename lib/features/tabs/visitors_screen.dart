@@ -468,8 +468,42 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
 
           const SizedBox(height: 10),
-          visitorApiDataWidget(),
+          visitorUiWidget(),
+          // visitorApiDataWidget(),
         ],
+      ),
+    );
+  }
+
+  Widget visitorUiWidget(){
+    return ChangeNotifierProvider<VisitorProvider>(
+      create: (ctx) {
+        return visitorProvider;
+      },
+      child: Consumer<VisitorProvider>(
+        builder: (ctx, data, _) {
+          var state = data.visitorTileLiveData().getValue();
+          print(state);
+          if (state is IsLoading) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height / 1.3,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: loginBgColor,
+                ),
+              ),
+            );
+          }else if (state is Success) {
+            return visitorApiDataWidget();
+          }else if (state is Failure) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height / 1.3,
+              child: withoutAnalyticsWidget(),
+            );
+          }else {
+            return SizedBox();
+          }
+        },
       ),
     );
   }
