@@ -1642,6 +1642,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
               );
             } else if (state is Success) {
+              int highestValue = findLargestValueAcrossTrafficSource(data.trafficSourceByDateModel.data!);
               return Card(
                 elevation: 2,
                 child: Container(
@@ -1666,8 +1667,17 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             labelStyle: graphIndexTextStyle,
                             majorGridLines: const MajorGridLines(width: 0),
                             visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: 15, // Set the maximum visible value
-                            interval: 3, // Set the interval here
+                            visibleMaximum: highestValue <= 15 ? 15
+                                : highestValue > 15 && highestValue <= 50 ?
+                            50 :
+                            highestValue > 50 && highestValue <= 200 ? 200
+                                : highestValue > 200 && highestValue <= 1000 ?
+                            1000 : 5000,// Set the maximum visible value
+                            interval: highestValue <= 15 ? 3
+                                : highestValue > 15 && highestValue <= 50 ? 10
+                                : highestValue > 50 && highestValue <= 200
+                                ? 50 : highestValue > 200 && highestValue <= 100 ?
+                            250 : 1000, // Set the interval here
                           ),
                           series: <CartesianSeries>[
                             StackedColumnSeries<TrafficDataByDate, String>(
@@ -2062,6 +2072,21 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 }
 
 int findLargestValueAcrossLists(List<ChannelsByDateModelDatum> dataList) {
+  int largestValue = 0; // Initialize with a default value
+
+  for (var datum in dataList) {
+    for (var valueData in datum.data!) {
+      int value = int.parse('${valueData.value}');
+      if (value > largestValue) {
+        largestValue = value;
+      }
+    }
+  }
+
+  return largestValue;
+}
+
+int findLargestValueAcrossTrafficSource(List<TrafficSourceByDateModelDatum> dataList) {
   int largestValue = 0; // Initialize with a default value
 
   for (var datum in dataList) {
