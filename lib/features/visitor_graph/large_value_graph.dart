@@ -154,7 +154,7 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
             );
 
             return Padding(
-              padding: const EdgeInsets.only(right: 20,top: 5),
+              padding: const EdgeInsets.only(right: 20,top: 10),
               child: SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: text,
@@ -171,6 +171,7 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
     );
   }
 
+  dynamic biggestVal;
   LineChartData mainDataForGreaterValues(List<TrendingTimeData> data) {
     List<FlSpot> spots = [];
     double maxYValue = 0;
@@ -186,6 +187,7 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
       // Update maxYValue if current Y-value is greater
       if (yValue > maxYValue) {
         maxYValue = yValue;
+        biggestVal = yValue;
       }
     }
 
@@ -231,7 +233,15 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: 40,
+            interval:
+            biggestVal <= 160 ? 40
+                : biggestVal > 160 && biggestVal <= 200 ? 40
+                : biggestVal > 200 && biggestVal <= 1000 ? 250
+                : biggestVal >1000 && biggestVal <= 5000 ? 1000
+                :biggestVal > 5000 && biggestVal <= 10000 ? 1000
+                : biggestVal > 10000 && biggestVal <= 15000 ? 1000
+                : 10000,
+            // 40,
             getTitlesWidget: leftTitleWidgetsForGreaterValues,
             reservedSize: 48,
           ),
@@ -244,20 +254,18 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
       minX: 0,
       maxX: dataLength.toDouble(),
       minY: 0,
-      maxY: 160,
+      maxY:
+      biggestVal <= 160 ? 160
+      : biggestVal > 160 && biggestVal <= 200 ? 200
+      : biggestVal > 200 && biggestVal <= 1000 ? 1000
+      : biggestVal >1000 && biggestVal <= 5000 ? 5000
+      :biggestVal > 5000 && biggestVal <= 10000 ? 10000
+      : biggestVal > 10000 && biggestVal <= 15000 ? 15000
+      : 100000,
+          // 160 ? 200 : 160,
       lineBarsData: [
         LineChartBarData(
           spots: spots,
-          // spots: [
-          //   FlSpot(1, 3),
-          //   FlSpot(2, 5),
-          //   FlSpot(3, 2),
-          //   FlSpot(4, 10),
-          //   FlSpot(5, 4),
-          //   FlSpot(6, 4),
-          //   FlSpot(7, 3),
-          //   FlSpot(8, 4),
-          // ],
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
