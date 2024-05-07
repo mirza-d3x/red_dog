@@ -5,6 +5,7 @@ import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../providers/login_provider.dart';
 import '../../providers/user_profile_provider.dart';
 import '../../repositories/auth_repository.dart';
@@ -297,9 +298,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
 
                 const SizedBox(height: 40),
-                Text(
-                  'Terms of Service & Privacy Policy',
-                  style: termsAndConditionTextStyle
+                InkWell(
+                  onTap: (){
+                    launch('https://app.reddog.live/account/terms-service');
+                  },
+                  child: Text(
+                    'Terms of Service & Privacy Policy',
+                    style: termsAndConditionTextStyle
+                  ),
                 )
               ],
             ),
