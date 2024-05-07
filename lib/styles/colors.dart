@@ -113,3 +113,15 @@ const unassignedChannelColor = Color.fromRGBO(250, 203, 217, 1);
 const loginDescColor = Color.fromRGBO(76, 81, 81, 1);
 
 const loginWhiteBgColor = Color.fromRGBO(254, 254, 254, 1);
+
+const trafficSource1Color = Color.fromRGBO(64, 182, 214, 1);
+
+const trafficSource2Color = Color.fromRGBO(255, 184, 87, 1);
+
+const trafficSource3Color = Color.fromRGBO(45, 207, 217, 1);
+
+const trafficSource4Color = Color.fromRGBO(113, 185, 119, 1);
+
+const trafficSource5Color = Color.fromRGBO(196, 154, 209, 1);
+
+const trafficSource6Color = Color.fromRGBO(247, 134, 161, 1);

@@ -836,12 +836,12 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             // centerX: '90',
                             margin: EdgeInsets.zero,
                             palette: const <Color>[
-                              graphGreyColor,
-                              googleIndicatorColor,
-                              graphRedColor,
-                              mTimeJobsIndicatorColor,
-                              clutchIndicatorColor,
-                              othersIndicatorColor
+                              trafficSource1Color,
+                              trafficSource2Color,
+                              trafficSource3Color,
+                              trafficSource4Color,
+                              trafficSource5Color,
+                              trafficSource6Color
                             ],
                             legend: Legend(
                               position: LegendPosition.right,
@@ -854,8 +854,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 dataSource: data.trafficSourceModel.data,
                                 xValueMapper: (TrafficSourceData data,_) => data.key,
                                 yValueMapper: (TrafficSourceData data,_) => data.value,
-                                innerRadius: '90%',
-                                radius: '60%',
+                                innerRadius: '65%',
+                                radius: '80%',
 
                               ),
                             ],
