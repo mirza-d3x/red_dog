@@ -300,7 +300,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   position: PopupMenuPosition.under,
                   child:
                   CircleAvatar(
-                    radius: 21,
+                    radius: 19,
                     backgroundColor: dividerColor,
                     backgroundImage:
                     NetworkImage('${data.profileModel.userDetails!.picture}'),
