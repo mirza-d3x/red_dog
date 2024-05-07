@@ -453,21 +453,12 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 dataSource: data.topChannelsModel.data,
                                 xValueMapper: (TopChannelData data,_) => data.key,
                                 yValueMapper: (TopChannelData data,_) => int.parse(data.value),
-                                innerRadius: '90%',
-                                radius: '60%',
+                                innerRadius: '65%',
+                                radius: '70%',
 
                               ),
                             ],
                           ),
-
-                          // Positioned(
-                          //   left: 62,
-                          //   top: 93,
-                          //   child: Text(
-                          //     'Mar 2024',
-                          //     style: graphValueTextStyle,
-                          //   ),
-                          // )
                         ],
                       ),
                     ),
