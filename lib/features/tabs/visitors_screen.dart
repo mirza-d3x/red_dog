@@ -725,8 +725,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           centerX: '90',
                           margin: EdgeInsets.zero,
                           palette: const <Color>[
-                            graphBlackColor,
-                            graphGreyColor,
+                            newVisitorIndicatorColor,
+                            returningVisitorIndicatorColor,
                           ],
                           legend: Legend(
                             position: LegendPosition.right,
@@ -739,20 +739,11 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               dataSource: data.userByNewReturnedModel.data,
                               xValueMapper: (NewReturnedData data,_) => data.key,
                               yValueMapper: (NewReturnedData data,_) => data.value,
-                              innerRadius: '90%',
+                              innerRadius: '65%',
                               radius: '60%',
                             ),
                           ],
                         ),
-
-                        // Positioned(
-                        //   left: 73,
-                        //   top: 93,
-                        //   child: Text(
-                        //     '25.7%',
-                        //     style: visitorGraphValueTextStyle,
-                        //   ),
-                        // )
                       ],
                     ),
                   ),
