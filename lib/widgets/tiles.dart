@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
-
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import '../styles/text_styles.dart';
 
 Widget tiles(BuildContext context,String title,String number){
@@ -18,7 +18,7 @@ Widget tiles(BuildContext context,String title,String number){
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-           title,
+           '${toBeginningOfSentenceCase(title)}',
             style: tileTitleTextStyle,
           ),
 
