@@ -1056,8 +1056,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 dataSource: data.deviceCategoryModel.data,
                                 xValueMapper: (DeviceCategoryData data,_) => data.key,
                                 yValueMapper: (DeviceCategoryData data,_) => data.value,
-                                innerRadius: '90%',
-                                radius: '60%',
+                                innerRadius: '65%',
+                                radius: '70%',
 
                               ),
                             ],
