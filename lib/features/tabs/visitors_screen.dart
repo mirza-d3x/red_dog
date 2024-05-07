@@ -1716,7 +1716,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   data: data.userByAgeGroupModel.data!,
                   domainFn: (AgeData sales, _) => sales.key,
                   measureFn: (AgeData sales, _) => int.parse(sales.value),
-                  colorFn: (_, __) => charts.ColorUtil.fromDartColor(graphBlackColor),
+                  colorFn: (_, __) => charts.ColorUtil.fromDartColor(ageGroupBarColor),
                   // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
                   labelAccessorFn: (AgeData sales, _) => '${sales.value}',
                   outsideLabelStyleAccessorFn: (AgeData sales, _){

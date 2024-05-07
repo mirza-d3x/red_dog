@@ -125,3 +125,5 @@ const trafficSource4Color = Color.fromRGBO(113, 185, 119, 1);
 const trafficSource5Color = Color.fromRGBO(196, 154, 209, 1);
 
 const trafficSource6Color = Color.fromRGBO(247, 134, 161, 1);
+
+const ageGroupBarColor = Color.fromRGBO(222, 222, 149, 1);
