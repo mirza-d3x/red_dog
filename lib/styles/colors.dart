@@ -109,3 +109,7 @@ const organicSearchChannelColor = Color.fromRGBO(255, 129, 131, 1);
 const organicSocialChannelColor = Color.fromRGBO(255, 188, 225, 1);
 
 const unassignedChannelColor = Color.fromRGBO(250, 203, 217, 1);
+
+const loginDescColor = Color.fromRGBO(76, 81, 81, 1);
+
+const loginWhiteBgColor = Color.fromRGBO(254, 254, 254, 1);

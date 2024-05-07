@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: loginBgColor,
+          backgroundColor: loginWhiteBgColor,
           body: Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -159,88 +159,91 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 25),
                 Padding(
                   padding: const EdgeInsets.only(left: 25,right: 25),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      children: [
+                  child: Card(
+                    elevation: 3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        children: [
 
-                        // with analytics
-                        Container(
-                          decoration: BoxDecoration(
-                            color: _value == 'With Analytics' ?
-                            redColor : whiteColor,
-                            borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                  color: _value == 'With Analytics' ? redColor :
-                                  unselectedRadioColor
-                              )
-                          ),
-                          child: Row(
-                            children: [
-                              Radio(
-                                value: 'With Analytics',
-                                groupValue: _value ,
-                                onChanged: (value){
-                                  setState(() {
-                                    _value = value;
-                                  });
-                                },
-                                activeColor: whiteColor,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 6),
-                                child: Text(
-                                  'With Analytics',
-                                  style: _value == 'With Analytics' ?
-                                      loginButtonTextStyle : loginInactiveRadioTextStyle
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // without analytics
-                        Container(
-                          decoration: BoxDecoration(
-                            color: _value == 'With Analytics' ?
-                            whiteColor : redColor,
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
+                          // with analytics
+                          Container(
+                            decoration: BoxDecoration(
                               color: _value == 'With Analytics' ?
-                              unselectedRadioColor : redColor
-                            )
-                          ),
-                          child: Row(
-                            children: [
-                              Radio(
-                                value: 'Without Analytics',
-                                groupValue: _value ,
-                                onChanged: (value){
-                                  setState(() {
-                                    _value = value;
-                                  });
-                                },
-                                activeColor: whiteColor,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 6),
-                                child: Text(
-                                  'Without Analytics',
-                                    style: _value == 'With Analytics' ?
-                                     loginInactiveRadioTextStyle : loginButtonTextStyle
+                              redColor : whiteColor,
+                              borderRadius: BorderRadius.circular(6),
+                                border: Border.all(
+                                    color: _value == 'With Analytics' ? redColor :
+                                    unselectedRadioColor
+                                )
+                            ),
+                            child: Row(
+                              children: [
+                                Radio(
+                                  value: 'With Analytics',
+                                  groupValue: _value ,
+                                  onChanged: (value){
+                                    setState(() {
+                                      _value = value;
+                                    });
+                                  },
+                                  activeColor: whiteColor,
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(
+                                    'With Analytics',
+                                    style: _value == 'With Analytics' ?
+                                        loginButtonTextStyle : loginInactiveRadioTextStyle
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
 
-                      ],
+                          const SizedBox(height: 10),
+
+                          // without analytics
+                          Container(
+                            decoration: BoxDecoration(
+                              color: _value == 'With Analytics' ?
+                              whiteColor : redColor,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: _value == 'With Analytics' ?
+                                unselectedRadioColor : redColor
+                              )
+                            ),
+                            child: Row(
+                              children: [
+                                Radio(
+                                  value: 'Without Analytics',
+                                  groupValue: _value ,
+                                  onChanged: (value){
+                                    setState(() {
+                                      _value = value;
+                                    });
+                                  },
+                                  activeColor: whiteColor,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 6),
+                                  child: Text(
+                                    'Without Analytics',
+                                      style: _value == 'With Analytics' ?
+                                       loginInactiveRadioTextStyle : loginButtonTextStyle
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -260,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: BoxDecoration(
                         // color: whiteColor,
                         border: Border.all(
-                            color: whiteColor
+                            color: loginDescColor
                         ),
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -280,14 +283,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         Text(
                           'Continue With Google',
-                          style: loginButtonTextStyle
+                          style: continueWithGoogleButtonTextStyle
                         )
                       ],
                     )
                         :
                     Center(
                       child: CircularProgressIndicator(
-                        color: whiteColor,
+                        color: loginBgColor,
                       ),
                     ),
                   ),
@@ -296,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 40),
                 Text(
                   'Terms of Service & Privacy Policy',
-                  style: loginTermsTextStyle
+                  style: termsAndConditionTextStyle
                 )
               ],
             ),

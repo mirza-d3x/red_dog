@@ -15,19 +15,25 @@ const _boldFont = 'Barlow-Bold';
 
 TextStyle mediumTextStyle = const TextStyle(
   fontFamily: _mediumFont,
-  color: whiteColor,
+  color: loginDescColor,
   fontSize: 24,
 );
 
 TextStyle loginDescTextStyle = const TextStyle(
   fontFamily: _regularFont,
-  color: whiteColor,
+  color: loginDescColor,
   fontSize: 20,
 );
 
 TextStyle loginButtonTextStyle = const TextStyle(
   fontFamily: _regularFont,
   color: whiteColor,
+  fontSize: 18,
+);
+
+TextStyle continueWithGoogleButtonTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: loginDescColor,
   fontSize: 18,
 );
 
@@ -40,6 +46,12 @@ TextStyle loginInactiveRadioTextStyle = const TextStyle(
 TextStyle loginTermsTextStyle = const TextStyle(
   fontFamily: _regularFont,
   color: whiteColor,
+  fontSize: 15,
+);
+
+TextStyle termsAndConditionTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: loginDescColor,
   fontSize: 15,
 );
 
