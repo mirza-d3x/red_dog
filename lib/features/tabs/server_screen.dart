@@ -338,7 +338,7 @@ class _ServerScreenState extends State<ServerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Average server latency',
+                        'Latency',
                         style: tileTitleTextStyle,
                       ),
 
@@ -394,28 +394,18 @@ class _ServerScreenState extends State<ServerScreen> {
                     borderRadius: BorderRadius.circular(5),
                     color: whiteColor,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Uptime',
-                            style: tileTitleTextStyle,
-                          ),
-
-                          const SizedBox(height: 8),
-                          Text(
-                            '${data.uptimeModel.data!.uptime}%',
-                            style: tileNumberTextStyle,
-                          )
-                        ],
+                      Text(
+                        'Uptime',
+                        style: tileTitleTextStyle,
                       ),
 
-                      Image.asset(
-                        'assets/images/server_uptime.PNG',
-                        height: 50,
+                      const SizedBox(height: 8),
+                      Text(
+                        '${data.uptimeModel.data!.uptime}%',
+                        style: tileNumberTextStyle,
                       )
                     ],
                   ),
