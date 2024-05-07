@@ -142,62 +142,33 @@ class _ServerScreenState extends State<ServerScreen> {
                 websiteDropdownMenu(),
 
                 const SizedBox(height: 5),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: InkWell(
+                InkWell(
 
-                        onTap: () => _selectDateRange(context),
-                        child: Card(
-                          elevation: 2,
-                          child: Container(
-                            height: 43,
-                            // padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child:
-                            Center(
-                              child: Text(
-                                _selectedFromDate != null && _selectedToDate != null ?
-                                '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                    : '${formattedInitialdDate} to ${formattedDate}',
-                                style: dropDownTextStyle,
-                              ),
-                            ),
+                  onTap: () => _selectDateRange(context),
+                  child: Card(
+                    elevation: 2,
+                    child: Container(
+                      height: 43,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child:
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            _selectedFromDate != null && _selectedToDate != null ?
+                            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                : '${formattedInitialdDate} to ${formattedDate}',
+                            style: dropDownTextStyle,
                           ),
                         ),
                       ),
                     ),
-
-                    const SizedBox(width: 5),
-
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Card(
-                          elevation: 2,
-                          child: Container(
-                              height: 43,
-                              padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                              decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Icon(
-                                Icons.download,
-                                color: blackColor,
-                                size: 20,
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
 
                 const SizedBox(height: 10),
