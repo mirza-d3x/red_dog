@@ -504,8 +504,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     color: whiteColor,
                   ),
                   child:
-                  // Column(
-                  //   children: [
+                  Column(
+                    children: [
                       SfCartesianChart(
                           plotAreaBorderWidth: 0,
                           primaryXAxis: CategoryAxis(
@@ -617,8 +617,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   //         ),
                   //       ),
                   //     )
-                  //   ],
-                  // ),
+                    ],
+                  ),
                 ),
               );
             }else if (state is Failure) {
