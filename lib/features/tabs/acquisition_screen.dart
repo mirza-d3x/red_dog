@@ -644,442 +644,440 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
           // stacked Column graph traffic sources by date
-          // Consumer<AcquisitionProvider>(builder: (ctx, data, _){
-          //   var state = data.trafficSourceByDateLiveData().getValue();
-          //   print(state);
-          //   if (state is IsLoading) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: CircularProgressIndicator(
-          //           color: loginBgColor,
-          //         ),
-          //       ),
-          //     );
-          //   } else if (state is Success) {
-          //     int highestValue = findLargestValueAcrossTrafficSource(data.trafficSourceByDateModel.data!);
-          //     return Card(
-          //       elevation: 2,
-          //       child: Container(
-          //         width: double.infinity,
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(3),
-          //           color: whiteColor,
-          //         ),
-          //         child: Column(
-          //           children: [
-          //             SfCartesianChart(
-          //                 plotAreaBorderWidth: 0,
-          //                 primaryXAxis: CategoryAxis(
-          //                     majorGridLines: const MajorGridLines(width: 0),
-          //                     labelStyle: graphIndexTextStyle,
-          //                     labelRotation: -80,
-          //                   visibleMinimum: 0, // Set the minimum visible value
-          //                   visibleMaximum: 30, // Set the maximum visible value
-          //                   interval: 1,
-          //                 ),
-          //                 primaryYAxis: NumericAxis(
-          //                   labelStyle: graphIndexTextStyle,
-          //                   majorGridLines: const MajorGridLines(width: 0),
-          //                   visibleMinimum: 0, // Set the minimum visible value
-          //                   visibleMaximum: highestValue <= 15 ? 15
-          //                       : highestValue > 15 && highestValue <= 50 ?
-          //                   50 :
-          //                   highestValue > 50 && highestValue <= 200 ? 200
-          //                       : highestValue > 200 && highestValue <= 1000 ?
-          //                   1000 : 5000,// Set the maximum visible value
-          //                   interval: highestValue <= 15 ? 3
-          //                       : highestValue > 15 && highestValue <= 50 ? 10
-          //                       : highestValue > 50 && highestValue <= 200
-          //                       ? 50 : highestValue > 200 && highestValue <= 100 ?
-          //                   250 : 1000, // Set the interval here
-          //                 ),
-          //                 series: <CartesianSeries>[
-          //                   StackedColumnSeries<TrafficDataByDate, String>(
-          //                       dataSource: data.trafficSourceByDateModel.data![0].data!,
-          //                       xValueMapper: (TrafficDataByDate data, _) => data.key,
-          //                       yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-          //                       width: 0.8,
-          //                       color: directBarColor
-          //                   ),
-          //                   StackedColumnSeries<TrafficDataByDate, String>(
-          //                       dataSource: data.trafficSourceByDateModel.data![1].data!,
-          //                       xValueMapper: (TrafficDataByDate data, _) => data.key,
-          //                       yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-          //                       width: 0.8,
-          //                       color: googleBarColor
-          //                   ),
-          //                   StackedColumnSeries<TrafficDataByDate,String>(
-          //                       dataSource: data.trafficSourceByDateModel.data![2].data!,
-          //                       xValueMapper: (TrafficDataByDate data, _) => data.key,
-          //                       yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-          //                       width: 0.8,
-          //                       color: bingBarColor
-          //                   ),
-          //                   StackedColumnSeries<TrafficDataByDate,String>(
-          //                       dataSource: data.trafficSourceByDateModel.data![3].data!,
-          //                       xValueMapper: (TrafficDataByDate data, _) => data.key,
-          //                       yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-          //                       width: 0.8,
-          //                       color: duckGoBarColor
-          //                   ),
-          //                   StackedColumnSeries<TrafficDataByDate,String>(
-          //                       dataSource: data.trafficSourceByDateModel.data![4].data!,
-          //                       xValueMapper: (TrafficDataByDate data, _) => data.key,
-          //                       yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-          //                       width: 0.8,
-          //                       color: baiduBarColor
-          //                   ),
-          //                   StackedColumnSeries<TrafficDataByDate,String>(
-          //                       dataSource: data.trafficSourceByDateModel.data![4].data!,
-          //                       xValueMapper: (TrafficDataByDate data, _) => data.key,
-          //                       yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-          //                       width: 0.8,
-          //                       color: otherTrafficBarColor
-          //                   ),
-          //                 ]
-          //             ),
-          //
-          //             const SizedBox(height: 8),
-          //             Padding(
-          //               padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-          //               child: Expanded(
-          //                 child: GridView.builder(
-          //                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //                     crossAxisCount: 2,
-          //                     mainAxisExtent: 23,
-          //                     crossAxisSpacing: 1,
-          //                   ),
-          //                   itemCount: 5,
-          //                   physics: NeverScrollableScrollPhysics(),
-          //                   shrinkWrap: true,
-          //                   itemBuilder: (context,index) => Row(
-          //                     children: [
-          //                       Container(
-          //                           height: 10,
-          //                           width: 10,
-          //                           color:
-          //                           data.trafficSourceByDateModel.data![index].name == "(direct)"?
-          //                           directBarColor :
-          //                           data.trafficSourceByDateModel.data![index].name == "google"?
-          //                           googleBarColor :
-          //                           data.trafficSourceByDateModel.data![index].name == "bing"?
-          //                           bingBarColor :
-          //                           data.trafficSourceByDateModel.data![index].name == "duckduckgo"?
-          //                           duckGoBarColor :
-          //                           data.trafficSourceByDateModel.data![index].name == "baidu"?
-          //                           baiduBarColor:
-          //                           otherTrafficBarColor
-          //                       ),
-          //
-          //                       const SizedBox(width: 5),
-          //                       Text(
-          //                         '${data.trafficSourceByDateModel.data![index].name}',
-          //                         style: graphHintTextStyle,
-          //                       )
-          //                     ],
-          //                   ),
-          //                 ),
-          //               ),
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //     );
-          //   }else if (state is Failure) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: Text(
-          //           'Failed to load',
-          //         ),
-          //       ),
-          //     );
-          //   } else {
-          //     return Container();
-          //   }
-          // }),
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.trafficSourceByDateLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              int highestValue = findLargestValueAcrossTrafficSource(data.trafficSourceByDateModel.data!);
+              return Card(
+                elevation: 2,
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    children: [
+                      SfCartesianChart(
+                          plotAreaBorderWidth: 0,
+                          primaryXAxis: CategoryAxis(
+                              majorGridLines: const MajorGridLines(width: 0),
+                              labelStyle: graphIndexTextStyle,
+                              labelRotation: -80,
+                            visibleMinimum: 0, // Set the minimum visible value
+                            visibleMaximum: 30, // Set the maximum visible value
+                            interval: 1,
+                          ),
+                          primaryYAxis: NumericAxis(
+                            labelStyle: graphIndexTextStyle,
+                            majorGridLines: const MajorGridLines(width: 0),
+                            visibleMinimum: 0, // Set the minimum visible value
+                            visibleMaximum: highestValue <= 15 ? 15
+                                : highestValue > 15 && highestValue <= 50 ?
+                            50 :
+                            highestValue > 50 && highestValue <= 200 ? 200
+                                : highestValue > 200 && highestValue <= 1000 ?
+                            1000 : 5000,// Set the maximum visible value
+                            interval: highestValue <= 15 ? 3
+                                : highestValue > 15 && highestValue <= 50 ? 10
+                                : highestValue > 50 && highestValue <= 200
+                                ? 50 : highestValue > 200 && highestValue <= 100 ?
+                            250 : 1000, // Set the interval here
+                          ),
+                          series: <CartesianSeries>[
+                            StackedColumnSeries<TrafficDataByDate, String>(
+                                dataSource: data.trafficSourceByDateModel.data![0].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: directBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate, String>(
+                                dataSource: data.trafficSourceByDateModel.data![1].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: googleBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![2].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: bingBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![3].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: duckGoBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: baiduBarColor
+                            ),
+                            StackedColumnSeries<TrafficDataByDate,String>(
+                                dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                width: 0.8,
+                                color: otherTrafficBarColor
+                            ),
+                          ]
+                      ),
+
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                        child: GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisExtent: 23,
+                            crossAxisSpacing: 1,
+                          ),
+                          itemCount: 5,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context,index) => Row(
+                            children: [
+                              Container(
+                                  height: 10,
+                                  width: 10,
+                                  color:
+                                  data.trafficSourceByDateModel.data![index].name == "(direct)"?
+                                  directBarColor :
+                                  data.trafficSourceByDateModel.data![index].name == "google"?
+                                  googleBarColor :
+                                  data.trafficSourceByDateModel.data![index].name == "bing"?
+                                  bingBarColor :
+                                  data.trafficSourceByDateModel.data![index].name == "duckduckgo"?
+                                  duckGoBarColor :
+                                  data.trafficSourceByDateModel.data![index].name == "baidu"?
+                                  baiduBarColor:
+                                  otherTrafficBarColor
+                              ),
+
+                              const SizedBox(width: 5),
+                              Text(
+                                '${data.trafficSourceByDateModel.data![index].name}',
+                                style: graphHintTextStyle,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    'Failed to load',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
 
           const SizedBox(height: 10),
           // Circular chart - traffic source
-          // Consumer<AcquisitionProvider>(builder: (ctx, data, _){
-          //   var state = data.trafficSourceLiveData().getValue();
-          //   print(state);
-          //   if (state is IsLoading) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: CircularProgressIndicator(
-          //           color: loginBgColor,
-          //         ),
-          //       ),
-          //     );
-          //   } else if (state is Success) {
-          //     return Card(
-          //       elevation: 2,
-          //       child: Container(
-          //         // height: 340,
-          //         padding:  EdgeInsets.zero,
-          //         width: double.infinity,
-          //         decoration: BoxDecoration(
-          //           borderRadius: BorderRadius.circular(3),
-          //           color: whiteColor,
-          //         ),
-          //         child: Column(
-          //           children: [
-          //             Stack(
-          //               children: [
-          //                 SfCircularChart(
-          //                   // centerY: '100',
-          //                   // centerX: '90',
-          //                   margin: EdgeInsets.zero,
-          //                   palette: const <Color>[
-          //                     trafficSource1Color,
-          //                     trafficSource2Color,
-          //                     trafficSource3Color,
-          //                     trafficSource4Color,
-          //                     trafficSource5Color,
-          //                     trafficSource6Color
-          //                   ],
-          //                   legend: Legend(
-          //                     position: LegendPosition.right,
-          //                     isVisible: true,
-          //                     isResponsive:true,
-          //                     overflowMode: LegendItemOverflowMode.wrap,
-          //                   ),
-          //                   series: <CircularSeries>[
-          //                     DoughnutSeries<TrafficSourceData,String>(
-          //                       dataSource: data.trafficSourceModel.data,
-          //                       xValueMapper: (TrafficSourceData data,_) => data.key,
-          //                       yValueMapper: (TrafficSourceData data,_) => data.value,
-          //                       innerRadius: '65%',
-          //                       radius: '80%',
-          //
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ],
-          //             )
-          //           ],
-          //         ),
-          //       ),
-          //     );
-          //   }else if (state is Failure) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: Text(
-          //           '',
-          //         ),
-          //       ),
-          //     );
-          //   } else {
-          //     return Container();
-          //   }
-          // }),
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.trafficSourceLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                child: Container(
+                  // height: 340,
+                  padding:  EdgeInsets.zero,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          SfCircularChart(
+                            // centerY: '100',
+                            // centerX: '90',
+                            margin: EdgeInsets.zero,
+                            palette: const <Color>[
+                              trafficSource1Color,
+                              trafficSource2Color,
+                              trafficSource3Color,
+                              trafficSource4Color,
+                              trafficSource5Color,
+                              trafficSource6Color
+                            ],
+                            legend: Legend(
+                              position: LegendPosition.right,
+                              isVisible: true,
+                              isResponsive:true,
+                              overflowMode: LegendItemOverflowMode.wrap,
+                            ),
+                            series: <CircularSeries>[
+                              DoughnutSeries<TrafficSourceData,String>(
+                                dataSource: data.trafficSourceModel.data,
+                                xValueMapper: (TrafficSourceData data,_) => data.key,
+                                yValueMapper: (TrafficSourceData data,_) => data.value,
+                                innerRadius: '65%',
+                                radius: '80%',
+
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
           const SizedBox(height: 10),
 
           // what are the most visited pages heading + drop down menu
           // website list
-          // Consumer<AcquisitionProvider>(builder: (ctx, data, _){
-          //   var state = data.mostVisitedPageLiveData().getValue();
-          //   print(state);
-          //   if (state is IsLoading) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: CircularProgressIndicator(
-          //           color: loginBgColor,
-          //         ),
-          //       ),
-          //     );
-          //   } else if (state is Success) {
-          //     return Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Text(
-          //           'What are the most visited pages?',
-          //           style: normalTextStyle,
-          //         ),
-          //         const SizedBox(height: 10),
-          //         Card(
-          //           elevation: 2,
-          //           child: Container(
-          //             padding: const EdgeInsets.all(20),
-          //             height:  data.mostVisitedPageModel.data!.length == 1 ||  data.mostVisitedPageModel.data!.length == 2?
-          //             120 :
-          //                 data.mostVisitedPageModel.data!.length >= 3 && data.mostVisitedPageModel.data!.length <6 ?
-          //                     220 :
-          //             data.mostVisitedPageModel.data!.length > 6 ?
-          //             395 : 320,
-          //             width: double.infinity,
-          //             decoration: BoxDecoration(
-          //                 borderRadius: BorderRadius.circular(2),
-          //                 color: whiteColor
-          //             ),
-          //             child: Column(
-          //               children: [
-          //                 Row(
-          //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                   children: [
-          //                     Text(
-          //                       'Page',
-          //                       style: tableTitleTextStyle,
-          //                     ),
-          //
-          //                     Text(
-          //                       'Users',
-          //                       style: tableTitleTextStyle,
-          //                     )
-          //                   ],
-          //                 ),
-          //
-          //                 const SizedBox(height: 15),
-          //
-          //                 Expanded(
-          //                   child: Scrollbar(
-          //                     thumbVisibility: true,
-          //                     child: ListView.builder(
-          //                       physics: const AlwaysScrollableScrollPhysics(),
-          //                       shrinkWrap: true,
-          //                       itemCount: data.mostVisitedPageModel.data!.length,
-          //                       itemBuilder: (context,index) => Column(
-          //                         children: [
-          //                           Row(
-          //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //                             children: [
-          //                               Expanded(
-          //                                 child: Padding(
-          //                                   padding: const EdgeInsets.only(right: 30),
-          //                                   child: Text(
-          //                                     '${data.mostVisitedPageModel.data![index].key}',
-          //                                     style: tableContentTextStyle,
-          //                                   ),
-          //                                 ),
-          //                               ),
-          //
-          //                               Padding(
-          //                                 padding: const EdgeInsets.only(right: 10),
-          //                                 child: Text(
-          //                                   '${data.mostVisitedPageModel.data![index].value}',
-          //                                   style: tableContentTextStyle,
-          //                                 ),
-          //                               )
-          //                             ],
-          //                           ),
-          //
-          //                           const SizedBox(height: 15),
-          //                         ],
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     );
-          //   }else if (state is Failure) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: Text(
-          //           '',
-          //         ),
-          //       ),
-          //     );
-          //   } else {
-          //     return Container();
-          //   }
-          // }),
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.mostVisitedPageLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What are the most visited pages?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      height:  data.mostVisitedPageModel.data!.length == 1 ||  data.mostVisitedPageModel.data!.length == 2?
+                      120 :
+                          data.mostVisitedPageModel.data!.length >= 3 && data.mostVisitedPageModel.data!.length <6 ?
+                              220 :
+                      data.mostVisitedPageModel.data!.length > 6 ?
+                      395 : 320,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          color: whiteColor
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Page',
+                                style: tableTitleTextStyle,
+                              ),
+
+                              Text(
+                                'Users',
+                                style: tableTitleTextStyle,
+                              )
+                            ],
+                          ),
+
+                          const SizedBox(height: 15),
+
+                          Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: ListView.builder(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: data.mostVisitedPageModel.data!.length,
+                                itemBuilder: (context,index) => Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(right: 30),
+                                            child: Text(
+                                              '${data.mostVisitedPageModel.data![index].key}',
+                                              style: tableContentTextStyle,
+                                            ),
+                                          ),
+                                        ),
+
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 10),
+                                          child: Text(
+                                            '${data.mostVisitedPageModel.data![index].value}',
+                                            style: tableContentTextStyle,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+
+                                    const SizedBox(height: 15),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
 
           const SizedBox(height: 10),
           // What are the devices used heading + drop down
-          // Consumer<AcquisitionProvider>(builder: (ctx, data, _){
-          //   var state = data.deviceCategoryLiveData().getValue();
-          //   print(state);
-          //   if (state is IsLoading) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: CircularProgressIndicator(
-          //           color: loginBgColor,
-          //         ),
-          //       ),
-          //     );
-          //   } else if (state is Success) {
-          //     return Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         Text(
-          //           'What are the devices used',
-          //           style: normalTextStyle,
-          //         ),
-          //         const SizedBox(height: 10),
-          //
-          //         // Circular chart
-          //         Card(
-          //           elevation: 2,
-          //           child: Container(
-          //             height: 200,
-          //             padding:  EdgeInsets.zero,
-          //             width: double.infinity,
-          //             decoration: BoxDecoration(
-          //               borderRadius: BorderRadius.circular(3),
-          //               color: whiteColor,
-          //             ),
-          //             child: Stack(
-          //               children: [
-          //                 SfCircularChart(
-          //                   centerY: '100',
-          //                   centerX: '90',
-          //                   margin: EdgeInsets.zero,
-          //                   palette: const <Color>[
-          //                     desktopColor,
-          //                     mobileColor,
-          //                     tabletColor
-          //                   ],
-          //                   legend: Legend(
-          //                     position: LegendPosition.right,
-          //                     isVisible: true,
-          //                     isResponsive:true,
-          //                     overflowMode: LegendItemOverflowMode.wrap,
-          //                   ),
-          //                   series: <CircularSeries>[
-          //                     DoughnutSeries<DeviceCategoryData,String>(
-          //                       // animationDelay: 0,
-          //                       // animationDuration: 0,
-          //                       dataSource: data.deviceCategoryModel.data,
-          //                       xValueMapper: (DeviceCategoryData data,_) => data.key,
-          //                       yValueMapper: (DeviceCategoryData data,_) => data.value,
-          //                       innerRadius: '65%',
-          //                       radius: '70%',
-          //
-          //                     ),
-          //                   ],
-          //                 ),
-          //               ],
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     );
-          //   }else if (state is Failure) {
-          //     return SizedBox(
-          //       height: MediaQuery.of(context).size.height / 1.3,
-          //       child: Center(
-          //         child: Text(
-          //           '',
-          //         ),
-          //       ),
-          //     );
-          //   } else {
-          //     return Container();
-          //   }
-          // }),
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.deviceCategoryLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What are the devices used',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Circular chart
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      height: 200,
+                      padding:  EdgeInsets.zero,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: whiteColor,
+                      ),
+                      child: Stack(
+                        children: [
+                          SfCircularChart(
+                            centerY: '100',
+                            centerX: '90',
+                            margin: EdgeInsets.zero,
+                            palette: const <Color>[
+                              desktopColor,
+                              mobileColor,
+                              tabletColor
+                            ],
+                            legend: Legend(
+                              position: LegendPosition.right,
+                              isVisible: true,
+                              isResponsive:true,
+                              overflowMode: LegendItemOverflowMode.wrap,
+                            ),
+                            series: <CircularSeries>[
+                              DoughnutSeries<DeviceCategoryData,String>(
+                                // animationDelay: 0,
+                                // animationDuration: 0,
+                                dataSource: data.deviceCategoryModel.data,
+                                xValueMapper: (DeviceCategoryData data,_) => data.key,
+                                yValueMapper: (DeviceCategoryData data,_) => data.value,
+                                innerRadius: '65%',
+                                radius: '70%',
+
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
         ],
       ),
     );
