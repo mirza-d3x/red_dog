@@ -854,316 +854,329 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 8),
           // country list
-          Card(
-            elevation: 2,
-            shadowColor: whiteColor,
-            child: Container(
-              height: 400,
-              padding: const EdgeInsets.all(10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(3),
-                color: whiteColor,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5,top: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              selectedOption = 'Country';
-                            });
-                          },
-                          child: Text(
-                            'Country',
-                            style: TextStyle(
-                              fontFamily: 'Barlow-Medium',
-                              color: selectedOption == 'Country' ? redColor : blackColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(width: 20),
-                        InkWell(
-                          onTap: (){
-                            setState(() {
-                              selectedOption = 'City';
-                            });
-                          },
-                          child: Text(
-                            'City',
-                            style: TextStyle(
-                              fontFamily: 'Barlow-Medium',
-                              color: selectedOption == 'City' ? redColor : blackColor,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+          Consumer<VisitorProvider>(builder: (ctx, data, _){
+            var state = data.userByCountryLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox();
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  height: 400,
+                  padding: const EdgeInsets.all(10),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    color: whiteColor,
                   ),
-
-                  const SizedBox(height: 20),
-                  selectedOption == 'Country' ?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Country',
-                          style: tableTitleTextStyle,
-                        ),
-                      ),
 
                       Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Text(
-                          'Users',
-                          style: tableTitleTextStyle,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 40),
-                        child: Text(
-                          '%',
-                          style: tableTitleTextStyle,
-                        ),
-                      )
-                    ],
-                  ):
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: Text(
-                          'City',
-                          style: tableTitleTextStyle,
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(left: 45),
-                        child: Text(
-                          'Users',
-                          style: tableTitleTextStyle,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 45),
-                        child: Text(
-                          '%',
-                          style: tableTitleTextStyle,
-                        ),
-                      )
-                    ],
-                  ),
-
-                  const SizedBox(height: 3),
-                  const Divider(
-                    color: dividerColor,
-                  ),
-
-                  const SizedBox(height: 3),
-
-                  selectedOption == 'Country' ?
-                  //  country list
-                  Consumer<VisitorProvider>(builder: (ctx, data, _){
-                    var state = data.userByCountryLiveData().getValue();
-                    print(state);
-                    if (state is IsLoading) {
-                      return SizedBox();
-                    } else if (state is Success) {
-                      return Expanded(
-                        child: Scrollbar(
-                          thumbVisibility: true,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5,left: 5),
-                            child: ListView.builder(
-                              itemCount: data.userByCountryModel.data!.length,
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (context,index) {
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          // Text(
-                                          //   '${index + 1}',
-                                          //   style: tableContentTextStyle,
-                                          // ),
-
-                                          Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              '${data.userByCountryModel.data![index].name}',
-                                              style: tableContentTextStyle,
-                                            ),
-                                          ),
-
-                                          const SizedBox(width: 10),
-
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              '${data.userByCountryModel.data![index].value}',
-                                              style: tableContentTextStyle,
-                                            ),
-                                          ),
-
-                                          Expanded(
-                                            flex: 1,
-                                            child: LinearPercentIndicator(
-                                              width: 65.0,
-                                              lineHeight: 14.0,
-                                              percent: data.userByCountryModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
-                                              backgroundColor: whiteColor,
-                                              progressColor: percentageIndicatorColor,
-                                              center: Text(
-                                                '${data.userByCountryModel.data![index].percentage}',
-                                                style: percentTextStyle,
-                                              ),
-                                            ),
-                                          ),
-
-
-                                          // Text(
-                                          //   '83.10%',
-                                          //   style: tableContentTextStyle,
-                                          // )
-                                        ],
-                                      ),
-                                    ),
-
-                                    const SizedBox(height: 3),
-                                    const Divider(
-                                      color: dividerColor,
-                                    ),
-                                    const SizedBox(height: 3),
-                                  ],
-                                );
+                        padding: const EdgeInsets.only(right: 5,top: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  selectedOption = 'Country';
+                                });
                               },
+                              child: Text(
+                                'Country',
+                                style: TextStyle(
+                                  fontFamily: 'Barlow-Medium',
+                                  color: selectedOption == 'Country' ? redColor : blackColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(width: 20),
+                            InkWell(
+                              onTap: (){
+                                setState(() {
+                                  selectedOption = 'City';
+                                });
+                              },
+                              child: Text(
+                                'City',
+                                style: TextStyle(
+                                  fontFamily: 'Barlow-Medium',
+                                  color: selectedOption == 'City' ? redColor : blackColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+                      selectedOption == 'Country' ?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              'Country',
+                              style: tableTitleTextStyle,
                             ),
                           ),
-                        ),
-                      );
-                    }else if (state is Failure) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.3,
-                        child: Center(
-                          child: Text(
-                            'Failed to load!!',
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  }):
-                  Consumer<VisitorProvider>(builder: (ctx, data, _){
-                    var state = data.userByCityLiveData().getValue();
-                    print(state);
-                    if (state is IsLoading) {
-                      return SizedBox();
-                    } else if (state is Success) {
-                      return Expanded(
-                        child: Scrollbar(
-                          thumbVisibility: true,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 5,left: 5),
-                            child: ListView.builder(
-                              itemCount: data.userByCityModel.data!.length,
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (context,index) {
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          // Text(
-                                          //   '${index + 1}',
-                                          //   style: tableContentTextStyle,
-                                          // ),
 
-                                          Expanded(
-                                            flex: 2,
-                                            child: Text(
-                                              '${data.userByCityModel.data![index].name}',
-                                              style: tableContentTextStyle,
-                                            ),
-                                          ),
-
-                                          const SizedBox(width: 10),
-
-                                          Expanded(
-                                            flex: 1,
-                                            child: Text(
-                                              '${data.userByCityModel.data![index].value}',
-                                              style: tableContentTextStyle,
-                                            ),
-                                          ),
-
-                                          Expanded(
-                                            flex: 1,
-                                            child: LinearPercentIndicator(
-                                              width: 65.0,
-                                              lineHeight: 14.0,
-                                              percent: data.userByCityModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
-                                              backgroundColor: whiteColor,
-                                              progressColor: percentageIndicatorColor,
-                                              center: Text(
-                                                '${data.userByCityModel.data![index].percentage}',
-                                                style: percentTextStyle,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    const SizedBox(height: 3),
-                                    const Divider(
-                                      color: dividerColor,
-                                    ),
-                                    const SizedBox(height: 3),
-                                  ],
-                                );
-                              },
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text(
+                              'Users',
+                              style: tableTitleTextStyle,
                             ),
                           ),
-                        ),
-                      );
-                    }else if (state is Failure) {
-                      return SizedBox(
-                        height: MediaQuery.of(context).size.height / 1.3,
-                        child: Center(
-                          child: Text(
-                            'Failed to load!!',
+                          Padding(
+                            padding: const EdgeInsets.only(right: 40),
+                            child: Text(
+                              '%',
+                              style: tableTitleTextStyle,
+                            ),
+                          )
+                        ],
+                      ):
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: Text(
+                              'City',
+                              style: tableTitleTextStyle,
+                            ),
                           ),
-                        ),
-                      );
-                    } else {
-                      return Container();
-                    }
-                  })
-                ],
-              ),
-            ),
-          ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(left: 45),
+                            child: Text(
+                              'Users',
+                              style: tableTitleTextStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 45),
+                            child: Text(
+                              '%',
+                              style: tableTitleTextStyle,
+                            ),
+                          )
+                        ],
+                      ),
+
+                      const SizedBox(height: 3),
+                      const Divider(
+                        color: dividerColor,
+                      ),
+
+                      const SizedBox(height: 3),
+
+                      selectedOption == 'Country' ?
+                      //  country list
+                      Consumer<VisitorProvider>(builder: (ctx, data, _){
+                        var state = data.userByCountryLiveData().getValue();
+                        print(state);
+                        if (state is IsLoading) {
+                          return SizedBox();
+                        } else if (state is Success) {
+                          return Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5,left: 5),
+                                child: ListView.builder(
+                                  itemCount: data.userByCountryModel.data!.length,
+                                  shrinkWrap: true,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder: (context,index) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Text(
+                                              //   '${index + 1}',
+                                              //   style: tableContentTextStyle,
+                                              // ),
+
+                                              Expanded(
+                                                flex: 2,
+                                                child: Text(
+                                                  '${data.userByCountryModel.data![index].name}',
+                                                  style: tableContentTextStyle,
+                                                ),
+                                              ),
+
+                                              const SizedBox(width: 10),
+
+                                              Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  '${data.userByCountryModel.data![index].value}',
+                                                  style: tableContentTextStyle,
+                                                ),
+                                              ),
+
+                                              Expanded(
+                                                flex: 1,
+                                                child: LinearPercentIndicator(
+                                                  width: 65.0,
+                                                  lineHeight: 14.0,
+                                                  percent: data.userByCountryModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
+                                                  backgroundColor: whiteColor,
+                                                  progressColor: percentageIndicatorColor,
+                                                  center: Text(
+                                                    '${data.userByCountryModel.data![index].percentage}',
+                                                    style: percentTextStyle,
+                                                  ),
+                                                ),
+                                              ),
+
+
+                                              // Text(
+                                              //   '83.10%',
+                                              //   style: tableContentTextStyle,
+                                              // )
+                                            ],
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 3),
+                                        const Divider(
+                                          color: dividerColor,
+                                        ),
+                                        const SizedBox(height: 3),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        }else if (state is Failure) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.3,
+                            child: Center(
+                              child: Text(
+                                'Failed to load!!',
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      }):
+                      Consumer<VisitorProvider>(builder: (ctx, data, _){
+                        var state = data.userByCityLiveData().getValue();
+                        print(state);
+                        if (state is IsLoading) {
+                          return SizedBox();
+                        } else if (state is Success) {
+                          return Expanded(
+                            child: Scrollbar(
+                              thumbVisibility: true,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5,left: 5),
+                                child: ListView.builder(
+                                  itemCount: data.userByCityModel.data!.length,
+                                  shrinkWrap: true,
+                                  physics: const AlwaysScrollableScrollPhysics(),
+                                  itemBuilder: (context,index) {
+                                    return Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // Text(
+                                              //   '${index + 1}',
+                                              //   style: tableContentTextStyle,
+                                              // ),
+
+                                              Expanded(
+                                                flex: 2,
+                                                child: Text(
+                                                  '${data.userByCityModel.data![index].name}',
+                                                  style: tableContentTextStyle,
+                                                ),
+                                              ),
+
+                                              const SizedBox(width: 10),
+
+                                              Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  '${data.userByCityModel.data![index].value}',
+                                                  style: tableContentTextStyle,
+                                                ),
+                                              ),
+
+                                              Expanded(
+                                                flex: 1,
+                                                child: LinearPercentIndicator(
+                                                  width: 65.0,
+                                                  lineHeight: 14.0,
+                                                  percent: data.userByCityModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
+                                                  backgroundColor: whiteColor,
+                                                  progressColor: percentageIndicatorColor,
+                                                  center: Text(
+                                                    '${data.userByCityModel.data![index].percentage}',
+                                                    style: percentTextStyle,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+
+                                        const SizedBox(height: 3),
+                                        const Divider(
+                                          color: dividerColor,
+                                        ),
+                                        const SizedBox(height: 3),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        }else if (state is Failure) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.3,
+                            child: Center(
+                              child: Text(
+                                'Failed to load!!',
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      })
+                    ],
+                  ),
+                ),
+              );
+            }else if (state is Failure) {
+              return SizedBox();
+            } else {
+              return Container();
+            }
+          }),
+
 
           const SizedBox(height: 15),
           // What language do they speak?
@@ -1327,28 +1340,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           }),
 
           const SizedBox(height: 15),
-          // What is their age group?
-          // Text(
-          //   'What is their age group?',
-          //   style: normalTextStyle,
-          // ),
-          //
-          // const SizedBox(height: 10),
           userByAgeWidget(),
-          // Card(
-          //   elevation: 2,
-          //   shadowColor: whiteColor,
-          //   child: Container(
-          //     padding: const EdgeInsets.all(10),
-          //     width: double.infinity,
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(3),
-          //       color: whiteColor,
-          //     ),
-          //     child: userByAgeWidget(),
-          //     // buildBarChart(),
-          //   ),
-          // ),
 
           const SizedBox(height: 15),
           // What is their gender?
