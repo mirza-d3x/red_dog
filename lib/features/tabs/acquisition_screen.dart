@@ -503,120 +503,122 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     borderRadius: BorderRadius.circular(3),
                     color: whiteColor,
                   ),
-                  child: Column(
-                    children: [
-                      SfCartesianChart(
-                          plotAreaBorderWidth: 0,
-                          primaryXAxis: CategoryAxis(
-                              majorGridLines: const MajorGridLines(width: 0),
+                  child: Expanded(
+                    child: Column(
+                      children: [
+                        SfCartesianChart(
+                            plotAreaBorderWidth: 0,
+                            primaryXAxis: CategoryAxis(
+                                majorGridLines: const MajorGridLines(width: 0),
+                                labelStyle: graphIndexTextStyle,
+                              labelRotation: -80,
+                              visibleMinimum: 0, // Set the minimum visible value
+                              visibleMaximum: 30, // Set the maximum visible value
+                              interval: 1,
+                            ),
+                            primaryYAxis: NumericAxis(
                               labelStyle: graphIndexTextStyle,
-                            labelRotation: -80,
-                            visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: 30, // Set the maximum visible value
-                            interval: 1,
-                          ),
-                          primaryYAxis: NumericAxis(
-                            labelStyle: graphIndexTextStyle,
-                            majorGridLines: const MajorGridLines(width: 0),
-                            visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum:
-                                largestValue <= 15 ? 15
-                                : largestValue > 15 && largestValue <= 50 ?
-                                50 :
-                                largestValue > 50 && largestValue <= 200 ? 200
-                            : largestValue > 200 && largestValue <= 1000 ?
-                            1000 : 5000,// Set the maximum visible value
-                            interval: largestValue <= 15 ? 3
-                            : largestValue > 15 && largestValue <= 50 ? 10
-                            : largestValue > 50 && largestValue <= 200
-                            ? 50 : largestValue > 200 && largestValue <= 100 ?
-                            250 : 1000,
-                          ),
-                          series: <CartesianSeries>[
-                            // Direct
-                            StackedColumnSeries<ChannelsByDateValues, String>(
-                                dataSource: data.topChannelsByDateModel.data![0].data!,
-                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
-                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                 color: directChannelColor
+                              majorGridLines: const MajorGridLines(width: 0),
+                              visibleMinimum: 0, // Set the minimum visible value
+                              visibleMaximum:
+                                  largestValue <= 15 ? 15
+                                  : largestValue > 15 && largestValue <= 50 ?
+                                  50 :
+                                  largestValue > 50 && largestValue <= 200 ? 200
+                              : largestValue > 200 && largestValue <= 1000 ?
+                              1000 : 5000,// Set the maximum visible value
+                              interval: largestValue <= 15 ? 3
+                              : largestValue > 15 && largestValue <= 50 ? 10
+                              : largestValue > 50 && largestValue <= 200
+                              ? 50 : largestValue > 200 && largestValue <= 100 ?
+                              250 : 1000,
                             ),
-                            // Organic Search
-                            StackedColumnSeries<ChannelsByDateValues, String>(
-                                dataSource: data.topChannelsByDateModel.data![1].data!,
-                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
-                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: organicSearchChannelColor
-                            ),
-                            // Referral
-                            StackedColumnSeries<ChannelsByDateValues,String>(
-                                dataSource: data.topChannelsByDateModel.data![2].data!,
-                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
-                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: referralChannelColor
-                            ),
-                            // Organic Social
-                            StackedColumnSeries<ChannelsByDateValues,String>(
-                                dataSource: data.topChannelsByDateModel.data![2].data!,
-                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
-                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: organicSocialChannelColor
-                            ),
-                            // Unassigned
-                            StackedColumnSeries<ChannelsByDateValues,String>(
-                                dataSource: data.topChannelsByDateModel.data![2].data!,
-                                xValueMapper: (ChannelsByDateValues data, _) => data.key,
-                                yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: unassignedChannelColor
-                            ),
-                          ]
-                      ),
-
-                      const SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-                        child: Expanded(
-                          child: GridView.builder(
-                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisExtent: 23,
-                                crossAxisSpacing: 1,
+                            series: <CartesianSeries>[
+                              // Direct
+                              StackedColumnSeries<ChannelsByDateValues, String>(
+                                  dataSource: data.topChannelsByDateModel.data![0].data!,
+                                  xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                  yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                  width: 0.8,
+                                   color: directChannelColor
                               ),
-                              itemCount: 5,
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context,index) => Row(
-                                children: [
-                                  Container(
-                                    height: 10,
-                                    width: 10,
-                                    color:
-                                    data.topChannelsByDateModel.data![index].name == "Direct"?
-                                        directChannelColor :
-                                    data.topChannelsByDateModel.data![index].name == "Organic Search"?
-                                        organicSearchChannelColor :
-                                    data.topChannelsByDateModel.data![index].name == "Organic Social"?
-                                        organicSocialChannelColor :
-                                    data.topChannelsByDateModel.data![index].name == "Referral"?
-                                        referralChannelColor :
-                                        unassignedChannelColor
-                                  ),
-
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    '${data.topChannelsByDateModel.data![index].name}',
-                                    style: graphHintTextStyle,
-                                  )
-                                ],
+                              // Organic Search
+                              StackedColumnSeries<ChannelsByDateValues, String>(
+                                  dataSource: data.topChannelsByDateModel.data![1].data!,
+                                  xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                  yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                  width: 0.8,
+                                  color: organicSearchChannelColor
                               ),
-                          ),
+                              // Referral
+                              StackedColumnSeries<ChannelsByDateValues,String>(
+                                  dataSource: data.topChannelsByDateModel.data![2].data!,
+                                  xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                  yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                  width: 0.8,
+                                  color: referralChannelColor
+                              ),
+                              // Organic Social
+                              StackedColumnSeries<ChannelsByDateValues,String>(
+                                  dataSource: data.topChannelsByDateModel.data![2].data!,
+                                  xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                  yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                  width: 0.8,
+                                  color: organicSocialChannelColor
+                              ),
+                              // Unassigned
+                              StackedColumnSeries<ChannelsByDateValues,String>(
+                                  dataSource: data.topChannelsByDateModel.data![2].data!,
+                                  xValueMapper: (ChannelsByDateValues data, _) => data.key,
+                                  yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
+                                  width: 0.8,
+                                  color: unassignedChannelColor
+                              ),
+                            ]
                         ),
-                      )
-                    ],
+
+                        const SizedBox(height: 8),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                          child: Expanded(
+                            child: GridView.builder(
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisExtent: 23,
+                                  crossAxisSpacing: 1,
+                                ),
+                                itemCount: 5,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context,index) => Row(
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      color:
+                                      data.topChannelsByDateModel.data![index].name == "Direct"?
+                                          directChannelColor :
+                                      data.topChannelsByDateModel.data![index].name == "Organic Search"?
+                                          organicSearchChannelColor :
+                                      data.topChannelsByDateModel.data![index].name == "Organic Social"?
+                                          organicSocialChannelColor :
+                                      data.topChannelsByDateModel.data![index].name == "Referral"?
+                                          referralChannelColor :
+                                          unassignedChannelColor
+                                    ),
+
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      '${data.topChannelsByDateModel.data![index].name}',
+                                      style: graphHintTextStyle,
+                                    )
+                                  ],
+                                ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );
