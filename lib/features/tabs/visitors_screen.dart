@@ -440,8 +440,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           ),
 
           const SizedBox(height: 10),
-          visitorUiWidget(),
-          // visitorApiDataWidget(),
+          // visitorUiWidget(),
+          visitorApiDataWidget(),
         ],
       ),
     );
