@@ -651,40 +651,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 15),
           // Visitor trending time graph
-          Text(
-            'Visitors trending time?',
-            style: normalTextStyle,
-          ),
-          const SizedBox(height: 10),
-          Card(
-            elevation: 2,
-            shadowColor: whiteColor,
-            child: Container(
-                padding: const EdgeInsets.all(10),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3),
-                  color: whiteColor,
-                ),
-                child:
-                Stack(
-                  children: <Widget>[
-                    AspectRatio(
-                      aspectRatio: 1.70,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 18,
-                          left: 12,
-                          top: 10,
-                          bottom: 12,
-                        ),
-                        child: trendingTimeGraphWidget(),
-                      ),
-                    ),
-                  ],
-                )
-            ),
-          ),
+          trendingTimeGraphWidget(),
 
           const SizedBox(height: 15),
           // Retained visitors
@@ -748,6 +715,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 15),
+
+                  Text(
+                    'Your Visitors from?',
+                    style: normalTextStyle,
+                  ),
+
                 ],
               );
             }else if (state is Failure) {
@@ -757,14 +732,15 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             }
           }),
 
-          const SizedBox(height: 15),
           // Where are your users from?
-          Text(
-            'Your Visitors from?',
-            style: normalTextStyle,
-          ),
+          // Text(
+          //   'Your Visitors from?',
+          //   style: normalTextStyle,
+          // ),
 
           const SizedBox(height: 10),
+
+
           // // world map
           // Card(
           //   elevation: 2,
@@ -839,14 +815,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 ),
               );
             }else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    'Failed to load!!',
-                  ),
-                ),
-              );
+              return SizedBox();
             } else {
               return Container();
             }
@@ -1439,33 +1408,61 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           if (state is IsLoading) {
             return SizedBox();
           }else if (state is Success) {
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SizedBox(
-                width: 500,
-                child:
-                    int.parse('${data.userByVisitorsTrendingTimeModel.data![0].value}').toInt() > 20?
-                // LineChart(
-                //     mainDataForGreaterValues(data.userByVisitorsTrendingTimeModel.data ?? [])
-                // )
-                       LargeValueGraph(
-                           _selectedFromDate != null ?
-                           '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-                           _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                               : formattedDate
-                       ) : NormalGraph(
-                        _selectedFromDate != null ?
-                        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-                        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                            : formattedDate
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Visitors trending time?',
+                  style: normalTextStyle,
+                ),
+                const SizedBox(height: 10),
+                Card(
+                  elevation: 2,
+                  shadowColor: whiteColor,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: whiteColor,
                     ),
-                    //     : LineChart(
-                    //     mainData(data.userByVisitorsTrendingTimeModel.data ?? [])
-                    // )
-              ),
+                    child: AspectRatio(
+                      aspectRatio: 1.70,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 18,
+                          left: 12,
+                          top: 10,
+                          bottom: 12,
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: SizedBox(
+                            width: 500,
+                            child:
+                                int.parse('${data.userByVisitorsTrendingTimeModel.data![0].value}').toInt() > 20?
+                                   LargeValueGraph(
+                                       _selectedFromDate != null ?
+                                       '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+                                       _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                           : formattedDate
+                                   ) : NormalGraph(
+                                    _selectedFromDate != null ?
+                                    '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+                                    _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                        : formattedDate
+                                ),
+
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             );
           }else if (state is Failure) {
-            return Text('Failed to load!!');
+            return SizedBox();
           }else {
             return SizedBox();
           }
