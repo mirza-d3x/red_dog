@@ -22,6 +22,8 @@ const bgColor = Color.fromRGBO(247, 247, 247, 1);
 
 const normalTextColor = Color.fromRGBO(75, 75, 95, 1);
 
+const tileHeadTextColor = Color.fromRGBO(173, 175, 172, 1);
+
 const newVisitorIndicatorColor = Color.fromRGBO(147, 234, 204,1);
 
 const returningVisitorIndicatorColor = Color.fromRGBO(0, 151, 167, 1);
@@ -127,3 +129,5 @@ const trafficSource5Color = Color.fromRGBO(196, 154, 209, 1);
 const trafficSource6Color = Color.fromRGBO(247, 134, 161, 1);
 
 const ageGroupBarColor = Color.fromRGBO(222, 222, 149, 1);
+
+const tileNumberColor = Color.fromRGBO(68, 68, 70, 1);
