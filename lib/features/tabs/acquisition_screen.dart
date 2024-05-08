@@ -503,10 +503,10 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     borderRadius: BorderRadius.circular(3),
                     color: whiteColor,
                   ),
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        SfCartesianChart(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: SfCartesianChart(
                             plotAreaBorderWidth: 0,
                             primaryXAxis: CategoryAxis(
                                 majorGridLines: const MajorGridLines(width: 0),
@@ -576,49 +576,49 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               ),
                             ]
                         ),
+                      ),
 
-                        const SizedBox(height: 8),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-                          child: Expanded(
-                            child: GridView.builder(
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisExtent: 23,
-                                  crossAxisSpacing: 1,
-                                ),
-                                itemCount: 5,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context,index) => Row(
-                                  children: [
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      color:
-                                      data.topChannelsByDateModel.data![index].name == "Direct"?
-                                          directChannelColor :
-                                      data.topChannelsByDateModel.data![index].name == "Organic Search"?
-                                          organicSearchChannelColor :
-                                      data.topChannelsByDateModel.data![index].name == "Organic Social"?
-                                          organicSocialChannelColor :
-                                      data.topChannelsByDateModel.data![index].name == "Referral"?
-                                          referralChannelColor :
-                                          unassignedChannelColor
-                                    ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                        child: Expanded(
+                          child: GridView.builder(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisExtent: 23,
+                                crossAxisSpacing: 1,
+                              ),
+                              itemCount: 5,
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context,index) => Row(
+                                children: [
+                                  Container(
+                                    height: 10,
+                                    width: 10,
+                                    color:
+                                    data.topChannelsByDateModel.data![index].name == "Direct"?
+                                        directChannelColor :
+                                    data.topChannelsByDateModel.data![index].name == "Organic Search"?
+                                        organicSearchChannelColor :
+                                    data.topChannelsByDateModel.data![index].name == "Organic Social"?
+                                        organicSocialChannelColor :
+                                    data.topChannelsByDateModel.data![index].name == "Referral"?
+                                        referralChannelColor :
+                                        unassignedChannelColor
+                                  ),
 
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      '${data.topChannelsByDateModel.data![index].name}',
-                                      style: graphHintTextStyle,
-                                    )
-                                  ],
-                                ),
-                            ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '${data.topChannelsByDateModel.data![index].name}',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               );
