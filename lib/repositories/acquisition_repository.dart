@@ -62,4 +62,12 @@ class AcquisitionRepository {
       ) =>
       webService?.get(getTrafficSourceByDateApi(googleId,googleToken,viewId,fromDate,toDate));
 
+  Future getSearchKeywordData(
+      dynamic googleId,
+      dynamic googleToken,
+      dynamic viewId,
+      dynamic fromDate,
+      dynamic toDate
+      ) =>
+      webService?.get(getSearchKeywordListApi(googleId,googleToken,viewId,fromDate,toDate));
 }

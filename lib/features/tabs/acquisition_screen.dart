@@ -138,6 +138,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
+
+    // search keyword list
+    acquisitionProvider.getSearchKeywordList(
+    _selectedFromDate != null
+    ?
+    '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+        : formattedInitialdDate,
+    _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
+    _selectedToDate)}' : formattedDate
+    );
   }
 
   @override
@@ -1074,6 +1084,104 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ),
               );
+            } else {
+              return Container();
+            }
+          }),
+
+          const SizedBox(height: 10),
+          // Search keyword list
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+            var state = data.searchKeywordLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What did they search to find you?',
+                    style: normalTextStyle,
+                  ),
+                  const SizedBox(height: 10),
+
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Keywords',
+                                style: tableTitleTextStyle,
+                              ),
+
+                              Text(
+                                'No. Of Searches',
+                                style: tableTitleTextStyle,
+                              )
+                            ],
+                          ),
+
+                          const SizedBox(height: 15),
+
+                          ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: data.searchKeywordModel.data!.length,
+                            itemBuilder: (context,index) => Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          '${data.searchKeywordModel.data![index].keyword}'.replaceAll(RegExp(r'\s+'), ' '),
+                                          style: tableContentTextStyle,
+                                          textAlign: TextAlign.justify,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(width: 130),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 30),
+                                      child: Text(
+                                        '${data.searchKeywordModel.data![index].searches}',
+                                        style: tableContentTextStyle,
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                const SizedBox(height: 15),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }else if (state is Failure) {
+              return SizedBox();
             } else {
               return Container();
             }

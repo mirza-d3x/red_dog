@@ -7,6 +7,7 @@ import 'package:reddog_mobile_app/models/traffic_source_by_date_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
 import 'package:reddog_mobile_app/models/user_profile_model.dart';
 
+import '../models/search_keyword_model.dart';
 import '../models/top_channels_by_date_model.dart';
 import '../utilities/api_helpers.dart';
 
@@ -109,5 +110,22 @@ Resource<TrafficSourceByDateModel> getTrafficSourceByDateApi(
         Map<String, dynamic> trafficSourcesByDateDataMap = jsonDecode(response.body);
         TrafficSourceByDateModel trafficSourcesByDateResult = TrafficSourceByDateModel.fromJson(trafficSourcesByDateDataMap);
         return trafficSourcesByDateResult;
+      });
+}
+
+Resource<SearchKeywordModel> getSearchKeywordListApi(
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic viewId,
+    dynamic fromDate,
+    dynamic toDate
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/aquasition/searchPhrases/$googleId/$googleToken/$viewId/$fromDate/$toDate/true',
+      parse: (response) {
+        Map<String, dynamic> searchKeywordDataMap = jsonDecode(response.body);
+        SearchKeywordModel searchKeywordDateResult = SearchKeywordModel.fromJson(searchKeywordDataMap);
+        return searchKeywordDateResult;
       });
 }

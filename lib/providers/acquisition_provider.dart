@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
 import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/most_visited_page_model.dart';
+import 'package:reddog_mobile_app/models/search_keyword_model.dart';
 import 'package:reddog_mobile_app/models/top_channels_by_date_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_by_date_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
@@ -66,6 +67,14 @@ class AcquisitionProvider extends ChangeNotifier {
     return this.deviceCategoryData;
   }
 
+  // search keyword
+  var searchKeywordModel = SearchKeywordModel();
+  LiveData<UIState<SearchKeywordModel>> searchKeywordData = LiveData<UIState<SearchKeywordModel>>();
+
+  LiveData<UIState<SearchKeywordModel>> searchKeywordLiveData() {
+    return this.searchKeywordData;
+  }
+
   void initialState() {
     topChannelsData.setValue(Initial());
     trafficSourceData.setValue(Initial());
@@ -73,6 +82,7 @@ class AcquisitionProvider extends ChangeNotifier {
     deviceCategoryData.setValue(Initial());
     topChannelsByDateData.setValue(Initial());
     trafficSourceByDateData.setValue(Initial());
+    searchKeywordData.setValue(Initial());
     notifyListeners();
   }
 
@@ -247,6 +257,35 @@ class AcquisitionProvider extends ChangeNotifier {
       }
     } catch (ex) {
       deviceCategoryData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  // get search keyword list
+  getSearchKeywordList(
+      dynamic fromDate,
+      dynamic toDate
+      ) async {
+    try {
+      searchKeywordData.setValue(IsLoading());
+      var googleToken = await getValue('googleToken');
+      var googleId = await getValue('googleId');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      searchKeywordModel = await acquisitionRepository.getSearchKeywordData(
+          googleId,googleToken,
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+          fromDate,toDate
+      );
+      if (searchKeywordModel.code == 200) {
+        searchKeywordData.setValue(Success(searchKeywordModel));
+      } else {
+        searchKeywordData.setValue(Failure(searchKeywordModel.toString()));
+      }
+    } catch (ex) {
+      searchKeywordData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
