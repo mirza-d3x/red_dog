@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:reddog_mobile_app/models/acquisition_top_channels_model.dart';
 import 'package:reddog_mobile_app/models/device_category_model.dart';
 import 'package:reddog_mobile_app/models/traffic_source_model.dart';
@@ -961,9 +962,9 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                         Expanded(
                                           child: Padding(
                                             padding: const EdgeInsets.only(right: 30),
-                                            child: Text(
+                                            child: buildLineText(
                                               '${data.mostVisitedPageModel.data![index].key}',
-                                              style: tableContentTextStyle,
+                                              // style: tableContentTextStyle,
                                             ),
                                           ),
                                         ),
@@ -1143,23 +1144,29 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             shrinkWrap: true,
                             itemCount: data.searchKeywordModel.data!.length,
                             itemBuilder: (context,index) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
+                                    // Expanded(
+                                    //   child: Align(
+                                    //     alignment: Alignment.centerLeft,
+                                    //     child: Text(
+                                    //       '${data.searchKeywordModel.data![index].keyword}'.replaceAll(RegExp(r'\s+'), ' '),
+                                    //       style: tableContentTextStyle,
+                                    //       textAlign: TextAlign.justify,
+                                    //       overflow: TextOverflow.ellipsis,
+                                    //     ),
+                                    //   ),
+                                    // ),
+
                                     Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          '${data.searchKeywordModel.data![index].keyword}'.replaceAll(RegExp(r'\s+'), ' '),
-                                          style: tableContentTextStyle,
-                                          textAlign: TextAlign.justify,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                      child: buildText(
+                                        '${data.searchKeywordModel.data![index].keyword}'.replaceAll(RegExp(r'\s+'), ' ')
                                       ),
                                     ),
-
-                                    const SizedBox(width: 130),
+                                    const SizedBox(width: 90),
                                     Padding(
                                       padding: const EdgeInsets.only(right: 30),
                                       child: Text(
@@ -1170,7 +1177,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                   ],
                                 ),
 
-                                const SizedBox(height: 15),
+                                const SizedBox(height: 10),
                               ],
                             ),
                           ),
@@ -1190,6 +1197,53 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
       ),
     );
   }
+}
+
+bool isReadMore = false;
+
+Widget buildText(String text){
+  return ReadMoreText(
+    text,
+    textAlign: TextAlign.left,
+    style: tableReadMoreTextStyle,
+    trimCollapsedText: 'Read More',
+    trimExpandedText: ' Read Less',
+    trimMode: TrimMode.Length,
+    trimLength: 13,
+    moreStyle: TextStyle(
+      fontSize: 12,
+      color: Colors.blue,
+      fontFamily: 'Barlow-Regular'
+    ),
+    lessStyle: TextStyle(
+        fontSize: 12,
+        color: Colors.blue,
+        fontFamily: 'Barlow-Regular'
+    ),
+  );
+}
+
+Widget buildLineText(String text){
+  return ReadMoreText(
+    text,
+    textAlign: TextAlign.left,
+    style: tableReadMoreTextStyle,
+    trimCollapsedText: 'Read More',
+    trimExpandedText: ' Read Less',
+    trimMode: TrimMode.Line,
+    trimLines: 1,
+    // trimLength: 13,
+    moreStyle: TextStyle(
+        fontSize: 12,
+        color: Colors.blue,
+        fontFamily: 'Barlow-Regular'
+    ),
+    lessStyle: TextStyle(
+        fontSize: 12,
+        color: Colors.blue,
+        fontFamily: 'Barlow-Regular'
+    ),
+  );
 }
 
 int findLargestValueAcrossLists(List<ChannelsByDateModelDatum> dataList) {

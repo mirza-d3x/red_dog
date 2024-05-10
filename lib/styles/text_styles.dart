@@ -111,7 +111,7 @@ TextStyle graphHintTextStyle = const TextStyle(
 
 TextStyle tableTitleTextStyle = const TextStyle(
   fontFamily: _boldFont,
-  color: blackColor,
+  color: tileNumberColor,
   fontSize: 18,
 );
 
@@ -239,5 +239,12 @@ TextStyle notificationUrlTextStyle = const TextStyle(
   fontFamily: _regularFont,
   color: Colors.blue,
   fontSize: 16,
+);
+
+TextStyle tableReadMoreTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: blackColor,
+  fontSize: 16,
+  height: 1.5
 );
 
