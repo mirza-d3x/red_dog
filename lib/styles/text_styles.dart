@@ -248,3 +248,15 @@ TextStyle tableReadMoreTextStyle = const TextStyle(
   height: 1.5
 );
 
+TextStyle errorTitleTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: tileNumberColor,
+  fontSize: 18,
+);
+
+TextStyle errorSubTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: titleTextColor,
+  fontSize: 15,
+);
+

@@ -306,13 +306,29 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
   Widget noEnquiryWidget(){
     return Padding(
       padding: const EdgeInsets.only(left: 20,right: 20),
-      child: Center(
-        child: Text(
-          'Please "Generate Script" and add it to your website forms to fetch leads.'
-              'You may need help from your web developer',
-          textAlign: TextAlign.center,
-          style: messageTextStyle,
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Website Login Required',
+            style: errorTitleTextStyle,
+          ),
+          const SizedBox(height: 15),
+          Text(
+            'To Continue,please login through the Web app adn integrate the script'
+                'into your website forms to effectively capture leads.',
+            textAlign: TextAlign.center,
+            style: messageTextStyle,
+          ),
+
+          const SizedBox(height: 15),
+          Text(
+            'For further assistance,contact askus@codelattice.com',
+            textAlign: TextAlign.center,
+            style: errorSubTextStyle,
+          )
+        ],
       ),
     );
   }
