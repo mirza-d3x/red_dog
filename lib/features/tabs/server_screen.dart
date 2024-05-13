@@ -111,6 +111,8 @@ class _ServerScreenState extends State<ServerScreen> {
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
+
+    await serverProvider.getSSLStatus();
   }
 
   @override
@@ -309,6 +311,65 @@ class _ServerScreenState extends State<ServerScreen> {
       child: Column(
         children: [
           Consumer<ServerProvider>(builder: (ctx, data, _) {
+            var state = data.uptimeLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Uptime',
+                        style: tileTitleTextStyle,
+                      ),
+
+                      const SizedBox(height: 8),
+                      Text(
+                        '${data.uptimeModel.data!.uptime}%',
+                        style: tileNumberTextStyle,
+                      )
+                    ],
+                  ),
+                ),
+              );
+            } else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '${data.uptimeModel.message}',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+
+          const SizedBox(height: 8),
+
+          Consumer<ServerProvider>(builder: (ctx, data, _) {
             var state = data.latencyLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -369,14 +430,11 @@ class _ServerScreenState extends State<ServerScreen> {
           const SizedBox(height: 8),
 
           Consumer<ServerProvider>(builder: (ctx, data, _) {
-            var state = data.uptimeLiveData().getValue();
+            var state = data.sslLiveData().getValue();
             print(state);
             if (state is IsLoading) {
               return SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 1.3,
+                height: MediaQuery.of(context).size.height / 1.3,
                 child: Center(
                   child: CircularProgressIndicator(
                     color: loginBgColor,
@@ -398,13 +456,13 @@ class _ServerScreenState extends State<ServerScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Uptime',
+                        'SSL Health',
                         style: tileTitleTextStyle,
                       ),
 
                       const SizedBox(height: 8),
                       Text(
-                        '${data.uptimeModel.data!.uptime}%',
+                        '${data.sslModel.data}',
                         style: tileNumberTextStyle,
                       )
                     ],
@@ -413,10 +471,11 @@ class _ServerScreenState extends State<ServerScreen> {
               );
             } else if (state is Failure) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
+                // height: MediaQuery.of(context).size.height / 1.3,
                 child: Center(
                   child: Text(
-                    '${data.uptimeModel.message}',
+                      ''
+                    // 'Failed to load',
                   ),
                 ),
               );
@@ -424,6 +483,7 @@ class _ServerScreenState extends State<ServerScreen> {
               return Container();
             }
           }),
+
         ],
       )
     );

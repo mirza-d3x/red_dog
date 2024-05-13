@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/latency_model.dart';
+import 'package:reddog_mobile_app/models/ssl_health_model.dart';
 import 'package:reddog_mobile_app/models/uptime_model.dart';
 
 import '../utilities/api_helpers.dart';
@@ -37,5 +38,19 @@ Resource<UptimeModel> getUptimeDataApi(
         Map<String, dynamic> getUptimeDataMap = jsonDecode(response.body);
         UptimeModel uptimeResult = UptimeModel.fromJson(getUptimeDataMap);
         return uptimeResult;
+      });
+}
+
+Resource<SslHealthModel> getSSLHealthApi(
+    dynamic viewId,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/serverstats/sslHelp/$viewId',
+      parse: (response) {
+        print(response.body);
+        Map<String, dynamic> getSslHealthDataMap = jsonDecode(response.body);
+        SslHealthModel sslResult = SslHealthModel.fromJson(getSslHealthDataMap);
+        return sslResult;
       });
 }

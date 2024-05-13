@@ -26,4 +26,9 @@ class ServerRepository {
       ) =>
       webService?.get(getUptimeDataApi(viewId,email,fromDate,toDate));
 
+  Future getSSLHealthData(
+      dynamic viewId,
+      ) =>
+      webService?.get(getSSLHealthApi(viewId));
+
 }

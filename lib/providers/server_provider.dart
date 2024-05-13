@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/latency_model.dart';
+import 'package:reddog_mobile_app/models/ssl_health_model.dart';
 import 'package:reddog_mobile_app/models/uptime_model.dart';
 import 'package:reddog_mobile_app/repositories/server_repository.dart';
 import '../core/live_data.dart';
@@ -32,9 +33,18 @@ class ServerProvider extends ChangeNotifier {
     return this.uptimeData;
   }
 
+  //SSL Health
+  var sslModel = SslHealthModel();
+  LiveData<UIState<SslHealthModel>> sslData = LiveData<UIState<SslHealthModel>>();
+
+  LiveData<UIState<SslHealthModel>> sslLiveData() {
+    return this.sslData;
+  }
+
   void initialState() {
     latencyData.setValue(Initial());
     uptimeData.setValue(Initial());
+    sslData.setValue(Initial());
     notifyListeners();
   }
 
@@ -88,6 +98,28 @@ class ServerProvider extends ChangeNotifier {
       }
     } catch (ex) {
       uptimeData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  getSSLStatus(
+      ) async {
+    try {
+      sslData.setValue(IsLoading());
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      sslModel = await serverRepository.getSSLHealthData(
+          storedWebId.isEmpty ?
+          initialWebId: storedWebId,
+      );
+      if (sslModel.code == 200) {
+        sslData.setValue(Success(sslModel));
+      } else {
+        sslData.setValue(Failure(sslModel.toString()));
+      }
+    } catch (ex) {
+      sslData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();
     }
