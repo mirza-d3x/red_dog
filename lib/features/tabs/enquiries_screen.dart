@@ -316,7 +316,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
           ),
           const SizedBox(height: 15),
           Text(
-            'To Continue,please login through the Web app adn integrate the script'
+            'To continue, please login through the Web app and integrate the script '
                 'into your website forms to effectively capture leads.',
             textAlign: TextAlign.center,
             style: messageTextStyle,
@@ -324,7 +324,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
           const SizedBox(height: 15),
           Text(
-            'For further assistance,contact askus@codelattice.com',
+            'For further assistance, contact askus@codelattice.com',
             textAlign: TextAlign.center,
             style: errorSubTextStyle,
           )
