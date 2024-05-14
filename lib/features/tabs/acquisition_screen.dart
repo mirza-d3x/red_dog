@@ -884,7 +884,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               trafficSource6Color
                             ],
                             legend: Legend(
-                              position: LegendPosition.right,
+                              position: LegendPosition.bottom,
                               isVisible: true,
                               isResponsive:true,
                               overflowMode: LegendItemOverflowMode.wrap,
@@ -895,7 +895,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 xValueMapper: (TrafficSourceData data,_) => data.key,
                                 yValueMapper: (TrafficSourceData data,_) => data.value,
                                 innerRadius: '65%',
-                                radius: '80%',
+                                radius: '75%',
 
                               ),
                             ],
