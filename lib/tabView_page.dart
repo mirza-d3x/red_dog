@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:reddog_mobile_app/features/tabs/acquisition_screen.dart';
 import 'package:reddog_mobile_app/features/tabs/enquiries_screen.dart';
 import 'package:reddog_mobile_app/features/tabs/server_screen.dart';
@@ -80,7 +81,8 @@ class _TabViewScreenState extends State<TabViewScreen> {
                     Text('Acquisition',
                         style: TextStyle(
                             fontSize: 11,
-                            fontFamily: 'Barlow-Medium'
+                            fontFamily: 'Barlow-Medium',
+                          overflow: TextOverflow.ellipsis
                         )),
                   ],
                 ),
