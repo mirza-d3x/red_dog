@@ -138,7 +138,7 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
             int interval = 1;
             int index = value.toInt();
             // Adjust the maximum value
-            int maxDisplayedValue = 210;
+            int maxDisplayedValue = biggestVal <= 160 ? 160 : 240;
             if (index < 0 || index > maxDisplayedValue) {
               return Container(); // Return an empty container if index is out of bounds
             }
@@ -234,14 +234,15 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
           sideTitles: SideTitles(
             showTitles: true,
             interval:
-            biggestVal <= 160 ? 40
-                : biggestVal > 160 && biggestVal <= 200 ? 40
-                : biggestVal > 200 && biggestVal <= 1000 ? 250
-                : biggestVal >1000 && biggestVal <= 5000 ? 1000
-                :biggestVal > 5000 && biggestVal <= 10000 ? 1000
-                : biggestVal > 10000 && biggestVal <= 15000 ? 1000
-                : 10000,
-            // 40,
+                biggestVal <= 160 ? 40
+                : 60,
+            // biggestVal <= 160 ? 40
+            //     : biggestVal > 160 && biggestVal <= 200 ? 40
+            //     : biggestVal > 200 && biggestVal <= 1000 ? 250
+            //     : biggestVal >1000 && biggestVal <= 5000 ? 1000
+            //     :biggestVal > 5000 && biggestVal <= 10000 ? 1000
+            //     : biggestVal > 10000 && biggestVal <= 15000 ? 1000
+            //     : 10000,
             getTitlesWidget: leftTitleWidgetsForGreaterValues,
             reservedSize: 48,
           ),

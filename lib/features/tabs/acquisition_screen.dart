@@ -754,7 +754,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       const SizedBox(height: 8),
                       Padding(
                         padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-                        child: ListView.builder(
+                        child:
+                        ListView.builder(
                           itemCount: data.trafficSourceByDateModel.data!.length,
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -785,6 +786,42 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               ],
                             ),
                         ),
+                        // GridView.builder(
+                        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        //     crossAxisCount: 2,
+                        //     mainAxisExtent: 23,
+                        //     crossAxisSpacing: 1,
+                        //   ),
+                        //   itemCount: 5,
+                        //   physics: NeverScrollableScrollPhysics(),
+                        //   shrinkWrap: true,
+                        //   itemBuilder: (context,index) => Row(
+                        //     children: [
+                        //       Container(
+                        //           height: 10,
+                        //           width: 10,
+                        //           color:
+                        //           data.trafficSourceByDateModel.data![index].name == "(direct)"?
+                        //           directBarColor :
+                        //           data.trafficSourceByDateModel.data![index].name == "google"?
+                        //           googleBarColor :
+                        //           data.trafficSourceByDateModel.data![index].name == "bing"?
+                        //           bingBarColor :
+                        //           data.trafficSourceByDateModel.data![index].name == "duckduckgo"?
+                        //           duckGoBarColor :
+                        //           data.trafficSourceByDateModel.data![index].name == "baidu"?
+                        //           baiduBarColor:
+                        //           otherTrafficBarColor
+                        //       ),
+                        //
+                        //       const SizedBox(width: 5),
+                        //       Text(
+                        //         '${data.trafficSourceByDateModel.data![index].name}',
+                        //         style: graphHintTextStyle,
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
                       )
                     ],
                   ),
