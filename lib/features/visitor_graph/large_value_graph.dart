@@ -138,7 +138,15 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
             int interval = 1;
             int index = value.toInt();
             // Adjust the maximum value
-            int maxDisplayedValue = biggestVal <= 160 ? 160 : 240;
+            int maxDisplayedValue = biggestVal >= 20 && biggestVal <= 50 ? 50 :
+            biggestVal > 50 && biggestVal <= 100 ? 100
+            :biggestVal > 100 && biggestVal <= 200 ? 200
+            :biggestVal >200 && biggestVal <=300 ? 300
+            :biggestVal > 300 && biggestVal <= 1000 ? 1000
+                :biggestVal > 1000 && biggestVal <= 5000 ? 5000
+                : biggestVal > 5000 && biggestVal <= 10000 ? 10000
+                :biggestVal > 10000 && biggestVal <= 15000 ? 15000
+                :100000;
             if (index < 0 || index > maxDisplayedValue) {
               return Container(); // Return an empty container if index is out of bounds
             }
@@ -196,7 +204,7 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
 
     return LineChartData(
       gridData: FlGridData(
-        show: true,
+        show: false,
         drawVerticalLine: false,
         drawHorizontalLine: true,
         horizontalInterval: 3,
@@ -234,15 +242,16 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
           sideTitles: SideTitles(
             showTitles: true,
             interval:
-                biggestVal <= 160 ? 40
-                : 60,
-            // biggestVal <= 160 ? 40
-            //     : biggestVal > 160 && biggestVal <= 200 ? 40
-            //     : biggestVal > 200 && biggestVal <= 1000 ? 250
-            //     : biggestVal >1000 && biggestVal <= 5000 ? 1000
-            //     :biggestVal > 5000 && biggestVal <= 10000 ? 1000
-            //     : biggestVal > 10000 && biggestVal <= 15000 ? 1000
-            //     : 10000,
+                biggestVal > 20 && biggestVal <= 50 ? 10:
+                    biggestVal > 50 && biggestVal <= 100 ? 25 :
+            biggestVal > 100 && biggestVal <= 160 ? 40
+                : biggestVal > 160 && biggestVal <= 200 ? 40
+                : biggestVal > 200 && biggestVal <= 300 ? 60
+                : biggestVal > 300 && biggestVal <= 1000 ? 250
+                : biggestVal >1000 && biggestVal <= 5000 ? 1000
+                :biggestVal > 5000 && biggestVal <= 10000 ? 1000
+                : biggestVal > 10000 && biggestVal <= 15000 ? 1000
+                : 10000,
             getTitlesWidget: leftTitleWidgetsForGreaterValues,
             reservedSize: 48,
           ),
@@ -256,9 +265,12 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
       maxX: dataLength.toDouble(),
       minY: 0,
       maxY:
-      biggestVal <= 160 ? 160
-      : biggestVal > 160 && biggestVal <= 200 ? 200
-      : biggestVal > 200 && biggestVal <= 1000 ? 1000
+      biggestVal > 20 && biggestVal <= 50 ? 50:
+      biggestVal > 50 && biggestVal <= 100 ? 100 :
+      biggestVal > 100 && biggestVal <= 160 ? 160
+      : biggestVal > 160 && biggestVal <= 240 ? 240
+      :biggestVal >= 240 && biggestVal <= 500 ? 300
+      : biggestVal > 500 && biggestVal <= 1000 ? 1000
       : biggestVal >1000 && biggestVal <= 5000 ? 5000
       :biggestVal > 5000 && biggestVal <= 10000 ? 10000
       : biggestVal > 10000 && biggestVal <= 15000 ? 15000
