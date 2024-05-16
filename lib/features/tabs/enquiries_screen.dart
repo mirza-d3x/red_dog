@@ -423,6 +423,7 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
         return enquiryProvider;
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Consumer<EnquiryProvider>(builder: (ctx, data, _){
             var state = data.enquiryCountLiveData().getValue();
@@ -475,6 +476,36 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                   child: noEnquiryWidget()
                 ),
               );
+            } else {
+              return Container();
+            }
+          }),
+
+          Consumer<EnquiryProvider>(builder: (ctx, data, _){
+            var state = data.enquiryLeadDetailsLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return InkWell(
+                onTap: (){
+                  setState(() {
+                    onTileTap = false;
+                  });
+                },
+                child: tiles(context,
+                    'Total',
+                    '${data.enquiryLeadDetailsModel.total}'),
+              );
+            }else if (state is Failure) {
+              return SizedBox();
             } else {
               return Container();
             }
@@ -546,308 +577,301 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
           const SizedBox(height: 10),
 
-         onTileTap == true ? filterWithTileWidget() :
+         onTileTap == true ? filterWithTileWidget() : allEnquiryWidget(),
 
-             Column(
-               crossAxisAlignment: CrossAxisAlignment.start,
-               children: [
-
-                 // read enquiries
-                 Consumer<EnquiryProvider>(builder: (ctx, data, _){
-                   var state = data.enquiryLeadDetailsLiveData().getValue();
-                   print(state);
-                   if (state is IsLoading) {
-                     return SizedBox(
-                       height: MediaQuery.of(context).size.height / 1.3,
-                       child: Center(
-                         child: CircularProgressIndicator(
-                           color: loginBgColor,
-                         ),
-                       ),
-                     );
-                   } else if (state is Success) {
-                     return ListView.builder(
-                       physics: const NeverScrollableScrollPhysics(),
-                       shrinkWrap: true,
-                       itemCount: data.enquiryLeadDetailsModel.data!.length,
-                       itemBuilder: (context, index) => Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         children: [
-                           InkWell(
-                             onTap: (){
-                               showModalBottomSheet(
-                                 enableDrag: true,
-                                 isScrollControlled: true,
-                                 shape: const RoundedRectangleBorder(
-                                   borderRadius: BorderRadius.only(
-                                       topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
-                                 ),
-                                 context: context,
-                                 builder: (context){
-                                   return Padding(
-                                     padding: EdgeInsets.fromLTRB(
-                                       20, 30, 20,
-                                       MediaQuery.of(context).viewInsets.bottom,
-                                     ),
-                                     child: SingleChildScrollView(
-                                       child: Column(
-                                         crossAxisAlignment: CrossAxisAlignment.start,
-                                         children: [
-                                           // name
-                                           Text('${data.enquiryLeadDetailsModel.data![index].name}',
-                                             style: nameTextStyle,
-                                           ),
-                                           const SizedBox(height: 10),
-
-                                           // email
-                                           Row(
-                                             children: [
-                                               const Icon(
-                                                 Icons.email_outlined,
-                                                 size: 15,
-                                                 color: titleTextColor,
-                                               ),
-
-                                               const SizedBox(width: 5),
-
-                                               Text(
-                                                 '${data.enquiryLeadDetailsModel.data![index].email}',
-                                                 style: subTextTextStyle,
-                                               )
-                                             ],
-                                           ),
-
-                                           const SizedBox(height: 7),
-
-                                           // contact number
-                                           InkWell(
-                                             onTap: (){
-                                               FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
-                                             },
-                                             child: Row(
-                                               children: [
-                                                 const Icon(
-                                                   Icons.phone_enabled,
-                                                   size: 15,
-                                                   color: titleTextColor,
-                                                 ),
-
-                                                 const SizedBox(width: 5),
-
-                                                 Text(
-                                                   '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
-                                                   style: subTextTextStyle,
-                                                 )
-                                               ],
-                                             ),
-                                           ),
-
-                                           //  Calendar
-                                           const SizedBox(height: 7),
-                                           Row(
-                                             children: [
-                                               const Icon(
-                                                 Icons.calendar_month,
-                                                 size: 15,
-                                                 color: titleTextColor,
-                                               ),
-
-                                               const SizedBox(width: 5),
-                                               Text(
-                                                 formatDateFromAPI(
-                                                     '${data.enquiryLeadDetailsModel.data![index].date}'
-                                                 ),
-                                                 style: subTextTextStyle,
-                                               ),
-
-                                               const SizedBox(width: 15),
-
-                                               const Icon(
-                                                 CupertinoIcons.arrow_down_left,
-                                                 size: 15,
-                                                 color: titleTextColor,
-                                               ),
-                                               const SizedBox(width: 3),
-                                               Text(
-                                                 '${data.enquiryLeadDetailsModel.data![index].category}',
-                                                 style: subTextTextStyle,
-                                               ),
-                                             ],
-                                           ),
-
-                                           // messages
-                                           const SizedBox(height: 7),
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.start,
-                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                             children: [
-                                               Padding(
-                                                 padding: const EdgeInsets.only(top: 3),
-                                                 child: const Icon(
-                                                   Icons.message_outlined,
-                                                   size: 15,
-                                                   color: titleTextColor,
-                                                 ),
-                                               ),
-
-                                               const SizedBox(width: 5),
-                                               Expanded(
-                                                 child:
-                                                 '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
-                                                 Text(
-                                                   'No message',
-                                                   style: subTextTextStyle,
-                                                 ) :
-                                                 Text(
-                                                   '${data.enquiryLeadDetailsModel.data![index].message}',
-                                                   style: subTextTextStyle,
-                                                 ),
-                                               )
-                                             ],
-                                           ),
-
-                                           const SizedBox(height: 15),
-                                           Text(
-                                             'Comments',
-                                             style: noteHeadingTextStyle,
-                                           ),
-
-                                           const SizedBox(height: 10),
-
-                                           AddNotesWidget(
-                                               '${data.enquiryLeadDetailsModel.data![index].id}'
-                                           ),
-                                         ],
-                                       ),
-                                     ),
-                                   );
-                                 },
-                               ).then((value) {
-                                 enquiryProvider.updateEnquiryStatus(
-                                     data.enquiryLeadDetailsModel.data![index].id
-                                 );
-                                 getEnquiryCountMethod();
-                               });
-                             },
-                             child: Card(
-                               elevation: 2,
-                               child: Container(
-                                   width: double.infinity,
-                                   decoration: BoxDecoration(
-                                     color:
-                                         data.enquiryLeadDetailsModel.data![index].status == false ?
-                                         highlightingColor :
-                                     whiteColor,
-                                     borderRadius: BorderRadius.circular(2),
-                                   ),
-                                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
-                                   child: IntrinsicHeight(
-                                     child: Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       children: [
-                                         Row(
-                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                           children: [
-                                             Text(
-                                               '${data.enquiryLeadDetailsModel.data![index].name}',
-                                               style: nameTextStyle,
-                                             ),
-
-                                             PopupMenuButton(
-                                               child: Icon(
-                                                 Icons.more_vert_outlined,
-                                                 size: 20,
-                                               ),
-                                               itemBuilder: (BuildContext context) {
-                                                 return <PopupMenuItem<String>>[
-                                                   PopupMenuItem<String>(
-                                                     child: TextButton(
-                                                       child: Row(
-                                                         mainAxisAlignment:
-                                                         MainAxisAlignment.start,
-                                                         children: [
-                                                           Text(
-                                                             'Mark as Unread',
-                                                             style: popupMenuTextStyle,
-                                                           ),
-                                                         ],
-                                                       ),
-                                                       onPressed: () {
-                                                         enquiryProvider.updateEnquiryStatus(
-                                                             data.enquiryLeadDetailsModel.data![index].id
-                                                         );
-                                                         getEnquiryCountMethod();
-                                                         Navigator.pop(context);
-                                                       },
-                                                     ),
-                                                     height: 31,
-                                                   ),
-                                                 ];
-                                               },
-                                             )
-                                           ],
-                                         ),
-
-                                         const SizedBox(height: 8),
-
-                                         Row(
-                                           children: [
-                                             const Icon(
-                                               Icons.email_outlined,
-                                               size: 15,
-                                               color: titleTextColor,
-                                             ),
-
-                                             const SizedBox(width: 5),
-
-                                             Text(
-                                               '${data.enquiryLeadDetailsModel.data![index].email}',
-                                               style: subTextTextStyle,
-                                             )
-                                           ],
-                                         ),
-
-                                         const SizedBox(height: 5),
-                                         InkWell(
-                                           onTap: (){
-                                             FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
-                                           },
-                                           child: Row(
-                                             children: [
-                                               const Icon(
-                                                 Icons.phone_enabled,
-                                                 size: 15,
-                                                 color: titleTextColor,
-                                               ),
-
-                                               const SizedBox(width: 5),
-
-                                               Text(
-                                                 '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
-                                                 style: subTextTextStyle,
-                                               )
-                                             ],
-                                           ),
-                                         ),
-                                       ],
-                                     ),
-                                   )
-                               ),
-                             ),
-                           ),
-
-                           const SizedBox(height: 7),
-                         ],
-                       ),
-                     );
-                   }else if (state is Failure) {
-                     return SizedBox();
-                   } else {
-                     return Container();
-                   }
-                 }),
-               ],
-             ),
+             // Consumer<EnquiryProvider>(builder: (ctx, data, _){
+             //   var state = data.enquiryLeadDetailsLiveData().getValue();
+             //   print(state);
+             //   if (state is IsLoading) {
+             //     return SizedBox(
+             //       height: MediaQuery.of(context).size.height / 1.3,
+             //       child: Center(
+             //         child: CircularProgressIndicator(
+             //           color: loginBgColor,
+             //         ),
+             //       ),
+             //     );
+             //   } else if (state is Success) {
+             //     return ListView.builder(
+             //       physics: const NeverScrollableScrollPhysics(),
+             //       shrinkWrap: true,
+             //       itemCount: data.enquiryLeadDetailsModel.data!.length,
+             //       itemBuilder: (context, index) => Column(
+             //         crossAxisAlignment: CrossAxisAlignment.start,
+             //         children: [
+             //           InkWell(
+             //             onTap: (){
+             //               showModalBottomSheet(
+             //                 enableDrag: true,
+             //                 isScrollControlled: true,
+             //                 shape: const RoundedRectangleBorder(
+             //                   borderRadius: BorderRadius.only(
+             //                       topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
+             //                 ),
+             //                 context: context,
+             //                 builder: (context){
+             //                   return Padding(
+             //                     padding: EdgeInsets.fromLTRB(
+             //                       20, 30, 20,
+             //                       MediaQuery.of(context).viewInsets.bottom,
+             //                     ),
+             //                     child: SingleChildScrollView(
+             //                       child: Column(
+             //                         crossAxisAlignment: CrossAxisAlignment.start,
+             //                         children: [
+             //                           // name
+             //                           Text('${data.enquiryLeadDetailsModel.data![index].name}',
+             //                             style: nameTextStyle,
+             //                           ),
+             //                           const SizedBox(height: 10),
+             //
+             //                           // email
+             //                           Row(
+             //                             children: [
+             //                               const Icon(
+             //                                 Icons.email_outlined,
+             //                                 size: 15,
+             //                                 color: titleTextColor,
+             //                               ),
+             //
+             //                               const SizedBox(width: 5),
+             //
+             //                               Text(
+             //                                 '${data.enquiryLeadDetailsModel.data![index].email}',
+             //                                 style: subTextTextStyle,
+             //                               )
+             //                             ],
+             //                           ),
+             //
+             //                           const SizedBox(height: 7),
+             //
+             //                           // contact number
+             //                           InkWell(
+             //                             onTap: (){
+             //                               FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+             //                             },
+             //                             child: Row(
+             //                               children: [
+             //                                 const Icon(
+             //                                   Icons.phone_enabled,
+             //                                   size: 15,
+             //                                   color: titleTextColor,
+             //                                 ),
+             //
+             //                                 const SizedBox(width: 5),
+             //
+             //                                 Text(
+             //                                   '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+             //                                   style: subTextTextStyle,
+             //                                 )
+             //                               ],
+             //                             ),
+             //                           ),
+             //
+             //                           //  Calendar
+             //                           const SizedBox(height: 7),
+             //                           Row(
+             //                             children: [
+             //                               const Icon(
+             //                                 Icons.calendar_month,
+             //                                 size: 15,
+             //                                 color: titleTextColor,
+             //                               ),
+             //
+             //                               const SizedBox(width: 5),
+             //                               Text(
+             //                                 formatDateFromAPI(
+             //                                     '${data.enquiryLeadDetailsModel.data![index].date}'
+             //                                 ),
+             //                                 style: subTextTextStyle,
+             //                               ),
+             //
+             //                               const SizedBox(width: 15),
+             //
+             //                               const Icon(
+             //                                 CupertinoIcons.arrow_down_left,
+             //                                 size: 15,
+             //                                 color: titleTextColor,
+             //                               ),
+             //                               const SizedBox(width: 3),
+             //                               Text(
+             //                                 '${data.enquiryLeadDetailsModel.data![index].category}',
+             //                                 style: subTextTextStyle,
+             //                               ),
+             //                             ],
+             //                           ),
+             //
+             //                           // messages
+             //                           const SizedBox(height: 7),
+             //                           Row(
+             //                             mainAxisAlignment: MainAxisAlignment.start,
+             //                             crossAxisAlignment: CrossAxisAlignment.start,
+             //                             children: [
+             //                               Padding(
+             //                                 padding: const EdgeInsets.only(top: 3),
+             //                                 child: const Icon(
+             //                                   Icons.message_outlined,
+             //                                   size: 15,
+             //                                   color: titleTextColor,
+             //                                 ),
+             //                               ),
+             //
+             //                               const SizedBox(width: 5),
+             //                               Expanded(
+             //                                 child:
+             //                                 '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
+             //                                 Text(
+             //                                   'No message',
+             //                                   style: subTextTextStyle,
+             //                                 ) :
+             //                                 Text(
+             //                                   '${data.enquiryLeadDetailsModel.data![index].message}',
+             //                                   style: subTextTextStyle,
+             //                                 ),
+             //                               )
+             //                             ],
+             //                           ),
+             //
+             //                           const SizedBox(height: 15),
+             //                           Text(
+             //                             'Comments',
+             //                             style: noteHeadingTextStyle,
+             //                           ),
+             //
+             //                           const SizedBox(height: 10),
+             //
+             //                           AddNotesWidget(
+             //                               '${data.enquiryLeadDetailsModel.data![index].id}'
+             //                           ),
+             //                         ],
+             //                       ),
+             //                     ),
+             //                   );
+             //                 },
+             //               ).then((value) {
+             //                 enquiryProvider.updateEnquiryStatus(
+             //                     data.enquiryLeadDetailsModel.data![index].id
+             //                 );
+             //                 getEnquiryCountMethod();
+             //               });
+             //             },
+             //             child: Card(
+             //               elevation: 2,
+             //               child: Container(
+             //                   width: double.infinity,
+             //                   decoration: BoxDecoration(
+             //                     color:
+             //                         data.enquiryLeadDetailsModel.data![index].status == false ?
+             //                         highlightingColor :
+             //                     whiteColor,
+             //                     borderRadius: BorderRadius.circular(2),
+             //                   ),
+             //                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+             //                   child: IntrinsicHeight(
+             //                     child: Column(
+             //                       crossAxisAlignment: CrossAxisAlignment.start,
+             //                       children: [
+             //                         Row(
+             //                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+             //                           children: [
+             //                             Text(
+             //                               '${data.enquiryLeadDetailsModel.data![index].name}',
+             //                               style: nameTextStyle,
+             //                             ),
+             //
+             //                             PopupMenuButton(
+             //                               child: Icon(
+             //                                 Icons.more_vert_outlined,
+             //                                 size: 20,
+             //                               ),
+             //                               itemBuilder: (BuildContext context) {
+             //                                 return <PopupMenuItem<String>>[
+             //                                   PopupMenuItem<String>(
+             //                                     child: TextButton(
+             //                                       child: Row(
+             //                                         mainAxisAlignment:
+             //                                         MainAxisAlignment.start,
+             //                                         children: [
+             //                                           Text(
+             //                                             'Mark as Unread',
+             //                                             style: popupMenuTextStyle,
+             //                                           ),
+             //                                         ],
+             //                                       ),
+             //                                       onPressed: () {
+             //                                         enquiryProvider.updateEnquiryStatus(
+             //                                             data.enquiryLeadDetailsModel.data![index].id
+             //                                         );
+             //                                         getEnquiryCountMethod();
+             //                                         Navigator.pop(context);
+             //                                       },
+             //                                     ),
+             //                                     height: 31,
+             //                                   ),
+             //                                 ];
+             //                               },
+             //                             )
+             //                           ],
+             //                         ),
+             //
+             //                         const SizedBox(height: 8),
+             //
+             //                         Row(
+             //                           children: [
+             //                             const Icon(
+             //                               Icons.email_outlined,
+             //                               size: 15,
+             //                               color: titleTextColor,
+             //                             ),
+             //
+             //                             const SizedBox(width: 5),
+             //
+             //                             Text(
+             //                               '${data.enquiryLeadDetailsModel.data![index].email}',
+             //                               style: subTextTextStyle,
+             //                             )
+             //                           ],
+             //                         ),
+             //
+             //                         const SizedBox(height: 5),
+             //                         InkWell(
+             //                           onTap: (){
+             //                             FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+             //                           },
+             //                           child: Row(
+             //                             children: [
+             //                               const Icon(
+             //                                 Icons.phone_enabled,
+             //                                 size: 15,
+             //                                 color: titleTextColor,
+             //                               ),
+             //
+             //                               const SizedBox(width: 5),
+             //
+             //                               Text(
+             //                                 '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+             //                                 style: subTextTextStyle,
+             //                               )
+             //                             ],
+             //                           ),
+             //                         ),
+             //                       ],
+             //                     ),
+             //                   )
+             //               ),
+             //             ),
+             //           ),
+             //
+             //           const SizedBox(height: 7),
+             //         ],
+             //       ),
+             //     );
+             //   }else if (state is Failure) {
+             //     return SizedBox();
+             //   } else {
+             //     return Container();
+             //   }
+             // }),
         ],
       ),
     );
@@ -1172,6 +1196,307 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
               ),
             ),
           );
+        } else {
+          return Container();
+        }
+      }),
+    );
+  }
+
+  Widget allEnquiryWidget(){
+    return ChangeNotifierProvider<EnquiryProvider>(
+      create: (ctx){
+        return enquiryProvider;
+      },
+      child: Consumer<EnquiryProvider>(builder: (ctx, data, _){
+        var state = data.enquiryLeadDetailsLiveData().getValue();
+        print(state);
+        if (state is IsLoading) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height / 1.3,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: loginBgColor,
+              ),
+            ),
+          );
+        } else if (state is Success) {
+          return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: data.enquiryLeadDetailsModel.data!.length,
+            itemBuilder: (context, index) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: (){
+                    showModalBottomSheet(
+                      enableDrag: true,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(25.0), topRight: Radius.circular(5.0)),
+                      ),
+                      context: context,
+                      builder: (context){
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            20, 30, 20,
+                            MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // name
+                                Text('${data.enquiryLeadDetailsModel.data![index].name}',
+                                  style: nameTextStyle,
+                                ),
+                                const SizedBox(height: 10),
+
+                                // email
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.email_outlined,
+                                      size: 15,
+                                      color: titleTextColor,
+                                    ),
+
+                                    const SizedBox(width: 5),
+
+                                    Text(
+                                      '${data.enquiryLeadDetailsModel.data![index].email}',
+                                      style: subTextTextStyle,
+                                    )
+                                  ],
+                                ),
+
+                                const SizedBox(height: 7),
+
+                                // contact number
+                                InkWell(
+                                  onTap: (){
+                                    FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+                                  },
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.phone_enabled,
+                                        size: 15,
+                                        color: titleTextColor,
+                                      ),
+
+                                      const SizedBox(width: 5),
+
+                                      Text(
+                                        '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+                                        style: subTextTextStyle,
+                                      )
+                                    ],
+                                  ),
+                                ),
+
+                                //  Calendar
+                                const SizedBox(height: 7),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.calendar_month,
+                                      size: 15,
+                                      color: titleTextColor,
+                                    ),
+
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      formatDateFromAPI(
+                                          '${data.enquiryLeadDetailsModel.data![index].date}'
+                                      ),
+                                      style: subTextTextStyle,
+                                    ),
+
+                                    const SizedBox(width: 15),
+
+                                    const Icon(
+                                      CupertinoIcons.arrow_down_left,
+                                      size: 15,
+                                      color: titleTextColor,
+                                    ),
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      '${data.enquiryLeadDetailsModel.data![index].category}',
+                                      style: subTextTextStyle,
+                                    ),
+                                  ],
+                                ),
+
+                                // messages
+                                const SizedBox(height: 7),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: const Icon(
+                                        Icons.message_outlined,
+                                        size: 15,
+                                        color: titleTextColor,
+                                      ),
+                                    ),
+
+                                    const SizedBox(width: 5),
+                                    Expanded(
+                                      child:
+                                      '${data.enquiryLeadDetailsModel.data![index].message}' == "" ?
+                                      Text(
+                                        'No message',
+                                        style: subTextTextStyle,
+                                      ) :
+                                      Text(
+                                        '${data.enquiryLeadDetailsModel.data![index].message}',
+                                        style: subTextTextStyle,
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                const SizedBox(height: 15),
+                                Text(
+                                  'Comments',
+                                  style: noteHeadingTextStyle,
+                                ),
+
+                                const SizedBox(height: 10),
+
+                                AddNotesWidget(
+                                    '${data.enquiryLeadDetailsModel.data![index].id}'
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ).then((value) {
+                      enquiryProvider.updateEnquiryStatus(
+                          data.enquiryLeadDetailsModel.data![index].id
+                      );
+                      getEnquiryCountMethod();
+                    });
+                  },
+                  child: Card(
+                    elevation: 2,
+                    child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color:
+                          data.enquiryLeadDetailsModel.data![index].status == false ?
+                          highlightingColor :
+                          whiteColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '${data.enquiryLeadDetailsModel.data![index].name}',
+                                    style: nameTextStyle,
+                                  ),
+
+                                  PopupMenuButton(
+                                    child: Icon(
+                                      Icons.more_vert_outlined,
+                                      size: 20,
+                                    ),
+                                    itemBuilder: (BuildContext context) {
+                                      return <PopupMenuItem<String>>[
+                                        PopupMenuItem<String>(
+                                          child: TextButton(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Mark as Unread',
+                                                  style: popupMenuTextStyle,
+                                                ),
+                                              ],
+                                            ),
+                                            onPressed: () {
+                                              enquiryProvider.updateEnquiryStatus(
+                                                  data.enquiryLeadDetailsModel.data![index].id
+                                              );
+                                              getEnquiryCountMethod();
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                          height: 31,
+                                        ),
+                                      ];
+                                    },
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.email_outlined,
+                                    size: 15,
+                                    color: titleTextColor,
+                                  ),
+
+                                  const SizedBox(width: 5),
+
+                                  Text(
+                                    '${data.enquiryLeadDetailsModel.data![index].email}',
+                                    style: subTextTextStyle,
+                                  )
+                                ],
+                              ),
+
+                              const SizedBox(height: 5),
+                              InkWell(
+                                onTap: (){
+                                  FlutterPhoneDirectCaller.callNumber('+91${data.enquiryLeadDetailsModel.data![index].phone}');
+                                },
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.phone_enabled,
+                                      size: 15,
+                                      color: titleTextColor,
+                                    ),
+
+                                    const SizedBox(width: 5),
+
+                                    Text(
+                                      '+91 ${data.enquiryLeadDetailsModel.data![index].phone}',
+                                      style: subTextTextStyle,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 7),
+              ],
+            ),
+          );
+        }else if (state is Failure) {
+          return SizedBox();
         } else {
           return Container();
         }
