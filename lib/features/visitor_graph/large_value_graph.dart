@@ -253,7 +253,7 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
                 : biggestVal > 10000 && biggestVal <= 15000 ? 1000
                 : 10000,
             getTitlesWidget: leftTitleWidgetsForGreaterValues,
-            reservedSize: 48,
+            reservedSize: 55,
           ),
         ),
       ),
@@ -275,7 +275,6 @@ class _LargeValueGraphState extends State<LargeValueGraph> {
       :biggestVal > 5000 && biggestVal <= 10000 ? 10000
       : biggestVal > 10000 && biggestVal <= 15000 ? 15000
       : 100000,
-          // 160 ? 200 : 160,
       lineBarsData: [
         LineChartBarData(
           spots: spots,
