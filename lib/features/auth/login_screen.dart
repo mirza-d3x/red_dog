@@ -15,6 +15,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../../utilities/api_helpers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../utilities/shared_prefernces.dart';
+import 'dart:io' show Platform;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 const List<String> scopes = <String>[
@@ -42,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   RegisteredWebsiteProvider registeredWebsiteProvider= RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
   bool isLoading = false;
+  bool isLoadingAppleLogin = false;
 
   Future<void> _handleSignIn() async {
     String token = await getFireBaseToken();
@@ -285,6 +287,48 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           'Continue With Google',
                           style: continueWithGoogleButtonTextStyle
+                        )
+                      ],
+                    )
+                        :
+                    Center(
+                      child: CircularProgressIndicator(
+                        color: loginBgColor,
+                      ),
+                    ),
+                  ),
+                ),
+
+                Platform.isAndroid ? SizedBox() :
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Container(
+                    // height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      // color: whiteColor,
+                      border: Border.all(
+                          color: loginDescColor
+                      ),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    padding: const EdgeInsets.only(top: 13,bottom: 13),
+                    margin: const EdgeInsets.symmetric(horizontal: 45),
+                    child:
+                    isLoadingAppleLogin == false ?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/apple_logo.png',
+                          height: 20,
+                        ),
+
+                        const SizedBox(width: 10),
+
+                        Text(
+                            'SigIn With Apple',
+                            style: continueWithGoogleButtonTextStyle
                         )
                       ],
                     )

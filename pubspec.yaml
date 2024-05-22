@@ -90,6 +90,7 @@ flutter:
     - assets/images/server_uptime.PNG
     - assets/images/RedDogAppIcon.jpg
     - assets/world_map.json
+    - assets/images/apple_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
