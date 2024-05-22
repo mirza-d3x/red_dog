@@ -52,6 +52,7 @@ dependencies:
   url_launcher: ^6.1.8
   syncfusion_flutter_maps: ^21.2.10
   readmore: ^3.0.0
+  sign_in_with_apple: ^6.1.0
 
 dev_dependencies:
   flutter_test:
