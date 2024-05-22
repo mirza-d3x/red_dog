@@ -5,6 +5,7 @@ import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../providers/login_provider.dart';
 import '../../providers/user_profile_provider.dart';
@@ -119,6 +120,127 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Error signing in with Google: $error');
     }
   }
+
+  // Future<void> _signInWithApple() async {
+  //   try {
+  //     final credential = await SignInWithApple.getAppleIDCredential(
+  //       scopes: [
+  //         AppleIDAuthorizationScopes.email,
+  //         AppleIDAuthorizationScopes.fullName,
+  //       ],
+  //     );
+  //
+  //     setState(() {
+  //       isLoadingAppleLogin = true;
+  //     });
+  //   } catch (error) {
+  //     print('Error signing in with Google: $error');
+  //   }
+  // }
+
+  Future<void> _handleAppleSignIn() async {
+    String token = await getFireBaseToken();
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oAuthProvider = OAuthProvider('apple.com');
+      final credential = oAuthProvider.credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      setState(() {
+        isLoadingAppleLogin = true;
+      });
+
+      UserCredential authResult = await _auth.signInWithCredential(credential);
+      User? user = authResult.user;
+
+      if (user != null) {
+        Future.delayed(Duration.zero, () {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+            });
+        // setValue('appleToken', appleCredential.identityToken);
+        // await loginProvider.checkLogin(
+        //     appleCredential.email!,
+        //     token.toString(),
+        //     appleCredential.identityToken!,
+        //     _value == 'With Analytics' ? "true" : "false"
+        // );
+        //
+        // if (loginProvider.loginModel.status == 'success') {
+        //   await userProfileProvider.getProfile();
+        //   await registeredWebsiteProvider.getRegisteredWebsiteList();
+        //   Future.delayed(Duration.zero, () {
+        //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+        //   });
+        // } else {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(
+        //       backgroundColor: whiteColor,
+        //       behavior: SnackBarBehavior.floating,
+        //       width: 340,
+        //       content: Text(
+        //         'Please select the Apple Id',
+        //         style: errorTextStyle,
+        //       ),
+        //     ),
+        //   );
+        //   setState(() {
+        //     isLoadingAppleLogin = false;
+        //   });
+        //   _auth.signOut();
+        // }
+      }else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: whiteColor,
+            behavior: SnackBarBehavior.floating,
+            width: 340,
+            content: Text(
+              'Please select the Apple Id',
+              style: errorTextStyle,
+            ),
+          ),
+        );
+        setState(() {
+          isLoadingAppleLogin = false;
+        });
+        _auth.signOut();
+      }
+    } catch (error) {
+      print('Error signing in with Apple: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Error signing in with Apple: $error'),
+        ),
+      );
+    }
+  }
+
+  // Future<UserCredential> signInWithApple() async{
+  //   final appleProvider = AppleAuthProvider();
+  //   return await FirebaseAuth.instance.signInWithProvider(appleProvider);
+  // }
+  //
+  // Future<void> handleAppleSignIn() async{
+  //   var auth = await signInWithApple();
+  //   if(auth.user!=null){
+  //     setState(() {
+  //       isLoadingAppleLogin = true;
+  //     });
+  //
+  //     String? displayName = "apple_user";
+  //     String? email = "apple@email.com";
+  //     String? id = auth.user?.uid;
+  //   }
+  // }
 
   dynamic _value = 'With Analytics';
 
@@ -256,9 +378,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 InkWell(
                   onTap: (){
                     _handleSignIn();
-                    // _value == 'With Analytics' ?
-                    //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) =>  TabViewScreen(true)));
-                    //     : Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAnalyticsScreen()));
                   },
                   child: Container(
                     // height: 50,
@@ -302,40 +421,45 @@ class _LoginScreenState extends State<LoginScreen> {
                 Platform.isAndroid ? SizedBox() :
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
-                  child: Container(
-                    // height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      // color: whiteColor,
-                      border: Border.all(
-                          color: loginDescColor
-                      ),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    padding: const EdgeInsets.only(top: 13,bottom: 13),
-                    margin: const EdgeInsets.symmetric(horizontal: 45),
-                    child:
-                    isLoadingAppleLogin == false ?
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/apple_logo.png',
-                          height: 20,
+                  child: InkWell(
+                    onTap: (){
+                      _handleAppleSignIn();
+                    },
+                    child: Container(
+                      // height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        // color: whiteColor,
+                        border: Border.all(
+                            color: loginDescColor
                         ),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      margin: const EdgeInsets.symmetric(horizontal: 45),
+                      child:
+                      isLoadingAppleLogin == false ?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/apple_logo.png',
+                            height: 20,
+                          ),
 
-                        const SizedBox(width: 10),
+                          const SizedBox(width: 10),
 
-                        Text(
-                            'SigIn With Apple',
-                            style: continueWithGoogleButtonTextStyle
-                        )
-                      ],
-                    )
-                        :
-                    Center(
-                      child: CircularProgressIndicator(
-                        color: loginBgColor,
+                          Text(
+                              'SigIn With Apple',
+                              style: continueWithGoogleButtonTextStyle
+                          )
+                        ],
+                      )
+                          :
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: loginBgColor,
+                        ),
                       ),
                     ),
                   ),
