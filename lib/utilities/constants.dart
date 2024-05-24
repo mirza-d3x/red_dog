@@ -9,4 +9,5 @@ class Constants{
   static const analytics = 'analytics';
   static const initialWebId = 'initialWebId';
   static const email = 'email';
+  static const storedWebSiteName = 'storedWebSiteName';
 }

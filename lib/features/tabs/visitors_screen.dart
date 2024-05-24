@@ -132,11 +132,19 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   late List<Model> _data;
   late MapShapeSource _mapSource;
 
+  String storedWebName = '';
+  void getStoredOrgName() async{
+    storedWebName = await getValue('storedWebSiteName');
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5');
+    print(storedWebName);
+  }
+
   @override
   void initState(){
     super.initState();
     getStoredWebsiteId();
-    deleteValue('websiteId');
+    getStoredOrgName();
+    // deleteValue('websiteId');
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getVisitorTileMethod();
@@ -511,61 +519,64 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_outlined,
-                              color: blackColor,
-                            ),
-                            hint: selectedWebsite == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    data.websiteListModel.data![0].name,
-                                    style: dropDownTextStyle
-                                ),
+                        child:
+                      DropdownButton(
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: blackColor,
+                          ),
+                          hint:
+                          selectedWebsite == null
+                              ? Row(
+                            children: [
+                              Text(
+                                  data.websiteListModel.data![0].name,
+                                  style: dropDownTextStyle
+                              ),
 
-                                const SizedBox(width: 10),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    selectedWebsite,
-                                    style: dropDownTextStyle
-                                ),
-                                const SizedBox(width: 10),
-                              ],
-                            ),
-                            items:
-                            data.websiteListModel.data!.map((e) {
-                              websiteName = e.name;
-                              websiteViewId = e.datumId;
-                              return DropdownMenuItem(
-                                // value: valueItem,
-                                child: Text(e.name),
-                                value: e.datumId,
-                              );
-                            },
-                            ).toList(),
-                            value: selectedWebsite,
-                            onChanged: (val) {
+                              const SizedBox(width: 10),
+                            ],
+                          )
+                              : Row(
+                            children: [
+                              Text(
+                                  selectedWebsite,
+                                  style: dropDownTextStyle
+                              ),
+                              const SizedBox(width: 10),
+                            ],
+                          ),
+                          items:
+                          data.websiteListModel.data!.map((e) {
+                            websiteName = e.name;
+                            websiteViewId = e.datumId;
+                            return DropdownMenuItem(
+                              // value: valueItem,
+                              child: Text(e.name),
+                              value: e.datumId,
+                            );
+                          },
+                          ).toList(),
+                          value: selectedWebsite,
+                          onChanged: (val) {
+                            deleteValue('websiteId');
+                            deleteValue('websiteName');
+                            setState(()  {
                               deleteValue('websiteId');
-                              deleteValue('websiteName');
-                              setState(()  {
-                                deleteValue('websiteId');
-                                selectedWebsite = val;
-                                setValue('websiteId', val);
-                                getVisitorTileMethod();
-                                getUserByTrendingTimeMethod();
-                                getUserByNewReturnedMethod();
-                                getUserByCountryMethod();
-                                getUserByCityMethod();
-                                getUserByLangMethod();
-                                getUserByAgeGroupMethod();
-                                getUserByGenderMethod();
-                              });
-                            })
-
+                              deleteValue('storedWebSiteName');
+                              selectedWebsite = val;
+                              setValue('websiteId', val);
+                              setValue('storedWebSiteName', websiteName);
+                              getVisitorTileMethod();
+                              getUserByTrendingTimeMethod();
+                              getUserByNewReturnedMethod();
+                              getUserByCountryMethod();
+                              getUserByCityMethod();
+                              getUserByLangMethod();
+                              getUserByAgeGroupMethod();
+                              getUserByGenderMethod();
+                            });
+                          })
                     ),
                   ),
                 ),
