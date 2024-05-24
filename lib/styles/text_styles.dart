@@ -85,6 +85,12 @@ TextStyle privacyTextStyle = const TextStyle(
   fontSize: 16,
 );
 
+TextStyle privacyCheckTextStyle = const TextStyle(
+  fontFamily: _regularFont,
+  color: privacyTextColor,
+  fontSize: 13,
+);
+
 TextStyle tileTitleTextStyle = const TextStyle(
   fontFamily: _mediumFont,
   color: tileHeadTextColor,

@@ -243,6 +243,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // }
 
   dynamic _value = 'With Analytics';
+  bool checkedValue = false;
+  bool accept = false;
 
   @override
   void initState(){
@@ -377,6 +379,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 //  Continue with Google
                 InkWell(
                   onTap: (){
+                    checkedValue == false ?
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        // width: 239,
+                        behavior: SnackBarBehavior.floating,
+                        content: Center(
+                          child: Text(
+                              'Please indicate that you have read and agree to the terms and conditions and Privacy Policy'
+                          ),
+                        ),
+                      ),
+                    )
+                        :
                     _handleSignIn();
                   },
                   child: Container(
@@ -462,6 +477,33 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 15,right: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: tileNumberColor,
+                        value: checkedValue,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            checkedValue = value!;
+                            accept = true;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                            'I agree to the RedDog Terms and privacy Policy',
+                            style: privacyCheckTextStyle,
+                        ),
+                      )
+                    ],
                   ),
                 ),
 
