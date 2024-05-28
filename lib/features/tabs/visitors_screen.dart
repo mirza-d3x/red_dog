@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
+import 'package:reddog_mobile_app/features/common/help_screen.dart';
 import 'package:reddog_mobile_app/features/common/notification_list_screen.dart';
 import 'package:reddog_mobile_app/features/visitor_graph/large_value_graph.dart';
 import 'package:reddog_mobile_app/features/visitor_graph/normal_graph.dart';
@@ -303,8 +304,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               return SizedBox();
             } else if (state is Success) {
               return PopupMenuButton(
-                  constraints: const BoxConstraints.expand(width: 140,height: 70),
-                  // padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints.expand(width: 144,height: 110),
                   position: PopupMenuPosition.under,
                   child:
                   CircleAvatar(
@@ -334,11 +334,34 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               ],
                             ),onPressed: (){
                             onLogout();
-                            // deleteValue('token');
-                            // WidgetsBinding.instance.addPostFrameCallback((_) {
-                            //   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
-                            // });
                           },
+                          ),
+                        ),height: 31,),
+
+                      PopupMenuItem<String> (
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 23),
+                          child: Center(
+                            child: TextButton(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.help_outline_outlined,
+                                    color: blackColor,
+                                    size: 20,
+                                  ),
+
+                                  const SizedBox(width: 12),
+                                  Text('Help',
+                                      style: nameTextStyle
+                                  ),
+                                ],
+                              ),onPressed: (){
+                              Navigator.pop(context);
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => HelpScreen()));
+                            },
+                            ),
                           ),
                         ),height: 31,),
                     ];
