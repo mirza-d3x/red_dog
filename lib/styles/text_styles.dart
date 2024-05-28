@@ -276,6 +276,6 @@ TextStyle helpDescTextStyle = const TextStyle(
     fontFamily: _regularFont,
     color: normalTextColor,
     fontSize: 15,
-    height: 1.4
+    height: 1.8,
 );
 

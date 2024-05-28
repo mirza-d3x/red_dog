@@ -69,19 +69,17 @@ class _HelpScreenState extends State<HelpScreen> {
                         child: ExpansionTile(
                           iconColor: blackColor,
                           collapsedIconColor: blackColor,
-                          // childrenPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                           title: Text(
                             item.title,
                             style: helpTitleTextStyle,
                           ),
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),
-                              child: Text(
-                                  item.description,
-                                style: helpDescTextStyle,
+                              padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16,top: 5),
+                              child: RichText(
+                                text: _buildRichText(item.description),
                                 textAlign: TextAlign.justify,
-                              ),
+                              )
                             ),
                           ],
                         ),
@@ -93,6 +91,42 @@ class _HelpScreenState extends State<HelpScreen> {
             ),
           ),
         )
+    );
+  }
+
+
+  TextSpan _buildRichText(String text) {
+    List<TextSpan> spans = [];
+    RegExp regExp = RegExp(r"\*\*(.*?)\*\*");
+    Iterable<Match> matches = regExp.allMatches(text);
+
+    int start = 0;
+    for (Match match in matches) {
+      if (match.start > start) {
+        spans.add(TextSpan(text: text.substring(start, match.start)));
+      }
+      spans.add(TextSpan(
+        text: match.group(1),
+        style: TextStyle(
+          fontFamily: 'Barlow-SemiBold',
+            // fontWeight: FontWeight.bold,
+          color: blackColor,
+          fontSize: 16
+        ),
+      ));
+      start = match.end;
+    }
+    if (start < text.length) {
+      String segment = text.substring(start).replaceAll(RegExp(r'\s+'), ' ').trim(); // Replace multiple spaces with a single space
+      if (segment.isNotEmpty) {
+        spans.add(TextSpan(text: segment));
+      }
+      // spans.add(TextSpan(text: text.substring(start)));
+    }
+
+    return TextSpan(
+      children: spans,
+      style: helpDescTextStyle,
     );
   }
 }

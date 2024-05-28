@@ -1,14 +1,46 @@
 [
   {
-    "title": "Login Help",
-    "description": "If you are having trouble logging in, make sure your username and password are correct."
+    "title": "Why is it important to monitor website performance?",
+    "description": "Here are few reasons to monitor your website:\n**1.To safeguard your content and data**. Regular checks prevent potential security exposures from becoming massive issues.\n**2.To identify problems with your site or hosting**. Uptime monitoring can help you determine if the tools you use have problems that need to be solved.\n**3.To maintain search engine rankings**. Website problems — like hacks, downtime, or a poor user experience — can negatively impact your search engine rankings.\n**4.To understand how visitors interact with your site**. Monitoring can provide you with data on how visitors use your site and guide future improvements."
   },
   {
-    "title": "Password Reset",
-    "description": "To reset your password, click on the 'Forgot Password' link and follow the instructions."
+    "title": "What is the bounce rate?",
+    "description": "Bounce Rate is defined as the percentage of visitors that leave a webpage without taking an action, such as clicking on a link, filling out a form, or making a purchase.\nAs a rule of thumb, **, a bounce rate in the range of 26 to 40 percent is excellent.** 41 to 55 percent is roughly average.\nBounce Rate is important because:\n1.Bounce Rate may be closely correlated to first page Google rankings.\n2.A high Bounce Rate lets you know that your site (or specific pages on your site) has issues with content, user experience, page layout or copywriting.\n\n **How to Improve Your Bounce Rate?**\n1. Embed YouTube Videos On Your Page\n2.Improve Loading Speed (by Compressing Images, Using a Fast Hosting Provider,Removing Unused Plugins and Scripts)\n3.Write an intro that makes someone want to keep reading.\n4.Make Your Content Super Easy to Read\n5.Add Internal Links to Your Page\n6.Optimize Your Mobile UX"
   },
   {
-    "title": "Account Creation",
-    "description": "To create a new account, click on the 'Sign Up' button and fill in the required details."
+    "title": "How are your visitors trending?",
+    "description": "RedDog watches your website traffic constantly so that you can identify the changes in visitor trends based on various marketing campaigns and events."
+  },
+  {
+    "title": "Retaining Visitors",
+    "description": "Repeat visitors are important as people tend to continue buying from companies they know and trust. Retaining visitors indicates how engaging and relevant your content is for your target audience."
+  },
+  {
+    "title": "Why is it important to know the location, language, age group and gender of your website visitors?",
+    "description": "It is important to know the demographics of users to improve your ability to capture your target audience. Demographic data helps you understand the characteristics of the people who buy your products and services."
+  },
+  {
+    "title": "Where is my website traffic coming from?",
+    "description": "You are likely see a traffic source from:\n**1.Organic**: Traffic from people finding you through a search engine\n**2.Referral:** Traffic from people clicking on a link on another website\n**3.Paid**: Traffic coming from PPC or other paid advertisements\n**4.Email**: Traffic coming from a link within an email you sent\n**5.Social**: Traffic coming from a social media platform\n**6.Other**: Traffic coming some source outside of those above\nRedDog also informs you of the specific websites and platforms that people are using to find you."
+  },
+  {
+    "title": "What were the devices used by the visitors?",
+    "description": "People may use various devices such as desktop, tablet, mobile to access your website.The device information helps you optimize your website design, experience, content, and optimize your content for advertising campaigns."
+  },
+  {
+    "title": "What is the latency of the website?",
+    "description": "Latency is the delay between a user making a request on a website and getting a response and plays a major role in your website performance. Page speed is one of the most important factors for Google page ranking.\n\nCertain measures can be taken to improve website latency such as:\n1.Use a CDN (content delivery network)\n2.Minify CSS and Javascript file sizes.\n3.Compress your images.\n4.Reduce the number of render-blocking resources"
+  },
+  {
+    "title": "Uptime monitoring?",
+    "description": "Uptime is the amount of hours a website is up and running and available for its users to access. Optimum uptime is 99.9%."
+  },
+  {
+    "title": "What can you gain from the enquiries section in RedDog?",
+    "description": "Enquiries section provides you with all the leads/ requests captured from various forms in your website. It helps you to consolidate and classify the leads and requests from various forms on the website."
+  },
+  {
+    "title": "Website Performance Analysis Simplified",
+    "description": "Most website monitoring apps toss a mess of features at you. Productive time is lost as you deal with information of limited value. We designed RedDog.live as an easy to use cost-effective tool for tracking your website performance,monitoring uptime and gathering your leads in one place.\n\nRedDog is designed, developed and maintained by Codelattice. Codelattice is a well known Google Cloud, AWS and Microsoft partner with more than 15 years of experience in hosting and managing cloud applications and websites.For help and support write to - **askus@codelattice.com**"
   }
 ]
