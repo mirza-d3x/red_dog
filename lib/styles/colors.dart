@@ -131,3 +131,5 @@ const trafficSource6Color = Color.fromRGBO(247, 134, 161, 1);
 const ageGroupBarColor = Color.fromRGBO(222, 222, 149, 1);
 
 const tileNumberColor = Color.fromRGBO(68, 68, 70, 1);
+
+const helpDescTextColor = Color.fromRGBO(102, 102, 85, 1);

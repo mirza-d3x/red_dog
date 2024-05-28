@@ -266,3 +266,16 @@ TextStyle errorSubTextStyle = const TextStyle(
   fontSize: 15,
 );
 
+TextStyle helpTitleTextStyle = const TextStyle(
+  fontFamily: _semiBoldFont,
+  color: tileNumberColor,
+  fontSize: 17,
+);
+
+TextStyle helpDescTextStyle = const TextStyle(
+    fontFamily: _regularFont,
+    color: normalTextColor,
+    fontSize: 15,
+    height: 1.4
+);
+

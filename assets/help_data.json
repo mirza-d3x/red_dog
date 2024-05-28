@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Login Help",
+    "description": "If you are having trouble logging in, make sure your username and password are correct."
+  },
+  {
+    "title": "Password Reset",
+    "description": "To reset your password, click on the 'Forgot Password' link and follow the instructions."
+  },
+  {
+    "title": "Account Creation",
+    "description": "To create a new account, click on the 'Sign Up' button and fill in the required details."
+  }
+]
