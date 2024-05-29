@@ -102,7 +102,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (topChannelsModel.code == 200) {
         topChannelsData.setValue(Success(topChannelsModel));

@@ -214,6 +214,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       setState(() {
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
+        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
         getVisitorTileMethod();
         getUserByTrendingTimeMethod();
         getUserByNewReturnedMethod();

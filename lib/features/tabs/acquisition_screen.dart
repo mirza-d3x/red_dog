@@ -77,15 +77,19 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
   AcquisitionProvider acquisitionProvider = AcquisitionProvider(acquisitionRepository: AcquisitionRepository());
 
-  acquisitionApiCall() {
+  acquisitionApiCall() async{
+    await getStoredDates();
     // top channels
     acquisitionProvider.getTopChannels(
+      storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' : formattedDate
+            _selectedToDate)}' :
+        formattedDate
     );
 
     // top channels by date
@@ -151,8 +155,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     );
   }
 
+  String storedStartDate = '';
+  String storedEndDate = '';
+   getStoredDates() async{
+    storedStartDate = await getValue('storedFromDate');
+    storedEndDate = await getValue('storedToDate');
+  }
+
   @override
   void initState(){
+    getStoredDates();
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     acquisitionApiCall();
@@ -249,7 +261,13 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             alignment: Alignment.centerLeft,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 15),
-                              child: Text(
+                              child:
+                                  storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
+                                      Text(
+                                        storedStartDate+' to'+ storedEndDate,
+                                        style: dropDownTextStyle,
+                                      ):
+                              Text(
                                 _selectedFromDate != null && _selectedToDate != null ?
                                 '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                                     : '${formattedInitialdDate} to ${formattedDate}',
