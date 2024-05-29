@@ -304,7 +304,8 @@ class VisitorProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (userByVisitorsTrendingTimeModel.code == 200) {
         userByVisitorsTrendingTimeData.setValue(Success(userByVisitorsTrendingTimeModel));

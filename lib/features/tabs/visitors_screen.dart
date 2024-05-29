@@ -55,65 +55,92 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   LogoutProvider logoutProvider = LogoutProvider(commonRepository: CommonRepository());
 
   getVisitorTileMethod() async{
-    await visitorProvider.getVisitorTileData(
+    await getStoredDates();
+     visitorProvider.getVisitorTileData(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' :
+        formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' :
+        formattedDate
     );
   }
 
   getUserByTrendingTimeMethod() async{
-    await visitorProvider.getUserByTrendingTimeList(
+    await getStoredDates();
+     visitorProvider.getUserByTrendingTimeList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
 
   getUserByNewReturnedMethod() async{
-    await visitorProvider.getUserByNewReturnedList(
+    await getStoredDates();
+     visitorProvider.getUserByNewReturnedList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
 
   getUserByCountryMethod() async{
-    await visitorProvider.getUserByCountryList(
+    await getStoredDates();
+     visitorProvider.getUserByCountryList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
 
   getUserByCityMethod() async{
-    await visitorProvider.getUserByCityList(
+    await getStoredDates();
+     visitorProvider.getUserByCityList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
 
   getUserByLangMethod() async{
-    await visitorProvider.getUserByLangList(
+    await getStoredDates();
+     visitorProvider.getUserByLangList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
 
   getUserByAgeGroupMethod() async{
-    await visitorProvider.getUserByAgeList(
+    await getStoredDates();
+     visitorProvider.getUserByAgeList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
 
   getUserByGenderMethod() async{
-    await visitorProvider.getUserByGenderList(
+    await getStoredDates();
+     visitorProvider.getUserByGenderList(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
     );
   }
@@ -140,9 +167,18 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     print(storedWebName);
   }
 
+  String storedStartDate = '';
+  String storedEndDate = '';
+  getStoredDates() async{
+    storedStartDate = await getValue('storedFromDate');
+    storedEndDate = await getValue('storedToDate');
+  }
+
+
   @override
   void initState(){
     super.initState();
+    getStoredDates();
     getStoredWebsiteId();
     getStoredOrgName();
     // deleteValue('websiteId');
@@ -212,6 +248,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
     if (picked != null) {
       setState(() {
+        deleteValue('storedFromDate');
+        deleteValue('storedToDate');
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
         setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
@@ -460,7 +498,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15),
-                    child: Text(
+                    child: storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
+                    Text(
+                      storedStartDate+' to '+ storedEndDate,
+                      style: dropDownTextStyle,
+                    ):
+                    Text(
                       _selectedFromDate != null && _selectedToDate != null ?
                       '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                           : '${formattedInitialdDate} to ${formattedDate}',
@@ -662,7 +705,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       tiles(context,'BOUNCE RATE',
-                        '${data.tileDataModel.data!.bounceRate}',
+                        '${data.tileDataModel.data!.bounceRate}%',
                       ),
                       tiles(context,'SESSIONS', '${data.tileDataModel.data!.sessions}'),
                     ],
@@ -1475,13 +1518,17 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             child:
                                 int.parse('${data.userByVisitorsTrendingTimeModel.data![0].value}').toInt() > 20?
                                    LargeValueGraph(
+                                     storedStartDate.isNotEmpty ? storedStartDate :
                                        _selectedFromDate != null ?
                                        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+                                       storedEndDate.isNotEmpty ? storedEndDate :
                                        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                                            : formattedDate
                                    ) : NormalGraph(
+                                    storedStartDate.isNotEmpty ? storedStartDate :
                                     _selectedFromDate != null ?
                                     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+                                    storedEndDate.isNotEmpty ? storedEndDate :
                                     _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                                         : formattedDate
                                 ),

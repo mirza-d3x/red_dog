@@ -280,7 +280,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               child:
                                   storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
                                       Text(
-                                        storedStartDate+' to'+ storedEndDate,
+                                        storedStartDate+' to '+ storedEndDate,
                                         style: dropDownTextStyle,
                                       ):
                               Text(
