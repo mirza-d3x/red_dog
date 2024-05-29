@@ -132,7 +132,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (topChannelsByDateModel.code == 200) {
         topChannelsByDateData.setValue(Success(topChannelsByDateModel));
@@ -162,7 +163,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (trafficSourceByDateModel.code == 200) {
         trafficSourceByDateData.setValue(Success(trafficSourceByDateModel));
@@ -191,7 +193,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (trafficSourceModel.code == 200) {
         trafficSourceData.setValue(Success(trafficSourceModel));
@@ -220,7 +223,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (mostVisitedPageModel.code == 200) {
         mostVisitedPageData.setValue(Success(mostVisitedPageModel));
@@ -249,7 +253,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (deviceCategoryModel.code == 200) {
         deviceCategoryData.setValue(Success(deviceCategoryModel));
@@ -278,7 +283,8 @@ class AcquisitionProvider extends ChangeNotifier {
           googleId,googleToken,
           storedWebId.isEmpty ?
           initialWebId: storedWebId,
-          fromDate,toDate
+          fromDate,
+          toDate
       );
       if (searchKeywordModel.code == 200) {
         searchKeywordData.setValue(Success(searchKeywordModel));

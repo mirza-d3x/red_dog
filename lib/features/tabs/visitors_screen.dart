@@ -2112,6 +2112,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       deleteValue('analytics');
       deleteValue('googleId');
       deleteValue('websiteId');
+      deleteValue('storedFromDate');
+      deleteValue('storedToDate');
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (_) => LoginScreen()));
   }

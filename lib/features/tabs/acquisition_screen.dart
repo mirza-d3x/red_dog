@@ -94,10 +94,12 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
     // top channels by date
     acquisitionProvider.getTopChannelsByDate(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
@@ -105,10 +107,12 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
     // traffic source by date
     acquisitionProvider.getTrafficSourceByDate(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
@@ -116,40 +120,48 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
     // traffic source
     acquisitionProvider.getTrafficSource(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
 
     // most visited page
     acquisitionProvider.getMostVisitedPageList(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
 
   // device category
     acquisitionProvider.getDeviceCategory(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
 
     // search keyword list
     acquisitionProvider.getSearchKeywordList(
+        storedStartDate.isNotEmpty ? storedStartDate :
     _selectedFromDate != null
     ?
     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
         : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
     _selectedToDate)}' : formattedDate
     );
@@ -542,7 +554,10 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               labelStyle: graphIndexTextStyle,
                             labelRotation: -80,
                             visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: 30, // Set the maximum visible value
+                            visibleMaximum:
+                                // data.topChannelsByDateModel.data!.length < 28 ?
+                            // double.parse('${data.topChannelsByDateModel.data!.length}'):
+                            30, // Set the maximum visible value
                             interval: 1,
                           ),
                           primaryYAxis: NumericAxis(
@@ -615,7 +630,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               mainAxisExtent: 23,
                               crossAxisSpacing: 1,
                             ),
-                            itemCount: 5,
+                            itemCount: data.topChannelsByDateModel.data!.length,
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemBuilder: (context,index) => Row(
@@ -723,7 +738,39 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 ? 50 : highestValue > 200 && highestValue <= 100 ?
                             250 : 1000, // Set the interval here
                           ),
-                          series: <CartesianSeries>[
+                          series:
+                              data.trafficSourceByDateModel.data!.length <=4 ?
+                              <CartesianSeries>[
+                                StackedColumnSeries<TrafficDataByDate, String>(
+                                    dataSource: data.trafficSourceByDateModel.data![0].data!,
+                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                    width: 0.8,
+                                    color: directBarColor
+                                ),
+                                StackedColumnSeries<TrafficDataByDate, String>(
+                                    dataSource: data.trafficSourceByDateModel.data![1].data!,
+                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                    width: 0.8,
+                                    color: googleBarColor
+                                ),
+                                StackedColumnSeries<TrafficDataByDate,String>(
+                                    dataSource: data.trafficSourceByDateModel.data![2].data!,
+                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                    width: 0.8,
+                                    color: bingBarColor
+                                ),
+                                StackedColumnSeries<TrafficDataByDate,String>(
+                                    dataSource: data.trafficSourceByDateModel.data![3].data!,
+                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                    width: 0.8,
+                                    color: duckGoBarColor
+                                ),
+                              ] :
+                          <CartesianSeries>[
                             StackedColumnSeries<TrafficDataByDate, String>(
                                 dataSource: data.trafficSourceByDateModel.data![0].data!,
                                 xValueMapper: (TrafficDataByDate data, _) => data.key,
@@ -760,7 +807,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 color: baiduBarColor
                             ),
                             StackedColumnSeries<TrafficDataByDate,String>(
-                                dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                dataSource: data.trafficSourceByDateModel.data![5].data!,
                                 xValueMapper: (TrafficDataByDate data, _) => data.key,
                                 yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
                                 width: 0.8,
