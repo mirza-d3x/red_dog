@@ -488,5 +488,4 @@ class _ServerScreenState extends State<ServerScreen> {
       )
     );
   }
-
 }
