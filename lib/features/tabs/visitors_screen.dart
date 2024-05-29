@@ -54,97 +54,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   LogoutProvider logoutProvider = LogoutProvider(commonRepository: CommonRepository());
 
-  getVisitorTileMethod() async{
-    await getStoredDates();
-     visitorProvider.getVisitorTileData(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' :
-        formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' :
-        formattedDate
-    );
-  }
-
-  getUserByTrendingTimeMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByTrendingTimeList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
-  getUserByNewReturnedMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByNewReturnedList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
-  getUserByCountryMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByCountryList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
-  getUserByCityMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByCityList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
-  getUserByLangMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByLangList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
-  getUserByAgeGroupMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByAgeList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
-  getUserByGenderMethod() async{
-    await getStoredDates();
-     visitorProvider.getUserByGenderList(
-         storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-         storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  }
-
   String storedWebsiteId = '';
 
   void getStoredWebsiteId() async{
@@ -174,6 +83,77 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     storedEndDate = await getValue('storedToDate');
   }
 
+  visitorsApiCall() async{
+    await getStoredDates();
+    // visitor Tile API call
+    visitorProvider.getVisitorTileData(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' :
+        formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' :
+        formattedDate
+    );
+
+  // visitors by trending time API call
+    visitorProvider.getUserByTrendingTimeList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  // Retained visitor API call
+    visitorProvider.getUserByNewReturnedList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  // user by country API call
+    visitorProvider.getUserByCountryList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  //  user by city API call
+    visitorProvider.getUserByCityList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  //  user by language API call
+    visitorProvider.getUserByLangList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+    // user by age group API call
+    visitorProvider.getUserByAgeList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+    // user by gender API call
+    visitorProvider.getUserByGenderList(
+        storedStartDate.isNotEmpty ? storedStartDate :
+        _selectedFromDate != null ?
+        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
+        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
+    );
+  }
 
   @override
   void initState(){
@@ -181,17 +161,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     getStoredDates();
     getStoredWebsiteId();
     getStoredOrgName();
-    // deleteValue('websiteId');
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
-    getVisitorTileMethod();
-    getUserByTrendingTimeMethod();
-    getUserByNewReturnedMethod();
-    getUserByCountryMethod();
-    getUserByCityMethod();
-    getUserByLangMethod();
-    getUserByAgeGroupMethod();
-    getUserByGenderMethod();
+    visitorsApiCall();
 
     _data = const <Model>[
       Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0),
@@ -254,14 +226,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         _selectedToDate = picked.end;
         setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
         setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
-        getVisitorTileMethod();
-        getUserByTrendingTimeMethod();
-        getUserByNewReturnedMethod();
-        getUserByCountryMethod();
-        getUserByCityMethod();
-        getUserByLangMethod();
-        getUserByAgeGroupMethod();
-        getUserByGenderMethod();
+        visitorsApiCall();
       });
     }
   }
@@ -445,7 +410,62 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               height: MediaQuery.of(context).size.height / 1.35,
               child: withoutAnalyticsWidget()
           ) :
-          withAnalytics();
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // drop dwn menu,calander,download button
+                websiteDropdownMenu(),
+
+                const SizedBox(height: 5),
+                InkWell(
+
+                  onTap: () =>  _selectDateRange(context),
+                  child: Card(
+                    elevation: 2,
+                    child: Container(
+                      height: 43,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child:
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child:
+                          storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
+                          Text(
+                            storedStartDate+' to '+ storedEndDate,
+                            style: dropDownTextStyle,
+                          ):
+                          Text(
+                            _selectedFromDate != null && _selectedToDate != null ?
+                            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                : '${formattedInitialdDate} to ${formattedDate}',
+                            style: dropDownTextStyle,
+                          ),
+                        ),
+                      ),
+                      // const Icon(
+                      //   Icons.calendar_month,
+                      //   color: blackColor,
+                      //   size: 20,
+                      // )
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                visitorApiDataWidget(),
+              ],
+            ),
+          );
+          // withAnalytics();
         }else if (state is Failure) {
           return Center(
             child: Text(
@@ -632,14 +652,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 deleteValue('websiteId');
                                 selectedWebsite = val;
                                 setValue('websiteId', val);
-                                getVisitorTileMethod();
-                                getUserByTrendingTimeMethod();
-                                getUserByNewReturnedMethod();
-                                getUserByCountryMethod();
-                                getUserByCityMethod();
-                                getUserByLangMethod();
-                                getUserByAgeGroupMethod();
-                                getUserByGenderMethod();
+                                visitorsApiCall();
                               });
                             })
                     ),
@@ -808,47 +821,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             }
           }),
 
-          // Where are your users from?
-          // Text(
-          //   'Your Visitors from?',
-          //   style: normalTextStyle,
-          // ),
-
           const SizedBox(height: 10),
 
-
-          // // world map
-          // Card(
-          //   elevation: 2,
-          //   shadowColor: whiteColor,
-          //   child: Container(
-          //     padding: const EdgeInsets.all(10),
-          //     width: double.infinity,
-          //     decoration: BoxDecoration(
-          //       borderRadius: BorderRadius.circular(3),
-          //       color: whiteColor,
-          //     ),
-          //     child: Padding(
-          //       padding: const EdgeInsets.only(bottom: 15,top: 15),
-          //       child:
-          //
-          //       SimpleMap(
-          //         instructions: SMapWorld.instructions,
-          //         defaultColor: Colors.grey,
-          //         colors: const SMapWorldColors(
-          //           uS: Colors.green,   // This makes USA green
-          //           dE: Colors.red,   // This makes China green
-          //           iN: Colors.green,   // This makes Russia green
-          //         ).toMap(),
-          //         callback: (id, name, tapDetails) {
-          //           print(id);
-          //         },
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // API  world map
+          // map - user by country
           Consumer<VisitorProvider>(builder: (ctx, data, _){
             var state = data.userByCountryLiveData().getValue();
             print(state);
@@ -899,490 +874,489 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 8),
           // country list
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
-            var state = data.userByCountryLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox();
-            } else if (state is Success) {
-              return Card(
-                elevation: 2,
-                shadowColor: whiteColor,
-                child: Container(
-                  height: 400,
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    color: whiteColor,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      Padding(
-                        padding: const EdgeInsets.only(right: 5,top: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                setState(() {
-                                  selectedOption = 'Country';
-                                });
-                              },
-                              child: Text(
-                                'Country',
-                                style: TextStyle(
-                                  fontFamily: 'Barlow-Medium',
-                                  color: selectedOption == 'Country' ? redColor : blackColor,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(width: 20),
-                            InkWell(
-                              onTap: (){
-                                setState(() {
-                                  selectedOption = 'City';
-                                });
-                              },
-                              child: Text(
-                                'City',
-                                style: TextStyle(
-                                  fontFamily: 'Barlow-Medium',
-                                  color: selectedOption == 'City' ? redColor : blackColor,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      const SizedBox(height: 20),
-                      selectedOption == 'Country' ?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Country',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              'Users',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40),
-                            child: Text(
-                              '%',
-                              style: tableTitleTextStyle,
-                            ),
-                          )
-                        ],
-                      ):
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              'City',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(left: 45),
-                            child: Text(
-                              'Users',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 45),
-                            child: Text(
-                              '%',
-                              style: tableTitleTextStyle,
-                            ),
-                          )
-                        ],
-                      ),
-
-                      const SizedBox(height: 3),
-                      const Divider(
-                        color: dividerColor,
-                      ),
-
-                      const SizedBox(height: 3),
-
-                      selectedOption == 'Country' ?
-                      //  country list
-                      Consumer<VisitorProvider>(builder: (ctx, data, _){
-                        var state = data.userByCountryLiveData().getValue();
-                        print(state);
-                        if (state is IsLoading) {
-                          return SizedBox();
-                        } else if (state is Success) {
-                          return Expanded(
-                            child: Scrollbar(
-                              thumbVisibility: true,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 5),
-                                child: ListView.builder(
-                                  itemCount: data.userByCountryModel.data!.length,
-                                  shrinkWrap: true,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context,index) {
-                                    return Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // Text(
-                                              //   '${index + 1}',
-                                              //   style: tableContentTextStyle,
-                                              // ),
-
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  '${data.userByCountryModel.data![index].name}',
-                                                  style: tableContentTextStyle,
-                                                ),
-                                              ),
-
-                                              const SizedBox(width: 10),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  '${data.userByCountryModel.data![index].value}',
-                                                  style: tableContentTextStyle,
-                                                ),
-                                              ),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: LinearPercentIndicator(
-                                                  width: 65.0,
-                                                  lineHeight: 14.0,
-                                                  percent: data.userByCountryModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
-                                                  backgroundColor: whiteColor,
-                                                  progressColor: percentageIndicatorColor,
-                                                  center: Text(
-                                                    '${data.userByCountryModel.data![index].percentage}',
-                                                    style: percentTextStyle,
-                                                  ),
-                                                ),
-                                              ),
-
-
-                                              // Text(
-                                              //   '83.10%',
-                                              //   style: tableContentTextStyle,
-                                              // )
-                                            ],
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 3),
-                                        const Divider(
-                                          color: dividerColor,
-                                        ),
-                                        const SizedBox(height: 3),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        }else if (state is Failure) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 1.3,
-                            child: Center(
-                              child: Text(
-                                'Failed to load!!',
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }):
-                      Consumer<VisitorProvider>(builder: (ctx, data, _){
-                        var state = data.userByCityLiveData().getValue();
-                        print(state);
-                        if (state is IsLoading) {
-                          return SizedBox();
-                        } else if (state is Success) {
-                          return Expanded(
-                            child: Scrollbar(
-                              thumbVisibility: true,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 5),
-                                child: ListView.builder(
-                                  itemCount: data.userByCityModel.data!.length,
-                                  shrinkWrap: true,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context,index) {
-                                    return Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // Text(
-                                              //   '${index + 1}',
-                                              //   style: tableContentTextStyle,
-                                              // ),
-
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  '${data.userByCityModel.data![index].name}',
-                                                  style: tableContentTextStyle,
-                                                ),
-                                              ),
-
-                                              const SizedBox(width: 10),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  '${data.userByCityModel.data![index].value}',
-                                                  style: tableContentTextStyle,
-                                                ),
-                                              ),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: LinearPercentIndicator(
-                                                  width: 65.0,
-                                                  lineHeight: 14.0,
-                                                  percent: data.userByCityModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
-                                                  backgroundColor: whiteColor,
-                                                  progressColor: percentageIndicatorColor,
-                                                  center: Text(
-                                                    '${data.userByCityModel.data![index].percentage}',
-                                                    style: percentTextStyle,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 3),
-                                        const Divider(
-                                          color: dividerColor,
-                                        ),
-                                        const SizedBox(height: 3),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        }else if (state is Failure) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 1.3,
-                            child: Center(
-                              child: Text(
-                                'Failed to load!!',
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      })
-                    ],
-                  ),
-                ),
-              );
-            }else if (state is Failure) {
-              return SizedBox();
-            } else {
-              return Container();
-            }
-          }),
-
+          // Consumer<VisitorProvider>(builder: (ctx, data, _){
+          //   var state = data.userByCountryLiveData().getValue();
+          //   print(state);
+          //   if (state is IsLoading) {
+          //     return SizedBox();
+          //   } else if (state is Success) {
+          //     return Card(
+          //       elevation: 2,
+          //       shadowColor: whiteColor,
+          //       child: Container(
+          //         height: 400,
+          //         padding: const EdgeInsets.all(10),
+          //         width: double.infinity,
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(3),
+          //           color: whiteColor,
+          //         ),
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //
+          //             Padding(
+          //               padding: const EdgeInsets.only(right: 5,top: 5),
+          //               child: Row(
+          //                 mainAxisAlignment: MainAxisAlignment.end,
+          //                 children: [
+          //                   InkWell(
+          //                     onTap: (){
+          //                       setState(() {
+          //                         selectedOption = 'Country';
+          //                       });
+          //                     },
+          //                     child: Text(
+          //                       'Country',
+          //                       style: TextStyle(
+          //                         fontFamily: 'Barlow-Medium',
+          //                         color: selectedOption == 'Country' ? redColor : blackColor,
+          //                         fontSize: 16,
+          //                       ),
+          //                     ),
+          //                   ),
+          //
+          //                   const SizedBox(width: 20),
+          //                   InkWell(
+          //                     onTap: (){
+          //                       setState(() {
+          //                         selectedOption = 'City';
+          //                       });
+          //                     },
+          //                     child: Text(
+          //                       'City',
+          //                       style: TextStyle(
+          //                         fontFamily: 'Barlow-Medium',
+          //                         color: selectedOption == 'City' ? redColor : blackColor,
+          //                         fontSize: 16,
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //
+          //             const SizedBox(height: 20),
+          //             selectedOption == 'Country' ?
+          //             Row(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 10),
+          //                   child: Text(
+          //                     'Country',
+          //                     style: tableTitleTextStyle,
+          //                   ),
+          //                 ),
+          //
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 15),
+          //                   child: Text(
+          //                     'Users',
+          //                     style: tableTitleTextStyle,
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(right: 40),
+          //                   child: Text(
+          //                     '%',
+          //                     style: tableTitleTextStyle,
+          //                   ),
+          //                 )
+          //               ],
+          //             ):
+          //             Row(
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: [
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 15),
+          //                   child: Text(
+          //                     'City',
+          //                     style: tableTitleTextStyle,
+          //                   ),
+          //                 ),
+          //
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 45),
+          //                   child: Text(
+          //                     'Users',
+          //                     style: tableTitleTextStyle,
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(right: 45),
+          //                   child: Text(
+          //                     '%',
+          //                     style: tableTitleTextStyle,
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //
+          //             const SizedBox(height: 3),
+          //             const Divider(
+          //               color: dividerColor,
+          //             ),
+          //
+          //             const SizedBox(height: 3),
+          //
+          //             selectedOption == 'Country' ?
+          //             //  country list
+          //             Consumer<VisitorProvider>(builder: (ctx, data, _){
+          //               var state = data.userByCountryLiveData().getValue();
+          //               print(state);
+          //               if (state is IsLoading) {
+          //                 return SizedBox();
+          //               } else if (state is Success) {
+          //                 return Expanded(
+          //                   child: Scrollbar(
+          //                     thumbVisibility: true,
+          //                     child: Padding(
+          //                       padding: const EdgeInsets.only(right: 5,left: 5),
+          //                       child: ListView.builder(
+          //                         itemCount: data.userByCountryModel.data!.length,
+          //                         shrinkWrap: true,
+          //                         physics: const AlwaysScrollableScrollPhysics(),
+          //                         itemBuilder: (context,index) {
+          //                           return Column(
+          //                             children: [
+          //                               Padding(
+          //                                 padding: const EdgeInsets.symmetric(horizontal: 10),
+          //                                 child: Row(
+          //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                                   children: [
+          //                                     // Text(
+          //                                     //   '${index + 1}',
+          //                                     //   style: tableContentTextStyle,
+          //                                     // ),
+          //
+          //                                     Expanded(
+          //                                       flex: 2,
+          //                                       child: Text(
+          //                                         '${data.userByCountryModel.data![index].name}',
+          //                                         style: tableContentTextStyle,
+          //                                       ),
+          //                                     ),
+          //
+          //                                     const SizedBox(width: 10),
+          //
+          //                                     Expanded(
+          //                                       flex: 1,
+          //                                       child: Text(
+          //                                         '${data.userByCountryModel.data![index].value}',
+          //                                         style: tableContentTextStyle,
+          //                                       ),
+          //                                     ),
+          //
+          //                                     Expanded(
+          //                                       flex: 1,
+          //                                       child: LinearPercentIndicator(
+          //                                         width: 65.0,
+          //                                         lineHeight: 14.0,
+          //                                         percent: data.userByCountryModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
+          //                                         backgroundColor: whiteColor,
+          //                                         progressColor: percentageIndicatorColor,
+          //                                         center: Text(
+          //                                           '${data.userByCountryModel.data![index].percentage}',
+          //                                           style: percentTextStyle,
+          //                                         ),
+          //                                       ),
+          //                                     ),
+          //
+          //
+          //                                     // Text(
+          //                                     //   '83.10%',
+          //                                     //   style: tableContentTextStyle,
+          //                                     // )
+          //                                   ],
+          //                                 ),
+          //                               ),
+          //
+          //                               const SizedBox(height: 3),
+          //                               const Divider(
+          //                                 color: dividerColor,
+          //                               ),
+          //                               const SizedBox(height: 3),
+          //                             ],
+          //                           );
+          //                         },
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 );
+          //               }else if (state is Failure) {
+          //                 return SizedBox(
+          //                   height: MediaQuery.of(context).size.height / 1.3,
+          //                   child: Center(
+          //                     child: Text(
+          //                       'Failed to load!!',
+          //                     ),
+          //                   ),
+          //                 );
+          //               } else {
+          //                 return Container();
+          //               }
+          //             }):
+          //             Consumer<VisitorProvider>(builder: (ctx, data, _){
+          //               var state = data.userByCityLiveData().getValue();
+          //               print(state);
+          //               if (state is IsLoading) {
+          //                 return SizedBox();
+          //               } else if (state is Success) {
+          //                 return Expanded(
+          //                   child: Scrollbar(
+          //                     thumbVisibility: true,
+          //                     child: Padding(
+          //                       padding: const EdgeInsets.only(right: 5,left: 5),
+          //                       child: ListView.builder(
+          //                         itemCount: data.userByCityModel.data!.length,
+          //                         shrinkWrap: true,
+          //                         physics: const AlwaysScrollableScrollPhysics(),
+          //                         itemBuilder: (context,index) {
+          //                           return Column(
+          //                             children: [
+          //                               Padding(
+          //                                 padding: const EdgeInsets.symmetric(horizontal: 10),
+          //                                 child: Row(
+          //                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                                   children: [
+          //                                     // Text(
+          //                                     //   '${index + 1}',
+          //                                     //   style: tableContentTextStyle,
+          //                                     // ),
+          //
+          //                                     Expanded(
+          //                                       flex: 2,
+          //                                       child: Text(
+          //                                         '${data.userByCityModel.data![index].name}',
+          //                                         style: tableContentTextStyle,
+          //                                       ),
+          //                                     ),
+          //
+          //                                     const SizedBox(width: 10),
+          //
+          //                                     Expanded(
+          //                                       flex: 1,
+          //                                       child: Text(
+          //                                         '${data.userByCityModel.data![index].value}',
+          //                                         style: tableContentTextStyle,
+          //                                       ),
+          //                                     ),
+          //
+          //                                     Expanded(
+          //                                       flex: 1,
+          //                                       child: LinearPercentIndicator(
+          //                                         width: 65.0,
+          //                                         lineHeight: 14.0,
+          //                                         percent: data.userByCityModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
+          //                                         backgroundColor: whiteColor,
+          //                                         progressColor: percentageIndicatorColor,
+          //                                         center: Text(
+          //                                           '${data.userByCityModel.data![index].percentage}',
+          //                                           style: percentTextStyle,
+          //                                         ),
+          //                                       ),
+          //                                     ),
+          //                                   ],
+          //                                 ),
+          //                               ),
+          //
+          //                               const SizedBox(height: 3),
+          //                               const Divider(
+          //                                 color: dividerColor,
+          //                               ),
+          //                               const SizedBox(height: 3),
+          //                             ],
+          //                           );
+          //                         },
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 );
+          //               }else if (state is Failure) {
+          //                 return SizedBox(
+          //                   height: MediaQuery.of(context).size.height / 1.3,
+          //                   child: Center(
+          //                     child: Text(
+          //                       'Failed to load!!',
+          //                     ),
+          //                   ),
+          //                 );
+          //               } else {
+          //                 return Container();
+          //               }
+          //             })
+          //           ],
+          //         ),
+          //       ),
+          //     );
+          //   }else if (state is Failure) {
+          //     return SizedBox();
+          //   } else {
+          //     return Container();
+          //   }
+          // }),
 
           const SizedBox(height: 15),
           // What language do they speak?
           // language list
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
-            var state = data.userByLangLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox();
-            } else if (state is Success) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'What language do they speak?',
-                    style: normalTextStyle,
-                  ),
-
-                  const SizedBox(height: 10),
-                  Card(
-                    elevation: 2,
-                    shadowColor: whiteColor,
-                    child: Container(
-                      height: 400,
-                      padding: const EdgeInsets.all(10),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: whiteColor,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 3),
-                          const Divider(
-                            color: dividerColor,
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    'Language',
-                                    style: tableTitleTextStyle,
-                                  ),
-                                ),
-
-                                Text(
-                                  'Users',
-                                  style: tableTitleTextStyle,
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 35),
-                                  child: Text(
-                                    '%',
-                                    style: tableTitleTextStyle,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-
-                          const SizedBox(height: 3),
-                          const Divider(
-                            color: dividerColor,
-                          ),
-
-                          const SizedBox(height: 3),
-
-                          Expanded(
-                            child: Scrollbar(
-                              thumbVisibility: true,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 5),
-                                child: ListView.builder(
-                                  itemCount: data.userByLangModel.data!.length,
-                                  shrinkWrap: true,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context,index) {
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            // Text(
-                                            //   '${index + 1}',
-                                            //   style: tableContentTextStyle,
-                                            // ),
-
-                                            Expanded(
-                                              flex: 2,
-                                              child: Text(
-                                                '${data.userByLangModel.data![index].language}',
-                                                style: tableContentTextStyle,
-                                              ),
-                                            ),
-
-
-                                            Expanded(
-                                              flex: 1,
-                                              child: Text(
-                                                '${data.userByLangModel.data![index].usercount}',
-                                                style: tableContentTextStyle,
-                                              ),
-                                            ),
-
-                                            Expanded(
-                                              flex: 1,
-                                              child: LinearPercentIndicator(
-                                                width: 65.0,
-                                                lineHeight: 14.0,
-                                                percent:
-                                                double.parse(data.userByLangModel.data![index].percentage) / 100,
-                                                // 0.8, //percent value must be between 0.0 and 1.0
-                                                backgroundColor: whiteColor,
-                                                progressColor: percentageIndicatorColor,
-                                                center: Text(
-                                                  '${data.userByLangModel.data![index].percentage}',
-                                                  style: percentTextStyle,
-                                                ),
-                                              ),
-                                            ),
-
-
-                                            // Text(
-                                            //   '83.10%',
-                                            //   style: tableContentTextStyle,
-                                            // )
-                                          ],
-                                        ),
-
-                                        const SizedBox(height: 3),
-                                        const Divider(
-                                          color: dividerColor,
-                                        ),
-                                        const SizedBox(height: 3),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }else if (state is Failure) {
-              return SizedBox();
-            } else {
-              return Container();
-            }
-          }),
+          // Consumer<VisitorProvider>(builder: (ctx, data, _){
+          //   var state = data.userByLangLiveData().getValue();
+          //   print(state);
+          //   if (state is IsLoading) {
+          //     return SizedBox();
+          //   } else if (state is Success) {
+          //     return Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           'What language do they speak?',
+          //           style: normalTextStyle,
+          //         ),
+          //
+          //         const SizedBox(height: 10),
+          //         Card(
+          //           elevation: 2,
+          //           shadowColor: whiteColor,
+          //           child: Container(
+          //             height: 400,
+          //             padding: const EdgeInsets.all(10),
+          //             width: double.infinity,
+          //             decoration: BoxDecoration(
+          //               borderRadius: BorderRadius.circular(3),
+          //               color: whiteColor,
+          //             ),
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: [
+          //                 const SizedBox(height: 3),
+          //                 const Divider(
+          //                   color: dividerColor,
+          //                 ),
+          //
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(right: 10),
+          //                   child: Row(
+          //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                     children: [
+          //
+          //                       Padding(
+          //                         padding: const EdgeInsets.only(left: 10),
+          //                         child: Text(
+          //                           'Language',
+          //                           style: tableTitleTextStyle,
+          //                         ),
+          //                       ),
+          //
+          //                       Text(
+          //                         'Users',
+          //                         style: tableTitleTextStyle,
+          //                       ),
+          //
+          //                       Padding(
+          //                         padding: const EdgeInsets.only(right: 35),
+          //                         child: Text(
+          //                           '%',
+          //                           style: tableTitleTextStyle,
+          //                         ),
+          //                       )
+          //                     ],
+          //                   ),
+          //                 ),
+          //
+          //                 const SizedBox(height: 3),
+          //                 const Divider(
+          //                   color: dividerColor,
+          //                 ),
+          //
+          //                 const SizedBox(height: 3),
+          //
+          //                 Expanded(
+          //                   child: Scrollbar(
+          //                     thumbVisibility: true,
+          //                     child: Padding(
+          //                       padding: const EdgeInsets.only(right: 5,left: 5),
+          //                       child: ListView.builder(
+          //                         itemCount: data.userByLangModel.data!.length,
+          //                         shrinkWrap: true,
+          //                         physics: const AlwaysScrollableScrollPhysics(),
+          //                         itemBuilder: (context,index) {
+          //                           return Column(
+          //                             children: [
+          //                               Row(
+          //                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                                 children: [
+          //                                   // Text(
+          //                                   //   '${index + 1}',
+          //                                   //   style: tableContentTextStyle,
+          //                                   // ),
+          //
+          //                                   Expanded(
+          //                                     flex: 2,
+          //                                     child: Text(
+          //                                       '${data.userByLangModel.data![index].language}',
+          //                                       style: tableContentTextStyle,
+          //                                     ),
+          //                                   ),
+          //
+          //
+          //                                   Expanded(
+          //                                     flex: 1,
+          //                                     child: Text(
+          //                                       '${data.userByLangModel.data![index].usercount}',
+          //                                       style: tableContentTextStyle,
+          //                                     ),
+          //                                   ),
+          //
+          //                                   Expanded(
+          //                                     flex: 1,
+          //                                     child: LinearPercentIndicator(
+          //                                       width: 65.0,
+          //                                       lineHeight: 14.0,
+          //                                       percent:
+          //                                       double.parse(data.userByLangModel.data![index].percentage) / 100,
+          //                                       // 0.8, //percent value must be between 0.0 and 1.0
+          //                                       backgroundColor: whiteColor,
+          //                                       progressColor: percentageIndicatorColor,
+          //                                       center: Text(
+          //                                         '${data.userByLangModel.data![index].percentage}',
+          //                                         style: percentTextStyle,
+          //                                       ),
+          //                                     ),
+          //                                   ),
+          //
+          //
+          //                                   // Text(
+          //                                   //   '83.10%',
+          //                                   //   style: tableContentTextStyle,
+          //                                   // )
+          //                                 ],
+          //                               ),
+          //
+          //                               const SizedBox(height: 3),
+          //                               const Divider(
+          //                                 color: dividerColor,
+          //                               ),
+          //                               const SizedBox(height: 3),
+          //                             ],
+          //                           );
+          //                         },
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     );
+          //   }else if (state is Failure) {
+          //     return SizedBox();
+          //   } else {
+          //     return Container();
+          //   }
+          // }),
 
           const SizedBox(height: 15),
           userByAgeWidget(),

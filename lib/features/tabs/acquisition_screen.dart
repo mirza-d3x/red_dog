@@ -991,7 +991,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
 
-          // what are the most visited pages heading + drop down menu
+          // what are the most visited pages heading
           // website list
           Consumer<AcquisitionProvider>(builder: (ctx, data, _){
             var state = data.mostVisitedPageLiveData().getValue();
