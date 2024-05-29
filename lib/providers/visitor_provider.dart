@@ -136,7 +136,8 @@ class VisitorProvider extends ChangeNotifier {
       var storedWebId = await getValue('websiteId');
       userByLangModel = await visitorRepository.getUserByLangData(
         googleId,googleToken,storedWebId.isEmpty ?
-      initialWebId: storedWebId,fromDate,toDate);
+      initialWebId: storedWebId,
+          fromDate,toDate);
       if (userByLangModel.code == 200) {
         userByLangData.setValue(Success(userByLangModel));
       } else {
