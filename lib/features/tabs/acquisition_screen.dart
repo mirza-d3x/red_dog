@@ -198,8 +198,12 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
     if (picked != null) {
       setState(() {
+        deleteValue('storedFromDate');
+        deleteValue('storedToDate');
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
+        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
         acquisitionApiCall();
       });
     }
