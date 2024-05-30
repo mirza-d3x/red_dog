@@ -69,13 +69,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   late List<Model> _data;
   late MapShapeSource _mapSource;
 
-  String storedWebName = '';
-  void getStoredOrgName() async{
-    storedWebName = await getValue('storedWebSiteName');
-    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5');
-    print(storedWebName);
+  String storedWeb = '';
+  getStoredWeb() async{
+    storedWeb = await getValue('storedWebSiteName');
   }
-
   String storedStartDate = '';
   String storedEndDate = '';
   getStoredDates() async{
@@ -158,9 +155,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   @override
   void initState(){
     super.initState();
+    getStoredWeb();
     getStoredDates();
     getStoredWebsiteId();
-    getStoredOrgName();
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     visitorsApiCall();
@@ -613,7 +610,16 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               Icons.keyboard_arrow_down_outlined,
                               color: blackColor,
                             ),
-                            hint: selectedWebsite == null
+                            hint: storedWeb.isNotEmpty ?
+                            Row(
+                                children: [
+                                  Text(
+                                      storedWeb,
+                                      style: dropDownTextStyle
+                                  )
+                                ]
+                            ):
+                            selectedWebsite == null
                                 ? Row(
                               children: [
                                 Text(
@@ -648,10 +654,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                             onChanged: (val) {
                               deleteValue('websiteId');
                               deleteValue('websiteName');
+                              deleteValue('storedWebSiteName');
                               setState(()  {
                                 deleteValue('websiteId');
                                 selectedWebsite = val;
                                 setValue('websiteId', val);
+                                setValue('storedWebSiteName', data.websiteListModel.data!
+                                    .firstWhere((element) => element.datumId == val)
+                                    .name);
                                 visitorsApiCall();
                               });
                             })
