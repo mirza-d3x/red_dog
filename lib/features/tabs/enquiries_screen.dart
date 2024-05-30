@@ -48,8 +48,12 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
     if (picked != null) {
       setState(() {
+        deleteValue('storedFromDate');
+        deleteValue('storedToDate');
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
+        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
+        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
         getEnquiryCountMethod();
       });
     }
@@ -99,31 +103,37 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
   String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(
       DateTime.now().subtract(Duration(days: 30)));
 
-  getEnquiryCountMethod(){
-
+  getEnquiryCountMethod() async{
+    await getStoredDates();
     enquiryProvider.getUnreadEnquiryList(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
 
     enquiryProvider.getEnquiryList(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
 
     enquiryProvider.getEnquiryLeadDetailsList(
+        storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+        storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
