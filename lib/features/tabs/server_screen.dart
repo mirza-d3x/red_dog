@@ -115,8 +115,23 @@ class _ServerScreenState extends State<ServerScreen> {
     await serverProvider.getSSLStatus();
   }
 
+  bool isLoading = true;
+
+  String storedStartDate = '';
+  String storedEndDate = '';
+  getStoredDates() async{
+    storedStartDate = await getValue('storedFromDate');
+    storedEndDate = await getValue('storedToDate');
+    setState(() {
+      isLoading = false; // Indicate that loading is complete
+    });
+    print(storedStartDate);
+    print(storedEndDate);
+  }
+
   @override
   void initState() {
+    getStoredDates();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getData();
     super.initState();
@@ -144,8 +159,9 @@ class _ServerScreenState extends State<ServerScreen> {
                 websiteDropdownMenu(),
 
                 const SizedBox(height: 5),
+                isLoading
+                    ? CircularProgressIndicator() :
                 InkWell(
-
                   onTap: () => _selectDateRange(context),
                   child: Card(
                     elevation: 2,
@@ -161,7 +177,13 @@ class _ServerScreenState extends State<ServerScreen> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
-                          child: Text(
+                          child:
+                          storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
+                          Text(
+                            storedStartDate+' to '+ storedEndDate,
+                            style: dropDownTextStyle,
+                          ):
+                          Text(
                             _selectedFromDate != null && _selectedToDate != null ?
                             '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                                 : '${formattedInitialdDate} to ${formattedDate}',
