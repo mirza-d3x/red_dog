@@ -102,9 +102,17 @@ class _ServerScreenState extends State<ServerScreen> {
     });
   }
 
+  String storedWeb = '';
+  getStoredWeb() async{
+    storedWeb = await getValue('storedWebSiteName');
+    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    print(storedWeb);
+  }
+
   @override
   void initState() {
     getStoredDates();
+    getStoredWeb();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getData();
     super.initState();
@@ -231,7 +239,17 @@ class _ServerScreenState extends State<ServerScreen> {
                           color: blackColor,
                         ),
                         // iconSize: 0,
-                        hint: selectedWebsite == null
+                        hint:
+                            storedWeb.isNotEmpty ?
+                            Row(
+                                children: [
+                            Text(
+                                storedWeb,
+                                style: dropDownTextStyle
+                            )
+                                ]
+                      ):
+                        selectedWebsite == null
                             ? Row(
                           children: [
                             Text(
@@ -266,10 +284,14 @@ class _ServerScreenState extends State<ServerScreen> {
                           onChanged: (val) {
                             deleteValue('websiteId');
                             deleteValue('websiteName');
+                            deleteValue('storedWebSiteName');
                             setState(()  {
                               deleteValue('websiteId');
                               selectedWebsite = val;
                               setValue('websiteId', val);
+                              setValue('storedWebSiteName', data.websiteListModel.data!
+                                  .firstWhere((element) => element.datumId == val)
+                                  .name);
                               getData();
                             });
                           })
