@@ -267,7 +267,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
                     const SizedBox(height: 5),
                     InkWell(
-
                       onTap: () =>  _selectDateRange(context),
                       child: Card(
                         elevation: 2,
@@ -457,6 +456,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // How did people find your website
           Consumer<AcquisitionProvider>(builder: (ctx, data, _){
             var state = data.topChannelsLiveData().getValue();
             print(state);
@@ -532,11 +532,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
             }else if (state is Failure) {
               return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    'Failed to load',
-                  ),
-                ),
+                child: withoutAnalyticsWidget(),
               );
             } else {
               return Container();
@@ -687,14 +683,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
               );
             }else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    'Failed to load',
-                  ),
-                ),
-              );
+              return SizedBox();
             } else {
               return Container();
             }
@@ -703,13 +692,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
           const SizedBox(height: 10),
 
           // what are the traffic sources heading
-          Text(
-            'What are the traffic sources?',
-            style: normalTextStyle,
-          ),
-          const SizedBox(height: 10),
-
-          const SizedBox(height: 10),
           // stacked Column graph traffic sources by date
           Consumer<AcquisitionProvider>(builder: (ctx, data, _){
             var state = data.trafficSourceByDateLiveData().getValue();
@@ -725,44 +707,82 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
               );
             } else if (state is Success) {
               int highestValue = findLargestValueAcrossTrafficSource(data.trafficSourceByDateModel.data!);
-              return Card(
-                elevation: 2,
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    color: whiteColor,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'What are the traffic sources?',
+                    style: normalTextStyle,
                   ),
-                  child: Column(
-                    children: [
-                      SfCartesianChart(
-                          plotAreaBorderWidth: 0,
-                          primaryXAxis: CategoryAxis(
-                              majorGridLines: const MajorGridLines(width: 0),
-                              labelStyle: graphIndexTextStyle,
-                              labelRotation: -80,
-                            visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: 30, // Set the maximum visible value
-                            interval: 1,
-                          ),
-                          primaryYAxis: NumericAxis(
-                            labelStyle: graphIndexTextStyle,
-                            majorGridLines: const MajorGridLines(width: 0),
-                            visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum: highestValue <= 15 ? 15
-                                : highestValue > 15 && highestValue <= 50 ?
-                            50 :
-                            highestValue > 50 && highestValue <= 200 ? 200
-                                : highestValue > 200 && highestValue <= 1000 ?
-                            1000 : 5000,// Set the maximum visible value
-                            interval: highestValue <= 15 ? 3
-                                : highestValue > 15 && highestValue <= 50 ? 10
-                                : highestValue > 50 && highestValue <= 200
-                                ? 50 : highestValue > 200 && highestValue <= 100 ?
-                            250 : 1000, // Set the interval here
-                          ),
-                          series:
-                              data.trafficSourceByDateModel.data!.length <=4 ?
+                  const SizedBox(height: 10),
+                  Card(
+                    elevation: 2,
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: whiteColor,
+                      ),
+                      child: Column(
+                        children: [
+                          SfCartesianChart(
+                              plotAreaBorderWidth: 0,
+                              primaryXAxis: CategoryAxis(
+                                  majorGridLines: const MajorGridLines(width: 0),
+                                  labelStyle: graphIndexTextStyle,
+                                  labelRotation: -80,
+                                visibleMinimum: 0, // Set the minimum visible value
+                                visibleMaximum: 30, // Set the maximum visible value
+                                interval: 1,
+                              ),
+                              primaryYAxis: NumericAxis(
+                                labelStyle: graphIndexTextStyle,
+                                majorGridLines: const MajorGridLines(width: 0),
+                                visibleMinimum: 0, // Set the minimum visible value
+                                visibleMaximum: highestValue <= 15 ? 15
+                                    : highestValue > 15 && highestValue <= 50 ?
+                                50 :
+                                highestValue > 50 && highestValue <= 200 ? 200
+                                    : highestValue > 200 && highestValue <= 1000 ?
+                                1000 : 5000,// Set the maximum visible value
+                                interval: highestValue <= 15 ? 3
+                                    : highestValue > 15 && highestValue <= 50 ? 10
+                                    : highestValue > 50 && highestValue <= 200
+                                    ? 50 : highestValue > 200 && highestValue <= 100 ?
+                                250 : 1000, // Set the interval here
+                              ),
+                              series:
+                                  data.trafficSourceByDateModel.data!.length <=4 ?
+                                  <CartesianSeries>[
+                                    StackedColumnSeries<TrafficDataByDate, String>(
+                                        dataSource: data.trafficSourceByDateModel.data![0].data!,
+                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                        width: 0.8,
+                                        color: directBarColor
+                                    ),
+                                    StackedColumnSeries<TrafficDataByDate, String>(
+                                        dataSource: data.trafficSourceByDateModel.data![1].data!,
+                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                        width: 0.8,
+                                        color: googleBarColor
+                                    ),
+                                    StackedColumnSeries<TrafficDataByDate,String>(
+                                        dataSource: data.trafficSourceByDateModel.data![2].data!,
+                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                        width: 0.8,
+                                        color: bingBarColor
+                                    ),
+                                    StackedColumnSeries<TrafficDataByDate,String>(
+                                        dataSource: data.trafficSourceByDateModel.data![3].data!,
+                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                        width: 0.8,
+                                        color: duckGoBarColor
+                                    ),
+                                  ] :
                               <CartesianSeries>[
                                 StackedColumnSeries<TrafficDataByDate, String>(
                                     dataSource: data.trafficSourceByDateModel.data![0].data!,
@@ -792,138 +812,103 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                     width: 0.8,
                                     color: duckGoBarColor
                                 ),
-                              ] :
-                          <CartesianSeries>[
-                            StackedColumnSeries<TrafficDataByDate, String>(
-                                dataSource: data.trafficSourceByDateModel.data![0].data!,
-                                xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: directBarColor
-                            ),
-                            StackedColumnSeries<TrafficDataByDate, String>(
-                                dataSource: data.trafficSourceByDateModel.data![1].data!,
-                                xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: googleBarColor
-                            ),
-                            StackedColumnSeries<TrafficDataByDate,String>(
-                                dataSource: data.trafficSourceByDateModel.data![2].data!,
-                                xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: bingBarColor
-                            ),
-                            StackedColumnSeries<TrafficDataByDate,String>(
-                                dataSource: data.trafficSourceByDateModel.data![3].data!,
-                                xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: duckGoBarColor
-                            ),
-                            StackedColumnSeries<TrafficDataByDate,String>(
-                                dataSource: data.trafficSourceByDateModel.data![4].data!,
-                                xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: baiduBarColor
-                            ),
-                            StackedColumnSeries<TrafficDataByDate,String>(
-                                dataSource: data.trafficSourceByDateModel.data![5].data!,
-                                xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                width: 0.8,
-                                color: otherTrafficBarColor
-                            ),
-                          ]
-                      ),
-
-                      const SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-                        child:
-                        ListView.builder(
-                          itemCount: data.trafficSourceByDateModel.data!.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context,index) => Row(
-                              children: [
-                                Container(
-                                  height: 10,
-                                  width: 10,
-                                  color:
-                                  data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![0] ?
-                                  directBarColor
-                                  :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![1] ?
-                                  googleBarColor
-                                      :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![2] ?
-                                  bingBarColor
-                                      :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![3] ?
-                                  duckGoBarColor
-                                      :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![4] ?
-                                  baiduBarColor
-                                      :otherTrafficBarColor
+                                StackedColumnSeries<TrafficDataByDate,String>(
+                                    dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                    width: 0.8,
+                                    color: baiduBarColor
                                 ),
+                                StackedColumnSeries<TrafficDataByDate,String>(
+                                    dataSource: data.trafficSourceByDateModel.data![5].data!,
+                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                    width: 0.8,
+                                    color: otherTrafficBarColor
+                                ),
+                              ]
+                          ),
 
-                                const SizedBox(width: 5),
-                                Text(
-                                  '${data.trafficSourceByDateModel.data![index].name}',
-                                  style: graphHintTextStyle,
-                                )
-                              ],
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                            child:
+                            ListView.builder(
+                              itemCount: data.trafficSourceByDateModel.data!.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context,index) => Row(
+                                  children: [
+                                    Container(
+                                      height: 10,
+                                      width: 10,
+                                      color:
+                                      data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![0] ?
+                                      directBarColor
+                                      :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![1] ?
+                                      googleBarColor
+                                          :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![2] ?
+                                      bingBarColor
+                                          :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![3] ?
+                                      duckGoBarColor
+                                          :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![4] ?
+                                      baiduBarColor
+                                          :otherTrafficBarColor
+                                    ),
+
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      '${data.trafficSourceByDateModel.data![index].name}',
+                                      style: graphHintTextStyle,
+                                    )
+                                  ],
+                                ),
                             ),
-                        ),
-                        // GridView.builder(
-                        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        //     crossAxisCount: 2,
-                        //     mainAxisExtent: 23,
-                        //     crossAxisSpacing: 1,
-                        //   ),
-                        //   itemCount: 5,
-                        //   physics: NeverScrollableScrollPhysics(),
-                        //   shrinkWrap: true,
-                        //   itemBuilder: (context,index) => Row(
-                        //     children: [
-                        //       Container(
-                        //           height: 10,
-                        //           width: 10,
-                        //           color:
-                        //           data.trafficSourceByDateModel.data![index].name == "(direct)"?
-                        //           directBarColor :
-                        //           data.trafficSourceByDateModel.data![index].name == "google"?
-                        //           googleBarColor :
-                        //           data.trafficSourceByDateModel.data![index].name == "bing"?
-                        //           bingBarColor :
-                        //           data.trafficSourceByDateModel.data![index].name == "duckduckgo"?
-                        //           duckGoBarColor :
-                        //           data.trafficSourceByDateModel.data![index].name == "baidu"?
-                        //           baiduBarColor:
-                        //           otherTrafficBarColor
-                        //       ),
-                        //
-                        //       const SizedBox(width: 5),
-                        //       Text(
-                        //         '${data.trafficSourceByDateModel.data![index].name}',
-                        //         style: graphHintTextStyle,
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
-                      )
-                    ],
+                            // GridView.builder(
+                            //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            //     crossAxisCount: 2,
+                            //     mainAxisExtent: 23,
+                            //     crossAxisSpacing: 1,
+                            //   ),
+                            //   itemCount: 5,
+                            //   physics: NeverScrollableScrollPhysics(),
+                            //   shrinkWrap: true,
+                            //   itemBuilder: (context,index) => Row(
+                            //     children: [
+                            //       Container(
+                            //           height: 10,
+                            //           width: 10,
+                            //           color:
+                            //           data.trafficSourceByDateModel.data![index].name == "(direct)"?
+                            //           directBarColor :
+                            //           data.trafficSourceByDateModel.data![index].name == "google"?
+                            //           googleBarColor :
+                            //           data.trafficSourceByDateModel.data![index].name == "bing"?
+                            //           bingBarColor :
+                            //           data.trafficSourceByDateModel.data![index].name == "duckduckgo"?
+                            //           duckGoBarColor :
+                            //           data.trafficSourceByDateModel.data![index].name == "baidu"?
+                            //           baiduBarColor:
+                            //           otherTrafficBarColor
+                            //       ),
+                            //
+                            //       const SizedBox(width: 5),
+                            //       Text(
+                            //         '${data.trafficSourceByDateModel.data![index].name}',
+                            //         style: graphHintTextStyle,
+                            //       )
+                            //     ],
+                            //   ),
+                            // ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
               );
             }else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    'Failed to load',
-                  ),
-                ),
-              );
+              return SizedBox();
             } else {
               return Container();
             }
@@ -995,14 +980,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
               );
             }else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    '',
-                  ),
-                ),
-              );
+              return SizedBox();
             } else {
               return Container();
             }
@@ -1112,14 +1090,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ],
               );
             }else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    '',
-                  ),
-                ),
-              );
+              return SizedBox();
             } else {
               return Container();
             }
@@ -1197,14 +1168,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ],
               );
             }else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    '',
-                  ),
-                ),
-              );
+              return SizedBox();
             } else {
               return Container();
             }
@@ -1317,6 +1281,20 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
       ),
     );
   }
+}
+
+Widget withoutAnalyticsWidget(){
+  return Padding(
+    padding: const EdgeInsets.only(left: 20,right: 20),
+    child: Center(
+      child: Text(
+        'Kindly integrate your website with Google Analytics and sign up with '
+            'RedDog to access the content of this page',
+        textAlign: TextAlign.center,
+        style: messageTextStyle,
+      ),
+    ),
+  );
 }
 
 bool isReadMore = false;
