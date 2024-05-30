@@ -510,7 +510,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 40),
                 InkWell(
                   onTap: (){
-                    launch('https://app.reddog.live/account/terms-service');
+                    launch(
+                      'https://app.reddog.live/account/privacy-policy'
+                        // 'https://app.reddog.live/account/terms-service'
+                    );
                   },
                   child: Text(
                     'Terms of Service & Privacy Policy',
