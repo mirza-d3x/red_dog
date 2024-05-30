@@ -131,8 +131,21 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
 
   dynamic websiteViewId ;
 
+  bool isUILoading = true;
+
+  String storedStartDate = '';
+  String storedEndDate = '';
+  getStoredDates() async{
+    storedStartDate = await getValue('storedFromDate');
+    storedEndDate = await getValue('storedToDate');
+    setState(() {
+      isUILoading = false; // Indicate that loading is complete
+    });
+  }
+
   @override
   void initState(){
+    getStoredDates();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getEnquiryCountMethod();
     super.initState();
@@ -157,8 +170,9 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                 websiteDropdownMenu(),
 
                 const SizedBox(height: 5),
+                isUILoading
+                    ? CircularProgressIndicator() :
                 InkWell(
-
                   onTap: () =>  _selectDateRange(context),
                   child: Card(
                     elevation: 2,
@@ -174,7 +188,12 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                         alignment: Alignment.centerLeft,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15),
-                          child: Text(
+                          child: storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
+                          Text(
+                            storedStartDate+' to '+ storedEndDate,
+                            style: dropDownTextStyle,
+                          ):
+                          Text(
                             _selectedFromDate != null && _selectedToDate != null ?
                             '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
                                 : '${formattedInitialdDate} to ${formattedDate}',
