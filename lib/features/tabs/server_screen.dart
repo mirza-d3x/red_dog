@@ -30,40 +30,6 @@ class _ServerScreenState extends State<ServerScreen> {
   dynamic _selectedFromDate;
   dynamic _selectedToDate;
 
-  // void _selectDateRange(BuildContext context) async {
-  //   final picked = await showDateRangePicker(
-  //     context: context,
-  //     firstDate: DateTime(2023),
-  //     lastDate: DateTime.now(),
-  //     initialDateRange: _selectedFromDate != null && _selectedToDate != null
-  //         ? DateTimeRange(start: _selectedFromDate, end: _selectedToDate)
-  //         : DateTimeRange(start: DateTime(2024, 3, 3), end: DateTime.now()),
-  //   );
-  //
-  //   if (picked != null) {
-  //     setState(() {
-  //       _selectedFromDate = picked.start;
-  //       _selectedToDate = picked.end;
-  //       getData();
-  //       // serverProvider.getLatencyValue(
-  //       //     _selectedFromDate != null
-  //       //         ?
-  //       //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-  //       //         : formattedInitialdDate,
-  //       //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-  //       //         _selectedToDate)}' : formattedDate
-  //       // );
-  //       // serverProvider.getUptimeValue(
-  //       //     _selectedFromDate != null
-  //       //         ?
-  //       //     '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-  //       //         : formattedInitialdDate,
-  //       //     _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-  //       //         _selectedToDate)}' : formattedDate
-  //       // );
-  //     });
-  //   }
-  // }
 
   void _selectDateRange(BuildContext context) {
     showDateRangePicker(
@@ -76,8 +42,12 @@ class _ServerScreenState extends State<ServerScreen> {
     ).then((picked) {
       if (picked != null) {
         setState(() {
+          deleteValue('storedFromDate');
+          deleteValue('storedToDate');
           _selectedFromDate = picked.start;
           _selectedToDate = picked.end;
+          setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
+          setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
           getData();
         });
       }
