@@ -100,8 +100,6 @@ class _ServerScreenState extends State<ServerScreen> {
     setState(() {
       isLoading = false; // Indicate that loading is complete
     });
-    print(storedStartDate);
-    print(storedEndDate);
   }
 
   @override
