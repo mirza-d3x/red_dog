@@ -105,8 +105,6 @@ class _ServerScreenState extends State<ServerScreen> {
   String storedWeb = '';
   getStoredWeb() async{
     storedWeb = await getValue('storedWebSiteName');
-    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-    print(storedWeb);
   }
 
   @override
