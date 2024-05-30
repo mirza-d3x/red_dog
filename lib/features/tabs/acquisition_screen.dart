@@ -174,8 +174,14 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     storedEndDate = await getValue('storedToDate');
   }
 
+  String storedWeb = '';
+  getStoredWeb() async{
+    storedWeb = await getValue('storedWebSiteName');
+  }
+
   @override
   void initState(){
+    getStoredWeb();
     getStoredDates();
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
@@ -354,7 +360,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           color: blackColor,
                         ),
                         // iconSize: 0,
-                        hint: selectedWebsite == null
+                        hint: storedWeb.isNotEmpty ?
+                        Row(
+                            children: [
+                              Text(
+                                  storedWeb,
+                                  style: dropDownTextStyle
+                              )
+                            ]
+                        ):
+                        selectedWebsite == null
                             ? Row(
                           children: [
                             Text(
@@ -389,10 +404,14 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           onChanged: (val) {
                             deleteValue('websiteId');
                             deleteValue('websiteName');
+                            deleteValue('storedWebSiteName');
                             setState(()  {
                               deleteValue('websiteId');
                               selectedWebsite = val;
                               setValue('websiteId', val);
+                              setValue('storedWebSiteName', data.websiteListModel.data!
+                                  .firstWhere((element) => element.datumId == val)
+                                  .name);
                               acquisitionApiCall();
                             });
                           })
