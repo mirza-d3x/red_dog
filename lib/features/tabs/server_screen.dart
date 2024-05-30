@@ -64,20 +64,25 @@ class _ServerScreenState extends State<ServerScreen> {
 
 
   getData() async{
-    await serverProvider.getLatencyValue(
+    await getStoredDates();
+     serverProvider.getLatencyValue(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
 
-    await serverProvider.getUptimeValue(
+     serverProvider.getUptimeValue(
+         storedStartDate.isNotEmpty ? storedStartDate :
         _selectedFromDate != null
             ?
         '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
             : formattedInitialdDate,
+         storedEndDate.isNotEmpty ? storedEndDate :
         _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
             _selectedToDate)}' : formattedDate
     );
