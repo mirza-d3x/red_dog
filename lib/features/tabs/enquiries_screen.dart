@@ -153,9 +153,15 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
     });
   }
 
+  String storedWeb = '';
+  getStoredWeb() async{
+    storedWeb = await getValue('storedWebSiteName');
+  }
+
   @override
   void initState(){
     getStoredDates();
+    getStoredWeb();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     getEnquiryCountMethod();
     super.initState();
@@ -265,7 +271,16 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                           color: blackColor,
                         ),
                         // iconSize: 0,
-                        hint: selectedWebsite == null
+                        hint: storedWeb.isNotEmpty ?
+                        Row(
+                            children: [
+                              Text(
+                                  storedWeb,
+                                  style: dropDownTextStyle
+                              )
+                            ]
+                        ):
+                        selectedWebsite == null
                             ? Row(
                           children: [
                             Text(
@@ -300,10 +315,14 @@ class _EnquiryScreenState extends State<EnquiryScreen> {
                           onChanged: (val) {
                             deleteValue('websiteId');
                             deleteValue('websiteName');
+                            deleteValue('storedWebSiteName');
                             setState(()  {
                               deleteValue('websiteId');
                               selectedWebsite = val;
                               setValue('websiteId', val);
+                              setValue('storedWebSiteName', data.websiteListModel.data!
+                                  .firstWhere((element) => element.datumId == val)
+                                  .name);
                               getEnquiryCountMethod();
                             });
                           })
