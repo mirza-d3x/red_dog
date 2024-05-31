@@ -107,9 +107,10 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       tileDataModel = await visitorRepository.getVisitorTile(googleId, googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,toDate);
       if (tileDataModel.code == 200) {
         VisitorTileData.setValue(Success(tileDataModel));

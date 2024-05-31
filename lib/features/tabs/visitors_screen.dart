@@ -161,7 +161,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     userProfileProvider.getProfile();
     registeredWebsiteProvider.getRegisteredWebsiteList();
     visitorsApiCall();
-
     _data = const <Model>[
       Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0),
           '       New\nSouth Wales'),
@@ -662,6 +661,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 setValue('storedWebSiteName', data.websiteListModel.data!
                                     .firstWhere((element) => element.datumId == val)
                                     .name);
+                                setValue('storedWebSiteViewId', data.websiteListModel.data!
+                                    .firstWhere((element) => element.datumId == val).datumId);
                                 visitorsApiCall();
                               });
                             })

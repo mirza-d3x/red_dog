@@ -10,6 +10,7 @@ class Constants{
   static const initialWebId = 'initialWebId';
   static const email = 'email';
   static const storedWebSiteName = 'storedWebSiteName';
+  static const storedWebSiteViewId = 'storedWebSiteName';
   static const storedFromDate = 'storedFromDate';
   static const storedToDate = 'storedToDate';
 }
