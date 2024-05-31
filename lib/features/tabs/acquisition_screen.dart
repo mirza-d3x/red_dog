@@ -404,6 +404,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             deleteValue('websiteId');
                             deleteValue('websiteName');
                             deleteValue('storedWebSiteName');
+                            deleteValue('storedWebSiteViewId');
                             setState(()  {
                               deleteValue('websiteId');
                               selectedWebsite = val;
@@ -411,6 +412,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                               setValue('storedWebSiteName', data.websiteListModel.data!
                                   .firstWhere((element) => element.datumId == val)
                                   .name);
+                              setValue('storedWebSiteViewId', data.websiteListModel.data!
+                                  .firstWhere((element) => element.datumId == val).datumId);
                               acquisitionApiCall();
                             });
                           })

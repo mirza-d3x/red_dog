@@ -98,10 +98,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       topChannelsModel = await acquisitionRepository.getTopChannelData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
@@ -128,10 +129,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       topChannelsByDateModel = await acquisitionRepository.getTopChannelsByDateData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
@@ -159,10 +161,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       trafficSourceByDateModel = await acquisitionRepository.getTrafficSourcesByDateData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
@@ -189,10 +192,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       trafficSourceModel = await acquisitionRepository.getTrafficSourceData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
@@ -219,10 +223,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       mostVisitedPageModel = await acquisitionRepository.getMostVisitedPageData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
@@ -249,10 +254,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       deviceCategoryModel = await acquisitionRepository.getDeviceCategoryData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
@@ -279,10 +285,11 @@ class AcquisitionProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       searchKeywordModel = await acquisitionRepository.getSearchKeywordData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
