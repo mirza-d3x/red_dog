@@ -135,9 +135,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByLangModel = await visitorRepository.getUserByLangData(
-        googleId,googleToken,storedWebId.isEmpty ?
-      initialWebId: storedWebId,
+        googleId,googleToken,
+          storedWebViewId.isEmpty ?
+      initialWebId: storedWebViewId,
           fromDate,toDate);
       if (userByLangModel.code == 200) {
         userByLangData.setValue(Success(userByLangModel));
@@ -162,10 +164,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByCountryModel = await visitorRepository.getUserByCountryData(
         googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,fromDate,toDate
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,fromDate,toDate
       );
       if (userByCountryModel.code == 200) {
         userByCountryData.setValue(Success(userByCountryModel));
@@ -190,10 +193,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByCityModel = await visitorRepository.getUserByCityData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,fromDate,toDate
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,fromDate,toDate
       );
       if (userByCityModel.code == 200) {
         userByCityData.setValue(Success(userByCityModel));
@@ -218,10 +222,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByGenderModel = await visitorRepository.getUserByGenderData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,fromDate,toDate
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,fromDate,toDate
       );
       if (userByGenderModel.code == 200) {
         userByGenderData.setValue(Success(userByGenderModel));
@@ -246,10 +251,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByNewReturnedModel = await visitorRepository.getUserByNewReturnedData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,fromDate,toDate
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,fromDate,toDate
       );
       if (userByNewReturnedModel.code == 200) {
         userByNewReturnedData.setValue(Success(userByNewReturnedModel));
@@ -274,10 +280,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByAgeGroupModel = await visitorRepository.getUserByAgeData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,fromDate,toDate
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,fromDate,toDate
       );
       if (userByAgeGroupModel.code == 200) {
         userByAgeGroupData.setValue(Success(userByAgeGroupModel));
@@ -302,10 +309,11 @@ class VisitorProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       userByVisitorsTrendingTimeModel = await visitorRepository.getUserByTrendingTimeData(
           googleId,googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,
           toDate
       );
