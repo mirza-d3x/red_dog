@@ -114,9 +114,10 @@ class EnquiryProvider extends ChangeNotifier {
       enquiryCountData.setValue(IsLoading());
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       enquiryCountModel = await enquiryRepository.getEnquiry(
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,toDate
       );
       if (enquiryCountModel.code == 200) {
@@ -139,9 +140,10 @@ class EnquiryProvider extends ChangeNotifier {
       enquiryLeadDetailsData.setValue(IsLoading());
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       enquiryLeadDetailsModel = await enquiryRepository.getEnquiryLeadDetails(
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,toDate
       );
       if (enquiryLeadDetailsModel.code == 200) {
@@ -166,9 +168,10 @@ class EnquiryProvider extends ChangeNotifier {
       leadDetailsWithTileFilterData.setValue(IsLoading());
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       leadDetailsWithTileFilterModel = await enquiryRepository.getEnquiryLeadDetailsWithTileFilterData(
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,toDate,
         categoryName
       );
@@ -251,9 +254,10 @@ class EnquiryProvider extends ChangeNotifier {
       unreadEnquiryData.setValue(IsLoading());
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       unreadEnquiryModel = await enquiryRepository.getUnreadEnquiryData(
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,toDate
       );
       if (unreadEnquiryModel.code == 200) {
