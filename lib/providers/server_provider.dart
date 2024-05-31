@@ -58,10 +58,11 @@ class ServerProvider extends ChangeNotifier {
       var googleId = await getValue('googleId');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       latencyModel = await serverRepository.getLatency(
           googleId, googleToken,
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           fromDate,toDate
       );
       if (latencyModel.code == 200) {
@@ -85,9 +86,10 @@ class ServerProvider extends ChangeNotifier {
       var email = await getValue('email');
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       uptimeModel = await serverRepository.getUptime(
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
           email,
           fromDate,toDate
       );
@@ -109,9 +111,10 @@ class ServerProvider extends ChangeNotifier {
       sslData.setValue(IsLoading());
       var initialWebId = await getValue('initialWebId');
       var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
       sslModel = await serverRepository.getSSLHealthData(
-          storedWebId.isEmpty ?
-          initialWebId: storedWebId,
+        storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
       );
       if (sslModel.code == 200) {
         sslData.setValue(Success(sslModel));

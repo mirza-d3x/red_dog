@@ -283,6 +283,7 @@ class _ServerScreenState extends State<ServerScreen> {
                             deleteValue('websiteId');
                             deleteValue('websiteName');
                             deleteValue('storedWebSiteName');
+                            deleteValue('storedWebSiteViewId');
                             setState(()  {
                               deleteValue('websiteId');
                               selectedWebsite = val;
@@ -290,6 +291,8 @@ class _ServerScreenState extends State<ServerScreen> {
                               setValue('storedWebSiteName', data.websiteListModel.data!
                                   .firstWhere((element) => element.datumId == val)
                                   .name);
+                              setValue('storedWebSiteViewId', data.websiteListModel.data!
+                                  .firstWhere((element) => element.datumId == val).datumId);
                               getData();
                             });
                           })
