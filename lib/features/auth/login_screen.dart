@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
+import 'package:reddog_mobile_app/providers/apple_login_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
@@ -40,6 +41,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   LoginProvider loginProvider = LoginProvider(authRepository: AuthRepository());
+  AppleLoginProvider appleLoginProvider = AppleLoginProvider(authRepository: AuthRepository());
   UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
   RegisteredWebsiteProvider registeredWebsiteProvider= RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
@@ -121,22 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<void> _signInWithApple() async {
-  //   try {
-  //     final credential = await SignInWithApple.getAppleIDCredential(
-  //       scopes: [
-  //         AppleIDAuthorizationScopes.email,
-  //         AppleIDAuthorizationScopes.fullName,
-  //       ],
-  //     );
-  //
-  //     setState(() {
-  //       isLoadingAppleLogin = true;
-  //     });
-  //   } catch (error) {
-  //     print('Error signing in with Google: $error');
-  //   }
-  // }
 
   Future<void> _handleAppleSignIn() async {
     String token = await getFireBaseToken();
@@ -162,40 +148,41 @@ class _LoginScreenState extends State<LoginScreen> {
       User? user = authResult.user;
 
       if (user != null) {
-        Future.delayed(Duration.zero, () {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
-            });
-        // setValue('appleToken', appleCredential.identityToken);
-        // await loginProvider.checkLogin(
-        //     appleCredential.email!,
-        //     token.toString(),
-        //     appleCredential.identityToken!,
-        //     _value == 'With Analytics' ? "true" : "false"
-        // );
-        //
-        // if (loginProvider.loginModel.status == 'success') {
-        //   await userProfileProvider.getProfile();
-        //   await registeredWebsiteProvider.getRegisteredWebsiteList();
-        //   Future.delayed(Duration.zero, () {
-        //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
-        //   });
-        // } else {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(
-        //       backgroundColor: whiteColor,
-        //       behavior: SnackBarBehavior.floating,
-        //       width: 340,
-        //       content: Text(
-        //         'Please select the Apple Id',
-        //         style: errorTextStyle,
-        //       ),
-        //     ),
-        //   );
-        //   setState(() {
-        //     isLoadingAppleLogin = false;
-        //   });
-        //   _auth.signOut();
-        // }
+        // Future.delayed(Duration.zero, () {
+        //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+        //     });
+        setValue('appleToken', appleCredential.identityToken);
+        await appleLoginProvider.checkAppleLogin(
+            appleCredential.email!,
+            token.toString(),
+            appleCredential.identityToken!,
+            _value == 'With Analytics' ? "true" : "false",
+          appleCredential.authorizationCode
+        );
+
+        if (appleLoginProvider.appleLoginModel.status == 'success') {
+          await userProfileProvider.getProfile();
+          await registeredWebsiteProvider.getRegisteredWebsiteList();
+          Future.delayed(Duration.zero, () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: whiteColor,
+              behavior: SnackBarBehavior.floating,
+              width: 340,
+              content: Text(
+                'This Apple ID is not registered.Please login with Email',
+                style: errorTextStyle,
+              ),
+            ),
+          );
+          setState(() {
+            isLoadingAppleLogin = false;
+          });
+          _auth.signOut();
+        }
       }else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -224,23 +211,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  // Future<UserCredential> signInWithApple() async{
-  //   final appleProvider = AppleAuthProvider();
-  //   return await FirebaseAuth.instance.signInWithProvider(appleProvider);
-  // }
-  //
-  // Future<void> handleAppleSignIn() async{
-  //   var auth = await signInWithApple();
-  //   if(auth.user!=null){
-  //     setState(() {
-  //       isLoadingAppleLogin = true;
-  //     });
-  //
-  //     String? displayName = "apple_user";
-  //     String? email = "apple@email.com";
-  //     String? id = auth.user?.uid;
-  //   }
-  // }
 
   dynamic _value = 'With Analytics';
   bool checkedValue = false;
