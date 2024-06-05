@@ -340,235 +340,248 @@ class _ServerScreenState extends State<ServerScreen> {
       },
       child: Column(
         children: [
-          Consumer<ServerProvider>(builder: (ctx, data, _) {
-            var state = data.uptimeLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: loginBgColor,
-                  ),
-                ),
-              );
-            } else if (state is Success) {
-              return Card(
-                elevation: 2,
-                shadowColor: whiteColor,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: whiteColor,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Server Uptime',
-                        style: tileTitleTextStyle,
+          Row(
+            children: [
+              Consumer<ServerProvider>(builder: (ctx, data, _) {
+                var state = data.uptimeLiveData().getValue();
+                print(state);
+                if (state is IsLoading) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: loginBgColor,
                       ),
+                    ),
+                  );
+                } else if (state is Success) {
+                  return Expanded(
+                    child: Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        // width: double.infinity,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Server Uptime',
+                              style: tileTitleTextStyle,
+                            ),
 
-                      const SizedBox(height: 8),
-                      Text(
-                        '${data.uptimeModel.data!.uptime}%',
-                        style: tileNumberTextStyle,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            } else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    '${data.uptimeModel.message}',
-                  ),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          }),
+                            const SizedBox(height: 8),
+                            Text(
+                              '${data.uptimeModel.data!.uptime}%',
+                              style: tileNumberTextStyle,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (state is Failure) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: Text(
+                        '${data.uptimeModel.message}',
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+
+              const SizedBox(width: 5),
+
+              Consumer<ServerProvider>(builder: (ctx, data, _) {
+                var state = data.serverTileLiveData().getValue();
+                print(state);
+                if (state is IsLoading) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: loginBgColor,
+                      ),
+                    ),
+                  );
+                } else if (state is Success) {
+                  return Expanded(
+                    child: Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        // width: double.infinity,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Site Uptime',
+                              style: tileTitleTextStyle,
+                            ),
+
+                            const SizedBox(height: 8),
+                            Text(
+                              '${data.serverTileModel.data!.uptime}%',
+                              style: tileNumberTextStyle,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (state is Failure) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: Text(
+                        '${data.uptimeModel.message}',
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+            ],
+          ),
 
           const SizedBox(height: 8),
 
-          Consumer<ServerProvider>(builder: (ctx, data, _) {
-            var state = data.serverTileLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: loginBgColor,
-                  ),
-                ),
-              );
-            } else if (state is Success) {
-              return Card(
-                elevation: 2,
-                shadowColor: whiteColor,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: whiteColor,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Site Uptime',
-                        style: tileTitleTextStyle,
+          Row(
+            children: [
+              Consumer<ServerProvider>(builder: (ctx, data, _) {
+                var state = data.latencyLiveData().getValue();
+                print(state);
+                if (state is IsLoading) {
+                  return SizedBox(
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 1.3,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: loginBgColor,
                       ),
+                    ),
+                  );
+                } else if (state is Success) {
+                  return Expanded(
+                    child: Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        // width: double.infinity,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Latency',
+                              style: tileTitleTextStyle,
+                            ),
 
-                      const SizedBox(height: 8),
-                      Text(
-                        '${data.serverTileModel.data!.uptime}%',
-                        style: tileNumberTextStyle,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            } else if (state is Failure) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    '${data.uptimeModel.message}',
-                  ),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          }),
-
-          const SizedBox(height: 8),
-
-          Consumer<ServerProvider>(builder: (ctx, data, _) {
-            var state = data.latencyLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: loginBgColor,
-                  ),
-                ),
-              );
-            } else if (state is Success) {
-              return Card(
-                elevation: 2,
-                shadowColor: whiteColor,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: whiteColor,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Latency',
-                        style: tileTitleTextStyle,
+                            const SizedBox(height: 8),
+                            Text(
+                              '${data.latencyModel.data!.latency} ms',
+                              style: tileNumberTextStyle,
+                            )
+                          ],
+                        ),
                       ),
-
-                      const SizedBox(height: 8),
-                      Text(
-                        '${data.latencyModel.data!.latency} ms',
-                        style: tileNumberTextStyle,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            } else if (state is Failure) {
-              return SizedBox(
-                // height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                    ''
-                    // 'Failed to load',
-                  ),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          }),
-
-          const SizedBox(height: 8),
-
-          Consumer<ServerProvider>(builder: (ctx, data, _) {
-            var state = data.sslLiveData().getValue();
-            print(state);
-            if (state is IsLoading) {
-              return SizedBox(
-                height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: loginBgColor,
-                  ),
-                ),
-              );
-            } else if (state is Success) {
-              return Card(
-                elevation: 2,
-                shadowColor: whiteColor,
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: whiteColor,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'SSL Health',
-                        style: tileTitleTextStyle,
+                    ),
+                  );
+                } else if (state is Failure) {
+                  return SizedBox(
+                    // height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: Text(
+                          ''
+                        // 'Failed to load',
                       ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
 
-                      const SizedBox(height: 8),
-                      Text(
-                        '${data.sslModel.data}',
-                        style: tileNumberTextStyle,
-                      )
-                    ],
-                  ),
-                ),
-              );
-            } else if (state is Failure) {
-              return SizedBox(
-                // height: MediaQuery.of(context).size.height / 1.3,
-                child: Center(
-                  child: Text(
-                      ''
-                    // 'Failed to load',
-                  ),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          }),
+              const SizedBox(width: 5),
+
+              Consumer<ServerProvider>(builder: (ctx, data, _) {
+                var state = data.sslLiveData().getValue();
+                print(state);
+                if (state is IsLoading) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: loginBgColor,
+                      ),
+                    ),
+                  );
+                } else if (state is Success) {
+                  return Expanded(
+                    child: Card(
+                      elevation: 2,
+                      shadowColor: whiteColor,
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: whiteColor,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'SSL Health',
+                              style: tileTitleTextStyle,
+                            ),
+
+                            const SizedBox(height: 8),
+                            Text(
+                              '${data.sslModel.data}',
+                              style: tileNumberTextStyle,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (state is Failure) {
+                  return SizedBox(
+                    // height: MediaQuery.of(context).size.height / 1.3,
+                    child: Center(
+                      child: Text(
+                          ''
+                        // 'Failed to load',
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              }),
+            ],
+          ),
 
           const SizedBox(height: 8),
 
