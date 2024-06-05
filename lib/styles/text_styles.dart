@@ -103,6 +103,12 @@ TextStyle tileNumberTextStyle = const TextStyle(
   fontSize: 24,
 );
 
+TextStyle expiryDateTextStyle = const TextStyle(
+  fontFamily: _boldFont,
+  color: tileNumberColor,
+  fontSize: 16,
+);
+
 TextStyle normalTextStyle = const TextStyle(
   fontFamily: _boldFont,
   color: normalTextColor,

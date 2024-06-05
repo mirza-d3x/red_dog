@@ -570,6 +570,81 @@ class _ServerScreenState extends State<ServerScreen> {
             }
           }),
 
+          const SizedBox(height: 8),
+
+          Consumer<ServerProvider>(builder: (ctx, data, _) {
+            var state = data.serverTileLiveData().getValue();
+            print(state);
+            if (state is IsLoading) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: loginBgColor,
+                  ),
+                ),
+              );
+            } else if (state is Success) {
+              return Card(
+                elevation: 2,
+                shadowColor: whiteColor,
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: whiteColor,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Domain Status',
+                        style: tileTitleTextStyle,
+                      ),
+
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${data.serverTileModel.data!.domainStatus}',
+                            style: tileNumberTextStyle,
+                          ),
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  'Expiry',
+                                style: tileTitleTextStyle,
+                              ),
+                              Text(
+                                '${data.serverTileModel.data!.domainExpiry}',
+                                style: expiryDateTextStyle,
+                              )
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            } else if (state is Failure) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: Center(
+                  child: Text(
+                    '${data.uptimeModel.message}',
+                  ),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
+
         ],
       )
     );
