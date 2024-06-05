@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/latency_model.dart';
+import 'package:reddog_mobile_app/models/server_tile_model.dart';
 import 'package:reddog_mobile_app/models/ssl_health_model.dart';
 import 'package:reddog_mobile_app/models/uptime_model.dart';
 import 'package:reddog_mobile_app/repositories/server_repository.dart';
@@ -41,10 +42,20 @@ class ServerProvider extends ChangeNotifier {
     return this.sslData;
   }
 
+  // Site uptime, domain status, domain expiry
+  var serverTileModel = ServerTileModel();
+  LiveData<UIState<ServerTileModel>> serverTileData = LiveData<UIState<ServerTileModel>>();
+
+  LiveData<UIState<ServerTileModel>> serverTileLiveData() {
+    return this.serverTileData;
+  }
+
+
   void initialState() {
     latencyData.setValue(Initial());
     uptimeData.setValue(Initial());
     sslData.setValue(Initial());
+    serverTileData.setValue(Initial());
     notifyListeners();
   }
 
@@ -128,4 +139,31 @@ class ServerProvider extends ChangeNotifier {
     }
   }
 
+  getServerTileItems(
+      dynamic fromDate,
+      dynamic toDate,
+      ) async {
+    try {
+      serverTileData.setValue(IsLoading());
+      var email = await getValue('email');
+      var initialWebId = await getValue('initialWebId');
+      var storedWebId = await getValue('websiteId');
+      var storedWebViewId = await getValue('storedWebSiteViewId');
+      serverTileModel = await serverRepository.getSServerTileData(
+          storedWebViewId.isEmpty ?
+          initialWebId: storedWebViewId,
+          email,
+          fromDate,toDate
+      );
+      if (serverTileModel.code == 200) {
+        serverTileData.setValue(Success(serverTileModel));
+      } else {
+        serverTileData.setValue(Failure(serverTileModel.toString()));
+      }
+    } catch (ex) {
+      serverTileData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
 }

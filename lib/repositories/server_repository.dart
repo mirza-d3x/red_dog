@@ -31,4 +31,12 @@ class ServerRepository {
       ) =>
       webService?.get(getSSLHealthApi(viewId));
 
+  Future getSServerTileData(
+      dynamic viewId,
+      dynamic email,
+      dynamic fromDate,
+      dynamic toDate,
+      ) =>
+      webService?.get(getServerTileApi(viewId,email,fromDate,toDate));
+
 }
