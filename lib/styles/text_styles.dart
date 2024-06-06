@@ -285,3 +285,10 @@ TextStyle helpDescTextStyle = const TextStyle(
     height: 1.8,
 );
 
+TextStyle signInTextStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: tileNumberColor,
+  decoration: TextDecoration.underline,
+  fontSize: 15,
+);
+

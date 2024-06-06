@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
+import 'package:reddog_mobile_app/features/auth/sign_in_screen.dart';
 import 'package:reddog_mobile_app/providers/apple_login_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
@@ -408,6 +409,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(top: 15),
                   child: InkWell(
                     onTap: (){
+                      checkedValue == false ?
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          // width: 239,
+                          behavior: SnackBarBehavior.floating,
+                          content: Center(
+                            child: Text(
+                                'Please indicate that you have read and agree to the terms and conditions and Privacy Policy'
+                            ),
+                          ),
+                        ),
+                      )
+                          :
                       _handleAppleSignIn();
                     },
                     child: Container(
@@ -447,6 +461,61 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          checkedValue == false ?
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              // width: 239,
+                              behavior: SnackBarBehavior.floating,
+                              content: Center(
+                                child: Text(
+                                    'Please indicate that you have read and agree to the terms and conditions and Privacy Policy'
+                                ),
+                              ),
+                            ),
+                          )
+                              :
+                         Navigator.push(context, MaterialPageRoute(builder: (_) => SignInScreen()));
+                        },
+                        child: Text(
+                          'Sign In',
+                          style: signInTextStyle,
+                        ),
+                      ),
+
+                      InkWell(
+                        onTap: (){
+                          checkedValue == false ?
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              // width: 239,
+                              behavior: SnackBarBehavior.floating,
+                              content: Center(
+                                child: Text(
+                                    'Please indicate that you have read and agree to the terms and conditions and Privacy Policy'
+                                ),
+                              ),
+                            ),
+                          )
+                              :
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => SignInScreen()));
+                        },
+                        child: Text(
+                          'Sign Up',
+                          style: signInTextStyle,
+                        ),
+                      )
+                    ],
                   ),
                 ),
 
