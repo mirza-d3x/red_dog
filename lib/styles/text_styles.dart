@@ -292,3 +292,34 @@ TextStyle signInTextStyle = TextStyle(
   fontSize: 15,
 );
 
+TextStyle textFieldInputStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: tileNumberColor,
+  fontSize: 17,
+);
+
+TextStyle labelBeforeTextStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: labelColor,
+  fontSize: 15,
+);
+
+TextStyle labelAfterTextStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: appColor,
+  fontSize: 18,
+);
+
+TextStyle btnTextStyle = TextStyle(
+  fontFamily: _boldFont,
+  color: whiteColor,
+  fontSize: 15,
+);
+
+TextStyle signInTitleTextStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: tileNumberColor,
+  decoration: TextDecoration.underline,
+  fontSize: 26,
+);
+

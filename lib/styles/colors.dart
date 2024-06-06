@@ -133,3 +133,9 @@ const ageGroupBarColor = Color.fromRGBO(222, 222, 149, 1);
 const tileNumberColor = Color.fromRGBO(68, 68, 70, 1);
 
 const helpDescTextColor = Color.fromRGBO(102, 102, 85, 1);
+
+const labelColor = Color.fromRGBO(94, 96, 97, 1);
+
+const appColor = Color.fromRGBO(3, 86, 104, 1);
+
+const textFieldBorderColorColor = Color.fromRGBO(217, 217, 217, 1);
