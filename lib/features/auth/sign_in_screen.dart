@@ -3,7 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
 
+import '../../providers/registered_website_provider.dart';
+import '../../providers/signIn_provider.dart';
+import '../../providers/user_profile_provider.dart';
+import '../../repositories/auth_repository.dart';
+import '../../repositories/common_repository.dart';
+import '../../repositories/user_repository.dart';
 import '../../styles/text_styles.dart';
+import '../../utilities/api_helpers.dart';
 import '../../widgets/text_field.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -50,11 +57,50 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
+  bool isLoading = false;
+
+  SignInProvider signInProvider = SignInProvider(authRepository: AuthRepository());
+  UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
+  RegisteredWebsiteProvider registeredWebsiteProvider= RegisteredWebsiteProvider(commonRepository: CommonRepository());
+
   onLogin() async{
+    String token = await getFireBaseToken();
     final isValidEmail = validateEmail(emailController.text);
     final isValidPassword = validatePassword(passwordController.text);
     if (isValidEmail && isValidPassword) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+      setState(() {
+        isLoading = true;
+      });
+      await signInProvider.checkSignIn(
+          emailController.text,
+          passwordController.text,
+          token.toString(),
+      );
+      if(signInProvider.signInModel.status == 'success'){
+        await userProfileProvider.getProfile();
+        await registeredWebsiteProvider.getRegisteredWebsiteList();
+        Future.delayed(Duration.zero, () {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+        });
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: whiteColor,
+            behavior: SnackBarBehavior.floating,
+            width: 340,
+            content: Text(
+                'Please select the registered Email',
+                // '${loginProvider.loginModel.message}',
+                style: errorTextStyle
+            ),
+          ),
+        );
+        setState(() {
+          isLoading = false;
+        });
+      }
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewScreen()));
     }
   }
 
@@ -117,7 +163,14 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15,right: 15),
-                          child: Row(
+                          child:
+                              isLoading == true ?
+                              Center(
+                                child: CircularProgressIndicator(
+                                  color: whiteColor,
+                                ),
+                              ) :
+                          Row(
                             children:  [
                               Center(
                                 child: Text(

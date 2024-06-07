@@ -23,4 +23,11 @@ class AuthRepository {
       dynamic appleId,
       ) =>
       webService?.postLogin(appleLoginApi(email,firebaseToken,googleToken,analytics,appleId));
+
+  Future postSignIn(
+      dynamic email,
+      dynamic password,
+      dynamic firebaseToken,
+      ) =>
+      webService?.postLogin(signInApi(email,password,firebaseToken));
 }

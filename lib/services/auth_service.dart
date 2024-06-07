@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/apple_login_model.dart';
+import 'package:reddog_mobile_app/models/signIn_model.dart';
 
 import '../models/login_model.dart';
 import '../utilities/api_helpers.dart';
@@ -48,5 +49,28 @@ Resource<AppleLoginModel> appleLoginApi(
         Map<String, dynamic> appleLoginResultMap = json.decode(response.body);
         var appleLoginResult = AppleLoginModel.fromJson(appleLoginResultMap);
         return appleLoginResult;
+      });
+}
+
+Resource<SignInModel> signInApi(
+    dynamic email,
+    dynamic password,
+    dynamic firebaseToken,
+    ) {
+  return Resource(
+      url:
+      'https://app.reddog.live/api/auth/checkMobileUser',
+      body: json.encode({
+        "email": email,
+        "password": password,
+        "firId": firebaseToken,
+        "token": "",
+        "analytics": "false",
+        "appleId":""
+      }),
+      parse: (response) {
+        Map<String, dynamic> signInResultMap = json.decode(response.body);
+        var signInResult = SignInModel.fromJson(signInResultMap);
+        return signInResult;
       });
 }
