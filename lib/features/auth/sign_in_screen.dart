@@ -137,6 +137,30 @@ class _SignInScreenState extends State<SignInScreen> {
                     )
                   ],
                 ),
+
+                const SizedBox(height: 30),
+                InkWell(
+                  onTap: (){
+                    // Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordEmailScreen()));
+                  },
+                  child: Text(
+                    'Forgot Your Password?',
+                    style: termsAndConditionTextStyle,
+                    // getFontStyle('normalTextStyleWithAppBarColor'),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                InkWell(
+                  onTap: (){
+                    // Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
+                  },
+                  child: Text(
+                    'Don`' 't have an account? ',
+                    style: termsAndConditionTextStyle,
+                    // getFontStyle('normalTextStyleWithAppBarColor'),
+                    // forgotPasswordTextStyle,
+                  ),
+                )
               ],
             ),
           ),

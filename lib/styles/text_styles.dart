@@ -317,9 +317,9 @@ TextStyle btnTextStyle = TextStyle(
 );
 
 TextStyle signInTitleTextStyle = TextStyle(
-  fontFamily: _mediumFont,
+  fontFamily: _semiBoldFont,
   color: tileNumberColor,
-  decoration: TextDecoration.underline,
-  fontSize: 26,
+  // decoration: TextDecoration.underline,
+  fontSize: 23,
 );
 
