@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../providers/registered_website_provider.dart';
 import '../../providers/signIn_provider.dart';
@@ -205,7 +206,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 12),
                 InkWell(
                   onTap: (){
-                    // Navigator.push(context, MaterialPageRoute(builder: (_) => const SignUpScreen()));
+                    launch(
+                        'https://app.reddog.live/account/login?returnUrl=%2F'
+                    );
                   },
                   child: Text(
                     'Don`' 't have an account? ',

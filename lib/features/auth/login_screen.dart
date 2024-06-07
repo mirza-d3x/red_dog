@@ -508,7 +508,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           )
                               :
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => SignInScreen()));
+                          launch(
+                              'https://app.reddog.live/account/login?returnUrl=%2F'
+                          );
                         },
                         child: Text(
                           'Sign Up',
