@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/features/auth/forgot_password/reset_password_screen.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
 
 import '../../../styles/colors.dart';
@@ -38,7 +39,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       setState(() {
         isLoading = true;
       });
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResetPasswordScreen()));
     }
   }
 
