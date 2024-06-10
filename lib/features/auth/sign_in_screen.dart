@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reddog_mobile_app/features/auth/forgot_password/email_verification_screen.dart';
 import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/tabView_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -195,7 +196,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 30),
                 InkWell(
                   onTap: (){
-                    // Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordEmailScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => const EmailVerificationScreen()));
                   },
                   child: Text(
                     'Forgot Your Password?',
