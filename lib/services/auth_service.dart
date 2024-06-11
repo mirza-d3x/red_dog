@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/apple_login_model.dart';
 import 'package:reddog_mobile_app/models/email_verification_model.dart';
+import 'package:reddog_mobile_app/models/forgot_password_model.dart';
 import 'package:reddog_mobile_app/models/signIn_model.dart';
 
 import '../models/login_model.dart';
@@ -86,10 +87,31 @@ Resource<EmailVerificationModel> forgotPasswordEmailApi(
         'email': email
       }),
       parse: (response) {
-        print(response.body);
-        Map<String, dynamic> forgotPasswordEmailResultMap =
-        json.decode(response.body);
+        Map<String, dynamic> forgotPasswordEmailResultMap = json.decode(response.body);
         var forgotPasswordEmailResult = EmailVerificationModel.fromJson(forgotPasswordEmailResultMap);
         return forgotPasswordEmailResult;
+      });
+}
+
+Resource<ForgotPasswordModel> forgotPasswordApi(
+    dynamic email,
+    dynamic otp,
+    dynamic password,
+    ) {
+
+  return Resource(
+      url: 'https://app.reddog.live/api/auth/updatePassword',
+      body: json.encode({
+        "email": email,
+        "token": otp,
+        "password": password
+      }),
+      parse: (response) {
+        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55');
+        print(response.body);
+        Map<String, dynamic> forgotPasswordResultMap =
+        json.decode(response.body);
+        var forgotPasswordResult = ForgotPasswordModel.fromJson(forgotPasswordResultMap);
+        return forgotPasswordResult;
       });
 }

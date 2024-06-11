@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-
+import 'package:reddog_mobile_app/providers/forgot_password_provider.dart';
+import 'package:reddog_mobile_app/repositories/auth_repository.dart';
 import '../../../styles/colors.dart';
 import '../../../styles/text_styles.dart';
 import '../../../widgets/text_field.dart';
 import '../login_screen.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  dynamic email;
+   ResetPasswordScreen(this.email,{super.key});
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -225,30 +227,61 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   bool isLoading = false;
 
-  onButtonClick(){
+  ForgotPasswordProvider forgotPasswordProvider = ForgotPasswordProvider(authRepository: AuthRepository());
+
+  onButtonClick() async{
     final isValidField1 = validateFiled1(filed1.text);
     final isValidField2 = validateFiled2(filed2.text);
     final isValidField3 = validateFiled3(filed3.text);
     final isValidField4 = validateFiled4(filed4.text);
     final isValidField5 = validateFiled5(filed5.text);
-    final isValidField6 = validateFiled6(filed6.text);
     final isValidNewPassword = validateNewPassword(newPasswordController.text);
     final isValidConfirmPassword = validateConfirmPassword(confirmPasswordController.text);
-    if(isValidField1 && isValidField2 && isValidField3 && isValidField4 && isValidField5 && isValidField6) {
+    if(isValidField1 && isValidField2 && isValidField3 && isValidField4 && isValidField5) {
       setState(() {
         isLoading = true;
       });
       String newOtp = filed1.text + filed2.text + filed3.text + filed4.text +
-          filed5.text + filed6.text;
+          filed5.text;
       if (newOtp.isNotEmpty && isValidNewPassword && isValidConfirmPassword
           && newPasswordController.text == confirmPasswordController.text
       ) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
-
+        await forgotPasswordProvider.updatePassword(
+            widget.email,
+            newOtp,
+            newPasswordController.text,
+        );
+        if(forgotPasswordProvider.forgotPasswordModel.statusCode == 200){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+        }else{
+          final snackBar = SnackBar(
+            content: SizedBox(
+              height: 50,
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Incorrect OTP',
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+          ScaffoldMessenger.of(context)
+              .showSnackBar(snackBar);
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
       else{
         final snackBar = SnackBar(
-          // backgroundColor: redColor,
           content: SizedBox(
             height: 50,
             child: Row(
@@ -260,14 +293,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   children: [
                     Text(
                       'Password Mismatch',
-                      // style: addCartSnackBarTextStyle,
                     ),
 
                     const SizedBox(height: 5),
                     Expanded(
                       child: Text(
                         'New Password and Confirm Password must same',
-                        // style: addCartSnackBarTextStyle,
                         softWrap: true,
                       ),
                     ),
@@ -332,7 +363,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         otpTextFiledWidget(false,filed3),
                         otpTextFiledWidget(false,filed4),
                         otpTextFiledWidget(false,filed5),
-                        otpTextFiledWidget(false,filed6),
                       ],
                     ),
                   ),

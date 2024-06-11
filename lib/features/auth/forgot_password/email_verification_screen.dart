@@ -45,7 +45,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       });
       await forgotPasswordEmailProvider.checkForgotPasswordEmail(emailController.text);
       if(forgotPasswordEmailProvider.forgotPasswordEmailModel.statusCode == 200){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResetPasswordScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResetPasswordScreen(emailController.text)));
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/example_cl_graph.dart';
 import 'package:reddog_mobile_app/providers/acquisition_provider.dart';
 import 'package:reddog_mobile_app/providers/enquiry_provider.dart';
+import 'package:reddog_mobile_app/providers/forgot_password_email_provider.dart';
+import 'package:reddog_mobile_app/providers/forgot_password_provider.dart';
 import 'package:reddog_mobile_app/providers/login_provider.dart';
 import 'package:reddog_mobile_app/providers/logout_provider.dart';
 import 'package:reddog_mobile_app/providers/notification_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
 import 'package:reddog_mobile_app/providers/search_provider.dart';
 import 'package:reddog_mobile_app/providers/server_provider.dart';
+import 'package:reddog_mobile_app/providers/signIn_provider.dart';
 import 'package:reddog_mobile_app/providers/user_profile_provider.dart';
 import 'package:reddog_mobile_app/providers/visitor_provider.dart';
 import 'package:reddog_mobile_app/repositories/acquisition_repository.dart';
@@ -75,6 +78,15 @@ void main() async{
 
         ChangeNotifierProvider(
             create: (_) => SearchProvider(commonRepository: CommonRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => SignInProvider(authRepository: AuthRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => ForgotPasswordEmailProvider(authRepository: AuthRepository())),
+
+        ChangeNotifierProvider(
+            create: (_) => ForgotPasswordProvider(authRepository: AuthRepository())),
       ],
       child: const MyApp()
     ),
@@ -90,11 +102,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'RedDog',
       theme: ThemeData(
-        // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: false,
       ),
       home:
-      // ApiMap()
       RedDogApp(),
     );
   }

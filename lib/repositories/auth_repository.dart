@@ -33,5 +33,11 @@ class AuthRepository {
 
   Future forgotPasswordEmailData(
       dynamic email,
-      ) => webService?.postJson(forgotPasswordEmailApi(email));
+      ) => webService?.postWithoutToken(forgotPasswordEmailApi(email));
+
+  Future forgotPasswordData(
+      dynamic email,
+      dynamic otp,
+      dynamic password,
+      ) => webService?.postWithoutToken(forgotPasswordApi(email,otp,password));
 }

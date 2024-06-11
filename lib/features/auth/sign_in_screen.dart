@@ -155,7 +155,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      height: 40,
+                      height: isLoading == false ? 40 : 50,
                       child: TextButton(
                         onPressed: () => onLogin(),
                         style: TextButton.styleFrom(
