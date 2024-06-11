@@ -107,8 +107,6 @@ Resource<ForgotPasswordModel> forgotPasswordApi(
         "password": password
       }),
       parse: (response) {
-        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55');
-        print(response.body);
         Map<String, dynamic> forgotPasswordResultMap =
         json.decode(response.body);
         var forgotPasswordResult = ForgotPasswordModel.fromJson(forgotPasswordResultMap);

@@ -139,3 +139,7 @@ const labelColor = Color.fromRGBO(94, 96, 97, 1);
 const appColor = Color.fromRGBO(3, 86, 104, 1);
 
 const textFieldBorderColorColor = Color.fromRGBO(217, 217, 217, 1);
+
+const serverAlertOnColor = Color.fromRGBO(255, 126, 126, 1);
+
+const serverAlertOffColor = Color.fromRGBO(204, 204, 204, 1);

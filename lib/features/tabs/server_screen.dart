@@ -135,6 +135,8 @@ class _ServerScreenState extends State<ServerScreen> {
   String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(
       DateTime.now().subtract(Duration(days: 30)));
 
+  bool isSwitched = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -188,19 +190,7 @@ class _ServerScreenState extends State<ServerScreen> {
 
                 const SizedBox(height: 10),
 
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     tiles(context, 'Average page load time', '6.03 ms'),
-                //     tiles(context, 'Average server response time', '0.47 ms'),
-                //   ],
-                // ),
-                //
-                // const SizedBox(height: 8),
-
                 serverScreenWidget(),
-
-                // const SizedBox(height: 8),
 
               ],
             ),
@@ -340,6 +330,49 @@ class _ServerScreenState extends State<ServerScreen> {
       },
       child: Column(
         children: [
+          Card(
+            elevation: 2,
+            shadowColor: whiteColor,
+            child: Container(
+              padding: const EdgeInsets.only(left: 15,right: 15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: whiteColor,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          'Server downtime Alerts Temporary Off',
+                        style: tileTitleTextStyle,
+                      ),
+                      Switch(
+                          value: isSwitched,
+                          activeColor: whiteColor,
+                          activeTrackColor: serverAlertOnColor,
+                          inactiveThumbColor: whiteColor,
+                          inactiveTrackColor: serverAlertOffColor,
+                          onChanged: (value) {
+                            setState(() {
+                              isSwitched = value;
+                            });
+                          }),
+                    ],
+                  ),
+
+                  isSwitched == false ?
+                      SizedBox()
+                      : Text('djb')
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+
           Row(
             children: [
               Consumer<ServerProvider>(builder: (ctx, data, _) {

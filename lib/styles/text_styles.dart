@@ -323,3 +323,9 @@ TextStyle signInTitleTextStyle = TextStyle(
   fontSize: 23,
 );
 
+TextStyle alertTextStyle = const TextStyle(
+  fontFamily: _mediumFont,
+  color: tileNumberColor,
+  fontSize: 15,
+);
+
