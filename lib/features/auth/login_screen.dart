@@ -65,8 +65,6 @@ class _LoginScreenState extends State<LoginScreen> {
         print(googleSignInAccount);
         dynamic FaccessToken = await googleSignInAccount.authentication.then((auth) => auth.accessToken);
         dynamic refreshToken = await googleSignInAccount.authentication.then((auth) => auth.idToken);
-        print(FaccessToken);
-        print(refreshToken);
 
         GoogleSignInAuthentication googleAuth = await googleSignInAccount.authentication;
         AuthCredential credential = GoogleAuthProvider.credential(
@@ -98,8 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
           });
         }
         else{
-          print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
-          print(googleAuth.accessToken);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: whiteColor,
@@ -107,7 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
               width: 340,
               content: Text(
                 'Please select the registered Email',
-                  // '${loginProvider.loginModel.message}',
                 style: errorTextStyle
               ),
             ),
@@ -117,7 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
           });
           _googleSignIn.signOut();
         }
-        // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => TabViewPage()));
       }
     } catch (error) {
       print('Error signing in with Google: $error');
