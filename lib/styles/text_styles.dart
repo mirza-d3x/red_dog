@@ -329,3 +329,9 @@ TextStyle alertTextStyle = const TextStyle(
   fontSize: 15,
 );
 
+TextStyle saveBtnTextStyle = TextStyle(
+  fontFamily: _mediumFont,
+  color: whiteColor,
+  fontSize: 15,
+);
+

@@ -137,6 +137,8 @@ class _ServerScreenState extends State<ServerScreen> {
 
   bool isSwitched = false;
 
+  double _currentOffTime = 0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -334,7 +336,6 @@ class _ServerScreenState extends State<ServerScreen> {
             elevation: 2,
             shadowColor: whiteColor,
             child: Container(
-              padding: const EdgeInsets.only(left: 15,right: 15),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: whiteColor,
@@ -342,30 +343,99 @@ class _ServerScreenState extends State<ServerScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                          'Server downtime Alerts Temporary Off',
-                        style: tileTitleTextStyle,
-                      ),
-                      Switch(
-                          value: isSwitched,
-                          activeColor: whiteColor,
-                          activeTrackColor: serverAlertOnColor,
-                          inactiveThumbColor: whiteColor,
-                          inactiveTrackColor: serverAlertOffColor,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched = value;
-                            });
-                          }),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            'Server downtime Alerts Temporary Off',
+                          style: tileTitleTextStyle,
+                        ),
+                        Switch(
+                            value: isSwitched,
+                            activeColor: whiteColor,
+                            activeTrackColor: serverAlertOnColor,
+                            inactiveThumbColor: whiteColor,
+                            inactiveTrackColor: serverAlertOffColor,
+                            onChanged: (value) {
+                              setState(() {
+                                isSwitched = value;
+                              });
+                            }),
+                      ],
+                    ),
                   ),
 
                   isSwitched == false ?
                       SizedBox()
-                      : Text('djb')
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SliderTheme(
+                            data: SliderTheme.of(context).copyWith(
+                          thumbColor: serverAlertOnColor ,// Set the thumb color
+                          activeTrackColor: sliderColor, // Set the active track color
+                          inactiveTrackColor: sliderColor, // Set the inactive track color
+                          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 13.0),
+                          trackHeight: 15,
+                          trackShape: RectangularSliderTrackShape()// Customize the thumb shape and size
+                          // overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0), // Customize the overlay shape and size
+                                              ),
+                            child: Slider(
+                            value: _currentOffTime,
+                            max: 24,
+                            divisions: 24,
+                            label: _currentOffTime.round().toString(),
+                            onChanged: (double value){
+                              setState(() {
+                                _currentOffTime = value;
+                              });
+                            },
+                            ),
+                          ),
+
+                          const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20,bottom: 20),
+                            child: Row(
+                              children: [
+                                Text(
+                                  '${_currentOffTime.toInt()}' + ' Hours',
+                                  style: alertTextStyle,
+                                ),
+
+                                const SizedBox(width: 20),
+
+                                TextButton(
+                                  onPressed: (){},
+                                  style: TextButton.styleFrom(
+                                    // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(1)),
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: serverAlertOnColor,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 5,right: 5),
+                                    child:
+                                    // isLoading == true ?
+                                    // Center(
+                                    //   child: CircularProgressIndicator(
+                                    //     color: whiteColor,
+                                    //   ),
+                                    // ) :
+                                    Center(
+                                      child: Text(
+                                        'Save Changes',
+                                        style: saveBtnTextStyle,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                 ],
               ),
             ),

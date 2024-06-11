@@ -143,3 +143,5 @@ const textFieldBorderColorColor = Color.fromRGBO(217, 217, 217, 1);
 const serverAlertOnColor = Color.fromRGBO(255, 126, 126, 1);
 
 const serverAlertOffColor = Color.fromRGBO(204, 204, 204, 1);
+
+const sliderColor = Color.fromRGBO(216, 224, 243, 1);
