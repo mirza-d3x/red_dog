@@ -30,4 +30,8 @@ class AuthRepository {
       dynamic firebaseToken,
       ) =>
       webService?.postLogin(signInApi(email,password,firebaseToken));
+
+  Future forgotPasswordEmailData(
+      dynamic email,
+      ) => webService?.postJson(forgotPasswordEmailApi(email));
 }

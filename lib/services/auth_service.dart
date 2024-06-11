@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:reddog_mobile_app/models/apple_login_model.dart';
+import 'package:reddog_mobile_app/models/email_verification_model.dart';
 import 'package:reddog_mobile_app/models/signIn_model.dart';
 
 import '../models/login_model.dart';
@@ -72,5 +73,23 @@ Resource<SignInModel> signInApi(
         Map<String, dynamic> signInResultMap = json.decode(response.body);
         var signInResult = SignInModel.fromJson(signInResultMap);
         return signInResult;
+      });
+}
+
+Resource<EmailVerificationModel> forgotPasswordEmailApi(
+    dynamic email,
+    ) {
+
+  return Resource(
+      url: 'https://app.reddog.live/api/auth/generate-token',
+      body: json.encode({
+        'email': email
+      }),
+      parse: (response) {
+        print(response.body);
+        Map<String, dynamic> forgotPasswordEmailResultMap =
+        json.decode(response.body);
+        var forgotPasswordEmailResult = EmailVerificationModel.fromJson(forgotPasswordEmailResultMap);
+        return forgotPasswordEmailResult;
       });
 }

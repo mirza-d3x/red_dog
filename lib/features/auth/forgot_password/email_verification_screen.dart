@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/forgot_password/reset_password_screen.dart';
 import 'package:reddog_mobile_app/features/auth/login_screen.dart';
+import 'package:reddog_mobile_app/providers/forgot_password_email_provider.dart';
+import 'package:reddog_mobile_app/repositories/auth_repository.dart';
 
 import '../../../styles/colors.dart';
 import '../../../styles/text_styles.dart';
@@ -33,13 +35,31 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   bool isLoading = false;
 
+  ForgotPasswordEmailProvider forgotPasswordEmailProvider = ForgotPasswordEmailProvider(authRepository: AuthRepository());
+
   onSubmit() async{
     final isValidEmail = validateEmail(emailController.text);
     if (isValidEmail) {
       setState(() {
         isLoading = true;
       });
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResetPasswordScreen()));
+      await forgotPasswordEmailProvider.checkForgotPasswordEmail(emailController.text);
+      if(forgotPasswordEmailProvider.forgotPasswordEmailModel.statusCode == 200){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResetPasswordScreen()));
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.floating,
+            width: 340,
+            content: Text(
+                'Please enter the registered Email',
+            ),
+          ),
+        );
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -99,7 +119,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     SizedBox(
-                      height: 40,
+                      height: isLoading == false ? 40 : 50,
                       child: TextButton(
                         onPressed: () => onSubmit(),
                         style: TextButton.styleFrom(
