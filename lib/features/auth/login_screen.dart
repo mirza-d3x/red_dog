@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
 import 'package:reddog_mobile_app/features/auth/sign_in_screen.dart';
@@ -128,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
           AppleIDAuthorizationScopes.fullName,
         ],
       );
+      log("[Apple]");
 
       final oAuthProvider = OAuthProvider('apple.com');
       final credential = oAuthProvider.credential(

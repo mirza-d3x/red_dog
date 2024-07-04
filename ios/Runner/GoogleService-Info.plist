@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>20757246911-sqatvf3e7kglcplli2clc6lj58hg99b3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.20757246911-sqatvf3e7kglcplli2clc6lj58hg99b3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>20757246911-8jj6rjvjmkas39rqcfpm10hu2drbtcjh.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCYarlMyrDlsnH5a8qmiYWc-o4dUocRog0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>20757246911</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.codelattice.reddogApp</string>
+	<key>PROJECT_ID</key>
+	<string>reddog-mobileapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>reddog-mobileapp.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:20757246911:ios:dbdf20118cebeabdf3270a</string>
+</dict>
+</plist>
