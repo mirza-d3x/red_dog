@@ -131,6 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
           AppleIDAuthorizationScopes.fullName,
         ],
       );
+      log("[Apple]");
 
       // Creating OAuthProvider credential
       final oAuthProvider = OAuthProvider('apple.com');
