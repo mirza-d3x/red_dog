@@ -123,102 +123,103 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleAppleSignIn() async {
-    try {
-      // Requesting the Apple ID Credential
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
+  try {
+    // Requesting the Apple ID Credential
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
+
+    // Creating OAuthProvider credential
+    final oAuthProvider = OAuthProvider('apple.com');
+    final credential = oAuthProvider.credential(
+      idToken: appleCredential.identityToken,
+      accessToken: appleCredential.authorizationCode,
+    );
+
+    setState(() {
+      isLoadingAppleLogin = true;
+    });
+
+    // Signing in with Firebase
+    UserCredential authResult = await _auth.signInWithCredential(credential);
+    User? user = authResult.user;
+
+    if (user != null) {
+      String? email = appleCredential.email;
+      String? fullName = appleCredential.givenName;
+
+      // Handle the scenario where email and full name are not provided
+      if (email == null || fullName == null) {
+        // Try to get email and full name from the user profile if previously stored
+        email = user.email; // This should be stored during the first login
+      }
+
+      setValue('appleToken', appleCredential.identityToken);
+
+      // Call your API to handle Apple login
+      await appleLoginProvider.checkAppleLogin(
+        email!,
+        await getFireBaseToken(),
+        appleCredential.identityToken!,
+        _value == 'With Analytics' ? "true" : "false",
+        appleCredential.authorizationCode,
       );
-      log("[Apple]");
 
-      // Creating OAuthProvider credential
-      final oAuthProvider = OAuthProvider('apple.com');
-      final credential = oAuthProvider.credential(
-        idToken: appleCredential.identityToken,
-        accessToken: appleCredential.authorizationCode,
-      );
-
-      setState(() {
-        isLoadingAppleLogin = true;
-      });
-
-      // Signing in with Firebase
-      UserCredential authResult = await _auth.signInWithCredential(credential);
-      User? user = authResult.user;
-
-      if (user != null) {
-        String? email = appleCredential.email;
-        String? fullName = appleCredential.givenName;
-
-        // Handle the scenario where email and full name are not provided
-        if (email == null || fullName == null) {
-          // Try to get email and full name from the user profile if previously stored
-          email = user.email; // This should be stored during the first login
-        }
-
-        setValue('appleToken', appleCredential.identityToken);
-
-        // Call your API to handle Apple login
-        await appleLoginProvider.checkAppleLogin(
-          email!,
-          await getFireBaseToken(),
-          appleCredential.identityToken!,
-          _value == 'With Analytics' ? "true" : "false",
-          appleCredential.authorizationCode,
-        );
-
-        // Handle the login result
-        if (appleLoginProvider.appleLoginModel.status == 'success') {
-          await userProfileProvider.getProfile();
-          await registeredWebsiteProvider.getRegisteredWebsiteList();
-          Future.delayed(Duration.zero, () {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => TabViewScreen()));
-          });
-        } else {
-          showSnackBar(
-            context,
-            'This Apple ID is not registered. Please login with Email',
-          );
-          setState(() {
-            isLoadingAppleLogin = false;
-          });
-          _auth.signOut();
-        }
+      // Handle the login result
+      if (appleLoginProvider.appleLoginModel.status == null) {
+        await userProfileProvider.getProfile();
+        await registeredWebsiteProvider.getRegisteredWebsiteList();
+        Future.delayed(Duration.zero, () {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+        });
       } else {
-        showSnackBar(context, 'Please select the Apple Id');
+        showSnackBar(
+          context,
+          'This Apple ID is not registered. Please login with Email',
+        );
         setState(() {
           isLoadingAppleLogin = false;
         });
         _auth.signOut();
       }
-    } catch (error, stackTrace) {
-      print('Error signing in with Apple: $error');
-      log("Error signing in with Apple", error: error, stackTrace: stackTrace);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('Error signing in with Apple: $error'),
-        ),
-      );
+    } else {
+      showSnackBar(context, 'Please select the Apple Id');
+      setState(() {
+        isLoadingAppleLogin = false;
+      });
+      _auth.signOut();
     }
-  }
-
-  void showSnackBar(BuildContext context, String message) {
+  } catch (error, stackTrace) {
+    print('Error signing in with Apple: $error');
+    log("Error signing in with Apple", error: error, stackTrace: stackTrace);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: Colors.white,
-        behavior: SnackBarBehavior.floating,
-        width: 340,
-        content: Text(
-          message,
-          style: TextStyle(color: Colors.black),
-        ),
+        backgroundColor: Colors.red,
+        content: Text('Error signing in with Apple: $error'),
       ),
     );
   }
+}
+
+void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.white,
+      behavior: SnackBarBehavior.floating,
+      width: 340,
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.black),
+      ),
+    ),
+  );
+}
+
+
 
   dynamic _value = 'With Analytics';
   bool checkedValue = false;
