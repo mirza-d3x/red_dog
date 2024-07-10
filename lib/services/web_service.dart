@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:reddog_mobile_app/utilities/api_helpers.dart';
@@ -38,8 +40,9 @@ class Webservice {
         );
       }
       return resource.parse!(response);
-    } catch (e) {
-      print('*******webservice post******' + e.toString());
+    } catch (e,stackTrace) {
+      print('*******webservice post******' + e.toString()+ " stack "+stackTrace.toString());
+      log("error ",error: e,stackTrace: stackTrace);
       throw e;
     }
   }
@@ -59,8 +62,9 @@ class Webservice {
         );
       }
       return resource.parse!(response);
-    } catch (e) {
-      print('*******webservice post******' + e.toString());
+    } catch (e,stackTrace) {
+      print('*******webservice post******' + e.toString()+ " stack "+stackTrace.toString());
+      log("error ",error: e,stackTrace: stackTrace);
       throw e;
     }
   }
@@ -80,8 +84,9 @@ class Webservice {
         );
       }
       return resource.parse!(response);
-    } catch (e) {
-      print('*******webservice post******' + e.toString());
+    } catch (e,stackTrace) {
+      print('*******webservice post******' + e.toString()+ " stack "+stackTrace.toString());
+      log("error ",error: e,stackTrace: stackTrace);
       throw e;
     }
   }
@@ -94,8 +99,9 @@ class Webservice {
           headers: getJsonContent());
       print(response.statusCode);
       return resource.parse!(response);
-    } catch (e) {
-      print('*******webservice post******' + e.toString());
+    } catch (e,stackTrace) {
+      print('*******webservice post******' + e.toString()+ " stack "+stackTrace.toString());
+      log("error ",error: e,stackTrace: stackTrace);
       throw e;
     }
   }
@@ -140,8 +146,9 @@ class Webservice {
         );
       }
       return resource.parse!(response);
-    } catch (e) {
-      print('*******webservice post******' + e.toString());
+    } catch (e,stackTrace) {
+      print('*******webservice post******' + e.toString()+ " stack "+stackTrace.toString());
+      log("error ",error: e,stackTrace: stackTrace);
       throw e;
     }
   }
@@ -193,8 +200,9 @@ class Webservice {
           headers: getLoginHeaders());
       print(response.statusCode);
       return resource.parse!(response);
-    } catch (e) {
-      print('*******webservice post******' + e.toString());
+    } catch (e,stackTrace) {
+      print('*******webservice post******' + e.toString()+ " stack "+stackTrace.toString());
+      log("error ",error: e,stackTrace: stackTrace);
       throw e;
     }
   }
