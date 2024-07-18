@@ -9,14 +9,13 @@ import '../models/login_model.dart';
 import '../utilities/api_helpers.dart';
 
 Resource<LoginModel> loginApi(
-    dynamic email,
-    dynamic firebaseToken,
-    dynamic googleToken,
-    dynamic analytics,
-    ) {
+  dynamic email,
+  dynamic firebaseToken,
+  dynamic googleToken,
+  dynamic analytics,
+) {
   return Resource(
-      url:
-      'https://app.reddog.live/api/auth/checkMobileUser',
+      url: 'https://app.reddog.live/api/auth/checkMobileUser',
       body: json.encode({
         "email": email,
         "firId": firebaseToken,
@@ -31,20 +30,19 @@ Resource<LoginModel> loginApi(
 }
 
 Resource<AppleLoginModel> appleLoginApi(
-    dynamic email,
-    dynamic firebaseToken,
-    dynamic googleToken,
-    dynamic analytics,
-    dynamic appleId,
-    ) {
+  dynamic email,
+  dynamic firebaseToken,
+  dynamic googleToken,
+  dynamic analytics,
+  dynamic appleId,
+) {
   return Resource(
-      url:
-      'https://app.reddog.live/api/auth/checkMobileUser',
+      url: 'https://app.reddog.live/api/auth/checkMobileUser',
       body: json.encode({
         "email": email,
         "firId": firebaseToken,
         "token": googleToken,
-        "analytics": analytics,
+        "analytics": 'false',
         "appleId": appleId,
       }),
       parse: (response) {
@@ -53,21 +51,21 @@ Resource<AppleLoginModel> appleLoginApi(
         return appleLoginResult;
       });
 }
+
 Resource<SignInModel> signInApi(
-    dynamic email,
-    dynamic password,
-    dynamic firebaseToken,
-    ) {
+  dynamic email,
+  dynamic password,
+  dynamic firebaseToken,
+) {
   return Resource(
-      url:
-      'https://app.reddog.live/api/auth/checkMobileUser',
+      url: 'https://app.reddog.live/api/auth/checkMobileUser',
       body: json.encode({
         "email": email,
         "password": password,
         "firId": firebaseToken,
         "token": "",
         "analytics": "false",
-        "appleId":""
+        "appleId": ""
       }),
       parse: (response) {
         Map<String, dynamic> signInResultMap = json.decode(response.body);
@@ -77,38 +75,33 @@ Resource<SignInModel> signInApi(
 }
 
 Resource<EmailVerificationModel> forgotPasswordEmailApi(
-    dynamic email,
-    ) {
-
+  dynamic email,
+) {
   return Resource(
       url: 'https://app.reddog.live/api/auth/generate-token',
-      body: json.encode({
-        'email': email
-      }),
+      body: json.encode({'email': email}),
       parse: (response) {
-        Map<String, dynamic> forgotPasswordEmailResultMap = json.decode(response.body);
-        var forgotPasswordEmailResult = EmailVerificationModel.fromJson(forgotPasswordEmailResultMap);
+        Map<String, dynamic> forgotPasswordEmailResultMap =
+            json.decode(response.body);
+        var forgotPasswordEmailResult =
+            EmailVerificationModel.fromJson(forgotPasswordEmailResultMap);
         return forgotPasswordEmailResult;
       });
 }
 
 Resource<ForgotPasswordModel> forgotPasswordApi(
-    dynamic email,
-    dynamic otp,
-    dynamic password,
-    ) {
-
+  dynamic email,
+  dynamic otp,
+  dynamic password,
+) {
   return Resource(
       url: 'https://app.reddog.live/api/auth/updatePassword',
-      body: json.encode({
-        "email": email,
-        "token": otp,
-        "password": password
-      }),
+      body: json.encode({"email": email, "token": otp, "password": password}),
       parse: (response) {
         Map<String, dynamic> forgotPasswordResultMap =
-        json.decode(response.body);
-        var forgotPasswordResult = ForgotPasswordModel.fromJson(forgotPasswordResultMap);
+            json.decode(response.body);
+        var forgotPasswordResult =
+            ForgotPasswordModel.fromJson(forgotPasswordResultMap);
         return forgotPasswordResult;
       });
 }

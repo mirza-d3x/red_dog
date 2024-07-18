@@ -167,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       // Handle the login result
-      if (appleLoginProvider.appleLoginModel.status == null) {
+      if (appleLoginProvider.appleLoginModel.status == 'success') {
         await userProfileProvider.getProfile();
         await registeredWebsiteProvider.getRegisteredWebsiteList();
         Future.delayed(Duration.zero, () {
@@ -449,13 +449,13 @@ void showSnackBar(BuildContext context, String message) {
                         children: [
                           Image.asset(
                             'assets/images/apple_logo.png',
-                            height: 20,
+                            height: 30,
                           ),
 
                           const SizedBox(width: 10),
 
                           Text(
-                              'SigIn With Apple',
+                              'Continue With Apple',
                               style: continueWithGoogleButtonTextStyle
                           )
                         ],
