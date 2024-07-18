@@ -48,6 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
       UserProfileProvider(userRepository: UserRepository());
   RegisteredWebsiteProvider registeredWebsiteProvider =
       RegisteredWebsiteProvider(commonRepository: CommonRepository());
+  AppleLoginProvider appleLoginProvider =
+      AppleLoginProvider(authRepository: AuthRepository());
+  UserProfileProvider userProfileProvider =
+      UserProfileProvider(userRepository: UserRepository());
+  RegisteredWebsiteProvider registeredWebsiteProvider =
+      RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
   bool isLoading = false;
   bool isLoadingAppleLogin = false;
@@ -123,103 +129,101 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _handleAppleSignIn() async {
-  try {
-    // Requesting the Apple ID Credential
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-    );
-
-    // Creating OAuthProvider credential
-    final oAuthProvider = OAuthProvider('apple.com');
-    final credential = oAuthProvider.credential(
-      idToken: appleCredential.identityToken,
-      accessToken: appleCredential.authorizationCode,
-    );
-
-    setState(() {
-      isLoadingAppleLogin = true;
-    });
-
-    // Signing in with Firebase
-    UserCredential authResult = await _auth.signInWithCredential(credential);
-    User? user = authResult.user;
-
-    if (user != null) {
-      String? email = appleCredential.email;
-      String? fullName = appleCredential.givenName;
-
-      // Handle the scenario where email and full name are not provided
-      if (email == null || fullName == null) {
-        // Try to get email and full name from the user profile if previously stored
-        email = user.email; // This should be stored during the first login
-      }
-
-      setValue('appleToken', appleCredential.identityToken);
-
-      // Call your API to handle Apple login
-      await appleLoginProvider.checkAppleLogin(
-        email!,
-        await getFireBaseToken(),
-        appleCredential.identityToken!,
-        _value == 'With Analytics' ? "true" : "false",
-        appleCredential.authorizationCode,
+    try {
+      // Requesting the Apple ID Credential
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
       );
 
-      // Handle the login result
-      if (appleLoginProvider.appleLoginModel.status == 'success') {
-        await userProfileProvider.getProfile();
-        await registeredWebsiteProvider.getRegisteredWebsiteList();
-        Future.delayed(Duration.zero, () {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (_) => TabViewScreen()));
-        });
-      } else {
-        showSnackBar(
-          context,
-          'This Apple ID is not registered. Please login with Email',
+      // Creating OAuthProvider credential
+      final oAuthProvider = OAuthProvider('apple.com');
+      final credential = oAuthProvider.credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      setState(() {
+        isLoadingAppleLogin = true;
+      });
+
+      // Signing in with Firebase
+      UserCredential authResult = await _auth.signInWithCredential(credential);
+      User? user = authResult.user;
+
+      if (user != null) {
+        String? email = appleCredential.email;
+        String? fullName = appleCredential.givenName;
+
+        // Handle the scenario where email and full name are not provided
+        if (email == null || fullName == null) {
+          // Try to get email and full name from the user profile if previously stored
+          email = user.email; // This should be stored during the first login
+        }
+
+        setValue('appleToken', appleCredential.identityToken);
+
+        // Call your API to handle Apple login
+        await appleLoginProvider.checkAppleLogin(
+          email!,
+          await getFireBaseToken(),
+          appleCredential.identityToken!,
+          _value == 'With Analytics' ? "true" : "false",
+          appleCredential.authorizationCode,
         );
+
+        // Handle the login result
+        if (appleLoginProvider.appleLoginModel.status == 'success') {
+          await userProfileProvider.getProfile();
+          await registeredWebsiteProvider.getRegisteredWebsiteList();
+          Future.delayed(Duration.zero, () {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => TabViewScreen()));
+          });
+        } else {
+          showSnackBar(
+            context,
+            'This Apple ID is not registered. Please login with Email',
+          );
+          setState(() {
+            isLoadingAppleLogin = false;
+          });
+          _auth.signOut();
+        }
+      } else {
+        showSnackBar(context, 'Please select the Apple Id');
         setState(() {
           isLoadingAppleLogin = false;
         });
         _auth.signOut();
       }
-    } else {
-      showSnackBar(context, 'Please select the Apple Id');
-      setState(() {
-        isLoadingAppleLogin = false;
-      });
-      _auth.signOut();
+    } catch (error, stackTrace) {
+      print('Error signing in with Apple: $error');
+      log("Error signing in with Apple", error: error, stackTrace: stackTrace);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('Error signing in with Apple: $error'),
+        ),
+      );
     }
-  } catch (error, stackTrace) {
-    print('Error signing in with Apple: $error');
-    log("Error signing in with Apple", error: error, stackTrace: stackTrace);
+  }
+
+  void showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: Colors.red,
-        content: Text('Error signing in with Apple: $error'),
+        backgroundColor: Colors.white,
+        behavior: SnackBarBehavior.floating,
+        width: 340,
+        content: Text(
+          message,
+          style: TextStyle(color: Colors.black),
+        ),
       ),
     );
   }
-}
-
-void showSnackBar(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      backgroundColor: Colors.white,
-      behavior: SnackBarBehavior.floating,
-      width: 340,
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.black),
-      ),
-    ),
-  );
-}
-
-
 
   dynamic _value = 'With Analytics';
   bool checkedValue = false;
@@ -422,37 +426,29 @@ void showSnackBar(BuildContext context, String message) {
                           border: Border.all(color: loginDescColor),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      padding: const EdgeInsets.only(top: 13,bottom: 13),
-                      margin: const EdgeInsets.symmetric(horizontal: 45),
-                      child:
-                      isLoadingAppleLogin == false ?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/apple_logo.png',
-                            height: 30,
-                          ),
-
-                          const SizedBox(width: 10),
-
-                          Text(
-                              'Continue With Apple',
-                              style: continueWithGoogleButtonTextStyle
-                          )
-                        ],
-                      )
-                          :
-                      Center(
-                        child: CircularProgressIndicator(
-                          color: loginBgColor,
-                        ),
+                        padding: const EdgeInsets.only(top: 13, bottom: 13),
+                        margin: const EdgeInsets.symmetric(horizontal: 45),
+                        child: isLoadingAppleLogin == false
+                            ? Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/apple_logo.png',
+                                    height: 30,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text('Continue With Apple',
+                                      style: continueWithGoogleButtonTextStyle)
+                                ],
+                              )
+                            : Center(
+                                child: CircularProgressIndicator(
+                                  color: loginBgColor,
+                                ),
+                              ),
                       ),
                     ),
                   ),
-                ),
 
             const SizedBox(height: 30),
             Padding(
