@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       // Handle the login result
-      if (appleLoginProvider.appleLoginModel.status == null) {
+      if (appleLoginProvider.appleLoginModel.status == 'success') {
         await userProfileProvider.getProfile();
         await registeredWebsiteProvider.getRegisteredWebsiteList();
         Future.delayed(Duration.zero, () {
@@ -422,29 +422,37 @@ void showSnackBar(BuildContext context, String message) {
                           border: Border.all(color: loginDescColor),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        padding: const EdgeInsets.only(top: 13, bottom: 13),
-                        margin: const EdgeInsets.symmetric(horizontal: 45),
-                        child: isLoadingAppleLogin == false
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/apple_logo.png',
-                                    height: 30,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Text('Continue With Apple',
-                                      style: continueWithGoogleButtonTextStyle)
-                                ],
-                              )
-                            : Center(
-                                child: CircularProgressIndicator(
-                                  color: loginBgColor,
-                                ),
-                              ),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      padding: const EdgeInsets.only(top: 13,bottom: 13),
+                      margin: const EdgeInsets.symmetric(horizontal: 45),
+                      child:
+                      isLoadingAppleLogin == false ?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/apple_logo.png',
+                            height: 30,
+                          ),
+
+                          const SizedBox(width: 10),
+
+                          Text(
+                              'Continue With Apple',
+                              style: continueWithGoogleButtonTextStyle
+                          )
+                        ],
+                      )
+                          :
+                      Center(
+                        child: CircularProgressIndicator(
+                          color: loginBgColor,
+                        ),
                       ),
                     ),
                   ),
+                ),
 
             const SizedBox(height: 30),
             Padding(

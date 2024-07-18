@@ -51,6 +51,7 @@ Resource<AppleLoginModel> appleLoginApi(
         return appleLoginResult;
       });
 }
+
 Resource<SignInModel> signInApi(
   dynamic email,
   dynamic password,
