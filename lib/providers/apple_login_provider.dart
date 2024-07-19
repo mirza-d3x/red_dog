@@ -13,27 +13,30 @@ class AppleLoginProvider extends ChangeNotifier {
   AppleLoginProvider({required this.authRepository});
 
   var appleLoginModel = AppleLoginModel();
-  LiveData<UIState<AppleLoginModel>> appleLoginData = LiveData<UIState<AppleLoginModel>>();
+  LiveData<UIState<AppleLoginModel>> appleLoginData =
+      LiveData<UIState<AppleLoginModel>>();
 
   LiveData<UIState<AppleLoginModel>> appleLoginLiveData() {
     return this.appleLoginData;
   }
+
   void initialState() {
     appleLoginData.setValue(Initial());
     notifyListeners();
   }
 
   checkAppleLogin(
-      dynamic email,
-      dynamic firebaseToken,
-      dynamic googleToken,
-      dynamic analytics,
-      dynamic appleId,
-      ) async {
+    dynamic email,
+    dynamic firebaseToken,
+    dynamic googleToken,
+    dynamic analytics,
+    dynamic appleId,
+  ) async {
     try {
       appleLoginData.setValue(IsLoading());
-      appleLoginModel = await authRepository.postAppleLogin(email,firebaseToken,googleToken, analytics,appleId);
-      if (appleLoginModel.status == null) {
+      appleLoginModel = await authRepository.postAppleLogin(
+          email, firebaseToken, googleToken, analytics, appleId);
+      if (appleLoginModel.status == 'success') {
         setValue('token', appleLoginModel.userData!.jToken);
         setValue('profilePic', appleLoginModel.userData!.picture);
         setValue('googleToken', appleLoginModel.token);
@@ -50,5 +53,4 @@ class AppleLoginProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }

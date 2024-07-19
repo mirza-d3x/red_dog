@@ -9,125 +9,111 @@ import 'package:reddog_mobile_app/styles/colors.dart';
 import 'package:reddog_mobile_app/utilities/shared_prefernces.dart';
 
 class TabViewScreen extends StatefulWidget {
-   TabViewScreen(
-      {super.key});
+  TabViewScreen({super.key});
 
   @override
   State<TabViewScreen> createState() => _TabViewScreenState();
 }
 
 class _TabViewScreenState extends State<TabViewScreen> {
-
   int tabIndex = 0;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      initialIndex: tabIndex,
-      child: Scaffold(
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            VisitorsScreen(),
+    return SafeArea(
+      child: DefaultTabController(
+        length: 4,
+        initialIndex: tabIndex,
+        child: Scaffold(
+          body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              VisitorsScreen(),
               AcquisitionScreen(),
-             const ServerScreen(),
-             const EnquiryScreen(),
-          ],
-        ),
-        bottomNavigationBar: TabBar(
-          indicatorSize: TabBarIndicatorSize.tab, // Set indicator size to tab
-          indicator: const BoxDecoration(
-            color: loginBgColor,
-            borderRadius: BorderRadius.zero,
+              const ServerScreen(),
+              const EnquiryScreen(),
+            ],
           ),
-          unselectedLabelColor: blackColor,
-          labelColor: whiteColor,
-          tabs: [
-            Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 2),
-              child: Container(
-                height: 45,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                        Icons.remove_red_eye_outlined
-                    ),
-                    Text('Visitors',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontFamily: 'Barlow-Medium'
-                        )
-                    ),
-                  ],
+          bottomNavigationBar: TabBar(
+            indicatorSize: TabBarIndicatorSize.tab, // Set indicator size to tab
+            indicator: const BoxDecoration(
+              color: loginBgColor,
+              borderRadius: BorderRadius.zero,
+            ),
+            unselectedLabelColor: blackColor,
+            labelColor: whiteColor,
+            tabs: [
+              Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 2),
+                child: Container(
+                  height: 45,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.remove_red_eye_outlined),
+                      Text('Visitors',
+                          style: TextStyle(
+                              fontSize: 11, fontFamily: 'Barlow-Medium')),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 2),
-              child: Container(
-                height: 45,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(Icons.home),
-                    Text('Acquisition',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontFamily: 'Barlow-Medium',
-                          overflow: TextOverflow.ellipsis
-                        )),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 2),
+                child: Container(
+                  height: 45,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(Icons.home),
+                      Text('Acquisition',
+                          style: TextStyle(
+                              fontSize: 11,
+                              fontFamily: 'Barlow-Medium',
+                              overflow: TextOverflow.ellipsis)),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 2),
-              child: Container(
-                height: 45,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      CupertinoIcons.layers_alt
-                    ),
-                    Text('Server',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontFamily: 'Barlow-Medium'
-                        )),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 2),
+                child: Container(
+                  height: 45,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(CupertinoIcons.layers_alt),
+                      Text('Server',
+                          style: TextStyle(
+                              fontSize: 11, fontFamily: 'Barlow-Medium')),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 2, bottom: 2),
-              child: Container(
-                height: 45,
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      CupertinoIcons.waveform_path_ecg
-                        // Icons.legend_toggle_outlined
-                    ),
-                    Text('Enquiries',
-                        style: TextStyle(
-                            fontSize: 11,
-                            fontFamily: 'Barlow-Medium'
-                        )),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(top: 2, bottom: 2),
+                child: Container(
+                  height: 45,
+                  child: const Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Icon(CupertinoIcons.waveform_path_ecg
+                          // Icons.legend_toggle_outlined
+                          ),
+                      Text('Enquiries',
+                          style: TextStyle(
+                              fontSize: 11, fontFamily: 'Barlow-Medium')),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
