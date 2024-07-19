@@ -34,8 +34,9 @@ class AppleLoginProvider extends ChangeNotifier {
   ) async {
     try {
       appleLoginData.setValue(IsLoading());
-      appleLoginModel = await authRepository.postAppleLogin(email,firebaseToken,googleToken, analytics,appleId);
-      if (appleLoginModel.status == null) {
+      appleLoginModel = await authRepository.postAppleLogin(
+          email, firebaseToken, googleToken, analytics, appleId);
+      if (appleLoginModel.status == 'success') {
         setValue('token', appleLoginModel.userData!.jToken);
         setValue('profilePic', appleLoginModel.userData!.picture);
         setValue('googleToken', appleLoginModel.token);
