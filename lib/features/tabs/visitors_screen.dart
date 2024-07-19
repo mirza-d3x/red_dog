@@ -45,7 +45,6 @@ class VisitorsScreen extends StatefulWidget {
 }
 
 class _VisitorsScreenState extends State<VisitorsScreen> {
-
   UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
@@ -56,7 +55,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
   String storedWebsiteId = '';
 
-  void getStoredWebsiteId() async{
+  void getStoredWebsiteId() async {
     storedWebsiteId = await getValue('websiteId');
   }
 
@@ -70,90 +69,120 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   late MapShapeSource _mapSource;
 
   String storedWeb = '';
-  getStoredWeb() async{
+  getStoredWeb() async {
     storedWeb = await getValue('storedWebSiteName');
   }
+
   String storedStartDate = '';
   String storedEndDate = '';
-  getStoredDates() async{
+  getStoredDates() async {
     storedStartDate = await getValue('storedFromDate');
     storedEndDate = await getValue('storedToDate');
   }
 
-  visitorsApiCall() async{
+  visitorsApiCall() async {
     await getStoredDates();
     // visitor Tile API call
     visitorProvider.getVisitorTileData(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' :
-        formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' :
-        formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
-  // visitors by trending time API call
+    // visitors by trending time API call
     visitorProvider.getUserByTrendingTimeList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  // Retained visitor API call
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
+    // Retained visitor API call
     visitorProvider.getUserByNewReturnedList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  // user by country API call
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
+    // user by country API call
     visitorProvider.getUserByCountryList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  //  user by city API call
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
+    //  user by city API call
     visitorProvider.getUserByCityList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
-  //  user by language API call
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
+    //  user by language API call
     visitorProvider.getUserByLangList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
     // user by age group API call
     visitorProvider.getUserByAgeList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
     // user by gender API call
     visitorProvider.getUserByGenderList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getStoredWeb();
     getStoredDates();
@@ -162,16 +191,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     visitorsApiCall();
     _data = const <Model>[
-      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0),
-          '       New\nSouth Wales'),
+      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0), '       New\nSouth Wales'),
       Model('Queensland', Color.fromRGBO(72, 209, 204, 1.0), 'Queensland'),
-      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0),
-          'Northern\nTerritory'),
+      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0), 'Northern\nTerritory'),
       Model('Victoria', Color.fromRGBO(171, 56, 224, 0.75), 'Victoria'),
-      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75),
-          'South Australia'),
-      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7),
-          'Western Australia'),
+      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75), 'South Australia'),
+      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7), 'Western Australia'),
       Model('Tasmania', Color.fromRGBO(99, 164, 230, 1), 'Tasmania'),
       Model('Australian Capital Territory', Colors.teal, 'ACT')
     ];
@@ -189,20 +214,18 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   // drop down menu variables
   dynamic selectedWebsite;
   bool isSelectedFromDropDwn = false;
-  dynamic websiteName ;
-  dynamic websiteViewId ;
+  dynamic websiteName;
+  dynamic websiteViewId;
 
   // Calender widget variables
   // Format the current date in "yyyy-MM-dd" format - todate
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
 
   //initial from date
   String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 30)));
 
   dynamic _selectedFromDate;
   dynamic _selectedToDate;
-
 
   void _selectDateRange(BuildContext context) async {
     final picked = await showDateRangePicker(
@@ -220,8 +243,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
         deleteValue('storedToDate');
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
-        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
-        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
+        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}');
+        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}');
         visitorsApiCall();
       });
     }
@@ -240,83 +263,74 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(70.0),
-            child: AppBar(
-              elevation: 1,
-              // scrolledUnderElevation: 0,
-              automaticallyImplyLeading: false,
-              backgroundColor: whiteColor,
-              flexibleSpace: Container(
-                padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70.0),
+        child: AppBar(
+          elevation: 1,
+          // scrolledUnderElevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: whiteColor,
+          flexibleSpace: Container(
+            padding: const EdgeInsets.fromLTRB(20, 15, 10, 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Center(
+                  child: Image.asset(
+                    'assets/images/redDog_logo.png',
+                    height: 30,
+                  ),
+                ),
+                Row(
                   children: [
-                    Center(
-                      child: Image.asset(
-                        'assets/images/redDog_logo.png',
-                        height: 30,
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationListScreen()));
+                      },
+                      child: const Icon(
+                        Icons.notifications_none_outlined,
+                        size: 27,
+                        color: titleTextColor,
                       ),
                     ),
-
-                    Row(
-                      children: [
-
-                        InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationListScreen()));
-                          },
-                          child: const Icon(
-                            Icons.notifications_none_outlined,
-                            size: 27,
-                            color: titleTextColor,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-
-                        profileWidget(),
-
-                      ],
-                    ),
+                    const SizedBox(width: 8),
+                    profileWidget(),
                   ],
                 ),
-              ),
+              ],
             ),
           ),
-          backgroundColor: bgColor,
-          body: SingleChildScrollView(
-              child: visitorsUiBasedOnAnalytics()
-          ),
-        )
-    );
+        ),
+      ),
+      backgroundColor: bgColor,
+      body: SingleChildScrollView(child: visitorsUiBasedOnAnalytics()),
+    ));
   }
 
-  Widget profileWidget(){
+  Widget profileWidget() {
     return ChangeNotifierProvider<UserProfileProvider>(
-      create: (ctx){
+      create: (ctx) {
         return userProfileProvider;
       },
       child: Column(
         children: [
-          Consumer<UserProfileProvider>(builder: (ctx, data, _){
+          Consumer<UserProfileProvider>(builder: (ctx, data, _) {
             var state = data.profileLiveData().getValue();
             print(state);
             if (state is IsLoading) {
               return SizedBox();
             } else if (state is Success) {
               return PopupMenuButton(
-                  constraints: const BoxConstraints.expand(width: 144,height: 110),
+                  constraints: const BoxConstraints.expand(width: 144, height: 110),
                   position: PopupMenuPosition.under,
-                  child:
-                  CircleAvatar(
+                  child: CircleAvatar(
                     radius: 19,
                     backgroundColor: dividerColor,
-                    backgroundImage:
-                    NetworkImage('${data.profileModel.userDetails!.picture}'),
+                    backgroundImage: NetworkImage('${data.profileModel.userDetails!.picture}'),
                   ),
-                  itemBuilder: (BuildContext context){
-                    return <PopupMenuItem <String>>[
-                      PopupMenuItem<String> (
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuItem<String>>[
+                      PopupMenuItem<String>(
                         child: Center(
                           child: TextButton(
                             child: Row(
@@ -327,19 +341,18 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                   color: blackColor,
                                   size: 20,
                                 ),
-
                                 const SizedBox(width: 12),
-                                Text('Logout',
-                                    style: nameTextStyle
-                                ),
+                                Text('Logout', style: nameTextStyle),
                               ],
-                            ),onPressed: (){
-                            onLogout();
-                          },
+                            ),
+                            onPressed: () {
+                              onLogout();
+                            },
                           ),
-                        ),height: 31,),
-
-                      PopupMenuItem<String> (
+                        ),
+                        height: 31,
+                      ),
+                      PopupMenuItem<String>(
                         child: Padding(
                           padding: const EdgeInsets.only(right: 23),
                           child: Center(
@@ -352,27 +365,29 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                     color: blackColor,
                                     size: 20,
                                   ),
-
                                   const SizedBox(width: 12),
-                                  Text('Help',
-                                      style: nameTextStyle
-                                  ),
+                                  Text('Help', style: nameTextStyle),
                                 ],
-                              ),onPressed: (){
-                              Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => HelpScreen()));
-                            },
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (_) => HelpScreen()));
+                              },
                             ),
                           ),
-                        ),height: 31,),
+                        ),
+                        height: 31,
+                      ),
                     ];
-                  }
-              );
-            }else if (state is Failure) {
+                  });
+            } else if (state is Failure) {
               return CircleAvatar(
                 radius: 20,
                 backgroundColor: dividerColor,
-                child: Icon(Icons.person_2_outlined,color: blackColor,),
+                child: Icon(
+                  Icons.person_2_outlined,
+                  color: blackColor,
+                ),
               );
             } else {
               return Container();
@@ -383,12 +398,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget visitorsUiBasedOnAnalytics(){
+  Widget visitorsUiBasedOnAnalytics() {
     return ChangeNotifierProvider<UserProfileProvider>(
-      create: (ctx){
+      create: (ctx) {
         return userProfileProvider;
       },
-      child: Consumer<UserProfileProvider>(builder: (ctx, data, _){
+      child: Consumer<UserProfileProvider>(builder: (ctx, data, _) {
         var state = data.profileLiveData().getValue();
         print(state);
         if (state is IsLoading) {
@@ -400,88 +415,80 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
               ),
             ),
           );
-        }else if (state is Success) {
-          return data.profileModel.userDetails!.isAnalytics == false ?
-          SizedBox(
-              height: MediaQuery.of(context).size.height / 1.35,
-              child: withoutAnalyticsWidget()
-          ) :
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // drop dwn menu,calander,download button
-                websiteDropdownMenu(),
+        } else if (state is Success) {
+          return data.profileModel.userDetails!.isAnalytics == false
+              ? SizedBox(height: MediaQuery.of(context).size.height / 1.35, child: withoutAnalyticsWidget())
+              : Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // drop dwn menu,calander,download button
+                      websiteDropdownMenu(),
 
-                const SizedBox(height: 5),
-                InkWell(
-
-                  onTap: () =>  _selectDateRange(context),
-                  child: Card(
-                    elevation: 2,
-                    child: Container(
-                      height: 43,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: whiteColor,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child:
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child:
-                          storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
-                          Text(
-                            storedStartDate+' to '+ storedEndDate,
-                            style: dropDownTextStyle,
-                          ):
-                          Text(
-                            _selectedFromDate != null && _selectedToDate != null ?
-                            '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                : '${formattedInitialdDate} to ${formattedDate}',
-                            style: dropDownTextStyle,
+                      const SizedBox(height: 5),
+                      InkWell(
+                        onTap: () => _selectDateRange(context),
+                        child: Card(
+                          elevation: 2,
+                          child: Container(
+                            height: 43,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: storedStartDate.isNotEmpty && storedEndDate.isNotEmpty
+                                    ? Text(
+                                        storedStartDate + ' to ' + storedEndDate,
+                                        style: dropDownTextStyle,
+                                      )
+                                    : Text(
+                                        _selectedFromDate != null && _selectedToDate != null
+                                            ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)} to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                            : '${formattedInitialdDate} to ${formattedDate}',
+                                        style: dropDownTextStyle,
+                                      ),
+                              ),
+                            ),
+                            // const Icon(
+                            //   Icons.calendar_month,
+                            //   color: blackColor,
+                            //   size: 20,
+                            // )
                           ),
                         ),
                       ),
-                      // const Icon(
-                      //   Icons.calendar_month,
-                      //   color: blackColor,
-                      //   size: 20,
-                      // )
-                    ),
+
+                      const SizedBox(height: 10),
+
+                      visitorApiDataWidget(),
+                    ],
                   ),
-                ),
-
-                const SizedBox(height: 10),
-
-                visitorApiDataWidget(),
-              ],
-            ),
-          );
+                );
           // withAnalytics();
-        }else if (state is Failure) {
+        } else if (state is Failure) {
           return Center(
-            child: Text(
-                'Failed to load!!!'
-            ),
+            child: Text('Failed to load!!!'),
           );
-        }else {
+        } else {
           return Container();
         }
       }),
     );
   }
 
-  Widget withoutAnalyticsWidget(){
+  Widget withoutAnalyticsWidget() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20,right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Center(
         child: Text(
           'Kindly integrate your website with Google Analytics and sign up with '
-              'RedDog to access the content of this page',
+          'RedDog to access the content of this page',
           textAlign: TextAlign.center,
           style: messageTextStyle,
         ),
@@ -489,7 +496,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget withAnalytics(){
+  Widget withAnalytics() {
     return Padding(
       padding: const EdgeInsets.all(15),
       child: Column(
@@ -499,7 +506,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 5),
           InkWell(
-            onTap: () =>  _selectDateRange(context),
+            onTap: () => _selectDateRange(context),
             child: Card(
               elevation: 2,
               child: Container(
@@ -509,22 +516,21 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   color: whiteColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child:
-                Align(
+                child: Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 15),
-                    child: storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
-                    Text(
-                      storedStartDate+' to '+ storedEndDate,
-                      style: dropDownTextStyle,
-                    ):
-                    Text(
-                      _selectedFromDate != null && _selectedToDate != null ?
-                      '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                          : '${formattedInitialdDate} to ${formattedDate}',
-                      style: dropDownTextStyle,
-                    ),
+                    child: storedStartDate.isNotEmpty && storedEndDate.isNotEmpty
+                        ? Text(
+                            storedStartDate + ' to ' + storedEndDate,
+                            style: dropDownTextStyle,
+                          )
+                        : Text(
+                            _selectedFromDate != null && _selectedToDate != null
+                                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)} to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                : '${formattedInitialdDate} to ${formattedDate}',
+                            style: dropDownTextStyle,
+                          ),
                   ),
                 ),
               ),
@@ -539,7 +545,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget visitorUiWidget(){
+  Widget visitorUiWidget() {
     return ChangeNotifierProvider<VisitorProvider>(
       create: (ctx) {
         return visitorProvider;
@@ -557,14 +563,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 ),
               ),
             );
-          }else if (state is Success) {
+          } else if (state is Success) {
             return visitorApiDataWidget();
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return SizedBox(
               height: MediaQuery.of(context).size.height / 1.3,
               child: withoutAnalyticsWidget(),
             );
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -572,12 +578,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget websiteDropdownMenu(){
+  Widget websiteDropdownMenu() {
     return ChangeNotifierProvider<RegisteredWebsiteProvider>(
-      create: (ctx){
+      create: (ctx) {
         return registeredWebsiteProvider;
       },
-      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _){
+      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _) {
         var state = data.websiteListLiveData().getValue();
         print(state);
         if (state is IsLoading) {
@@ -603,51 +609,36 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButtonHideUnderline(
-                        child:
-                        DropdownButton(
+                        child: DropdownButton(
                             icon: const Icon(
                               Icons.keyboard_arrow_down_outlined,
                               color: blackColor,
                             ),
-                            hint: storedWeb.isNotEmpty ?
-                            Row(
-                                children: [
-                                  Text(
-                                      storedWeb,
-                                      style: dropDownTextStyle
-                                  )
-                                ]
-                            ):
-                            selectedWebsite == null
-                                ? Row(
-                              children: [
-                                Text(
-                                    data.websiteListModel.data![0].name,
-                                    style: dropDownTextStyle
-                                ),
-
-                                const SizedBox(width: 10),
-                              ],
-                            )
-                                : Row(
-                              children: [
-                                Text(
-                                    selectedWebsite,
-                                    style: dropDownTextStyle
-                                ),
-                                const SizedBox(width: 10),
-                              ],
-                            ),
-                            items:
-                            data.websiteListModel.data!.map((e) {
-                              websiteName = e.name;
-                              websiteViewId = e.datumId;
-                              return DropdownMenuItem(
-                                // value: valueItem,
-                                child: Text(e.name),
-                                value: e.datumId,
-                              );
-                            },
+                            hint: storedWeb.isNotEmpty
+                                ? Row(children: [Text(storedWeb, style: dropDownTextStyle)])
+                                : selectedWebsite == null
+                                    ? Row(
+                                        children: [
+                                          Text(data.websiteListModel.data![0].name, style: dropDownTextStyle),
+                                          const SizedBox(width: 10),
+                                        ],
+                                      )
+                                    : Row(
+                                        children: [
+                                          Text(selectedWebsite, style: dropDownTextStyle),
+                                          const SizedBox(width: 10),
+                                        ],
+                                      ),
+                            items: data.websiteListModel.data!.map(
+                              (e) {
+                                websiteName = e.name;
+                                websiteViewId = e.datumId;
+                                return DropdownMenuItem(
+                                  // value: valueItem,
+                                  child: Text(e.name),
+                                  value: e.datumId,
+                                );
+                              },
                             ).toList(),
                             value: selectedWebsite,
                             onChanged: (val) {
@@ -655,25 +646,26 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               deleteValue('websiteName');
                               deleteValue('storedWebSiteName');
                               deleteValue('storedWebSiteViewId');
-                              setState(()  {
+                              setState(() {
                                 deleteValue('websiteId');
                                 selectedWebsite = val;
                                 setValue('websiteId', val);
-                                setValue('storedWebSiteName', data.websiteListModel.data!
-                                    .firstWhere((element) => element.datumId == val)
-                                    .name);
-                                setValue('storedWebSiteViewId', data.websiteListModel.data!
-                                    .firstWhere((element) => element.datumId == val).datumId);
+                                setValue('storedWebSiteName',
+                                    data.websiteListModel.data!.firstWhere((element) => element.datumId == val).name);
+                                setValue(
+                                    'storedWebSiteViewId',
+                                    data.websiteListModel.data!
+                                        .firstWhere((element) => element.datumId == val)
+                                        .datumId);
                                 visitorsApiCall();
                               });
-                            })
-                    ),
+                            })),
                   ),
                 ),
               ),
             ],
           );
-        }else if (state is Failure) {
+        } else if (state is Failure) {
           return SizedBox(
             height: MediaQuery.of(context).size.height / 1.3,
             child: Center(
@@ -687,17 +679,16 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget visitorApiDataWidget(){
+  Widget visitorApiDataWidget() {
     return ChangeNotifierProvider<VisitorProvider>(
-      create: (ctx){
+      create: (ctx) {
         return visitorProvider;
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           // Visitor Tile Data
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
+          Consumer<VisitorProvider>(builder: (ctx, data, _) {
             var state = data.visitorTileLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -716,31 +707,31 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      tiles(context,'VISITORS',
+                      tiles(
+                        context,
+                        'VISITORS',
                         '${data.tileDataModel.data!.visitors}',
                       ),
-                      tiles(context,'NEW VISITORS',
-                          '${data.tileDataModel.data!.newVisitors}'
-                      ),
+                      tiles(context, 'NEW VISITORS', '${data.tileDataModel.data!.newVisitors}'),
                     ],
                   ),
                   const SizedBox(height: 8),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      tiles(context,'BOUNCE RATE',
+                      tiles(
+                        context,
+                        'BOUNCE RATE',
                         '${data.tileDataModel.data!.bounceRate}%',
                       ),
-                      tiles(context,'SESSIONS', '${data.tileDataModel.data!.sessions}'),
+                      tiles(context, 'SESSIONS', '${data.tileDataModel.data!.sessions}'),
                     ],
                   ),
-
                   const SizedBox(height: 8),
                   tilesFullWidth(context, 'AVG SESSION DURATION', '${data.tileDataModel.data!.avgSessionDuration} S'),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: withoutAnalyticsWidget(),
@@ -756,7 +747,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 15),
           // Retained visitors
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
+          Consumer<VisitorProvider>(builder: (ctx, data, _) {
             var state = data.userByNewReturnedLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -769,7 +760,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     'Retained visitors',
                     style: normalTextStyle,
                   ),
-
                   const SizedBox(height: 10),
                   Card(
                     elevation: 2,
@@ -798,14 +788,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               legend: Legend(
                                 position: LegendPosition.right,
                                 isVisible: true,
-                                isResponsive:true,
+                                isResponsive: true,
                                 overflowMode: LegendItemOverflowMode.wrap,
                               ),
                               series: <CircularSeries>[
-                                DoughnutSeries<NewReturnedData,String>(
+                                DoughnutSeries<NewReturnedData, String>(
                                   dataSource: data.userByNewReturnedModel.data,
-                                  xValueMapper: (NewReturnedData data,_) => data.key,
-                                  yValueMapper: (NewReturnedData data,_) => data.value,
+                                  xValueMapper: (NewReturnedData data, _) => data.key,
+                                  yValueMapper: (NewReturnedData data, _) => data.value,
                                   innerRadius: '65%',
                                   radius: '70%',
                                 ),
@@ -816,17 +806,14 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 15),
-
                   Text(
                     'Your Visitors from?',
                     style: normalTextStyle,
                   ),
-
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -836,7 +823,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           const SizedBox(height: 10),
 
           // map - user by country
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
+          Consumer<VisitorProvider>(builder: (ctx, data, _) {
             var state = data.userByCountryLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -853,9 +840,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     color: whiteColor,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 15,top: 15),
-                    child:
-                      SizedBox(
+                      padding: const EdgeInsets.only(bottom: 15, top: 15),
+                      child: SizedBox(
                           height: 180,
                           child: Center(
                             child: SfMaps(
@@ -872,12 +858,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 ),
                               ],
                             ),
-                          )
-                      )
-                  ),
+                          ))),
                 ),
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -886,7 +870,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 8),
           // country list
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
+          Consumer<VisitorProvider>(builder: (ctx, data, _) {
             var state = data.userByCountryLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -906,14 +890,13 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       Padding(
-                        padding: const EdgeInsets.only(right: 5,top: 5),
+                        padding: const EdgeInsets.only(right: 5, top: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 setState(() {
                                   selectedOption = 'Country';
                                 });
@@ -927,10 +910,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 ),
                               ),
                             ),
-
                             const SizedBox(width: 20),
                             InkWell(
-                              onTap: (){
+                              onTap: () {
                                 setState(() {
                                   selectedOption = 'City';
                                 });
@@ -947,248 +929,245 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           ],
                         ),
                       ),
-
                       const SizedBox(height: 20),
-                      selectedOption == 'Country' ?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Country',
-                              style: tableTitleTextStyle,
+                      selectedOption == 'Country'
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    'Country',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    'Users',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 40),
+                                  child: Text(
+                                    '%',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                )
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: Text(
+                                    'City',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 45),
+                                  child: Text(
+                                    'Users',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 45),
+                                  child: Text(
+                                    '%',
+                                    style: tableTitleTextStyle,
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              'Users',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 40),
-                            child: Text(
-                              '%',
-                              style: tableTitleTextStyle,
-                            ),
-                          )
-                        ],
-                      ):
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: Text(
-                              'City',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(left: 45),
-                            child: Text(
-                              'Users',
-                              style: tableTitleTextStyle,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 45),
-                            child: Text(
-                              '%',
-                              style: tableTitleTextStyle,
-                            ),
-                          )
-                        ],
-                      ),
-
                       const SizedBox(height: 3),
                       const Divider(
                         color: dividerColor,
                       ),
-
                       const SizedBox(height: 3),
-
-                      selectedOption == 'Country' ?
-                      //  country list
-                      Consumer<VisitorProvider>(builder: (ctx, data, _){
-                        var state = data.userByCountryLiveData().getValue();
-                        print(state);
-                        if (state is IsLoading) {
-                          return SizedBox();
-                        } else if (state is Success) {
-                          return Expanded(
-                            child: Scrollbar(
-                              thumbVisibility: true,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 5),
-                                child: ListView.builder(
-                                  itemCount: data.userByCountryModel.data!.length,
-                                  shrinkWrap: true,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context,index) {
-                                    return Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      selectedOption == 'Country'
+                          ?
+                          //  country list
+                          Consumer<VisitorProvider>(builder: (ctx, data, _) {
+                              var state = data.userByCountryLiveData().getValue();
+                              print(state);
+                              if (state is IsLoading) {
+                                return SizedBox();
+                              } else if (state is Success) {
+                                return Expanded(
+                                  child: Scrollbar(
+                                    controller: ScrollController(
+                                      onAttach: (position) {},
+                                      onDetach: (position) {},
+                                    ),
+                                    thumbVisibility: true,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 5, left: 5),
+                                      child: ListView.builder(
+                                        itemCount: data.userByCountryModel.data!.length,
+                                        shrinkWrap: true,
+                                        physics: const AlwaysScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return Column(
                                             children: [
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  '${data.userByCountryModel.data![index].name}',
-                                                  style: tableContentTextStyle,
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        '${data.userByCountryModel.data![index].name}',
+                                                        style: tableContentTextStyle,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Text(
+                                                        '${data.userByCountryModel.data![index].value}',
+                                                        style: tableContentTextStyle,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: LinearPercentIndicator(
+                                                        addAutomaticKeepAlive: false,
+                                                        width: 65.0,
+                                                        lineHeight: 14.0,
+                                                        percent: data.userByCountryModel.data![index].percentage /
+                                                            100, //percent value must be between 0.0 and 1.0
+                                                        backgroundColor: whiteColor,
+                                                        progressColor: percentageIndicatorColor,
+                                                        center: Text(
+                                                          '${data.userByCountryModel.data![index].percentage}',
+                                                          style: percentTextStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-
-                                              const SizedBox(width: 10),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  '${data.userByCountryModel.data![index].value}',
-                                                  style: tableContentTextStyle,
-                                                ),
+                                              const SizedBox(height: 3),
+                                              const Divider(
+                                                color: dividerColor,
                                               ),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: LinearPercentIndicator(
-                                                  addAutomaticKeepAlive: false,
-                                                  width: 65.0,
-                                                  lineHeight: 14.0,
-                                                  percent: data.userByCountryModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
-                                                  backgroundColor: whiteColor,
-                                                  progressColor: percentageIndicatorColor,
-                                                  center: Text(
-                                                    '${data.userByCountryModel.data![index].percentage}',
-                                                    style: percentTextStyle,
-                                                  ),
-                                                ),
-                                              ),
+                                              const SizedBox(height: 3),
                                             ],
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 3),
-                                        const Divider(
-                                          color: dividerColor,
-                                        ),
-                                        const SizedBox(height: 3),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        }else if (state is Failure) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 1.3,
-                            child: Center(
-                              child: Text(
-                                'Failed to load!!',
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }):
-                      Consumer<VisitorProvider>(builder: (ctx, data, _){
-                        var state = data.userByCityLiveData().getValue();
-                        print(state);
-                        if (state is IsLoading) {
-                          return SizedBox();
-                        } else if (state is Success) {
-                          return Expanded(
-                            child: Scrollbar(
-                              thumbVisibility: true,
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 5),
-                                child: ListView.builder(
-                                  itemCount: data.userByCityModel.data!.length,
-                                  shrinkWrap: true,
-                                  physics: const AlwaysScrollableScrollPhysics(),
-                                  itemBuilder: (context,index) {
-                                    return Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              } else if (state is Failure) {
+                                return SizedBox(
+                                  height: MediaQuery.of(context).size.height / 1.3,
+                                  child: Center(
+                                    child: Text(
+                                      'Failed to load!!',
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            })
+                          : Consumer<VisitorProvider>(builder: (ctx, data, _) {
+                              var state = data.userByCityLiveData().getValue();
+                              print(state);
+                              if (state is IsLoading) {
+                                return SizedBox();
+                              } else if (state is Success) {
+                                return Expanded(
+                                  child: Scrollbar(
+                                    controller: ScrollController(
+                                      onAttach: (position) {},
+                                      onDetach: (position) {},
+                                    ),
+                                    thumbVisibility: true,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 5, left: 5),
+                                      child: ListView.builder(
+                                        itemCount: data.userByCityModel.data!.length,
+                                        shrinkWrap: true,
+                                        physics: const AlwaysScrollableScrollPhysics(),
+                                        itemBuilder: (context, index) {
+                                          return Column(
                                             children: [
-                                              Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  '${data.userByCityModel.data![index].name}',
-                                                  style: tableContentTextStyle,
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        '${data.userByCityModel.data![index].name}',
+                                                        style: tableContentTextStyle,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Text(
+                                                        '${data.userByCityModel.data![index].value}',
+                                                        style: tableContentTextStyle,
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: LinearPercentIndicator(
+                                                        addAutomaticKeepAlive: false,
+                                                        width: 65.0,
+                                                        lineHeight: 14.0,
+                                                        percent: data.userByCityModel.data![index].percentage /
+                                                            100, //percent value must be between 0.0 and 1.0
+                                                        backgroundColor: whiteColor,
+                                                        progressColor: percentageIndicatorColor,
+                                                        center: Text(
+                                                          '${data.userByCityModel.data![index].percentage}',
+                                                          style: percentTextStyle,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-
-                                              const SizedBox(width: 10),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  '${data.userByCityModel.data![index].value}',
-                                                  style: tableContentTextStyle,
-                                                ),
+                                              const SizedBox(height: 3),
+                                              const Divider(
+                                                color: dividerColor,
                                               ),
-
-                                              Expanded(
-                                                flex: 1,
-                                                child: LinearPercentIndicator(
-                                                  addAutomaticKeepAlive: false,
-                                                  width: 65.0,
-                                                  lineHeight: 14.0,
-                                                  percent: data.userByCityModel.data![index].percentage / 100, //percent value must be between 0.0 and 1.0
-                                                  backgroundColor: whiteColor,
-                                                  progressColor: percentageIndicatorColor,
-                                                  center: Text(
-                                                    '${data.userByCityModel.data![index].percentage}',
-                                                    style: percentTextStyle,
-                                                  ),
-                                                ),
-                                              ),
+                                              const SizedBox(height: 3),
                                             ],
-                                          ),
-                                        ),
-
-                                        const SizedBox(height: 3),
-                                        const Divider(
-                                          color: dividerColor,
-                                        ),
-                                        const SizedBox(height: 3),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          );
-                        }else if (state is Failure) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 1.3,
-                            child: Center(
-                              child: Text(
-                                'Failed to load!!',
-                              ),
-                            ),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      })
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              } else if (state is Failure) {
+                                return SizedBox(
+                                  height: MediaQuery.of(context).size.height / 1.3,
+                                  child: Center(
+                                    child: Text(
+                                      'Failed to load!!',
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            })
                     ],
                   ),
                 ),
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -1198,12 +1177,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           const SizedBox(height: 15),
           // What language do they speak?
           // language list
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
+          Consumer<VisitorProvider>(builder: (ctx, data, _) {
             var state = data.userByLangLiveData().getValue();
             print(state);
             if (state is IsLoading) {
               return SizedBox();
-            }else if (state is Success) {
+            } else if (state is Success) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1212,7 +1191,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     style: normalTextStyle,
                   ),
                   const SizedBox(height: 10),
-
                   Card(
                     elevation: 2,
                     shadowColor: whiteColor,
@@ -1228,11 +1206,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 10,top: 8),
+                            padding: const EdgeInsets.only(right: 10, top: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Text(
@@ -1240,12 +1217,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                     style: tableTitleTextStyle,
                                   ),
                                 ),
-
                                 Text(
                                   'Users',
                                   style: tableTitleTextStyle,
                                 ),
-
                                 Padding(
                                   padding: const EdgeInsets.only(right: 35),
                                   child: Text(
@@ -1260,19 +1235,23 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           const Divider(
                             color: dividerColor,
                           ),
-
                           const SizedBox(height: 3),
                           Expanded(
                             child: Scrollbar(
+                              controller: ScrollController(
+                                onAttach: (position) {},
+                                onDetach: (position) {},
+                              ),
                               thumbVisibility: true,
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 5,left: 5),
+                                padding: const EdgeInsets.only(right: 5, left: 5),
                                 child: ListView.builder(
                                     shrinkWrap: true,
                                     physics: const AlwaysScrollableScrollPhysics(),
                                     itemCount: data.userByLangModel.data!.length,
-                                    itemBuilder: (context,index) {
-                                      double percent = double.parse(data.userByLangModel.data![index].percentage!) / 100;
+                                    itemBuilder: (context, index) {
+                                      double percent =
+                                          double.parse(data.userByLangModel.data![index].percentage!) / 100;
                                       return Column(
                                         children: [
                                           Row(
@@ -1295,23 +1274,23 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                               ),
                                               Expanded(
                                                 flex: 1,
-                                                  child: LinearPercentIndicator(
-                                                    addAutomaticKeepAlive: false,
-                                                    width: 65.0,
-                                                    lineHeight: 14.0,
-                                                    percent:
-                                                    double.parse(data.userByLangModel.data![index].percentage) / 100,
-                                                    // 0.8, //percent value must be between 0.0 and 1.0
-                                                    backgroundColor: whiteColor,
-                                                    progressColor: percentageIndicatorColor,
-                                                    center: Text(
-                                                      '${data.userByLangModel.data![index].percentage}',
-                                                      style: percentTextStyle,
-                                                    ),
-                                                  ),)
+                                                child: LinearPercentIndicator(
+                                                  addAutomaticKeepAlive: false,
+                                                  width: 65.0,
+                                                  lineHeight: 14.0,
+                                                  percent:
+                                                      double.parse(data.userByLangModel.data![index].percentage) / 100,
+                                                  // 0.8, //percent value must be between 0.0 and 1.0
+                                                  backgroundColor: whiteColor,
+                                                  progressColor: percentageIndicatorColor,
+                                                  center: Text(
+                                                    '${data.userByLangModel.data![index].percentage}',
+                                                    style: percentTextStyle,
+                                                  ),
+                                                ),
+                                              )
                                             ],
                                           ),
-
                                           const SizedBox(height: 3),
                                           const Divider(
                                             color: dividerColor,
@@ -1319,8 +1298,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                           const SizedBox(height: 3),
                                         ],
                                       );
-                                    }
-                                ),
+                                    }),
                               ),
                             ),
                           ),
@@ -1330,7 +1308,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -1342,7 +1320,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
 
           const SizedBox(height: 15),
           // What is their gender?
-          Consumer<VisitorProvider>(builder: (ctx, data, _){
+          Consumer<VisitorProvider>(builder: (ctx, data, _) {
             var state = data.userByGenderLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -1355,7 +1333,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                     'What is their gender?',
                     style: normalTextStyle,
                   ),
-
                   const SizedBox(height: 10),
                   Card(
                     elevation: 2,
@@ -1384,20 +1361,19 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               legend: Legend(
                                 position: LegendPosition.right,
                                 isVisible: true,
-                                isResponsive:true,
+                                isResponsive: true,
                                 overflowMode: LegendItemOverflowMode.wrap,
                               ),
                               series: <CircularSeries>[
-                                DoughnutSeries<Datum,String>(
+                                DoughnutSeries<Datum, String>(
                                   dataSource: data.userByGenderModel.data,
-                                  xValueMapper: (Datum data,_) => data.key,
-                                  yValueMapper: (Datum data,_) => data.value,
+                                  xValueMapper: (Datum data, _) => data.key,
+                                  yValueMapper: (Datum data, _) => data.value,
                                   innerRadius: '65%',
                                   radius: '70%',
                                 ),
                               ],
                             ),
-
                             Positioned(
                               left: 62,
                               top: 93,
@@ -1414,7 +1390,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -1425,7 +1401,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget trendingTimeGraphWidget(){
+  Widget trendingTimeGraphWidget() {
     return ChangeNotifierProvider<VisitorProvider>(
       create: (ctx) {
         return visitorProvider;
@@ -1436,7 +1412,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           print(state);
           if (state is IsLoading) {
             return SizedBox();
-          }else if (state is Success) {
+          } else if (state is Success) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1468,24 +1444,29 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           scrollDirection: Axis.horizontal,
                           child: SizedBox(
                             width: 500,
-                            child:
-                                int.parse('${data.userByVisitorsTrendingTimeModel.data![0].value}').toInt() > 20?
-                                   LargeValueGraph(
-                                     storedStartDate.isNotEmpty ? storedStartDate :
-                                       _selectedFromDate != null ?
-                                       '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-                                       storedEndDate.isNotEmpty ? storedEndDate :
-                                       _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                           : formattedDate
-                                   ) : NormalGraph(
-                                    storedStartDate.isNotEmpty ? storedStartDate :
-                                    _selectedFromDate != null ?
-                                    '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}' : formattedInitialdDate,
-                                    storedEndDate.isNotEmpty ? storedEndDate :
-                                    _selectedToDate != null ?  '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                        : formattedDate
-                                ),
-
+                            child: int.parse('${data.userByVisitorsTrendingTimeModel.data![0].value}').toInt() > 20
+                                ? LargeValueGraph(
+                                    storedStartDate.isNotEmpty
+                                        ? storedStartDate
+                                        : _selectedFromDate != null
+                                            ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                                            : formattedInitialdDate,
+                                    storedEndDate.isNotEmpty
+                                        ? storedEndDate
+                                        : _selectedToDate != null
+                                            ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                            : formattedDate)
+                                : NormalGraph(
+                                    storedStartDate.isNotEmpty
+                                        ? storedStartDate
+                                        : _selectedFromDate != null
+                                            ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                                            : formattedInitialdDate,
+                                    storedEndDate.isNotEmpty
+                                        ? storedEndDate
+                                        : _selectedToDate != null
+                                            ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                            : formattedDate),
                           ),
                         ),
                       ),
@@ -1494,9 +1475,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 ),
               ],
             );
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return SizedBox();
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -1510,7 +1491,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     double maxYValue = 0;
     // Determine the length of your date data list
     int dataLength = data.length;
-
 
     // Create FlSpot instances from your data
     for (int i = 0; i < data.length; i++) {
@@ -1550,7 +1530,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       titlesData: FlTitlesData(
         show: true,
         rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false,),
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
         topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -1595,9 +1577,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
             ),
           ),
         ),
@@ -1616,12 +1596,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           print(state);
           if (state is IsLoading) {
             return SizedBox();
-          }else if (state is Success) {
-            const style = TextStyle(
-                fontSize: 12,
-                fontFamily: 'Barlow-Regular',
-                color: titleTextColor
-            );
+          } else if (state is Success) {
+            const style = TextStyle(fontSize: 12, fontFamily: 'Barlow-Regular', color: titleTextColor);
 
             // Find the corresponding date from dataList based on value
             final int index = value.toInt();
@@ -1634,16 +1610,16 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             final text = Text(date, style: style);
 
             return Padding(
-              padding: const EdgeInsets.only(right: 25,top: 5),
+              padding: const EdgeInsets.only(right: 25, top: 5),
               child: SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: text,
                 angle: -math.pi / 3.5,
               ),
             );
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return Text('Failed to load!!');
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -1662,12 +1638,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           print(state);
           if (state is IsLoading) {
             return SizedBox();
-          }else if (state is Success) {
-            const style = TextStyle(
-                fontSize: 12,
-                fontFamily: 'Barlow-Regular',
-                color: titleTextColor
-            );
+          } else if (state is Success) {
+            const style = TextStyle(fontSize: 12, fontFamily: 'Barlow-Regular', color: titleTextColor);
 
             // Find the corresponding date from dataList based on value
             int startValue = 0;
@@ -1686,24 +1658,19 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             // final text = (startValue + index * interval).toString();
             final String date = (startValue + index * interval).toString();
             //
-            final text = Text(
-                date,
-                softWrap: false,
-                maxLines: 1,
-                style: style
-            );
+            final text = Text(date, softWrap: false, maxLines: 1, style: style);
 
             return Padding(
-              padding: const EdgeInsets.only(right: 20,top: 5),
+              padding: const EdgeInsets.only(right: 20, top: 5),
               child: SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: text,
                 angle: 0,
               ),
             );
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return Text('Failed to load!!');
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -1711,7 +1678,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     );
   }
 
-  Widget userByAgeWidget(){
+  Widget userByAgeWidget() {
     return ChangeNotifierProvider<VisitorProvider>(
       create: (ctx) {
         return visitorProvider;
@@ -1722,7 +1689,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           print(state);
           if (state is IsLoading) {
             return SizedBox();
-          }else if (state is Success) {
+          } else if (state is Success) {
             List<charts.Series<AgeData, String>> series = [
               charts.Series(
                   id: '',
@@ -1732,21 +1699,20 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   colorFn: (_, __) => charts.ColorUtil.fromDartColor(ageGroupBarColor),
                   // colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
                   labelAccessorFn: (AgeData sales, _) => '${sales.value}',
-                  outsideLabelStyleAccessorFn: (AgeData sales, _){
-                    return  const charts.TextStyleSpec(
+                  outsideLabelStyleAccessorFn: (AgeData sales, _) {
+                    return const charts.TextStyleSpec(
                       fontFamily: 'Barlow-Bold',
-                      color:  charts.MaterialPalette.black,
+                      color: charts.MaterialPalette.black,
                       fontSize: 13,
                     );
                   },
-                  insideLabelStyleAccessorFn: (AgeData sales, _){
-                    return  const charts.TextStyleSpec(
+                  insideLabelStyleAccessorFn: (AgeData sales, _) {
+                    return const charts.TextStyleSpec(
                       fontFamily: 'Barlow-Bold',
-                      color:  charts.MaterialPalette.white,
+                      color: charts.MaterialPalette.white,
                       fontSize: 16,
                     );
-                  }
-              ),
+                  }),
             ];
 
             // Calculate maximum value
@@ -1761,7 +1727,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                   'What is their age group?',
                   style: normalTextStyle,
                 ),
-
                 const SizedBox(height: 10),
                 Card(
                   elevation: 2,
@@ -1789,8 +1754,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                               labelStyle: charts.TextStyleSpec(
                                   fontFamily: 'Barlow-Regular',
                                   color: charts.ColorUtil.fromDartColor(barGraphLabelColor),
-                                  fontSize: 12
-                              ),
+                                  fontSize: 12),
                             ),
                           ),
 
@@ -1803,74 +1767,72 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                                 fontSize: 12,
                               ),
                             ),
-                            tickProviderSpec:
-                            charts.StaticNumericTickProviderSpec(
-                              // Custom ticks from 0 to 20 with an interval of 4
-                                maxValue >= 50 && maxValue == 300 ?
-                                <charts.TickSpec<num>>[
-                                  charts.TickSpec<num>(0),
-                                  charts.TickSpec<num>(60),
-                                  charts.TickSpec<num>(120),
-                                  charts.TickSpec<num>(180),
-                                  charts.TickSpec<num>(240),
-                                  charts.TickSpec<num>(300),
-                                ] :
-                                maxValue >300 && maxValue == 1000  ?
-                                <charts.TickSpec<num>>[
-                                  charts.TickSpec<num>(0),
-                                  charts.TickSpec<num>(200),
-                                  charts.TickSpec<num>(400),
-                                  charts.TickSpec<num>(600),
-                                  charts.TickSpec<num>(800),
-                                  charts.TickSpec<num>(100),
-                                ] :
-                                maxValue > 1000 ?
-                                <charts.TickSpec<num>>[
-                                  charts.TickSpec<num>(0),
-                                  charts.TickSpec<num>(500),
-                                  charts.TickSpec<num>(1000),
-                                  charts.TickSpec<num>(1500),
-                                  charts.TickSpec<num>(2000),
-                                  charts.TickSpec<num>(2500),
-                                ] :
-                                maxValue <= 15 ?
-                                <charts.TickSpec<num>>[
-                                  charts.TickSpec<num>(0),
-                                  charts.TickSpec<num>(3),
-                                  charts.TickSpec<num>(6),
-                                  charts.TickSpec<num>(9),
-                                  charts.TickSpec<num>(12),
-                                  charts.TickSpec<num>(15),
-                                ] :
-                                maxValue >15 && maxValue == 50  ?
-                                <charts.TickSpec<num>>[
-                                  charts.TickSpec<num>(0),
-                                  charts.TickSpec<num>(10),
-                                  charts.TickSpec<num>(20),
-                                  charts.TickSpec<num>(30),
-                                  charts.TickSpec<num>(40),
-                                  charts.TickSpec<num>(50),
-                                ] :
-                                <charts.TickSpec<num>>[
-                                  charts.TickSpec<num>(0),
-                                  charts.TickSpec<num>(15),
-                                  charts.TickSpec<num>(30),
-                                  charts.TickSpec<num>(45),
-                                  charts.TickSpec<num>(60),
-                                  charts.TickSpec<num>(75),
-                                ]
-
-                            ),
+                            tickProviderSpec: charts.StaticNumericTickProviderSpec(
+                                // Custom ticks from 0 to 20 with an interval of 4
+                                maxValue >= 50 && maxValue == 300
+                                    ? <charts.TickSpec<num>>[
+                                        charts.TickSpec<num>(0),
+                                        charts.TickSpec<num>(60),
+                                        charts.TickSpec<num>(120),
+                                        charts.TickSpec<num>(180),
+                                        charts.TickSpec<num>(240),
+                                        charts.TickSpec<num>(300),
+                                      ]
+                                    : maxValue > 300 && maxValue == 1000
+                                        ? <charts.TickSpec<num>>[
+                                            charts.TickSpec<num>(0),
+                                            charts.TickSpec<num>(200),
+                                            charts.TickSpec<num>(400),
+                                            charts.TickSpec<num>(600),
+                                            charts.TickSpec<num>(800),
+                                            charts.TickSpec<num>(100),
+                                          ]
+                                        : maxValue > 1000
+                                            ? <charts.TickSpec<num>>[
+                                                charts.TickSpec<num>(0),
+                                                charts.TickSpec<num>(500),
+                                                charts.TickSpec<num>(1000),
+                                                charts.TickSpec<num>(1500),
+                                                charts.TickSpec<num>(2000),
+                                                charts.TickSpec<num>(2500),
+                                              ]
+                                            : maxValue <= 15
+                                                ? <charts.TickSpec<num>>[
+                                                    charts.TickSpec<num>(0),
+                                                    charts.TickSpec<num>(3),
+                                                    charts.TickSpec<num>(6),
+                                                    charts.TickSpec<num>(9),
+                                                    charts.TickSpec<num>(12),
+                                                    charts.TickSpec<num>(15),
+                                                  ]
+                                                : maxValue > 15 && maxValue == 50
+                                                    ? <charts.TickSpec<num>>[
+                                                        charts.TickSpec<num>(0),
+                                                        charts.TickSpec<num>(10),
+                                                        charts.TickSpec<num>(20),
+                                                        charts.TickSpec<num>(30),
+                                                        charts.TickSpec<num>(40),
+                                                        charts.TickSpec<num>(50),
+                                                      ]
+                                                    : <charts.TickSpec<num>>[
+                                                        charts.TickSpec<num>(0),
+                                                        charts.TickSpec<num>(15),
+                                                        charts.TickSpec<num>(30),
+                                                        charts.TickSpec<num>(45),
+                                                        charts.TickSpec<num>(60),
+                                                        charts.TickSpec<num>(75),
+                                                      ]),
                             tickFormatterSpec: charts.BasicNumericTickFormatterSpec(
-                                  (value) => '${value!.toInt()}',
+                              (value) => '${value!.toInt()}',
                             ),
                           ),
 
                           //  display values on bars
 
                           barRendererDecorator: charts.BarLabelDecorator<String>(
-                            labelPosition: maxValue > 1000 ?
-                            charts.BarLabelPosition.outside : charts.BarLabelPosition.inside,// Position of the label
+                            labelPosition: maxValue > 1000
+                                ? charts.BarLabelPosition.outside
+                                : charts.BarLabelPosition.inside, // Position of the label
                             labelAnchor: charts.BarLabelAnchor.middle, // Anchor point of the label
                             labelPadding: 4, // Padding around the label
                           ),
@@ -1882,9 +1844,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                 ),
               ],
             );
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return SizedBox();
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -1903,12 +1865,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           print(state);
           if (state is IsLoading) {
             return SizedBox();
-          }else if (state is Success) {
-            const style = TextStyle(
-                fontSize: 12,
-                fontFamily: 'Barlow-Regular',
-                color: titleTextColor
-            );
+          } else if (state is Success) {
+            const style = TextStyle(fontSize: 12, fontFamily: 'Barlow-Regular', color: titleTextColor);
 
             // Find the corresponding date from dataList based on value
             final int index = value.toInt();
@@ -1921,16 +1879,16 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             final text = Text(date, style: style);
 
             return Padding(
-              padding: const EdgeInsets.only(right: 25,top: 5),
+              padding: const EdgeInsets.only(right: 25, top: 5),
               child: SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: text,
                 angle: -math.pi / 3.5,
               ),
             );
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return Text('Failed to load!!');
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -1949,12 +1907,8 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           print(state);
           if (state is IsLoading) {
             return SizedBox();
-          }else if (state is Success) {
-            const style = TextStyle(
-                fontSize: 12,
-                fontFamily: 'Barlow-Regular',
-                color: titleTextColor
-            );
+          } else if (state is Success) {
+            const style = TextStyle(fontSize: 12, fontFamily: 'Barlow-Regular', color: titleTextColor);
 
             // Find the corresponding date from dataList based on value
             int startValue = 0;
@@ -1969,24 +1923,19 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             // final text = (startValue + index * interval).toString();
             final String date = (startValue + index * interval).toString();
             //
-            final text = Text(
-                date,
-                softWrap: false,
-                maxLines: 1,
-                style: style
-            );
+            final text = Text(date, softWrap: false, maxLines: 1, style: style);
 
             return Padding(
-              padding: const EdgeInsets.only(right: 20,top: 5),
+              padding: const EdgeInsets.only(right: 20, top: 5),
               child: SideTitleWidget(
                 axisSide: meta.axisSide,
                 child: text,
                 angle: 0,
               ),
             );
-          }else if (state is Failure) {
+          } else if (state is Failure) {
             return Text('Failed to load!!');
-          }else {
+          } else {
             return SizedBox();
           }
         },
@@ -1999,7 +1948,6 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     double maxYValue = 0;
     // Determine the length of your date data list
     int dataLength = data.length;
-
 
     // Create FlSpot instances from your data
     for (int i = 0; i < data.length; i++) {
@@ -2038,7 +1986,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
       titlesData: FlTitlesData(
         show: true,
         rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false,),
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
         topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
@@ -2093,9 +2043,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
             ),
           ),
         ),
@@ -2104,20 +2052,19 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
   }
 
   onLogout() async {
-     await logoutProvider.logoutFromDevice();
-      deleteValue('token');
-      deleteValue('fireBaseToken');
-      deleteValue('googleToken');
-      deleteValue('email');
-      deleteValue('analytics');
-      deleteValue('googleId');
-      deleteValue('websiteId');
-      deleteValue('storedFromDate');
-      deleteValue('storedToDate');
-      deleteValue('storedWebSiteName');
-      deleteValue('storedWebSiteViewId');
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (_) => LoginScreen()));
+    await logoutProvider.logoutFromDevice();
+    deleteValue('token');
+    deleteValue('fireBaseToken');
+    deleteValue('googleToken');
+    deleteValue('email');
+    deleteValue('analytics');
+    deleteValue('googleId');
+    deleteValue('websiteId');
+    deleteValue('storedFromDate');
+    deleteValue('storedToDate');
+    deleteValue('storedWebSiteName');
+    deleteValue('storedWebSiteViewId');
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginScreen()));
   }
 }
 
