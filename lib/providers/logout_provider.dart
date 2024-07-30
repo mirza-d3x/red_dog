@@ -1,5 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:reddog_mobile_app/models/logout_model.dart';
 import 'package:reddog_mobile_app/repositories/common_repository.dart';
@@ -15,9 +17,10 @@ class LogoutProvider extends ChangeNotifier {
   var logoutModel = LogoutModel();
   LiveData<UIState<LogoutModel>> logoutData = LiveData<UIState<LogoutModel>>();
 
-  LiveData<UIState<LogoutModel>>logoutLiveData() {
+  LiveData<UIState<LogoutModel>> logoutLiveData() {
     return this.logoutData;
   }
+
   void initialState() {
     logoutData.setValue(Initial());
     notifyListeners();
@@ -28,7 +31,7 @@ class LogoutProvider extends ChangeNotifier {
       logoutData.setValue(IsLoading());
       var email = await getValue('email');
       var fireId = await getValue("fireBaseToken");
-      logoutModel = await commonRepository.putLogout(email,fireId);
+      logoutModel = await commonRepository.putLogout(email, fireId);
       if (logoutModel.code == '200') {
         logoutData.setValue(Success(logoutModel));
       } else {
@@ -41,4 +44,21 @@ class LogoutProvider extends ChangeNotifier {
     }
   }
 
+  deleteAccount() async {
+    try {
+      logoutData.setValue(IsLoading());
+      var googleId = await getValue('googleId');
+      logoutModel = await commonRepository.deleteAccount(googleId);
+      if (logoutModel.code == '200') {
+        logoutData.setValue(Success(logoutModel));
+      } else {
+        logoutData.setValue(Failure(logoutModel.toString()));
+      }
+    } catch (ex, stackTrace) {
+      log("Error while deleting account", error: ex, stackTrace: stackTrace);
+      logoutData.setValue(Failure(ex.toString()));
+    } finally {
+      notifyListeners();
+    }
+  }
 }
