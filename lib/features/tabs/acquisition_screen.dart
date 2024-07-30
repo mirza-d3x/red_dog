@@ -24,14 +24,13 @@ import '../../styles/text_styles.dart';
 import '../../utilities/shared_prefernces.dart';
 
 class AcquisitionScreen extends StatefulWidget {
-   AcquisitionScreen({super.key});
+  AcquisitionScreen({super.key});
 
   @override
   State<AcquisitionScreen> createState() => _AcquisitionScreenState();
 }
 
 class _AcquisitionScreenState extends State<AcquisitionScreen> {
-
   dynamic selectedWebsite;
   bool isSelectedFromDropDwn = false;
 
@@ -64,123 +63,125 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   dynamic deviceTypeOptionDropDown;
   bool isSelectedDeviceType = false;
 
-
   RegisteredWebsiteProvider registeredWebsiteProvider = RegisteredWebsiteProvider(commonRepository: CommonRepository());
-  dynamic websiteName ;
+  dynamic websiteName;
   dynamic websiteViewId;
 
   //initial from date
-  String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(
-      DateTime.now().subtract(Duration(days: 30)));
+  String formattedInitialdDate = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 30)));
 
   UserProfileProvider userProfileProvider = UserProfileProvider(userRepository: UserRepository());
 
   AcquisitionProvider acquisitionProvider = AcquisitionProvider(acquisitionRepository: AcquisitionRepository());
 
-  acquisitionApiCall() async{
+  acquisitionApiCall() async {
     await getStoredDates();
     // top channels
     acquisitionProvider.getTopChannels(
-      storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null
-            ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-            : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' :
-        formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
     // top channels by date
     acquisitionProvider.getTopChannelsByDate(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null
-            ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-            : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' : formattedDate
-    );
-
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
     // traffic source by date
     acquisitionProvider.getTrafficSourceByDate(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null
-            ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-            : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' : formattedDate
-    );
-
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
     // traffic source
     acquisitionProvider.getTrafficSource(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null
-            ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-            : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
     // most visited page
     acquisitionProvider.getMostVisitedPageList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null
-            ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-            : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
-  // device category
+    // device category
     acquisitionProvider.getDeviceCategory(
-        storedStartDate.isNotEmpty ? storedStartDate :
-        _selectedFromDate != null
-            ?
-        '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-            : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-        _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-            _selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
 
     // search keyword list
     acquisitionProvider.getSearchKeywordList(
-        storedStartDate.isNotEmpty ? storedStartDate :
-    _selectedFromDate != null
-    ?
-    '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
-        : formattedInitialdDate,
-        storedEndDate.isNotEmpty ? storedEndDate :
-    _selectedToDate != null ? '${DateFormat('yyyy-MM-dd').format(
-    _selectedToDate)}' : formattedDate
-    );
+        storedStartDate.isNotEmpty
+            ? storedStartDate
+            : _selectedFromDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}'
+                : formattedInitialdDate,
+        storedEndDate.isNotEmpty
+            ? storedEndDate
+            : _selectedToDate != null
+                ? '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                : formattedDate);
   }
 
   String storedStartDate = '';
   String storedEndDate = '';
-   getStoredDates() async{
+  getStoredDates() async {
     storedStartDate = await getValue('storedFromDate');
     storedEndDate = await getValue('storedToDate');
   }
 
   String storedWeb = '';
-  getStoredWeb() async{
+  getStoredWeb() async {
     storedWeb = await getValue('storedWebSiteName');
   }
 
   @override
-  void initState(){
+  void initState() {
     getStoredWeb();
     getStoredDates();
     userProfileProvider.getProfile();
@@ -208,8 +209,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
         deleteValue('storedToDate');
         _selectedFromDate = picked.start;
         _selectedToDate = picked.end;
-        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) }');
-        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate) }');
+        setValue('storedFromDate', '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)}');
+        setValue('storedToDate', '${DateFormat('yyyy-MM-dd').format(_selectedToDate)}');
         acquisitionApiCall();
       });
     }
@@ -222,24 +223,22 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: commonAppBar(context, 'Acquisition'),
-          backgroundColor: bgColor,
-          body:
-          SingleChildScrollView(
-              child: uiWidget(),
-          ),
-        )
-    );
+      appBar: commonAppBar(context, 'Acquisition'),
+      backgroundColor: bgColor,
+      body: SingleChildScrollView(
+        child: uiWidget(),
+      ),
+    ));
   }
 
-  Widget uiWidget(){
+  Widget uiWidget() {
     return ChangeNotifierProvider<UserProfileProvider>(
-      create: (ctx){
+      create: (ctx) {
         return userProfileProvider;
       },
       child: Column(
         children: [
-          Consumer<UserProfileProvider>(builder: (ctx, data, _){
+          Consumer<UserProfileProvider>(builder: (ctx, data, _) {
             var state = data.profileLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -252,66 +251,61 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 ),
               );
             } else if (state is Success) {
-              return data.profileModel.userDetails!.isAnalytics == false ?
-              SizedBox(
-                  height: MediaQuery.of(context).size.height / 1.35,
-                  child: withoutAnalyticsWidget()
-              ) :
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // drop dwn menu,calander,download button
-                    websiteDropdownMenu(),
+              return data.profileModel.userDetails!.isAnalytics == false
+                  ? SizedBox(height: MediaQuery.of(context).size.height / 1.35, child: withoutAnalyticsWidget())
+                  : Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // drop dwn menu,calander,download button
+                          websiteDropdownMenu(),
 
-                    const SizedBox(height: 5),
-                    InkWell(
-                      onTap: () =>  _selectDateRange(context),
-                      child: Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 43,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child:
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child:
-                                  storedStartDate.isNotEmpty && storedEndDate.isNotEmpty ?
-                                      Text(
-                                        storedStartDate+' to '+ storedEndDate,
-                                        style: dropDownTextStyle,
-                                      ):
-                              Text(
-                                _selectedFromDate != null && _selectedToDate != null ?
-                                '${DateFormat('yyyy-MM-dd').format(_selectedFromDate) } to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
-                                    : '${formattedInitialdDate} to ${formattedDate}',
-                                style: dropDownTextStyle,
+                          const SizedBox(height: 5),
+                          InkWell(
+                            onTap: () => _selectDateRange(context),
+                            child: Card(
+                              elevation: 2,
+                              child: Container(
+                                height: 43,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 15),
+                                    child: storedStartDate.isNotEmpty && storedEndDate.isNotEmpty
+                                        ? Text(
+                                            storedStartDate + ' to ' + storedEndDate,
+                                            style: dropDownTextStyle,
+                                          )
+                                        : Text(
+                                            _selectedFromDate != null && _selectedToDate != null
+                                                ? '${DateFormat('yyyy-MM-dd').format(_selectedFromDate)} to ${DateFormat('yyyy-MM-dd').format(_selectedToDate)}'
+                                                : '${formattedInitialdDate} to ${formattedDate}',
+                                            style: dropDownTextStyle,
+                                          ),
+                                  ),
+                                ),
+                                // const Icon(
+                                //   Icons.calendar_month,
+                                //   color: blackColor,
+                                //   size: 20,
+                                // )
                               ),
                             ),
                           ),
-                          // const Icon(
-                          //   Icons.calendar_month,
-                          //   color: blackColor,
-                          //   size: 20,
-                          // )
-                        ),
+
+                          const SizedBox(height: 10),
+
+                          acquisitionApiDataWidget(),
+                        ],
                       ),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    acquisitionApiDataWidget(),
-                  ],
-                ),
-              );
-            }else if (state is Failure) {
+                    );
+            } else if (state is Failure) {
               return Text('');
             } else {
               return Container();
@@ -322,12 +316,12 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     );
   }
 
-  Widget websiteDropdownMenu(){
+  Widget websiteDropdownMenu() {
     return ChangeNotifierProvider<RegisteredWebsiteProvider>(
-      create: (ctx){
+      create: (ctx) {
         return registeredWebsiteProvider;
       },
-      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _){
+      child: Consumer<RegisteredWebsiteProvider>(builder: (ctx, data, _) {
         var state = data.websiteListLiveData().getValue();
         print(state);
         if (state is IsLoading) {
@@ -353,81 +347,68 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down_outlined,
-                          color: blackColor,
-                        ),
-                        // iconSize: 0,
-                        hint: storedWeb.isNotEmpty ?
-                        Row(
-                            children: [
-                              Text(
-                                  storedWeb,
-                                  style: dropDownTextStyle
-                              )
-                            ]
-                        ):
-                        selectedWebsite == null
-                            ? Row(
-                          children: [
-                            Text(
-                                data.websiteListModel.data![0].name,
-                                style: dropDownTextStyle
+                        child: DropdownButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_outlined,
+                              color: blackColor,
                             ),
-
-                            const SizedBox(width: 10),
-                          ],
-                        )
-                            : Row(
-                          children: [
-                            Text(
-                                selectedWebsite,
-                                style: dropDownTextStyle
-                            ),
-                            const SizedBox(width: 10),
-                          ],
-                        ),
-                          items:
-                          data.websiteListModel.data!.map((e) {
-                            websiteName = e.name;
-                            websiteViewId = e.datumId;
-                            return DropdownMenuItem(
-                              // value: valueItem,
-                              child: Text(e.name),
-                              value: e.datumId,
-                            );
-                          },
-                          ).toList(),
-                          value: selectedWebsite,
-                          onChanged: (val) {
-                            deleteValue('websiteId');
-                            deleteValue('websiteName');
-                            deleteValue('storedWebSiteName');
-                            deleteValue('storedWebSiteViewId');
-                            setState(()  {
+                            // iconSize: 0,
+                            hint: storedWeb.isNotEmpty
+                                ? Row(children: [Text(storedWeb, style: dropDownTextStyle)])
+                                : selectedWebsite == null
+                                    ? Row(
+                                        children: [
+                                          Text(data.websiteListModel.data![0].name, style: dropDownTextStyle),
+                                          const SizedBox(width: 10),
+                                        ],
+                                      )
+                                    : Row(
+                                        children: [
+                                          Text(selectedWebsite, style: dropDownTextStyle),
+                                          const SizedBox(width: 10),
+                                        ],
+                                      ),
+                            items: data.websiteListModel.data!.map(
+                              (e) {
+                                websiteName = e.name;
+                                websiteViewId = e.datumId;
+                                return DropdownMenuItem(
+                                  // value: valueItem,
+                                  child: Text(e.name),
+                                  value: e.datumId,
+                                );
+                              },
+                            ).toList(),
+                            value: selectedWebsite,
+                            onChanged: (val) {
                               deleteValue('websiteId');
-                              selectedWebsite = val;
-                              setValue('websiteId', val);
-                              setValue('storedWebSiteName', data.websiteListModel.data!
-                                  .firstWhere((element) => element.datumId == val)
-                                  .name);
-                              setValue('storedWebSiteViewId', data.websiteListModel.data!
-                                  .firstWhere((element) => element.datumId == val).datumId);
-                              acquisitionApiCall();
-                            });
-                          })
-                      ),
-                    ),
+                              deleteValue('websiteName');
+                              deleteValue('storedWebSiteName');
+                              deleteValue('storedWebSiteViewId');
+                              setState(() {
+                                deleteValue('websiteId');
+                                selectedWebsite = val;
+                                setValue('websiteId', val);
+                                setValue('storedWebSiteName',
+                                    data.websiteListModel.data!.firstWhere((element) => element.datumId == val).name);
+                                setValue(
+                                    'storedWebSiteViewId',
+                                    data.websiteListModel.data!
+                                        .firstWhere((element) => element.datumId == val)
+                                        .datumId);
+                                acquisitionApiCall();
+                              });
+                            })),
                   ),
                 ),
+              ),
             ],
           );
-        }else if (state is Failure) {
+        } else if (state is Failure) {
           return SizedBox(
             height: MediaQuery.of(context).size.height / 1.4,
             child: Center(
-              child:withoutAnalyticsWidget(),
+              child: withoutAnalyticsWidget(),
             ),
           );
         } else {
@@ -437,13 +418,13 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     );
   }
 
-  Widget withoutAnalyticsWidget(){
+  Widget withoutAnalyticsWidget() {
     return Padding(
-      padding: const EdgeInsets.only(left: 20,right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Center(
         child: Text(
           'Kindly integrate your website with Google Analytics and sign up with '
-              'RedDog to access the content of this page',
+          'RedDog to access the content of this page',
           textAlign: TextAlign.center,
           style: messageTextStyle,
         ),
@@ -451,16 +432,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
     );
   }
 
-  Widget acquisitionApiDataWidget(){
+  Widget acquisitionApiDataWidget() {
     return ChangeNotifierProvider<AcquisitionProvider>(
-      create: (ctx){
+      create: (ctx) {
         return acquisitionProvider;
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // How did people find your website
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.topChannelsLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -487,7 +468,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     elevation: 2,
                     child: Container(
                       height: 200,
-                      padding:  EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(3),
@@ -510,19 +491,18 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             legend: Legend(
                               position: LegendPosition.right,
                               isVisible: true,
-                              isResponsive:true,
+                              isResponsive: true,
                               overflowMode: LegendItemOverflowMode.wrap,
                             ),
                             series: <CircularSeries>[
-                              DoughnutSeries<TopChannelData,String>(
+                              DoughnutSeries<TopChannelData, String>(
                                 // animationDelay: 0,
                                 // animationDuration: 0,
                                 dataSource: data.topChannelsModel.data,
-                                xValueMapper: (TopChannelData data,_) => data.key,
-                                yValueMapper: (TopChannelData data,_) => int.parse(data.value),
+                                xValueMapper: (TopChannelData data, _) => data.key,
+                                yValueMapper: (TopChannelData data, _) => int.parse(data.value),
                                 innerRadius: '65%',
                                 radius: '70%',
-
                               ),
                             ],
                           ),
@@ -532,7 +512,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox(
                 height: MediaQuery.of(context).size.height / 1.3,
                 child: withoutAnalyticsWidget(),
@@ -544,7 +524,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
           // Stacked column graph - top channels by data
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.topChannelsByDateLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -566,38 +546,43 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     borderRadius: BorderRadius.circular(3),
                     color: whiteColor,
                   ),
-                  child:
-                  Column(
+                  child: Column(
                     children: [
                       SfCartesianChart(
                           plotAreaBorderWidth: 0,
                           primaryXAxis: CategoryAxis(
-                              majorGridLines: const MajorGridLines(width: 0),
-                              labelStyle: graphIndexTextStyle,
+                            majorGridLines: const MajorGridLines(width: 0),
+                            labelStyle: graphIndexTextStyle,
                             labelRotation: -80,
                             visibleMinimum: 0, // Set the minimum visible value
                             visibleMaximum:
                                 // data.topChannelsByDateModel.data!.length < 28 ?
-                            // double.parse('${data.topChannelsByDateModel.data!.length}'):
-                            30, // Set the maximum visible value
+                                // double.parse('${data.topChannelsByDateModel.data!.length}'):
+                                30, // Set the maximum visible value
                             interval: 1,
                           ),
                           primaryYAxis: NumericAxis(
                             labelStyle: graphIndexTextStyle,
                             majorGridLines: const MajorGridLines(width: 0),
                             visibleMinimum: 0, // Set the minimum visible value
-                            visibleMaximum:
-                                largestValue <= 15 ? 15
-                                : largestValue > 15 && largestValue <= 50 ?
-                                50 :
-                                largestValue > 50 && largestValue <= 200 ? 200
-                            : largestValue > 200 && largestValue <= 1000 ?
-                            1000 : 5000,// Set the maximum visible value
-                            interval: largestValue <= 15 ? 3
-                            : largestValue > 15 && largestValue <= 50 ? 10
-                            : largestValue > 50 && largestValue <= 200
-                            ? 50 : largestValue > 200 && largestValue <= 100 ?
-                            250 : 1000,
+                            visibleMaximum: largestValue <= 15
+                                ? 15
+                                : largestValue > 15 && largestValue <= 50
+                                    ? 50
+                                    : largestValue > 50 && largestValue <= 200
+                                        ? 200
+                                        : largestValue > 200 && largestValue <= 1000
+                                            ? 1000
+                                            : 5000, // Set the maximum visible value
+                            interval: largestValue <= 15
+                                ? 3
+                                : largestValue > 15 && largestValue <= 50
+                                    ? 10
+                                    : largestValue > 50 && largestValue <= 200
+                                        ? 50
+                                        : largestValue > 200 && largestValue <= 100
+                                            ? 250
+                                            : 1000,
                           ),
                           series: <CartesianSeries>[
                             // Direct
@@ -606,86 +591,76 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
                                 width: 0.8,
-                                 color: directChannelColor
-                            ),
+                                color: directChannelColor),
                             // Organic Search
                             StackedColumnSeries<ChannelsByDateValues, String>(
                                 dataSource: data.topChannelsByDateModel.data![1].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
                                 width: 0.8,
-                                color: organicSearchChannelColor
-                            ),
+                                color: organicSearchChannelColor),
                             // Referral
-                            StackedColumnSeries<ChannelsByDateValues,String>(
+                            StackedColumnSeries<ChannelsByDateValues, String>(
                                 dataSource: data.topChannelsByDateModel.data![2].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
                                 width: 0.8,
-                                color: referralChannelColor
-                            ),
+                                color: referralChannelColor),
                             // Organic Social
-                            StackedColumnSeries<ChannelsByDateValues,String>(
+                            StackedColumnSeries<ChannelsByDateValues, String>(
                                 dataSource: data.topChannelsByDateModel.data![2].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
                                 width: 0.8,
-                                color: organicSocialChannelColor
-                            ),
+                                color: organicSocialChannelColor),
                             // Unassigned
-                            StackedColumnSeries<ChannelsByDateValues,String>(
+                            StackedColumnSeries<ChannelsByDateValues, String>(
                                 dataSource: data.topChannelsByDateModel.data![2].data!,
                                 xValueMapper: (ChannelsByDateValues data, _) => data.key,
                                 yValueMapper: (ChannelsByDateValues data, _) => int.parse('${data.value}'),
                                 width: 0.8,
-                                color: unassignedChannelColor
-                            ),
-                          ]
-                      ),
-
+                                color: unassignedChannelColor),
+                          ]),
                       const SizedBox(height: 8),
                       Padding(
-                        padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
+                        padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
                         child: GridView.builder(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisExtent: 23,
-                              crossAxisSpacing: 1,
-                            ),
-                            itemCount: data.topChannelsByDateModel.data!.length,
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context,index) => Row(
-                              children: [
-                                Container(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisExtent: 23,
+                            crossAxisSpacing: 1,
+                          ),
+                          itemCount: data.topChannelsByDateModel.data!.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) => Row(
+                            children: [
+                              Container(
                                   height: 10,
                                   width: 10,
-                                  color:
-                                  data.topChannelsByDateModel.data![index].name == "Direct"?
-                                      directChannelColor :
-                                  data.topChannelsByDateModel.data![index].name == "Organic Search"?
-                                      organicSearchChannelColor :
-                                  data.topChannelsByDateModel.data![index].name == "Organic Social"?
-                                      organicSocialChannelColor :
-                                  data.topChannelsByDateModel.data![index].name == "Referral"?
-                                      referralChannelColor :
-                                      unassignedChannelColor
-                                ),
-
-                                const SizedBox(width: 5),
-                                Text(
-                                  '${data.topChannelsByDateModel.data![index].name}',
-                                  style: graphHintTextStyle,
-                                )
-                              ],
-                            ),
+                                  color: data.topChannelsByDateModel.data![index].name == "Direct"
+                                      ? directChannelColor
+                                      : data.topChannelsByDateModel.data![index].name == "Organic Search"
+                                          ? organicSearchChannelColor
+                                          : data.topChannelsByDateModel.data![index].name == "Organic Social"
+                                              ? organicSocialChannelColor
+                                              : data.topChannelsByDateModel.data![index].name == "Referral"
+                                                  ? referralChannelColor
+                                                  : unassignedChannelColor),
+                              const SizedBox(width: 5),
+                              Text(
+                                '${data.topChannelsByDateModel.data![index].name}',
+                                style: graphHintTextStyle,
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],
                   ),
                 ),
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -696,7 +671,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           // what are the traffic sources heading
           // stacked Column graph traffic sources by date
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.trafficSourceByDateLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -731,9 +706,9 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                           SfCartesianChart(
                               plotAreaBorderWidth: 0,
                               primaryXAxis: CategoryAxis(
-                                  majorGridLines: const MajorGridLines(width: 0),
-                                  labelStyle: graphIndexTextStyle,
-                                  labelRotation: -80,
+                                majorGridLines: const MajorGridLines(width: 0),
+                                labelStyle: graphIndexTextStyle,
+                                labelRotation: -80,
                                 visibleMinimum: 0, // Set the minimum visible value
                                 visibleMaximum: 30, // Set the maximum visible value
                                 interval: 1,
@@ -742,130 +717,125 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 labelStyle: graphIndexTextStyle,
                                 majorGridLines: const MajorGridLines(width: 0),
                                 visibleMinimum: 0, // Set the minimum visible value
-                                visibleMaximum: highestValue <= 15 ? 15
-                                    : highestValue > 15 && highestValue <= 50 ?
-                                50 :
-                                highestValue > 50 && highestValue <= 200 ? 200
-                                    : highestValue > 200 && highestValue <= 1000 ?
-                                1000 : 5000,// Set the maximum visible value
-                                interval: highestValue <= 15 ? 3
-                                    : highestValue > 15 && highestValue <= 50 ? 10
-                                    : highestValue > 50 && highestValue <= 200
-                                    ? 50 : highestValue > 200 && highestValue <= 100 ?
-                                250 : 1000, // Set the interval here
+                                visibleMaximum: highestValue <= 15
+                                    ? 15
+                                    : highestValue > 15 && highestValue <= 50
+                                        ? 50
+                                        : highestValue > 50 && highestValue <= 200
+                                            ? 200
+                                            : highestValue > 200 && highestValue <= 1000
+                                                ? 1000
+                                                : 5000, // Set the maximum visible value
+                                interval: highestValue <= 15
+                                    ? 3
+                                    : highestValue > 15 && highestValue <= 50
+                                        ? 10
+                                        : highestValue > 50 && highestValue <= 200
+                                            ? 50
+                                            : highestValue > 200 && highestValue <= 100
+                                                ? 250
+                                                : 1000, // Set the interval here
                               ),
-                              series:
-                                  data.trafficSourceByDateModel.data!.length <=4 ?
-                                  <CartesianSeries>[
-                                    StackedColumnSeries<TrafficDataByDate, String>(
-                                        dataSource: data.trafficSourceByDateModel.data![0].data!,
-                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                        width: 0.8,
-                                        color: directBarColor
-                                    ),
-                                    StackedColumnSeries<TrafficDataByDate, String>(
-                                        dataSource: data.trafficSourceByDateModel.data![1].data!,
-                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                        width: 0.8,
-                                        color: googleBarColor
-                                    ),
-                                    StackedColumnSeries<TrafficDataByDate,String>(
-                                        dataSource: data.trafficSourceByDateModel.data![2].data!,
-                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                        width: 0.8,
-                                        color: bingBarColor
-                                    ),
-                                    StackedColumnSeries<TrafficDataByDate,String>(
-                                        dataSource: data.trafficSourceByDateModel.data![3].data!,
-                                        xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                        yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                        width: 0.8,
-                                        color: duckGoBarColor
-                                    ),
-                                  ] :
-                              <CartesianSeries>[
-                                StackedColumnSeries<TrafficDataByDate, String>(
-                                    dataSource: data.trafficSourceByDateModel.data![0].data!,
-                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                    width: 0.8,
-                                    color: directBarColor
-                                ),
-                                StackedColumnSeries<TrafficDataByDate, String>(
-                                    dataSource: data.trafficSourceByDateModel.data![1].data!,
-                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                    width: 0.8,
-                                    color: googleBarColor
-                                ),
-                                StackedColumnSeries<TrafficDataByDate,String>(
-                                    dataSource: data.trafficSourceByDateModel.data![2].data!,
-                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                    width: 0.8,
-                                    color: bingBarColor
-                                ),
-                                StackedColumnSeries<TrafficDataByDate,String>(
-                                    dataSource: data.trafficSourceByDateModel.data![3].data!,
-                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                    width: 0.8,
-                                    color: duckGoBarColor
-                                ),
-                                StackedColumnSeries<TrafficDataByDate,String>(
-                                    dataSource: data.trafficSourceByDateModel.data![4].data!,
-                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                    width: 0.8,
-                                    color: baiduBarColor
-                                ),
-                                StackedColumnSeries<TrafficDataByDate,String>(
-                                    dataSource: data.trafficSourceByDateModel.data![5].data!,
-                                    xValueMapper: (TrafficDataByDate data, _) => data.key,
-                                    yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
-                                    width: 0.8,
-                                    color: otherTrafficBarColor
-                                ),
-                              ]
-                          ),
-
+                              series: data.trafficSourceByDateModel.data!.length <= 4
+                                  ? <CartesianSeries>[
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![0].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: directBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![1].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: googleBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![2].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: bingBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![3].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: duckGoBarColor),
+                                    ]
+                                  : <CartesianSeries>[
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![0].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: directBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![1].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: googleBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![2].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: bingBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![3].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: duckGoBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![4].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: baiduBarColor),
+                                      StackedColumnSeries<TrafficDataByDate, String>(
+                                          dataSource: data.trafficSourceByDateModel.data![5].data!,
+                                          xValueMapper: (TrafficDataByDate data, _) => data.key,
+                                          yValueMapper: (TrafficDataByDate data, _) => int.parse('${data.value}'),
+                                          width: 0.8,
+                                          color: otherTrafficBarColor),
+                                    ]),
                           const SizedBox(height: 8),
                           Padding(
-                            padding: const EdgeInsets.only(left: 30,right: 30,bottom: 20),
-                            child:
-                            ListView.builder(
+                            padding: const EdgeInsets.only(left: 30, right: 30, bottom: 20),
+                            child: ListView.builder(
                               itemCount: data.trafficSourceByDateModel.data!.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context,index) => Row(
-                                  children: [
-                                    Container(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => Row(
+                                children: [
+                                  Container(
                                       height: 10,
                                       width: 10,
-                                      color:
-                                      data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![0] ?
-                                      directBarColor
-                                      :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![1] ?
-                                      googleBarColor
-                                          :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![2] ?
-                                      bingBarColor
-                                          :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![3] ?
-                                      duckGoBarColor
-                                          :data.trafficSourceByDateModel.data![index] == data.trafficSourceByDateModel.data![4] ?
-                                      baiduBarColor
-                                          :otherTrafficBarColor
-                                    ),
-
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      '${data.trafficSourceByDateModel.data![index].name}',
-                                      style: graphHintTextStyle,
-                                    )
-                                  ],
-                                ),
+                                      color: data.trafficSourceByDateModel.data![index] ==
+                                              data.trafficSourceByDateModel.data![0]
+                                          ? directBarColor
+                                          : data.trafficSourceByDateModel.data![index] ==
+                                                  data.trafficSourceByDateModel.data![1]
+                                              ? googleBarColor
+                                              : data.trafficSourceByDateModel.data![index] ==
+                                                      data.trafficSourceByDateModel.data![2]
+                                                  ? bingBarColor
+                                                  : data.trafficSourceByDateModel.data![index] ==
+                                                          data.trafficSourceByDateModel.data![3]
+                                                      ? duckGoBarColor
+                                                      : data.trafficSourceByDateModel.data![index] ==
+                                                              data.trafficSourceByDateModel.data![4]
+                                                          ? baiduBarColor
+                                                          : otherTrafficBarColor),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '${data.trafficSourceByDateModel.data![index].name}',
+                                    style: graphHintTextStyle,
+                                  )
+                                ],
+                              ),
                             ),
                             // GridView.builder(
                             //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -910,17 +880,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
             }
           }),
 
-
           const SizedBox(height: 10),
           // Circular chart - traffic source
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.trafficSourceLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -937,7 +906,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                 elevation: 2,
                 child: Container(
                   // height: 340,
-                  padding:  EdgeInsets.zero,
+                  padding: EdgeInsets.zero,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
@@ -962,17 +931,16 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             legend: Legend(
                               position: LegendPosition.bottom,
                               isVisible: true,
-                              isResponsive:true,
+                              isResponsive: true,
                               overflowMode: LegendItemOverflowMode.wrap,
                             ),
                             series: <CircularSeries>[
-                              DoughnutSeries<TrafficSourceData,String>(
+                              DoughnutSeries<TrafficSourceData, String>(
                                 dataSource: data.trafficSourceModel.data,
-                                xValueMapper: (TrafficSourceData data,_) => data.key,
-                                yValueMapper: (TrafficSourceData data,_) => data.value,
+                                xValueMapper: (TrafficSourceData data, _) => data.key,
+                                yValueMapper: (TrafficSourceData data, _) => data.value,
                                 innerRadius: '65%',
                                 radius: '75%',
-
                               ),
                             ],
                           ),
@@ -982,7 +950,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ),
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -993,7 +961,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           // what are the most visited pages heading
           // website list
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.mostVisitedPageLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -1018,17 +986,15 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     elevation: 2,
                     child: Container(
                       padding: const EdgeInsets.all(20),
-                      height:  data.mostVisitedPageModel.data!.length == 1 ||  data.mostVisitedPageModel.data!.length == 2?
-                      120 :
-                          data.mostVisitedPageModel.data!.length >= 3 && data.mostVisitedPageModel.data!.length <6 ?
-                              220 :
-                      data.mostVisitedPageModel.data!.length > 6 ?
-                      395 : 320,
+                      height: data.mostVisitedPageModel.data!.length == 1 || data.mostVisitedPageModel.data!.length == 2
+                          ? 120
+                          : data.mostVisitedPageModel.data!.length >= 3 && data.mostVisitedPageModel.data!.length < 6
+                              ? 220
+                              : data.mostVisitedPageModel.data!.length > 6
+                                  ? 395
+                                  : 320,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          color: whiteColor
-                      ),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(2), color: whiteColor),
                       child: Column(
                         children: [
                           Row(
@@ -1038,24 +1004,25 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 'Page',
                                 style: tableTitleTextStyle,
                               ),
-
                               Text(
                                 'Users',
                                 style: tableTitleTextStyle,
                               )
                             ],
                           ),
-
                           const SizedBox(height: 15),
-
                           Expanded(
                             child: Scrollbar(
+                              controller: ScrollController(
+                                onAttach: (position) {},
+                                onDetach: (position) {},
+                              ),
                               thumbVisibility: true,
                               child: ListView.builder(
                                 physics: const AlwaysScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: data.mostVisitedPageModel.data!.length,
-                                itemBuilder: (context,index) => Column(
+                                itemBuilder: (context, index) => Column(
                                   children: [
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1069,7 +1036,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                             ),
                                           ),
                                         ),
-
                                         Padding(
                                           padding: const EdgeInsets.only(right: 10),
                                           child: Text(
@@ -1079,7 +1045,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                         )
                                       ],
                                     ),
-
                                     const SizedBox(height: 15),
                                   ],
                                 ),
@@ -1092,7 +1057,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -1101,7 +1066,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
           // What are the devices used heading + drop down
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.deviceCategoryLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -1128,7 +1093,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     elevation: 2,
                     child: Container(
                       height: 200,
-                      padding:  EdgeInsets.zero,
+                      padding: EdgeInsets.zero,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(3),
@@ -1140,27 +1105,22 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                             centerY: '100',
                             centerX: '90',
                             margin: EdgeInsets.zero,
-                            palette: const <Color>[
-                              desktopColor,
-                              mobileColor,
-                              tabletColor
-                            ],
+                            palette: const <Color>[desktopColor, mobileColor, tabletColor],
                             legend: Legend(
                               position: LegendPosition.right,
                               isVisible: true,
-                              isResponsive:true,
+                              isResponsive: true,
                               overflowMode: LegendItemOverflowMode.wrap,
                             ),
                             series: <CircularSeries>[
-                              DoughnutSeries<DeviceCategoryData,String>(
+                              DoughnutSeries<DeviceCategoryData, String>(
                                 // animationDelay: 0,
                                 // animationDuration: 0,
                                 dataSource: data.deviceCategoryModel.data,
-                                xValueMapper: (DeviceCategoryData data,_) => data.key,
-                                yValueMapper: (DeviceCategoryData data,_) => data.value,
+                                xValueMapper: (DeviceCategoryData data, _) => data.key,
+                                yValueMapper: (DeviceCategoryData data, _) => data.value,
                                 innerRadius: '65%',
                                 radius: '70%',
-
                               ),
                             ],
                           ),
@@ -1170,7 +1130,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -1179,7 +1139,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
 
           const SizedBox(height: 10),
           // Search keyword list
-          Consumer<AcquisitionProvider>(builder: (ctx, data, _){
+          Consumer<AcquisitionProvider>(builder: (ctx, data, _) {
             var state = data.searchKeywordLiveData().getValue();
             print(state);
             if (state is IsLoading) {
@@ -1200,7 +1160,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                     style: normalTextStyle,
                   ),
                   const SizedBox(height: 10),
-
                   Card(
                     elevation: 2,
                     child: Container(
@@ -1216,21 +1175,18 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                 'Keywords',
                                 style: tableTitleTextStyle,
                               ),
-
                               Text(
                                 'No. Of Searches',
                                 style: tableTitleTextStyle,
                               )
                             ],
                           ),
-
                           const SizedBox(height: 15),
-
                           ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: data.searchKeywordModel.data!.length,
-                            itemBuilder: (context,index) => Column(
+                            itemBuilder: (context, index) => Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
@@ -1249,9 +1205,8 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                     // ),
 
                                     Expanded(
-                                      child: buildText(
-                                        '${data.searchKeywordModel.data![index].keyword}'.replaceAll(RegExp(r'\s+'), ' ')
-                                      ),
+                                      child: buildText('${data.searchKeywordModel.data![index].keyword}'
+                                          .replaceAll(RegExp(r'\s+'), ' ')),
                                     ),
                                     const SizedBox(width: 90),
                                     Padding(
@@ -1263,7 +1218,6 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                                     )
                                   ],
                                 ),
-
                                 const SizedBox(height: 10),
                               ],
                             ),
@@ -1274,7 +1228,7 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
                   ),
                 ],
               );
-            }else if (state is Failure) {
+            } else if (state is Failure) {
               return SizedBox();
             } else {
               return Container();
@@ -1286,13 +1240,13 @@ class _AcquisitionScreenState extends State<AcquisitionScreen> {
   }
 }
 
-Widget withoutAnalyticsWidget(){
+Widget withoutAnalyticsWidget() {
   return Padding(
-    padding: const EdgeInsets.only(left: 20,right: 20),
+    padding: const EdgeInsets.only(left: 20, right: 20),
     child: Center(
       child: Text(
         'Kindly integrate your website with Google Analytics and sign up with '
-            'RedDog to access the content of this page',
+        'RedDog to access the content of this page',
         textAlign: TextAlign.center,
         style: messageTextStyle,
       ),
@@ -1302,7 +1256,7 @@ Widget withoutAnalyticsWidget(){
 
 bool isReadMore = false;
 
-Widget buildText(String text){
+Widget buildText(String text) {
   return ReadMoreText(
     text,
     textAlign: TextAlign.left,
@@ -1311,20 +1265,12 @@ Widget buildText(String text){
     trimExpandedText: ' Read Less',
     trimMode: TrimMode.Length,
     trimLength: 13,
-    moreStyle: TextStyle(
-      fontSize: 12,
-      color: Colors.blue,
-      fontFamily: 'Barlow-Regular'
-    ),
-    lessStyle: TextStyle(
-        fontSize: 12,
-        color: Colors.blue,
-        fontFamily: 'Barlow-Regular'
-    ),
+    moreStyle: TextStyle(fontSize: 12, color: Colors.blue, fontFamily: 'Barlow-Regular'),
+    lessStyle: TextStyle(fontSize: 12, color: Colors.blue, fontFamily: 'Barlow-Regular'),
   );
 }
 
-Widget buildLineText(String text){
+Widget buildLineText(String text) {
   return ReadMoreText(
     text,
     textAlign: TextAlign.left,
@@ -1334,16 +1280,8 @@ Widget buildLineText(String text){
     trimMode: TrimMode.Line,
     trimLines: 1,
     // trimLength: 13,
-    moreStyle: TextStyle(
-        fontSize: 12,
-        color: Colors.blue,
-        fontFamily: 'Barlow-Regular'
-    ),
-    lessStyle: TextStyle(
-        fontSize: 12,
-        color: Colors.blue,
-        fontFamily: 'Barlow-Regular'
-    ),
+    moreStyle: TextStyle(fontSize: 12, color: Colors.blue, fontFamily: 'Barlow-Regular'),
+    lessStyle: TextStyle(fontSize: 12, color: Colors.blue, fontFamily: 'Barlow-Regular'),
   );
 }
 
@@ -1377,11 +1315,10 @@ int findLargestValueAcrossTrafficSource(List<TrafficSourceByDateModelDatum> data
   return largestValue;
 }
 
-class ChartData{
+class ChartData {
   ChartData(this.x, this.y1, this.y2, this.y3);
   final String x;
   final double y1;
   final double y2;
   final double y3;
 }
-

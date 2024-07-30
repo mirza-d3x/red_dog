@@ -47,7 +47,6 @@ class VisitorsScreen extends StatefulWidget {
 class _VisitorsScreenState extends State<VisitorsScreen> {
   UserProfileProvider userProfileProvider =
       UserProfileProvider(userRepository: UserRepository());
-
   RegisteredWebsiteProvider registeredWebsiteProvider =
       RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
@@ -195,16 +194,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     visitorsApiCall();
     _data = const <Model>[
-      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0),
-          '       New\nSouth Wales'),
+      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0), '       New\nSouth Wales'),
       Model('Queensland', Color.fromRGBO(72, 209, 204, 1.0), 'Queensland'),
-      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0),
-          'Northern\nTerritory'),
+      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0), 'Northern\nTerritory'),
       Model('Victoria', Color.fromRGBO(171, 56, 224, 0.75), 'Victoria'),
-      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75),
-          'South Australia'),
-      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7),
-          'Western Australia'),
+      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75), 'South Australia'),
+      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7), 'Western Australia'),
       Model('Tasmania', Color.fromRGBO(99, 164, 230, 1), 'Tasmania'),
       Model('Australian Capital Territory', Colors.teal, 'ACT')
     ];
@@ -1343,6 +1338,10 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                           const SizedBox(height: 3),
                           Expanded(
                             child: Scrollbar(
+                              controller: ScrollController(
+                                onAttach: (position) {},
+                                onDetach: (position) {},
+                              ),
                               thumbVisibility: true,
                               child: Padding(
                                 padding:
@@ -1692,9 +1691,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
             ),
           ),
         ),
@@ -2195,9 +2192,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
             ),
           ),
         ),
