@@ -48,12 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
       UserProfileProvider(userRepository: UserRepository());
   RegisteredWebsiteProvider registeredWebsiteProvider =
       RegisteredWebsiteProvider(commonRepository: CommonRepository());
-  AppleLoginProvider appleLoginProvider =
-      AppleLoginProvider(authRepository: AuthRepository());
-  UserProfileProvider userProfileProvider =
-      UserProfileProvider(userRepository: UserRepository());
-  RegisteredWebsiteProvider registeredWebsiteProvider =
-      RegisteredWebsiteProvider(commonRepository: CommonRepository());
 
   bool isLoading = false;
   bool isLoadingAppleLogin = false;
