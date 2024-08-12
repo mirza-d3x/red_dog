@@ -194,12 +194,16 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
     registeredWebsiteProvider.getRegisteredWebsiteList();
     visitorsApiCall();
     _data = const <Model>[
-      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0), '       New\nSouth Wales'),
+      Model('New South Wales', Color.fromRGBO(255, 215, 0, 1.0),
+          '       New\nSouth Wales'),
       Model('Queensland', Color.fromRGBO(72, 209, 204, 1.0), 'Queensland'),
-      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0), 'Northern\nTerritory'),
+      Model('Northern Territory', Color.fromRGBO(255, 78, 66, 1.0),
+          'Northern\nTerritory'),
       Model('Victoria', Color.fromRGBO(171, 56, 224, 0.75), 'Victoria'),
-      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75), 'South Australia'),
-      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7), 'Western Australia'),
+      Model('South Australia', Color.fromRGBO(126, 247, 74, 0.75),
+          'South Australia'),
+      Model('Western Australia', Color.fromRGBO(79, 60, 201, 0.7),
+          'Western Australia'),
       Model('Tasmania', Color.fromRGBO(99, 164, 230, 1), 'Tasmania'),
       Model('Australian Capital Territory', Colors.teal, 'ACT')
     ];
@@ -332,7 +336,7 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
             } else if (state is Success) {
               return PopupMenuButton(
                 constraints:
-                    const BoxConstraints.expand(width: 144, height: 110),
+                    const BoxConstraints.expand(width: 144, height: 150),
                 position: PopupMenuPosition.under,
                 child: CircleAvatar(
                   radius: 19,
@@ -399,12 +403,12 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
                       child: Center(
                         child: TextButton(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               const Icon(
                                 Icons.delete,
                                 color: blackColor,
-                                size: 20,
+                                size: 18,
                               ),
                               const SizedBox(width: 12),
                               Text('Delete', style: nameTextStyle),
@@ -1691,7 +1695,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
             ),
           ),
         ),
@@ -2192,7 +2198,9 @@ class _VisitorsScreenState extends State<VisitorsScreen> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors.map((color) => color.withOpacity(0.3)).toList(),
+              colors: gradientColors
+                  .map((color) => color.withOpacity(0.3))
+                  .toList(),
             ),
           ),
         ),
