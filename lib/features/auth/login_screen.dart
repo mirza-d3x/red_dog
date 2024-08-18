@@ -148,8 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
       User? user = authResult.user;
 
       if (user != null) {
-        String? email = appleCredential.email;
-        String? fullName = appleCredential.givenName;
+        // String? email = appleCredential.email;
+        String? email = user.email;
+        // String? fullName = appleCredential.givenName;
+        String? fullName = user.displayName;
 
         // Handle the scenario where email and full name are not provided
         if (email == null || fullName == null) {

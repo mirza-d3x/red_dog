@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:reddog_mobile_app/models/apple_login_model.dart';
 import 'package:reddog_mobile_app/models/email_verification_model.dart';
@@ -46,6 +47,8 @@ Resource<AppleLoginModel> appleLoginApi(
         "appleId": appleId,
       }),
       parse: (response) {
+        log("Req"+response.request.toString());
+        log("Req"+response.body.toString());
         Map<String, dynamic> appleLoginResultMap = json.decode(response.body);
         var appleLoginResult = AppleLoginModel.fromJson(appleLoginResultMap);
         return appleLoginResult;
