@@ -37,6 +37,14 @@ Resource<AppleLoginModel> appleLoginApi(
   dynamic analytics,
   dynamic appleId,
 ) {
+  log("Apple Login API: " +
+      json.encode({
+        "email": email,
+        "firId": firebaseToken,
+        "token": googleToken,
+        "analytics": 'false',
+        "appleId": appleId,
+      }));
   return Resource(
       url: 'https://app.reddog.live/api/auth/checkMobileUser',
       body: json.encode({
@@ -49,6 +57,7 @@ Resource<AppleLoginModel> appleLoginApi(
       parse: (response) {
         log("Req"+response.request.toString());
         log("Req"+response.body.toString());
+        log("Apple Login Response: " + response.body);
         Map<String, dynamic> appleLoginResultMap = json.decode(response.body);
         var appleLoginResult = AppleLoginModel.fromJson(appleLoginResultMap);
         return appleLoginResult;

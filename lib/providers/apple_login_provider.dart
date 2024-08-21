@@ -1,5 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import '../core/live_data.dart';
 import '../core/ui_state.dart';
@@ -36,6 +38,9 @@ class AppleLoginProvider extends ChangeNotifier {
       appleLoginData.setValue(IsLoading());
       appleLoginModel = await authRepository.postAppleLogin(
           email, firebaseToken, googleToken, analytics, appleId);
+      log("Status: " + appleLoginModel.status!);
+      log("Email: " + appleLoginModel.userData!.email!);
+      log("googleId: " + appleLoginModel.userData!.googleId!);
       if (appleLoginModel.status == 'success') {
         setValue('token', appleLoginModel.userData!.jToken);
         setValue('profilePic', appleLoginModel.userData!.picture);
@@ -47,7 +52,8 @@ class AppleLoginProvider extends ChangeNotifier {
       } else {
         appleLoginData.setValue(Failure(appleLoginModel.toString()));
       }
-    } catch (ex) {
+    } catch (ex, stackTrace) {
+      log("Error on apple login:", error: ex, stackTrace: stackTrace);
       appleLoginData.setValue(Failure(ex.toString()));
     } finally {
       notifyListeners();

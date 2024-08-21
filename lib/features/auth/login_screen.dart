@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:reddog_mobile_app/features/auth/create_analytics_screen.dart';
 import 'package:reddog_mobile_app/features/auth/sign_in_screen.dart';
 import 'package:reddog_mobile_app/providers/apple_login_provider.dart';
 import 'package:reddog_mobile_app/providers/registered_website_provider.dart';
@@ -66,10 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
         print(googleSignInAccount.email);
         print(googleSignInAccount.displayName);
         print(googleSignInAccount);
-        dynamic FaccessToken = await googleSignInAccount.authentication
+        await googleSignInAccount.authentication
             .then((auth) => auth.accessToken);
-        dynamic refreshToken = await googleSignInAccount.authentication
-            .then((auth) => auth.idToken);
+        await googleSignInAccount.authentication.then((auth) => auth.idToken);
 
         GoogleSignInAuthentication googleAuth =
             await googleSignInAccount.authentication;
@@ -81,9 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print(googleAuth.accessToken);
         print(googleAuth.idToken);
 
-        UserCredential authResult =
-            await _auth.signInWithCredential(credential);
-        User? user = authResult.user;
+        await _auth.signInWithCredential(credential);
         setValue('googleToken', googleAuth.accessToken);
         await loginProvider.checkLogin(
             googleSignInAccount.email,
@@ -124,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleAppleSignIn() async {
     try {
+      log("Apple Login Initiated");
       // Requesting the Apple ID Credential
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -151,7 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // String? email = appleCredential.email;
         String? email = user.email;
         // String? fullName = appleCredential.givenName;
-        String? fullName = user.displayName;
+        // sometimes display name will be empty as per user privacy
+        String? fullName = user.email;
 
         // Handle the scenario where email and full name are not provided
         if (email == null || fullName == null) {
@@ -160,6 +158,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         setValue('appleToken', appleCredential.identityToken);
+
+        log("Apple Token" + appleCredential.identityToken.toString());
 
         // Call your API to handle Apple login
         await appleLoginProvider.checkAppleLogin(
@@ -171,6 +171,8 @@ class _LoginScreenState extends State<LoginScreen> {
         );
 
         // Handle the login result
+        log("Apple Login Status" +
+            appleLoginProvider.appleLoginModel.status.toString());
         if (appleLoginProvider.appleLoginModel.status == 'success') {
           await userProfileProvider.getProfile();
           await registeredWebsiteProvider.getRegisteredWebsiteList();

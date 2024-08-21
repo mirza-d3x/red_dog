@@ -60,10 +60,9 @@ packages:
   charts_flutter:
     dependency: "direct main"
     description:
-      name: charts_flutter
-      sha256: "4172c3f4b85322fdffe1896ffbed79ae4689ae72cb6fe6690dcaaea620a9c558"
-      url: "https://pub.dev"
-    source: hosted
+      path: charts_flutter
+      relative: true
+    source: path
     version: "0.12.0"
   checked_yaml:
     dependency: transitive
@@ -830,5 +829,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.3.1 <4.0.0"
+  dart: ">=3.3.3 <4.0.0"
   flutter: ">=3.19.0"
